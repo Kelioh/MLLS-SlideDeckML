@@ -25,5 +25,8 @@
         "src/language",
         "src/cli",
         "src/extension"
-    ]
+    ],
+    "dependencies": {
+        "reveal.js": "^5.2.1"
+    }
 }
