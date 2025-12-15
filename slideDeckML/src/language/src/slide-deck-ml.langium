@@ -4,24 +4,41 @@ grammar SlideDeckMl
 // See doc : https://langium.org/docs/learn/workflow/write_grammar/
 
 entry Model:
-    'presentation' name=ID '{'
-        slides+=Slide*
-    '}';
+    'presentation' name=ID
+    slides+=Slide*;
 
 Slide:
-    TitleSlide | SimpleSlide;
-
-TitleSlide:
-    'title' title=STRING 'subtitle' subtitle=STRING;
-
-SimpleSlide:
-    'slide' title=STRING '{'
-        content+=Content*
+    'slide' id=ID '{'
+        ('header' header=Header)?
+        'body' body=Body
+        ('footer' footer=Footer)?
     '}';
 
-Content:
-    'text' text=STRING |
-    'code' code=STRING;
+Header:
+    '{'
+        box=Box
+    '}';
+
+Body:
+    '{'
+        box=Box
+    '}';
+
+Footer:
+    '{'
+        box=Box
+    '}';
+
+Box:
+    content=(TextBox | ContentBox);
+
+ContentBox:
+    'box' '{'
+        boxes+=Box+
+    '}';
+
+TextBox:
+    'text' text=STRING;
 
 hidden terminal WS: /\s+/;
 terminal ID: /[_a-zA-Z][\w_]*/;

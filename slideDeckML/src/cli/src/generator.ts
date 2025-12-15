@@ -1,15 +1,9 @@
-import type { Model, Slide } from 'slide-deck-ml-language';
+import type { Box, Model, Slide, TextBox } from 'slide-deck-ml-language';
 
 import * as fs from 'node:fs';
 import * as path from 'node:path';
+import { expandToNode, toString } from 'langium/generate';
 import { extractDestinationAndName } from './util.js';
-import { isTitleSlide } from 'slide-deck-ml-language';
-
-import {
-    CompositeGeneratorNode,
-    expandToNode,
-    toString
-} from 'langium/generate';
 
 export function generateOutput(model: Model, filePath: string, destination: string): string {
     const data = extractDestinationAndName(destination);
@@ -67,14 +61,39 @@ export function generateOutput(model: Model, filePath: string, destination: stri
     return generatedFilePath;
 }
 
-function generateSlide(slide: Slide): CompositeGeneratorNode {
-    if (isTitleSlide(slide)) {
-        return expandToNode`
-            <div class="slide">
-                <h2>[Title Slide] ${slide.title}</h2>
-                ${slide.subtitle ? `<p><i>${slide.subtitle}</i></p>` : ''}
+function generateTextBox(textBox: TextBox): string {
+    return `<p>${textBox.text}</p>`;
+}
+
+function generateBox(box: Box): string {
+    const content = box.content;
+
+    if (content.$type === 'TextBox') {
+        return generateTextBox(content);
+    }
+
+    if (content.$type === 'ContentBox') {
+        const boxes = content.boxes.map(b => generateBox(b)).join('\n');
+        return `
+            <div>
+                ${boxes}
             </div>
         `;
     }
-    return expandToNode``;
+
+    return '';
+}
+
+function generateSlide(slide: Slide): string {
+    const header = slide.header ? generateBox(slide.header.box) : '';
+    const body = generateBox(slide.body.box);
+    const footer = slide.footer ? generateBox(slide.footer.box) : '';
+
+    return `
+        <section id="${slide.id}" data-transition="fade">
+            ${header}
+            ${body}
+            ${footer}
+        </section>
+    `;
 }
