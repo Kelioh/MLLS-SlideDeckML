@@ -1,20 +1,101 @@
 <!doctype html>
 <html>
+
 <head>
     <title>Demo</title>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5/dist/reveal.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5/dist/theme/solarized.css">
+
     <style>
         /* CSS minimal juste pour visualiser les blocs */
-        body { font-family: sans-serif; padding: 20px; }
-        .slide { border: 2px solid black; margin-bottom: 20px; padding: 10px; border-radius: 5px; }
-        h1, h2 { color: #333; }
-        pre { background: #eee; padding: 5px; }
+        body {
+            font-family: sans-serif;
+            padding: 20px;
+        }
+
+        .slide {
+            border: 2px solid black;
+            margin-bottom: 20px;
+            padding: 10px;
+            border-radius: 5px;
+        }
+
+        h1,
+        h2 {
+            color: #333;
+        }
+
+        pre {
+            background: #eee;
+            padding: 5px;
+        }
     </style>
 </head>
+
 <body>
-    <h1>Debug: Demo</h1>
-    <hr/>
-    
-    [object Object],[object Object]
-    
+    <div class="reveal">
+        <div class="slides">
+
+            <section id="slide1" data-transition="fade">
+                <h1>Bienvenue à ma présentation</h1>
+                <p>Présentation riche avec Reveal.js</p>
+            </section>
+
+            <section id="slide2" data-transition="slide">
+                <h2>Les points clés</h2>
+                <ul>
+                    <li>🎯 Introduction</li>
+                    <li>📸 Images</li>
+                    <li>🎥 Vidéos</li>
+                    <li>🌈 Couleurs et styles</li>
+                    <li>📝 Listes et contenu textuel</li>
+                </ul>
+            </section>
+
+            <section id="slide3" data-transition="zoom">
+                <h2>Slide avec image</h2>
+                <img src="https://picsum.photos/600/400" alt="Exemple image">
+                <p>Une image aléatoire pour illustrer</p>
+            </section>
+
+            <section id="slide4" data-transition="fade">
+                <h2>Slide avec vidéo</h2>
+                <video controls>
+                    <source src="https://www.w3schools.com/html/mov_bbb.mp4" type="video/mp4">
+                    Votre navigateur ne supporte pas la vidéo.
+                </video>
+                <p>Exemple de lecteur vidéo intégré</p>
+            </section>
+
+            <section id="slide5" data-transition="slide">
+                <h2>Slide finale</h2>
+                <ul>
+                    <li>🎨 Couleurs dynamiques</li>
+                    <li>🖼️ Images</li>
+                    <li>🎬 Vidéos</li>
+                    <li>📋 Listes</li>
+                    <li>👍 Contenu interactif</li>
+                </ul>
+                <img src="https://picsum.photos/400/250" alt="Exemple image 2">
+            </section>
+
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/reveal.js@5/dist/reveal.js"></script>
+    <script>
+        Reveal.initialize({
+            hash: true,
+            slideNumber: true,
+            transition: 'slide', // default transition
+            width: "100%",
+            height: "100%",
+            margin: 0.1,
+            backgroundTransition: 'fade',
+            center: true
+        });
+    </script>
 </body>
+
 </html>

@@ -20,6 +20,10 @@ export function generateOutput(model: Model, filePath: string, destination: stri
         <html>
         <head>
             <title>${model.name}</title>
+
+            <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5/dist/reveal.css">
+            <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5/dist/theme/solarized.css">
+
             <style>
                 /* CSS minimal juste pour visualiser les blocs */
                 body { font-family: sans-serif; padding: 20px; }
@@ -32,8 +36,25 @@ export function generateOutput(model: Model, filePath: string, destination: stri
             <h1>Debug: ${model.name}</h1>
             <hr/>
             
-            ${model.slides.map(slide => generateSlide(slide))}
+            <div class="reveal">
+                <div class="slides">
+                    ${model.slides.map(slide => generateSlide(slide))}
+                </div>
+            </div>
             
+            <script src="https://cdn.jsdelivr.net/npm/reveal.js@5/dist/reveal.js"></script>
+            <script>
+                Reveal.initialize({
+                    hash: true,
+                    slideNumber: true,
+                    transition: 'slide', // default transition
+                    width: "100%",
+                    height: "100%",
+                    margin: 0.1,
+                    backgroundTransition: 'fade',
+                    center: true
+                });
+            </script>
         </body>
         </html>
     `.appendNewLineIfNotEmpty();
