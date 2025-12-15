@@ -3,15 +3,26 @@ grammar SlideDeckMl
 // TODO: Declare your grammar
 // See doc : https://langium.org/docs/learn/workflow/write_grammar/
 
-entry Model: (elements += Element)*;
+entry Model:
+    'presentation' name=ID '{'
+        slides+=Slide*
+    '}';
 
-Element:
-    'element' name=ID;
+Slide:
+    TitleSlide | SimpleSlide;
+
+TitleSlide:
+    'title' title=STRING 'subtitle' subtitle=STRING;
+
+SimpleSlide:
+    'slide' title=STRING '{'
+        content+=Content*
+    '}';
+
+Content:
+    'text' text=STRING |
+    'code' code=STRING;
 
 hidden terminal WS: /\s+/;
 terminal ID: /[_a-zA-Z][\w_]*/;
-terminal INT returns number: /[0-9]+/;
-terminal STRING: /"(\\.|[^"\\])*"|'(\\.|[^'\\])*'/;
-
-hidden terminal ML_COMMENT: /\/\*[\s\S]*?\*\//;
-hidden terminal SL_COMMENT: /\/\/[^\n\r]*/;
+terminal STRING: /"[^"]*"/;

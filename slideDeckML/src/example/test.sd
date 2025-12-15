@@ -1,0 +1,7 @@
+presentation Demo {
+    title "Mon Super Projet" subtitle "Version 1.0"
+    slide "Introduction" {
+        text "Voici un texte explicatif"
+        code "console.log('Hello World');"
+    }
+}
