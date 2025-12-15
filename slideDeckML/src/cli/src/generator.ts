@@ -1,9 +1,15 @@
-import type { Model, Slide } from '../../../src/language/src/generated/ast.js';
-import { isTitleSlide } from '../../../src/language/src/generated/ast.js';
-import { expandToNode, toString, CompositeGeneratorNode } from 'langium/generate';
+import type { Model, Slide } from 'slide-deck-ml-language';
+
 import * as fs from 'node:fs';
 import * as path from 'node:path';
 import { extractDestinationAndName } from './util.js';
+import { isTitleSlide } from 'slide-deck-ml-language';
+
+import {
+    CompositeGeneratorNode,
+    expandToNode,
+    toString
+} from 'langium/generate';
 
 export function generateOutput(model: Model, filePath: string, destination: string): string {
     const data = extractDestinationAndName(destination);
@@ -36,7 +42,7 @@ export function generateOutput(model: Model, filePath: string, destination: stri
         fs.mkdirSync(data.destination, { recursive: true });
     }
     fs.writeFileSync(generatedFilePath, toString(fileNode));
-    
+
     return generatedFilePath;
 }
 
