@@ -1,45 +1,80 @@
 grammar SlideDeckMl
 
-// TODO: Declare your grammar
-// See doc : https://langium.org/docs/learn/workflow/write_grammar/
-
 entry Model:
     'presentation' name=ID
+    components+=Component*
     slides+=Slide*;
+
+
+/**************************/
+/* Component declarations */
+/**************************/
+
+Component:
+    'component' name=ID '{'
+        content=ComponentBox
+    '}';
+
+
+/* Composite pattern for component boxes */
+
+ComponentBox:
+    content=(ComponentContentBox | ComponentSlot | TerminalBox);
+
+ComponentContentBox:
+    'box' '{'
+        boxes+=(ComponentBox)+
+    '}';
+
+ComponentSlot:
+    'slot' name=SLOT_ID;
+
+
+/**********/
+/* Slides */
+/**********/
 
 Slide:
     'slide' id=ID '{'
-        ('header' header=Header)?
-        'body' body=Body
-        ('footer' footer=Footer)?
+        content=Box
     '}';
 
-Header:
-    '{'
-        box=Box
-    '}';
 
-Body:
-    '{'
-        box=Box
-    '}';
-
-Footer:
-    '{'
-        box=Box
-    '}';
+/* Composite pattern for boxes */
 
 Box:
-    content=(TextBox | ContentBox);
+    content=(ContentBox | TerminalBox);
 
 ContentBox:
     'box' '{'
         boxes+=Box+
     '}';
 
+TerminalBox: 
+    ComponentBoxReference | TextBox;
+
+
+/* Terminal boxes definitions */
+
+ComponentBoxReference:
+    reference=[Component:ID] ('{' 
+        slots+=ComponentSlotReference*
+    '}' | '{}');
+
+ComponentSlotReference:
+    name=SLOT_ID
+    content=Box;
+
+
 TextBox:
-    'text' text=STRING;
+    'text' content=TEXT;
+
+
+/*************/
+/* Terminals */
+/*************/
 
 hidden terminal WS: /\s+/;
+terminal SLOT_ID: /@[_a-zA-Z][\w_]*/;
 terminal ID: /[_a-zA-Z][\w_]*/;
-terminal STRING: /"[^"]*"/;
+terminal TEXT: /{[^{}]*}/;

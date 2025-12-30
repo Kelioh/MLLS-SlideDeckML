@@ -1,14 +1,56 @@
-presentation lol
+presentation TEST
+
+component constant_component {
+    text {
+        Composant sans slot
+    }
+}
+
+component slot_component {
+    box {
+        text {
+            Ceci est le texte du composant
+        }
+        slot @slot1
+        text {
+            Ceci est un autre texte du composant
+        }
+        slot @slot2
+    }
+}
 
 slide slide1 {
-    header {
-        text "Title"
+    box {
+        constant_component {}
+        text { 
+            Ceci est le texte de la slide
+            Il est sur plusieurs lignes !
+        }
+        slot_component {
+            @slot1
+            text {
+                Ceci est le texte du slot 1
+            }
+            @slot2
+            text {
+                ceci est le texte du slot 2
+            }
+        }
+        slot_component {
+            @slot2
+            text {
+                ceci est le texte du slot 2
+            }
+        }
     }
-    body {
-        text "Content"
-    }
+}
 
-    footer {
-        text "Footer"
+slide slide2 {
+    text { 
+        Slide 2 !
     }
+}
+
+slide slide3 {
+    constant_component {}
 }
