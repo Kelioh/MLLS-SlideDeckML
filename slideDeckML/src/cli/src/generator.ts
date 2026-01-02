@@ -2,7 +2,7 @@ import { type ComponentBoxReference, type Box, type Model, type Slide, type Text
 
 import * as fs from 'node:fs';
 import * as path from 'node:path';
-import { CompositeGeneratorNode, expandToNode, toString } from 'langium/generate';
+import { CompositeGeneratorNode, expandToNode, joinToNode, toString } from 'langium/generate';
 import { extractDestinationAndName } from './util.js';
 
 
@@ -52,7 +52,7 @@ function generateModel(model: Model): CompositeGeneratorNode {
             
             <div class="reveal">
                 <div class="slides">
-                    ${model.slides.map((slide: Slide) =>  generateSlide(slide)).join('')}
+                    ${joinToNode(model.slides.map((slide: Slide) =>  generateSlide(slide).appendNewLineIfNotEmpty()))}
                 </div>
             </div>
             
@@ -75,8 +75,8 @@ function generateModel(model: Model): CompositeGeneratorNode {
 }
 
 
-function generateSlide(slide: Slide): string {
-    return `
+function generateSlide(slide: Slide): CompositeGeneratorNode {
+    return expandToNode`
         <section id="${slide.id}" data-transition="fade">
             ${generateBox(slide.content)}
         </section>
@@ -84,50 +84,50 @@ function generateSlide(slide: Slide): string {
 }
 
 
-function generateBox(box: Box): string {
+function generateBox(box: Box): CompositeGeneratorNode {
     switch(box.content.$type) {
         case 'TextBox': return generateTextBox(box.content);
         case 'ComponentBoxReference': return generateComponentBoxReference(box.content);
 
         case 'ContentBox':
-            return `
+            return expandToNode`
                 <div>
-                    ${box.content.boxes.map(b => generateBox(b)).join('\n')}
+                    ${joinToNode(box.content.boxes.map(b => generateBox(b).appendNewLineIfNotEmpty()))}
                 </div>
             `;
     }
 }
 
 
-function generateComponentBoxReference(reference: ComponentBoxReference): string {
+function generateComponentBoxReference(reference: ComponentBoxReference): CompositeGeneratorNode {
     const declaration: Component = componentsSymbolTable.get(reference.reference.ref!.name)!; // Did not use reference.reference.ref! because it preserves the first declaration of a component (and not the last)
-    let slots: Record<string, string> = {};
+    let slots: Record<string, CompositeGeneratorNode> = {};
     for (let slot of reference.slots) {
         slots[slot.name] = generateBox(slot.content);
     }
     return generateComponentBox(declaration.content, slots);
 }
 
-function generateComponentBox(box: ComponentBox, slots: Record<string, string>): string {
+function generateComponentBox(box: ComponentBox, slots: Record<string, CompositeGeneratorNode>): CompositeGeneratorNode {
     switch(box.content.$type) {
         case 'TextBox': return generateTextBox(box.content);
         case 'ComponentBoxReference': return generateComponentBoxReference(box.content);
 
         case 'ComponentSlot': return generateComponentSlot(box.content, slots);
         case 'ComponentContentBox':
-            return `
+            return expandToNode`
                 <div>
-                    ${box.content.boxes.map(box => generateComponentBox(box, slots)).join('\n')}
+                    ${joinToNode(box.content.boxes.map(box => generateComponentBox(box, slots).appendNewLineIfNotEmpty()))}
                 </div>
             `;
     }
 }
 
-function generateComponentSlot(slot: ComponentSlot, slots: Record<string, string>): string {
-    return slots[slot.name] || '';
+function generateComponentSlot(slot: ComponentSlot, slots: Record<string, CompositeGeneratorNode>): CompositeGeneratorNode {
+    return slots[slot.name] || expandToNode``;
 }
 
 
-function generateTextBox(textBox: TextBox): string {
-    return `<p>${textBox.content.slice(1, -1).trim()}</p>`;
+function generateTextBox(textBox: TextBox): CompositeGeneratorNode {
+    return expandToNode`<p>${textBox.content.slice(1, -1).trim()}</p>`;
 }
