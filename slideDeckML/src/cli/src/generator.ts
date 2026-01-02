@@ -1,4 +1,4 @@
-import { type ComponentBoxReference, type Box, type Model, type Slide, type TextBox, ComponentBox, ComponentSlot, ComponentSlotReference } from 'slide-deck-ml-language';
+import { type ComponentBoxReference, type Box, type Model, type Slide, type TextBox, ComponentBox, ComponentSlot, ComponentSlotReference, Component } from 'slide-deck-ml-language';
 
 import * as fs from 'node:fs';
 import * as path from 'node:path';
@@ -25,8 +25,10 @@ export function generateOutput(model: Model, filePath: string, destination: stri
 
 /* Nodes generation */
 
+let componentsSymbolTable: Map<string, Component>;
 
 function generateModel(model: Model): CompositeGeneratorNode {
+    componentsSymbolTable = new Map(model.components.map(component => [component.name, component]));
     return expandToNode`
         <!doctype html>
         <html>
@@ -72,6 +74,7 @@ function generateModel(model: Model): CompositeGeneratorNode {
     `;
 }
 
+
 function generateSlide(slide: Slide): string {
     return `
         <section id="${slide.id}" data-transition="fade">
@@ -79,6 +82,7 @@ function generateSlide(slide: Slide): string {
         </section>
     `;
 }
+
 
 function generateBox(box: Box): string {
     switch(box.content.$type) {
@@ -94,12 +98,9 @@ function generateBox(box: Box): string {
     }
 }
 
-function generateTextBox(textBox: TextBox): string {
-    return `<p>${textBox.content.slice(1, -1).trim()}</p>`;
-}
 
 function generateComponentBoxReference(reference: ComponentBoxReference): string {
-    const declaration = reference.reference.ref!; // TODO: check if the ref is valid
+    const declaration: Component = componentsSymbolTable.get(reference.reference.ref!.name)!; // Did not use reference.reference.ref! because it preserves the first declaration of a component (and not the last)
     let slots: Record<string, string> = {};
     for (let slot of reference.slots) {
         slots[slot.name] = generateBox(slot.content);
@@ -124,4 +125,9 @@ function generateComponentBox(box: ComponentBox, slots: Record<string, string>):
 
 function generateComponentSlot(slot: ComponentSlot, slots: Record<string, string>): string {
     return slots[slot.name] || '';
+}
+
+
+function generateTextBox(textBox: TextBox): string {
+    return `<p>${textBox.content.slice(1, -1).trim()}</p>`;
 }

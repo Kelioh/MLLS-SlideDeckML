@@ -51,13 +51,13 @@ ContentBox:
     '}';
 
 TerminalBox: 
-    ComponentBoxReference | TextBox;
+    ComponentBoxReference | TextBox; // Add new boxes here
 
 
 /* Terminal boxes definitions */
 
 ComponentBoxReference:
-    reference=[Component:ID] ('{' 
+    reference=[Component:ID] ('{'
         slots+=ComponentSlotReference*
     '}' | '{}');
 

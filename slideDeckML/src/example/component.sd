@@ -12,10 +12,14 @@ component slot_component {
             Ceci est le texte du composant
         }
         slot @slot1
-        text {
-            Ceci est un autre texte du composant
-        }
+        constant_component {}
         slot @slot2
+    }
+}
+
+component constant_component {
+    text {
+        redefinition du composant sans slot
     }
 }
 
@@ -39,7 +43,7 @@ slide slide1 {
         slot_component {
             @slot2
             text {
-                ceci est le texte du slot 2
+                ceci est seulement le slot 2
             }
         }
     }
