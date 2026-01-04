@@ -51,7 +51,7 @@ ContentBox:
     '}';
 
 TerminalBox: 
-    ComponentBoxReference | TextBox; // Add new boxes here
+    ComponentBoxReference | TextBox | QuizBox; // Add new boxes here
 
 
 /* Terminal boxes definitions */
@@ -68,6 +68,20 @@ ComponentSlotReference:
 
 TextBox:
     'text' content=TEXT;
+
+QuizBox:
+    'quiz' id=ID '{'
+        question=TEXT
+        type=QUIZ_TYPE
+        options+=QuizOption*
+        correctAnswer=TEXT?
+        revealResultsOnDemand?='revealResultsOnDemand'?
+    '}';
+
+terminal QUIZ_TYPE: /(mcq|short)/;
+
+QuizOption:
+    'option' id=ID content=TEXT;
 
 
 /*************/
