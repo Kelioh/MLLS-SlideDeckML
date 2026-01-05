@@ -1,5 +1,5 @@
 import type { ValidationAcceptor, ValidationChecks } from 'langium';
-import type { Box, Component, ComponentBox, ComponentBoxReference, Model, SlideDeckMlAstType } from './generated/ast.js';
+import type { Attribute, Box, Component, ComponentBox, ComponentBoxReference, Model, SlideDeckMlAstType, TextBox } from './generated/ast.js';
 import type { SlideDeckMlServices } from './slide-deck-ml-module.js';
 
 /**
@@ -10,6 +10,7 @@ export function registerValidationChecks(services: SlideDeckMlServices) {
     const validator = services.validation.SlideDeckMlValidator;
     const checks: ValidationChecks<SlideDeckMlAstType> = {
        Model: validator.checkComponentReferences,
+       TextBox: validator.checkTextBox,
     };
     registry.register(checks, validator);
 }
@@ -27,21 +28,24 @@ export type ComponentInformation = {
 
 export class SlideDeckMlValidator {
 
-    checkComponentReferences(model: Model, accept: ValidationAcceptor): void {
+    checkComponentReferences(model: Model, validator: ValidationAcceptor): void {
         /* Create symbol table and check multiple declarations */
         const componentsSymbolTable: Map<string, ComponentInformation> = new Map();
         for (const component of model.components) {
             if (componentsSymbolTable.has(component.name)) {
-                accept('warning', `Component '${component.name}' is declared multiple times`, { node: component });
+                validator('warning', `Component '${component.name}' is declared multiple times`, { node: component });
             }
             componentsSymbolTable.set(component.name, this.collectComponentInformations(component.content)); // Only the last declaration is considered
         }
 
         /* Check component references within component declarations */
-        for (const informations of componentsSymbolTable.values()) {
+        for (const [name, informations] of componentsSymbolTable) {
             for (const reference of informations.references) {
                 if (!reference.reference.ref || !componentsSymbolTable.get(reference.reference.ref.name)) {
-                    accept('error', 'Unknown component', { node: reference });
+                    validator('error', 'Unknown component', { node: reference });
+                }
+                else if (name === reference.reference.ref.name) {
+                    validator('error', `Component '${name}' cannot reference itself`, { node: reference });
                 }
             }
         }
@@ -52,7 +56,7 @@ export class SlideDeckMlValidator {
             const component: Component | undefined = reference.reference.ref;
             let informations: ComponentInformation | undefined;
             if (!component || !(informations = componentsSymbolTable.get(component.name))) {
-                accept('error', 'Unknown component', { node: reference });
+                validator('error', 'Unknown component', { node: reference });
                 continue;
             }
 
@@ -61,21 +65,21 @@ export class SlideDeckMlValidator {
             for (const slot of reference.slots) {
                 /* Already used slots */
                 if (usedSlots.has(slot.name)) {
-                    accept('error', `Slot '${slot.name}' is used more than once`, { node: slot });
+                    validator('error', `Slot '${slot.name}' is used more than once`, { node: slot });
                     continue;
                 }
                 usedSlots.add(slot.name);
 
                 /* Unkown slots */
                 if (!informations.slots.has(slot.name)) {
-                    accept('error', `Unknown slot '${slot.name}' for component '${component.name}'`, { node: slot });
+                    validator('error', `Unknown slot '${slot.name}' for component '${component.name}'`, { node: slot });
                 }
             }
 
             /* Unused slots */
             for (const slot of informations.slots) {
                 if (!usedSlots.has(slot)) {
-                    accept('warning', `Slot '${slot}' of component '${component.name}' is never used`, { node: reference });
+                    validator('warning', `Slot '${slot}' of component '${component.name}' is never used`, { node: reference });
                 }
             }
         }
@@ -110,6 +114,22 @@ export class SlideDeckMlValidator {
             case 'ComponentBoxReference': return [box.content];
             case 'ContentBox': return box.content.boxes.flatMap(b => this.collectComponentBoxReferences(b));
             default: return [];
+        }
+    }
+
+
+    checkTextBox(textBox: TextBox, validator: ValidationAcceptor): void {
+        const authorizedAttributes: Set<string> = new Set(['font']);
+        const usedAttributes: Set<string> = new Set();
+        for (const attribute of textBox.attributes) {
+            if (!authorizedAttributes.has(attribute.key)) {
+                validator('error', `Attribute '${attribute.key}' is not authorized`, { node: textBox });
+            }
+            if (usedAttributes.has(attribute.key)) {
+                validator('warning', `Attribute '${attribute.key}' is declared multiple times`, { node: textBox });
+                continue;
+            }
+            usedAttributes.add(attribute.key);
         }
     }
 
