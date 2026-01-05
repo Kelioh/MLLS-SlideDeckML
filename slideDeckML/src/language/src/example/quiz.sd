@@ -1,0 +1,39 @@
+presentation Quiz
+
+slide Question1 {
+  box {
+    text {Question}
+
+    quiz performance {
+      {What’s the typical performance complexity target for sorting large arrays?}
+      short
+      {n log n}
+      revealResultsOnDemand
+    }
+  }
+}
+
+slide Question2 {
+  box {
+    quiz sort {
+      {Which sorting algorithm has average-case O(n log n)?}
+      mcq
+      option a {Bubble sort}
+      option b {Quick sort}
+      option c {Merge sort}
+      {c}
+      revealResultsOnDemand
+    }
+  }
+}
+
+slide Question3 {
+  box {
+    quiz sort2 {
+      {What’s the typical performance complexity target for sorting large arrays?}
+      short
+      {n log n}
+      revealResultsOnDemand
+    }
+  }
+}
