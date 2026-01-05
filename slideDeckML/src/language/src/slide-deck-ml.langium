@@ -51,7 +51,7 @@ ContentBox:
     '}';
 
 TerminalBox: 
-    ComponentBoxReference | TextBox | QuizBox; // Add new boxes here
+    ComponentBoxReference | TextBox | QuizBox | ListBox; // Add new boxes here
 
 
 /* Terminal boxes definitions */
@@ -75,7 +75,9 @@ TextBox:
 Attribute:
     key='column' '=' value=INTEGER |
     key='height' '=' value=PERCENTAGE |
-    key='font' '=' value=STRING;
+    key='font' '=' value=STRING |
+    key='type' '=' value=LIST_TYPE |
+    key='spaceBetweenItems' '=' value=INTEGER;
     // Add new attributes here
 
 QuizBox:
@@ -86,6 +88,13 @@ QuizBox:
         correctAnswer=TEXT?
         revealResultsOnDemand?='revealResultsOnDemand'?
     '}';
+
+ListBox:
+    'list' ('[' attributes+=Attribute (',' attributes+=Attribute)* ']')? '{'
+        items+=TEXT+
+    '}';
+
+terminal LIST_TYPE: /(ordered|unordered)/;
 
 terminal QUIZ_TYPE: /(mcq|short)/;
 

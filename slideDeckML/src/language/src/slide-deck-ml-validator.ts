@@ -1,5 +1,5 @@
 import type { ValidationAcceptor, ValidationChecks } from 'langium';
-import type { Attribute, Box, Component, ComponentBox, ComponentBoxReference, Model, SlideDeckMlAstType, TextBox } from './generated/ast.js';
+import type { Attribute, Box, Component, ComponentBox, ComponentBoxReference, ListBox, Model, SlideDeckMlAstType, TextBox } from './generated/ast.js';
 import type { SlideDeckMlServices } from './slide-deck-ml-module.js';
 
 /**
@@ -133,4 +133,18 @@ export class SlideDeckMlValidator {
         }
     }
 
+    checkListBox(listBox: ListBox, validator: ValidationAcceptor): void {
+        const authorizedAttributes: Set<string> = new Set(['type', 'spaceBetweenItems']);
+        const usedAttributes: Set<string> = new Set();
+        for (const attribute of listBox.attributes) {
+            if (!authorizedAttributes.has(attribute.key)) {
+                validator('error', `Attribute '${attribute.key}' is not authorized`, { node: listBox });
+            }
+            if (usedAttributes.has(attribute.key)) {
+                validator('warning', `Attribute '${attribute.key}' is declared multiple times`, { node: listBox });
+                continue;
+            }
+            usedAttributes.add(attribute.key);
+        }
+    }
 }
