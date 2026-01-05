@@ -1,0 +1,64 @@
+<!doctype html>
+<html>
+<head>
+    <title>TEST</title>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5/dist/reveal.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5/dist/theme/solarized.css">
+
+    <style>
+        /* CSS minimal juste pour visualiser les blocs */
+        body { font-family: sans-serif; padding: 20px; }
+        .slide { border: 2px solid black; margin-bottom: 20px; padding: 10px; border-radius: 5px; }
+        h1, h2 { color: #333; }
+        pre { background: #eee; padding: 5px; }
+    </style>
+</head>
+<body>
+    <h1>TEST</h1>
+    <hr/>
+    
+    <div class="reveal">
+        <div class="slides">
+            <section id="slide1" data-transition="fade">
+                <div>
+                    <p>redefinition du composant sans slot</p>
+                    <p>Ceci est le texte de la slide
+            Il est sur plusieurs lignes !</p>
+                    <div>
+                        <p>Ceci est le texte du composant</p>
+                        <p>Ceci est le texte du slot 1</p>
+                        <p>redefinition du composant sans slot</p>
+                        <p>ceci est le texte du slot 2</p>
+                    </div>
+                    <div>
+                        <p>Ceci est le texte du composant</p>
+                        <p>redefinition du composant sans slot</p>
+                        <p>ceci est seulement le slot 2</p>
+                    </div>
+                </div>
+            </section>
+            <section id="slide2" data-transition="fade">
+                <p>Slide 2 !</p>
+            </section>
+            <section id="slide3" data-transition="fade">
+                <p>redefinition du composant sans slot</p>
+            </section>
+        </div>
+    </div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/reveal.js@5/dist/reveal.js"></script>
+    <script>
+        Reveal.initialize({
+            hash: true,
+            slideNumber: true,
+            transition: 'slide', // default transition
+            width: "100%",
+            height: "100%",
+            margin: 0.1,
+            backgroundTransition: 'fade',
+            center: true
+        });
+    </script>
+</body>
+</html>
