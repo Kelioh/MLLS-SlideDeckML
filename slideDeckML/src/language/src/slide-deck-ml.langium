@@ -22,8 +22,8 @@ ComponentBox:
     content=(ComponentContentBox | ComponentSlot | TerminalBox);
 
 ComponentContentBox:
-    'box' '{'
-        boxes+=(ComponentBox)+
+    'box' ('[' attributes+=Attribute (',' attributes+=Attribute)* ']')? '{'
+        boxes+=ComponentBox+
     '}';
 
 ComponentSlot:
@@ -46,7 +46,7 @@ Box:
     content=(ContentBox | TerminalBox);
 
 ContentBox:
-    'box' '{'
+    'box' ('[' attributes+=Attribute (',' attributes+=Attribute)* ']')? '{'
         boxes+=Box+
     '}';
 
@@ -57,7 +57,7 @@ TerminalBox:
 /* Terminal boxes definitions */
 
 ComponentBoxReference:
-    reference=[Component:ID] ('{'
+    reference=[Component:ID] ('[' attributes+=Attribute (',' attributes+=Attribute)* ']')? ('{'
         slots+=ComponentSlotReference*
     '}' | '{}');
 
@@ -67,7 +67,16 @@ ComponentSlotReference:
 
 
 TextBox:
-    'text' content=TEXT;
+    'text' ('[' attributes+=Attribute (',' attributes+=Attribute)* ']')? content=TEXT;
+
+
+/* Attributes */
+
+Attribute:
+    key='column' '=' value=INTEGER |
+    key='height' '=' value=PERCENTAGE |
+    key='font' '=' value=STRING;
+    // Add new attributes here
 
 QuizBox:
     'quiz' id=ID '{'
@@ -92,3 +101,6 @@ hidden terminal WS: /\s+/;
 terminal SLOT_ID: /@[_a-zA-Z][\w_]*/;
 terminal ID: /[_a-zA-Z][\w_]*/;
 terminal TEXT: /{[^{}]*}/;
+terminal STRING: /"[^"]*"/;
+terminal PERCENTAGE: /(100|[0-9]{1,2})%/;
+terminal INTEGER: /[0-9]+/;

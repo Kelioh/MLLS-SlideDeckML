@@ -7,8 +7,8 @@ component constant_component {
 }
 
 component slot_component {
-    box {
-        text {
+    box[column = 2, height = 100%] {
+        text[font = "wow"] {
             Ceci est le texte du composant
         }
         slot @slot1
@@ -24,8 +24,8 @@ component constant_component {
 }
 
 slide slide1 {
-    box {
-        constant_component {}
+    box[column = 2, height = 100%] {
+        constant_component[column = 2, height = 100%] {}
         text { 
             Ceci est le texte de la slide
             Il est sur plusieurs lignes !
