@@ -1,5 +1,5 @@
 import type { ValidationAcceptor, ValidationChecks } from 'langium';
-import type { Box, Component, ComponentBox, ComponentBoxReference, Model, SlideDeckMlAstType } from './generated/ast.js';
+import type { Box, Component, ComponentBox, ComponentBoxReference, Model, Header, Footer, SlideDeckMlAstType } from './generated/ast.js';
 import type { SlideDeckMlServices } from './slide-deck-ml-module.js';
 
 /**
@@ -10,6 +10,8 @@ export function registerValidationChecks(services: SlideDeckMlServices) {
     const validator = services.validation.SlideDeckMlValidator;
     const checks: ValidationChecks<SlideDeckMlAstType> = {
        Model: validator.checkComponentReferences,
+       Header: validator.checkHeader,
+       Footer: validator.checkFooter,
     };
     registry.register(checks, validator);
 }
@@ -111,6 +113,16 @@ export class SlideDeckMlValidator {
             case 'ContentBox': return box.content.boxes.flatMap(b => this.collectComponentBoxReferences(b));
             default: return [];
         }
+    }
+
+    checkHeader(header: Header, accept: ValidationAcceptor): void {
+        // Optional: Add validation if header content is empty
+        // For now, headers can be empty or contain any Box content
+    }
+
+    checkFooter(footer: Footer, accept: ValidationAcceptor): void {
+        // Optional: Add validation if footer content is empty
+        // For now, footers can be empty or contain any Box content
     }
 
 }

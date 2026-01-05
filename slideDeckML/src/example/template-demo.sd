@@ -1,0 +1,82 @@
+presentation CorporatePresentation
+
+// Theme with institutional branding
+theme font "Arial, sans-serif" primary "#1971c2" logo "https://example.com/logo.png"
+
+// Global header and footer with company branding
+header bg "#002147" color "#ffffff" size "1.8rem" {
+    box {
+        text {Université Côte d'Azur - SI5/M2 INFO}
+    }
+}
+
+footer bg "#f0f0f0" color "#333333" size "1rem" {
+    box {
+        text {© 2026 - Confidential}
+    }
+}
+
+// Slide 1: Uses the themed header/footer
+slide intro {
+    box {
+        text {Welcome to Our Corporate Presentation}
+        text {This presentation uses a custom theme with institutional branding}
+    }
+}
+
+// Slide 2: Override header with custom styling
+slide confidential {
+    header bg "#dc143c" color "#ffffff" size "2rem" {
+        box {
+            text {⚠ CONFIDENTIAL - INTERNAL USE ONLY}
+        }
+    }
+
+    box {
+        text {Sensitive Information}
+        text {This slide has a custom red header to indicate confidential content}
+    }
+}
+
+// Slide 3: Custom colored footer
+slide technical {
+    footer bg "#1971c2" color "#ffffff" {
+        box {
+            text {Technical Section - Contact: tech@company.com}
+        }
+    }
+
+    box {
+        text {Technical Details}
+        text {Custom footer with primary brand color}
+    }
+}
+
+// Slide 4: Different styling for both header and footer
+slide marketing {
+    header bg "linear-gradient(90deg, #1971c2, #0c4a6e)" color "#ffffff" size "1.6rem" {
+        box {
+            text {Marketing Campaign 2026}
+        }
+    }
+
+    footer bg "#0c4a6e" color "#ffd700" size "1.1rem" {
+        box {
+            text {Q1 Strategy Review}
+        }
+    }
+
+    box {
+        text {Campaign Overview}
+        text {This slide demonstrates gradient backgrounds and custom colors}
+    }
+}
+
+// Slide 5: Return to global theme
+slide conclusion {
+    box {
+        text {Conclusion}
+        text {Back to the standard corporate template}
+        text {Theme and styling working perfectly!}
+    }
+}

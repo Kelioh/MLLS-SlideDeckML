@@ -2,6 +2,9 @@ grammar SlideDeckMl
 
 entry Model:
     'presentation' name=ID
+    (theme=Theme)?
+    (header=Header)?
+    (footer=Footer)?
     components+=Component*
     slides+=Slide*;
 
@@ -36,6 +39,8 @@ ComponentSlot:
 
 Slide:
     'slide' id=ID '{'
+        (header=Header)?
+        (footer=Footer)?
         content=Box
     '}';
 
@@ -84,11 +89,38 @@ QuizOption:
     'option' id=ID content=TEXT;
 
 
+/*******************/
+/* Header & Footer */
+/*******************/
+
+Header:
+    'header' ('bg' background=STRING)? ('color' color=STRING)? ('size' fontSize=STRING)? '{'
+        content=Box
+    '}';
+
+Footer:
+    'footer' ('bg' background=STRING)? ('color' color=STRING)? ('size' fontSize=STRING)? '{'
+        content=Box
+    '}';
+
+
+/*********/
+/* Theme */
+/*********/
+
+Theme:
+    'theme' ('font' fontName=STRING)? ('primary' primaryColor=STRING)? ('logo' logo=STRING)?;
+
+
 /*************/
 /* Terminals */
 /*************/
 
+hidden terminal ML_COMMENT: /\/\*[\s\S]*?\*\//;
+hidden terminal SL_COMMENT: /\/\/[^\n\r]*/;
 hidden terminal WS: /\s+/;
+
+terminal STRING: /"[^"]*"|'[^']*'/;
 terminal SLOT_ID: /@[_a-zA-Z][\w_]*/;
 terminal ID: /[_a-zA-Z][\w_]*/;
 terminal TEXT: /{[^{}]*}/;

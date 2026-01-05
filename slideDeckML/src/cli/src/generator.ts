@@ -1,4 +1,4 @@
-import { type ComponentBoxReference, type Box, type Model, type Slide, type TextBox, type QuizBox, ComponentBox, ComponentSlot, ComponentSlotReference, Component } from 'slide-deck-ml-language';
+import { type ComponentBoxReference, type Box, type Model, type Slide, type TextBox, type QuizBox, ComponentBox, ComponentSlot, Component } from 'slide-deck-ml-language';
 
 import * as fs from 'node:fs';
 import * as path from 'node:path';
@@ -29,6 +29,12 @@ let componentsSymbolTable: Map<string, Component>;
 
 function generateModel(model: Model): CompositeGeneratorNode {
     componentsSymbolTable = new Map(model.components.map(component => [component.name, component]));
+
+    // Extract theme properties (Langium automatically strips quotes from STRING terminals)
+    const fontFamily = model.theme?.fontName || 'sans-serif';
+    const primaryColor = model.theme?.primaryColor || '#1971c2';
+    const logoUrl = model.theme?.logo || '';
+
     return expandToNode`
         <!doctype html>
         <html>
@@ -39,11 +45,64 @@ function generateModel(model: Model): CompositeGeneratorNode {
             <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5/dist/theme/solarized.css">
 
             <style>
-                /* CSS minimal juste pour visualiser les blocs */
-                body { font-family: sans-serif; padding: 20px; }
-                .slide { border: 2px solid black; margin-bottom: 20px; padding: 10px; border-radius: 5px; }
-                h1, h2 { color: #333; }
-                pre { background: #eee; padding: 5px; }
+                /* Reset body margins/padding */
+                body {
+                    margin: 0;
+                    padding: 0;
+                    font-family: ${fontFamily};
+                    overflow: hidden;
+                }
+
+                /* Reveal.js viewport adjustment for header/footer */
+                .reveal {
+                    top: 80px !important;
+                    height: calc(100% - 160px) !important;
+                }
+
+                /* Header & Footer Styling */
+                .slide-header {
+                    position: fixed;
+                    top: 0;
+                    left: 0;
+                    right: 0;
+                    text-align: center;
+                    font-size: 1.5rem;
+                    opacity: 0.8;
+                    border-bottom: 2px solid rgba(0,0,0,0.2);
+                    padding: 1.5rem 2rem;
+                    background: rgba(255,255,255,0.95);
+                    z-index: 1000;
+                    height: 80px;
+                    box-sizing: border-box;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                }
+
+                .slide-footer {
+                    position: fixed;
+                    bottom: 0;
+                    left: 0;
+                    right: 0;
+                    text-align: center;
+                    font-size: 1.2rem;
+                    opacity: 0.7;
+                    border-top: 2px solid rgba(0,0,0,0.2);
+                    padding: 1.2rem 2rem;
+                    background: rgba(255,255,255,0.95);
+                    z-index: 1000;
+                    height: 80px;
+                    box-sizing: border-box;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                }
+
+                .slide-header p,
+                .slide-footer p {
+                    margin: 0;
+                    padding: 0;
+                }
 
                 .sdml-quiz { border: 1px solid rgba(0,0,0,0.25); border-radius: 10px; padding: 14px; margin: 12px 0; }
                 .sdml-quiz__title { font-size: 14px; letter-spacing: 0.02em; text-transform: uppercase; opacity: 0.85; margin-bottom: 6px; }
@@ -58,26 +117,64 @@ function generateModel(model: Model): CompositeGeneratorNode {
             </style>
         </head>
         <body>
-            <h1>${model.name}</h1>
-            <hr/>
-            
+            <div id="global-header" class="slide-header"></div>
+
             <div class="reveal">
                 <div class="slides">
-                    ${joinToNode(model.slides.map((slide: Slide) =>  generateSlide(slide).appendNewLineIfNotEmpty()))}
+                    ${joinToNode(model.slides.map((slide: Slide) =>  generateSlide(slide, model).appendNewLineIfNotEmpty()))}
                 </div>
             </div>
-            
+
+            <div id="global-footer" class="slide-footer"></div>
+
             <script src="https://cdn.jsdelivr.net/npm/reveal.js@5/dist/reveal.js"></script>
             <script>
                 Reveal.initialize({
                     hash: true,
                     slideNumber: true,
-                    transition: 'slide', // default transition
+                    transition: 'slide',
                     width: "100%",
                     height: "100%",
                     margin: 0.1,
                     backgroundTransition: 'fade',
                     center: true
+                });
+
+                // Update header/footer when slide changes
+                Reveal.on('slidechanged', event => {
+                    const currentSlide = event.currentSlide;
+                    const headerDiv = document.getElementById('global-header');
+                    const footerDiv = document.getElementById('global-footer');
+
+                    const headerContent = currentSlide.getAttribute('data-header');
+                    const footerContent = currentSlide.getAttribute('data-footer');
+                    const headerStyles = currentSlide.getAttribute('data-header-styles');
+                    const footerStyles = currentSlide.getAttribute('data-footer-styles');
+
+                    if (headerContent) {
+                        headerDiv.innerHTML = headerContent;
+                        headerDiv.style.display = 'block';
+                        if (headerStyles) {
+                            headerDiv.style.cssText += '; ' + headerStyles;
+                        }
+                    } else {
+                        headerDiv.style.display = 'none';
+                    }
+
+                    if (footerContent) {
+                        footerDiv.innerHTML = footerContent;
+                        footerDiv.style.display = 'block';
+                        if (footerStyles) {
+                            footerDiv.style.cssText += '; ' + footerStyles;
+                        }
+                    } else {
+                        footerDiv.style.display = 'none';
+                    }
+                });
+
+                // Trigger initial update
+                Reveal.on('ready', event => {
+                    Reveal.dispatchEvent({ type: 'slidechanged', currentSlide: event.currentSlide });
                 });
             </script>
         </body>
@@ -86,12 +183,52 @@ function generateModel(model: Model): CompositeGeneratorNode {
 }
 
 
-function generateSlide(slide: Slide): CompositeGeneratorNode {
+function generateSlide(slide: Slide, model: Model): CompositeGeneratorNode {
+    // Fallback logic: slide header/footer overrides global ones
+    const header = slide.header || model.header;
+    const footer = slide.footer || model.footer;
+
+    // Generate HTML strings for header/footer to store in data attributes
+    const headerHTML = header ? toString(generateBox(header.content)) : '';
+    const footerHTML = footer ? toString(generateBox(footer.content)) : '';
+
+    // Extract style attributes for header/footer
+    const headerStyles = header ? generateHeaderFooterStyles(header) : '';
+    const footerStyles = footer ? generateHeaderFooterStyles(footer) : '';
+
+    // Escape quotes for HTML attributes
+    const escapeQuotes = (str: string) => str.replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+
     return expandToNode`
-        <section id="${slide.id}" data-transition="fade">
+        <section
+            id="${slide.id}"
+            data-transition="fade"
+            ${headerHTML ? `data-header="${escapeQuotes(headerHTML)}"` : ''}
+            ${footerHTML ? `data-footer="${escapeQuotes(footerHTML)}"` : ''}
+            ${headerStyles ? `data-header-styles="${escapeQuotes(headerStyles)}"` : ''}
+            ${footerStyles ? `data-footer-styles="${escapeQuotes(footerStyles)}"` : ''}
+        >
             ${generateBox(slide.content)}
         </section>
     `;
+}
+
+function generateHeaderFooterStyles(headerOrFooter: any): string {
+    const styles: string[] = [];
+
+    if (headerOrFooter.background) {
+        styles.push(`background: ${headerOrFooter.background}`);
+    }
+
+    if (headerOrFooter.color) {
+        styles.push(`color: ${headerOrFooter.color}`);
+    }
+
+    if (headerOrFooter.fontSize) {
+        styles.push(`font-size: ${headerOrFooter.fontSize}`);
+    }
+
+    return styles.join('; ');
 }
 
 
