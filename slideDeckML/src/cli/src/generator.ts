@@ -1,19 +1,7 @@
+import { type ComponentBoxReference, type Box, type Model, type Slide, type TextBox, type QuizBox, type ListBox, ComponentBox, ComponentSlot, ComponentSlotReference, Component } from 'slide-deck-ml-language';
 import * as fs from 'node:fs';
 import * as path from 'node:path';
 import { extractDestinationAndName } from './util.js';
-
-import {
-    Component,
-    ComponentBox,
-    ComponentSlot,
-    ComponentSlotReference,
-    type Box,
-    type ComponentBoxReference,
-    type Model,
-    type QuizBox,
-    type Slide,
-    type TextBox
-} from 'slide-deck-ml-language';
 
 import {
     CompositeGeneratorNode,
@@ -376,6 +364,7 @@ function generateBox(box: Box): CompositeGeneratorNode {
         case 'TextBox': return generateTextBox(box.content);
         case 'ComponentBoxReference': return generateComponentBoxReference(box.content);
         case 'QuizBox': return generateQuizBox(box.content);
+        case 'ListBox': return generateListBox(box.content);
 
         case 'ContentBox':
             return expandToNode`
@@ -401,6 +390,7 @@ function generateComponentBox(box: ComponentBox, slots: Record<string, Composite
         case 'TextBox': return generateTextBox(box.content);
         case 'ComponentBoxReference': return generateComponentBoxReference(box.content);
         case 'QuizBox': return generateQuizBox(box.content);
+        case 'ListBox': return generateListBox(box.content);
 
         case 'ComponentSlot': return generateComponentSlot(box.content, slots);
         case 'ComponentContentBox':
@@ -482,5 +472,27 @@ function generateQuizBox(quiz: QuizBox): CompositeGeneratorNode {
             : expandToNode`<div class="sdml-quiz__results">Correct answer: <strong>${correctAnswer || '—'}</strong></div>`
         }
         </div>
+    `;
+}
+
+type AstAttribute = { key: string; value?: unknown };
+
+function getAttributeValue(attributes: unknown, key: string): unknown {
+    if (!Array.isArray(attributes)) return undefined;
+    const attr = (attributes as AstAttribute[]).find(a => a?.key === key);
+    return attr?.value;
+}
+
+function generateListBox(listBox: ListBox): CompositeGeneratorNode {
+    const attributes = (listBox as unknown as { attributes?: unknown }).attributes;
+    const type = String(getAttributeValue(attributes, 'type') ?? 'unordered');
+    const spacing = Number(getAttributeValue(attributes, 'spaceBetweenItems') ?? 0);
+    const listTag = type === 'ordered' ? 'ol' : 'ul';
+    const items = listBox.items.map(textContent);
+
+    return expandToNode`
+        <${listTag} class="sdml-list" style="--sdml-list-gap: ${spacing}px">
+            ${joinToNode(items.map((item: string) => expandToNode`<li>${item}</li>`))}
+        </${listTag}>
     `;
 }

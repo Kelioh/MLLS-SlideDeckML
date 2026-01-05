@@ -22,8 +22,8 @@ ComponentBox:
     content=(ComponentContentBox | ComponentSlot | TerminalBox);
 
 ComponentContentBox:
-    'box' '{'
-        boxes+=(ComponentBox)+
+    'box' ('[' attributes+=Attribute (',' attributes+=Attribute)* ']')? '{'
+        boxes+=ComponentBox+
     '}';
 
 ComponentSlot:
@@ -46,18 +46,18 @@ Box:
     content=(ContentBox | TerminalBox);
 
 ContentBox:
-    'box' '{'
+    'box' ('[' attributes+=Attribute (',' attributes+=Attribute)* ']')? '{'
         boxes+=Box+
     '}';
 
 TerminalBox: 
-    ComponentBoxReference | TextBox | QuizBox; // Add new boxes here
+    ComponentBoxReference | TextBox | QuizBox | ListBox; // Add new boxes here
 
 
 /* Terminal boxes definitions */
 
 ComponentBoxReference:
-    reference=[Component:ID] ('{'
+    reference=[Component:ID] ('[' attributes+=Attribute (',' attributes+=Attribute)* ']')? ('{'
         slots+=ComponentSlotReference*
     '}' | '{}');
 
@@ -67,7 +67,18 @@ ComponentSlotReference:
 
 
 TextBox:
-    'text' content=TEXT;
+    'text' ('[' attributes+=Attribute (',' attributes+=Attribute)* ']')? content=TEXT;
+
+
+/* Attributes */
+
+Attribute:
+    key='column' '=' value=INTEGER |
+    key='height' '=' value=PERCENTAGE |
+    key='font' '=' value=STRING |
+    key='type' '=' value=LIST_TYPE |
+    key='spaceBetweenItems' '=' value=INTEGER;
+    // Add new attributes here
 
 QuizBox:
     'quiz' id=ID '{'
@@ -77,6 +88,13 @@ QuizBox:
         correctAnswer=TEXT?
         revealResultsOnDemand?='revealResultsOnDemand'?
     '}';
+
+ListBox:
+    'list' ('[' attributes+=Attribute (',' attributes+=Attribute)* ']')? '{'
+        items+=TEXT+
+    '}';
+
+terminal LIST_TYPE: /(ordered|unordered)/;
 
 terminal QUIZ_TYPE: /(mcq|short)/;
 
@@ -92,3 +110,6 @@ hidden terminal WS: /\s+/;
 terminal SLOT_ID: /@[_a-zA-Z][\w_]*/;
 terminal ID: /[_a-zA-Z][\w_]*/;
 terminal TEXT: /{[^{}]*}/;
+terminal STRING: /"[^"]*"/;
+terminal PERCENTAGE: /(100|[0-9]{1,2})%/;
+terminal INTEGER: /[0-9]+/;
