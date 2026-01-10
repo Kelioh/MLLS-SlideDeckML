@@ -1,7 +1,23 @@
-import { type ComponentBoxReference, type Box, type Model, type Slide, type TextBox, ComponentBox, ComponentSlot, Component, Attribute, QuizBox, ListBox } from 'slide-deck-ml-language';
 import * as fs from 'node:fs';
 import * as path from 'node:path';
 import { extractDestinationAndName } from './util.js';
+import { get } from 'node:http';
+
+import {
+    Attribute,
+    Component,
+    ComponentBox,
+    ComponentSlot,
+    type Box,
+    type ComponentBoxReference,
+    type ImageBox,
+    type ListBox,
+    type Model,
+    type QuizBox,
+    type Slide,
+    type TextBox,
+    type VideoBox
+} from 'slide-deck-ml-language';
 
 import {
     CompositeGeneratorNode,
@@ -350,9 +366,11 @@ function generateModel(model: Model): CompositeGeneratorNode {
 
 
 function generateSlide(slide: Slide): CompositeGeneratorNode {
-    // TODO : need to check for attribute annotable, not all slides are annotable
+    const attributes = (slide as unknown as { attributes?: unknown }).attributes;
+    const isAnnotable = hasAttribute(attributes, 'annotable');
+
     return expandToNode`
-        <section id="${slide.id}" class="annotable" data-transition="fade">
+        <section id="${slide.id}" ${isAnnotable ? `class="annotable"` : ''} data-transition="fade">
             ${generateBox(slide.content)}
         </section>
     `;
@@ -360,8 +378,10 @@ function generateSlide(slide: Slide): CompositeGeneratorNode {
 
 
 function generateBox(box: Box): CompositeGeneratorNode {
-    switch(box.$type) {
+    switch (box.$type) {
         case 'TextBox': return generateTextBox(box);
+        case 'ImageBox': return generateImageBox(box);
+        case 'VideoBox': return generateVideoBox(box);
         case 'ComponentBoxReference': return generateComponentBoxReference(box);
         case 'QuizBox': return generateQuizBox(box);
         case 'ListBox': return generateListBox(box);
@@ -372,6 +392,8 @@ function generateBox(box: Box): CompositeGeneratorNode {
                     ${joinToNode(box.boxes.map(box => generateBox(box).appendNewLineIfNotEmpty()))}
                 </div>
             `;
+
+        default: throw new Error(`Unknown box type: ${(box as any).$type}`);
     }
 }
 
@@ -388,7 +410,7 @@ function generateComponentBoxReference(reference: ComponentBoxReference): Compos
     /* Override declaration attributes  */
     let declarationBox: ComponentBox = declaration.content;
     if ((declaration.content.$type !== 'ComponentSlot') && (declaration.content.$type !== 'QuizBox')) {
-        const mergedAttributes: Map<string, string> = new Map(declaration.content.attributes.map(attribute => [attribute.key, attribute.value]));
+        const mergedAttributes: Map<string, string | undefined> = new Map(declaration.content.attributes.map(attribute => [attribute.key, attribute.value]));
         for (const attribute of reference.attributes) {
             mergedAttributes.set(attribute.key, attribute.value);
         }
@@ -399,8 +421,10 @@ function generateComponentBoxReference(reference: ComponentBoxReference): Compos
 }
 
 function generateComponentBox(box: ComponentBox, slots: Record<string, CompositeGeneratorNode>): CompositeGeneratorNode {
-    switch(box.$type) {
+    switch (box.$type) {
         case 'TextBox': return generateTextBox(box);
+        case 'ImageBox': return generateImageBox(box);
+        case 'VideoBox': return generateVideoBox(box);
         case 'ComponentBoxReference': return generateComponentBoxReference(box);
         case 'QuizBox': return generateQuizBox(box);
         case 'ListBox': return generateListBox(box);
@@ -412,6 +436,8 @@ function generateComponentBox(box: ComponentBox, slots: Record<string, Composite
                     ${joinToNode(box.boxes.map(box => generateComponentBox(box, slots).appendNewLineIfNotEmpty()))}
                 </div>
             `;
+
+        default: throw new Error(`Unknown box type: ${(box as any).$type}`);
     }
 }
 
@@ -420,7 +446,7 @@ function generateContentBoxAttributes(attributes: Attribute[]): string {
     for (const attribute of attributes) {
         switch (attribute.key) {
             case 'column':
-                style+= `display: grid; grid-template-columns: repeat(${attribute.value}, 1fr); `;
+                style += `display: grid; grid-template-columns: repeat(${attribute.value}, 1fr); `;
                 break;
             case 'height':
                 style += `height: ${attribute.value}; `;
@@ -434,9 +460,32 @@ function generateComponentSlot(slot: ComponentSlot, slots: Record<string, Compos
     return slots[slot.name] ?? (slot.content ? generateBox(slot.content) : expandToNode``); // Override slot content or use default
 }
 
-
 function generateTextBox(textBox: TextBox): CompositeGeneratorNode {
     return expandToNode`<p>${textBox.content.slice(1, -1).trim()}</p>`; // TODO: generate with attributes consideration
+}
+
+function generateImageBox(imageBox: ImageBox): CompositeGeneratorNode {
+    return expandToNode`<img src="${imageBox.src.slice(1, -1).trim()}" alt="${imageBox.alt.slice(1, -1).trim()}" />`;
+}
+
+function toYouTubeEmbed(url: string): string {
+    const match = url.match(/(?:youtu\.be\/|v=)([^?&]+)/);
+    return match ? `https://www.youtube.com/embed/${match[1]}` : url;
+}
+
+function generateVideoBox(videoBox: VideoBox): CompositeGeneratorNode {
+    const src = videoBox.src.slice(1, -1).trim();
+    const embed = toYouTubeEmbed(src);
+
+    return expandToNode`
+        <iframe
+            src="${embed}"
+            title="${videoBox.alt.slice(1, -1).trim()}"
+            frameborder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowfullscreen>
+        </iframe>
+    `;
 }
 
 
@@ -526,4 +575,9 @@ function getAttributeValue(attributes: unknown, key: string): unknown {
     if (!Array.isArray(attributes)) return undefined;
     const attr = (attributes as AstAttribute[]).find(a => a?.key === key);
     return attr?.value;
+}
+
+function hasAttribute(attributes: unknown, key: string): boolean {
+    if (!Array.isArray(attributes)) return false;
+    return (attributes as AstAttribute[]).some(a => a?.key === key);
 }
