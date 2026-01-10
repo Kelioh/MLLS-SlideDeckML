@@ -50,12 +50,14 @@ slide slide1 {
     box {
         slot_component[column = 4] {
             @slot1
-            text {
-                Ceci est le texte du slot 1
+            video {
+                src {https://youtu.be/AMShoQ_qdc0?si=03Zdvmdtdd8yeCXu}
+                alt {Hello World Song}
             }
             @slot2
-            text {
-                ceci est le texte du slot 2
+            image {
+                src {https://images4.alphacoders.com/133/thumb-1920-1332281.jpeg}
+                alt {Gojo}
             }
         }
     }
