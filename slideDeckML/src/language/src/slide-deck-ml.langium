@@ -91,7 +91,7 @@ Attribute:
     key='font' '=' value=STRING |
     key='type' '=' value=LIST_TYPE |
     key='spaceBetweenItems' '=' value=INTEGER |
-    key='annotable' '=' value=BOOLEAN;
+    key='annotable';
     // Add new attributes here
 
 QuizBox:
