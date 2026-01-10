@@ -1,5 +1,5 @@
-import type { ValidationAcceptor, ValidationChecks } from 'langium';
-import type { Attribute, Box, Component, ComponentBox, ComponentBoxReference, Model, SlideDeckMlAstType, TextBox } from './generated/ast.js';
+import type { AstNode, ValidationAcceptor, ValidationChecks } from 'langium';
+import { Attribute, Box, Component, ComponentBox, ComponentBoxReference, ComponentContentBox, ContentBox, Model, SlideDeckMlAstType, TerminalBox, TextBox } from './generated/ast.js';
 import type { SlideDeckMlServices } from './slide-deck-ml-module.js';
 
 /**
@@ -10,7 +10,9 @@ export function registerValidationChecks(services: SlideDeckMlServices) {
     const validator = services.validation.SlideDeckMlValidator;
     const checks: ValidationChecks<SlideDeckMlAstType> = {
        Model: validator.checkComponentReferences,
-       TextBox: validator.checkTextBox,
+       ComponentContentBox: validator.checkContentBoxesAttributes,
+       ContentBox: validator.checkContentBoxesAttributes,
+       TerminalBox: validator.checkTerminalBoxAttributes,
     };
     registry.register(checks, validator);
 }
@@ -27,6 +29,8 @@ export type ComponentInformation = {
 
 
 export class SlideDeckMlValidator {
+
+    /* Components usages */
 
     checkComponentReferences(model: Model, validator: ValidationAcceptor): void {
         /* Create symbol table and check multiple declarations */
@@ -88,17 +92,17 @@ export class SlideDeckMlValidator {
     private collectComponentInformations(componentBox: ComponentBox): ComponentInformation {
         const informations: ComponentInformation = { slots: new Set(), references: new Set() };
 
-        switch (componentBox.content.$type) {
+        switch (componentBox.$type) {
             case 'ComponentSlot': 
-                informations.slots.add(componentBox.content.name);
+                informations.slots.add(componentBox.name);
                 break;
             
             case 'ComponentBoxReference': 
-                informations.references.add(componentBox.content);
+                informations.references.add(componentBox);
                 break;
 
             case 'ComponentContentBox':
-                for (const box of componentBox.content.boxes) {
+                for (const box of componentBox.boxes) {
                     const childInformations: ComponentInformation = this.collectComponentInformations(box);
                     childInformations.slots.forEach(slot => informations.slots.add(slot)); // set.union seems to not exists
                     childInformations.references.forEach(reference => informations.references.add(reference));
@@ -110,23 +114,47 @@ export class SlideDeckMlValidator {
     }
 
     private collectComponentBoxReferences(box: Box): ComponentBoxReference[] {
-        switch(box.content.$type) {
-            case 'ComponentBoxReference': return [box.content];
-            case 'ContentBox': return box.content.boxes.flatMap(b => this.collectComponentBoxReferences(b));
+        switch(box.$type) {
+            case 'ComponentBoxReference': return [box];
+            case 'ContentBox': return box.boxes.flatMap(b => this.collectComponentBoxReferences(b));
             default: return [];
         }
     }
 
 
-    checkTextBox(textBox: TextBox, validator: ValidationAcceptor): void {
-        const authorizedAttributes: Set<string> = new Set(['font']);
+    /* Boxes attributes */
+
+    private boxAttributes: Record<string, Set<string>> = {
+        TextBox: new Set(['font']),
+        ComponentContentBox: new Set(['column', 'height']),
+        ContentBox: new Set(['column', 'height']),
+        // Add box attributes here
+    };
+
+    checkContentBoxesAttributes(box: ContentBox | ComponentContentBox, validator: ValidationAcceptor): void {
+        this.checkAttributes(box.attributes, this.boxAttributes[box.$type], box, validator);
+    }
+
+    checkTerminalBoxAttributes(box: TerminalBox, validator: ValidationAcceptor): void {
+        switch(box.$type) {
+            case 'ComponentBoxReference':
+                this.checkAttributes(box.attributes, this.boxAttributes[box.reference.ref!.content.$type], box, validator); // Check correspondance between reference and component attributes
+                break;
+            
+            default:
+                this.checkAttributes(box.attributes, this.boxAttributes[box.$type], box, validator);
+                break;
+        }
+    }
+
+    private checkAttributes(attributes: Attribute[], authorizedAttributes: Set<string>, node: AstNode, validator: ValidationAcceptor): void {
         const usedAttributes: Set<string> = new Set();
-        for (const attribute of textBox.attributes) {
+        for (const attribute of attributes) {
             if (!authorizedAttributes.has(attribute.key)) {
-                validator('error', `Attribute '${attribute.key}' is not authorized`, { node: textBox });
+                validator('error', `Attribute '${attribute.key}' is not authorized`, { node: node });
             }
             if (usedAttributes.has(attribute.key)) {
-                validator('warning', `Attribute '${attribute.key}' is declared multiple times`, { node: textBox });
+                validator('warning', `Attribute '${attribute.key}' is declared multiple times`, { node: node });
                 continue;
             }
             usedAttributes.add(attribute.key);

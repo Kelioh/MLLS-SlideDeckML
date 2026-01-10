@@ -1,4 +1,4 @@
-import { type ComponentBoxReference, type Box, type Model, type Slide, type TextBox, ComponentBox, ComponentSlot, ComponentSlotReference, Component } from 'slide-deck-ml-language';
+import { type ComponentBoxReference, type Box, type Model, type Slide, type TextBox, ComponentBox, ComponentSlot, ComponentSlotReference, Component, Attribute } from 'slide-deck-ml-language';
 
 import * as fs from 'node:fs';
 import * as path from 'node:path';
@@ -85,14 +85,14 @@ function generateSlide(slide: Slide): CompositeGeneratorNode {
 
 
 function generateBox(box: Box): CompositeGeneratorNode {
-    switch(box.content.$type) {
-        case 'TextBox': return generateTextBox(box.content);
-        case 'ComponentBoxReference': return generateComponentBoxReference(box.content);
+    switch(box.$type) {
+        case 'TextBox': return generateTextBox(box);
+        case 'ComponentBoxReference': return generateComponentBoxReference(box);
 
-        case 'ContentBox':
+        case 'ContentBox': // TODO: generate with attributes consideration
             return expandToNode`
                 <div>
-                    ${joinToNode(box.content.boxes.map(b => generateBox(b).appendNewLineIfNotEmpty()))}
+                    ${joinToNode(box.boxes.map(b => generateBox(b).appendNewLineIfNotEmpty()))}
                 </div>
             `;
     }
@@ -101,23 +101,36 @@ function generateBox(box: Box): CompositeGeneratorNode {
 
 function generateComponentBoxReference(reference: ComponentBoxReference): CompositeGeneratorNode {
     const declaration: Component = componentsSymbolTable.get(reference.reference.ref!.name)!; // Did not use reference.reference.ref! because it preserves the first declaration of a component (and not the last)
-    let slots: Record<string, CompositeGeneratorNode> = {};
+
+    /* Generate slots boxes */
+    const slots: Record<string, CompositeGeneratorNode> = {};
     for (let slot of reference.slots) {
         slots[slot.name] = generateBox(slot.content);
     }
-    return generateComponentBox(declaration.content, slots);
+
+    /* Override declaration attributes  */
+    let declarationBox: ComponentBox = declaration.content;
+    if (declaration.content.$type !== 'ComponentSlot') {
+        const mergedAttributes: Map<string, string> = new Map(declaration.content.attributes.map(attribute => [attribute.key, attribute.value]));
+        for (const attribute of reference.attributes) {
+            mergedAttributes.set(attribute.key, attribute.value);
+        }
+        declarationBox = { ...declaration.content, attributes: Array.from(mergedAttributes.entries(), ([key, value]) => ({ $type: 'Attribute', key, value } as Attribute)) }; // Does not include $container, $containerProperty, $containerIndex, $cstNode, $document
+    }
+
+    return generateComponentBox(declarationBox, slots);
 }
 
 function generateComponentBox(box: ComponentBox, slots: Record<string, CompositeGeneratorNode>): CompositeGeneratorNode {
-    switch(box.content.$type) {
-        case 'TextBox': return generateTextBox(box.content);
-        case 'ComponentBoxReference': return generateComponentBoxReference(box.content);
+    switch(box.$type) {
+        case 'TextBox': return generateTextBox(box);
+        case 'ComponentBoxReference': return generateComponentBoxReference(box);
 
-        case 'ComponentSlot': return generateComponentSlot(box.content, slots);
-        case 'ComponentContentBox':
+        case 'ComponentSlot': return generateComponentSlot(box, slots);
+        case 'ComponentContentBox': // TODO: generate with attributes consideration
             return expandToNode`
                 <div>
-                    ${joinToNode(box.content.boxes.map(box => generateComponentBox(box, slots).appendNewLineIfNotEmpty()))}
+                    ${joinToNode(box.boxes.map(box => generateComponentBox(box, slots).appendNewLineIfNotEmpty()))}
                 </div>
             `;
     }
@@ -129,5 +142,5 @@ function generateComponentSlot(slot: ComponentSlot, slots: Record<string, Compos
 
 
 function generateTextBox(textBox: TextBox): CompositeGeneratorNode {
-    return expandToNode`<p>${textBox.content.slice(1, -1).trim()}</p>`;
+    return expandToNode`<p>${textBox.content.slice(1, -1).trim()}</p>`; // TODO: generate with attributes consideration
 }

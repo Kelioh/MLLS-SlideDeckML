@@ -19,7 +19,7 @@ Component:
 /* Composite pattern for component boxes */
 
 ComponentBox:
-    content=(ComponentContentBox | ComponentSlot | TerminalBox);
+    ComponentContentBox | ComponentSlot | TerminalBox;
 
 ComponentContentBox:
     'box' ('[' attributes+=Attribute (',' attributes+=Attribute)* ']')? '{'
@@ -43,7 +43,7 @@ Slide:
 /* Composite pattern for boxes */
 
 Box:
-    content=(ContentBox | TerminalBox);
+    ContentBox | TerminalBox;
 
 ContentBox:
     'box' ('[' attributes+=Attribute (',' attributes+=Attribute)* ']')? '{'
