@@ -95,6 +95,9 @@ export class SlideDeckMlValidator {
         switch (componentBox.$type) {
             case 'ComponentSlot': 
                 informations.slots.add(componentBox.name);
+                if (componentBox.content) { // Collect references from slot default implementation
+                    this.collectComponentBoxReferences(componentBox.content).forEach(reference => informations.references.add(reference));
+                }
                 break;
             
             case 'ComponentBoxReference': 

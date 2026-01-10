@@ -27,7 +27,9 @@ ComponentContentBox:
     '}';
 
 ComponentSlot:
-    'slot' name=SLOT_ID;
+    'slot' name=SLOT_ID ('{'
+        content=Box
+    '}' | '{}');
 
 
 /**********/

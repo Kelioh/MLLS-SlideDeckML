@@ -11,9 +11,17 @@ component slot_component {
         text {
             Ceci est le texte du composant
         }
-        slot @slot1
+        slot @slot1 {
+            box[column = 2] {
+                text {
+                    Ceci est le texte par defaut du slot 1 !
+                    Il est suivit du composant sans slot !
+                }
+                constant_component {}
+            }
+        }
         constant_component {}
-        slot @slot2
+        slot @slot2 {}
     }
 }
 
@@ -61,12 +69,8 @@ slide slide2 {
     }
 }
 
-slide slide2 {
+slide slide3 {
     slot_component {
-        @slot1
-        text {
-            Ceci est le texte du slot 1
-        }
         @slot2
         text {
             ceci est le texte du slot 2
@@ -74,10 +78,10 @@ slide slide2 {
     }
 }
 
-slide slide3 {
+slide slide4 {
     list_component[type = ordered] {}
 }
 
-slide slide4 {
+slide slide5 {
     quiz_component {}
 }

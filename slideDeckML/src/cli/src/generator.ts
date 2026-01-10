@@ -366,7 +366,7 @@ function generateBox(box: Box): CompositeGeneratorNode {
         case 'QuizBox': return generateQuizBox(box);
         case 'ListBox': return generateListBox(box);
 
-        case 'ContentBox': // TODO: generate with attributes consideration
+        case 'ContentBox':
             return expandToNode`
                 <div ${(box.attributes.length !== 0) ? `style="${generateContentBoxAttributes(box.attributes)}"` : ''}>
                     ${joinToNode(box.boxes.map(box => generateBox(box).appendNewLineIfNotEmpty()))}
@@ -406,7 +406,7 @@ function generateComponentBox(box: ComponentBox, slots: Record<string, Composite
         case 'ListBox': return generateListBox(box);
 
         case 'ComponentSlot': return generateComponentSlot(box, slots);
-        case 'ComponentContentBox': // TODO: generate with attributes consideration
+        case 'ComponentContentBox':
             return expandToNode`
                 <div ${(box.attributes.length !== 0) ? `style="${generateContentBoxAttributes(box.attributes)}"` : ''}>
                     ${joinToNode(box.boxes.map(box => generateComponentBox(box, slots).appendNewLineIfNotEmpty()))}
@@ -431,7 +431,7 @@ function generateContentBoxAttributes(attributes: Attribute[]): string {
 }
 
 function generateComponentSlot(slot: ComponentSlot, slots: Record<string, CompositeGeneratorNode>): CompositeGeneratorNode {
-    return slots[slot.name] || expandToNode``;
+    return slots[slot.name] ?? (slot.content ? generateBox(slot.content) : expandToNode``); // Override slot content or use default
 }
 
 
