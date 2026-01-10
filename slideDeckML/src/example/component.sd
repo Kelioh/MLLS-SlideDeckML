@@ -17,6 +17,27 @@ component slot_component {
     }
 }
 
+component list_component {
+    list [type=unordered, spaceBetweenItems=50] {
+        {First}
+        {Second}
+        {Third}
+    }
+}
+
+component quiz_component {
+    quiz sort {
+        {Which sorting algorithm has average-case O(n log n)?}
+        mcq
+        option a {Bubble sort}
+        option b {Quick sort}
+        option c {Merge sort}
+        {c}
+        revealResultsOnDemand
+    }
+}
+
+
 slide slide1 {
     box {
         slot_component[column = 12] {
@@ -51,4 +72,12 @@ slide slide2 {
             ceci est le texte du slot 2
         }
     }
+}
+
+slide slide3 {
+    list_component[type = ordered] {}
+}
+
+slide slide4 {
+    quiz_component {}
 }

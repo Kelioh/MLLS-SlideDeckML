@@ -1,0 +1,156 @@
+<!doctype html>
+<html>
+<head>
+    <title>Quiz</title>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5/dist/reveal.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5/dist/theme/solarized.css">
+
+    <style>
+        /* CSS minimal juste pour visualiser les blocs */
+        body { font-family: sans-serif; padding: 20px; }
+        .slide { border: 2px solid black; margin-bottom: 20px; padding: 10px; border-radius: 5px; }
+        h1, h2 { color: #333; }
+        pre { background: #eee; padding: 5px; }
+
+        .sdml-quiz { border: 1px solid rgba(0,0,0,0.25); border-radius: 10px; padding: 14px; margin: 12px 0; }
+        .sdml-quiz__title { font-size: 14px; letter-spacing: 0.02em; text-transform: uppercase; opacity: 0.85; margin-bottom: 6px; }
+        .sdml-quiz__question { font-size: 22px; margin: 8px 0 12px; }
+        .sdml-quiz__options { display: grid; gap: 8px; margin: 10px 0; }
+        .sdml-quiz__options label { display: flex; gap: 10px; align-items: center; cursor: pointer; }
+        .sdml-quiz__actions { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+        .sdml-quiz__input { border: 1px solid rgba(0,0,0,0.25); border-radius: 10px; padding: 10px 12px; font-size: 18px; min-width: 240px; }
+        .sdml-quiz__btn { border: 0; border-radius: 10px; padding: 10px 12px; cursor: pointer; background: rgba(25,113,194,0.9); color: white; font-size: 14px; }
+        .sdml-quiz__feedback { min-height: 1.2em; margin-top: 10px; font-weight: 600; }
+        .sdml-quiz__results { margin-top: 10px; padding-top: 10px; border-top: 1px dashed rgba(0,0,0,0.25); }
+
+    </style>
+</head>
+<body>
+    <h1>Quiz</h1>
+    <hr/>
+    
+    <div class="reveal">
+        <div class="slides">
+            <section id="outline" data-transition="fade">
+                <ol class="sdml-list" style="--sdml-list-gap: 12px">
+                    <li>One point</li><li>Another point</li><li>Last point</li>
+                </ol>
+            </section>
+            <section id="Question1" data-transition="fade">
+                <div>
+                    <p>Question</p>
+                    <div
+                        class="sdml-quiz"
+                        data-quiz-id="performance"
+                        data-quiz-type="short"
+                        data-correct-answer="n log n"
+                        data-reveal-on-demand="true"
+                    >
+                        <div class="sdml-quiz__title">Quiz</div>
+                        <div class="sdml-quiz__question">What’s the typical performance complexity target for sorting large arrays?</div>
+
+                        <div class="sdml-quiz__actions">
+                            <input class="sdml-quiz__input" type="text" placeholder="Your answer" />
+                            <button
+                                class="sdml-quiz__btn sdml-quiz__submit"
+                                type="button"
+                                        onclick="(function(btn){const r=btn.closest('.sdml-quiz');if(!r)return;const c=(r.getAttribute('data-correct-answer')||'').trim();const f=r.querySelector('.sdml-quiz__feedback');if(!f)return;const i=r.querySelector('input.sdml-quiz__input');if(!i)return;const v=(i.value||'').trim();if(!v)return;const ok=v.toLowerCase()===c.toLowerCase();f.textContent=ok?'Correct.':'Not quite.';f.style.color=ok?'#2aa198':'#dc322f';if(!ok){const res=r.querySelector('.sdml-quiz__results');if(res){res.style.display='block';}const rb=r.querySelector('.sdml-quiz__reveal');if(rb)rb.style.display='none';} })(this)"
+                            >Submit</button>
+                        </div>
+
+                                <div class="sdml-quiz__feedback" aria-live="polite"></div>
+                                <div class="sdml-quiz__reveal-wrap">
+                                    <button class="sdml-quiz__btn sdml-quiz__reveal" type="button" onclick="(function(btn){const r=btn.closest('.sdml-quiz');if(!r)return;const res=r.querySelector('.sdml-quiz__results');if(res){res.style.display='block';}btn.style.display='none';})(this)">Reveal answer</button>
+                                    <div class="sdml-quiz__results" style="display:none">Correct answer: <strong>n log n</strong></div>
+                                </div>
+                    </div>
+                </div>
+            </section>
+            <section id="Question2" data-transition="fade">
+                <div>
+                    <div
+                        class="sdml-quiz"
+                        data-quiz-id="sort"
+                        data-quiz-type="mcq"
+                        data-correct-answer="c"
+                        data-reveal-on-demand="true"
+                    >
+                        <div class="sdml-quiz__title">Quiz</div>
+                        <div class="sdml-quiz__question">Which sorting algorithm has average-case O(n log n)?</div>
+
+                        <div class="sdml-quiz__options">
+                            <label>
+                                <input type="radio" name="quiz-sort" value="a" />
+                                <span>Bubble sort</span>
+                            </label><label>
+                                <input type="radio" name="quiz-sort" value="b" />
+                                <span>Quick sort</span>
+                            </label><label>
+                                <input type="radio" name="quiz-sort" value="c" />
+                                <span>Merge sort</span>
+                            </label>
+                        </div>
+                        <div class="sdml-quiz__actions">
+                            <button
+                                class="sdml-quiz__btn sdml-quiz__submit"
+                                type="button"
+                                        onclick="(function(btn){const r=btn.closest('.sdml-quiz');if(!r)return;const c=(r.getAttribute('data-correct-answer')||'').trim();const f=r.querySelector('.sdml-quiz__feedback');if(!f)return;const ch=r.querySelector('input[type=radio]:checked');if(!ch)return;const v=(ch.value||'').trim();const ok=v.toLowerCase()===c.toLowerCase();f.textContent=ok?'Correct.':'Not quite.';f.style.color=ok?'#2aa198':'#dc322f';if(!ok){const res=r.querySelector('.sdml-quiz__results');if(res){res.style.display='block';}const rb=r.querySelector('.sdml-quiz__reveal');if(rb)rb.style.display='none';} })(this)"
+                            >Submit</button>
+                        </div>
+
+                                <div class="sdml-quiz__feedback" aria-live="polite"></div>
+                                <div class="sdml-quiz__reveal-wrap">
+                                    <button class="sdml-quiz__btn sdml-quiz__reveal" type="button" onclick="(function(btn){const r=btn.closest('.sdml-quiz');if(!r)return;const res=r.querySelector('.sdml-quiz__results');if(res){res.style.display='block';}btn.style.display='none';})(this)">Reveal answer</button>
+                                    <div class="sdml-quiz__results" style="display:none">Correct answer: <strong>c</strong></div>
+                                </div>
+                    </div>
+                </div>
+            </section>
+            <section id="Question3" data-transition="fade">
+                <div>
+                    <div
+                        class="sdml-quiz"
+                        data-quiz-id="sort2"
+                        data-quiz-type="short"
+                        data-correct-answer="n log n"
+                        data-reveal-on-demand="true"
+                    >
+                        <div class="sdml-quiz__title">Quiz</div>
+                        <div class="sdml-quiz__question">What’s the typical performance complexity target for sorting large arrays?</div>
+
+                        <div class="sdml-quiz__actions">
+                            <input class="sdml-quiz__input" type="text" placeholder="Your answer" />
+                            <button
+                                class="sdml-quiz__btn sdml-quiz__submit"
+                                type="button"
+                                        onclick="(function(btn){const r=btn.closest('.sdml-quiz');if(!r)return;const c=(r.getAttribute('data-correct-answer')||'').trim();const f=r.querySelector('.sdml-quiz__feedback');if(!f)return;const i=r.querySelector('input.sdml-quiz__input');if(!i)return;const v=(i.value||'').trim();if(!v)return;const ok=v.toLowerCase()===c.toLowerCase();f.textContent=ok?'Correct.':'Not quite.';f.style.color=ok?'#2aa198':'#dc322f';if(!ok){const res=r.querySelector('.sdml-quiz__results');if(res){res.style.display='block';}const rb=r.querySelector('.sdml-quiz__reveal');if(rb)rb.style.display='none';} })(this)"
+                            >Submit</button>
+                        </div>
+
+                                <div class="sdml-quiz__feedback" aria-live="polite"></div>
+                                <div class="sdml-quiz__reveal-wrap">
+                                    <button class="sdml-quiz__btn sdml-quiz__reveal" type="button" onclick="(function(btn){const r=btn.closest('.sdml-quiz');if(!r)return;const res=r.querySelector('.sdml-quiz__results');if(res){res.style.display='block';}btn.style.display='none';})(this)">Reveal answer</button>
+                                    <div class="sdml-quiz__results" style="display:none">Correct answer: <strong>n log n</strong></div>
+                                </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/reveal.js@5/dist/reveal.js"></script>
+    <script>
+        Reveal.initialize({
+            hash: true,
+            slideNumber: true,
+            transition: 'slide', // default transition
+            width: "100%",
+            height: "100%",
+            margin: 0.1,
+            backgroundTransition: 'fade',
+            center: true
+        });
+    </script>
+</body>
+</html>

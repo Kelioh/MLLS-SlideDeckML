@@ -1,5 +1,4 @@
-import { type ComponentBoxReference, type Box, type Model, type Slide, type TextBox, ComponentBox, ComponentSlot, ComponentSlotReference, Component, Attribute } from 'slide-deck-ml-language';
-
+import { type ComponentBoxReference, type Box, type Model, type Slide, type TextBox, ComponentBox, ComponentSlot, Component, Attribute, QuizBox, ListBox } from 'slide-deck-ml-language';
 import * as fs from 'node:fs';
 import * as path from 'node:path';
 import { CompositeGeneratorNode, expandToNode, joinToNode, toString } from 'langium/generate';
@@ -44,6 +43,17 @@ function generateModel(model: Model): CompositeGeneratorNode {
                 .slide { border: 2px solid black; margin-bottom: 20px; padding: 10px; border-radius: 5px; }
                 h1, h2 { color: #333; }
                 pre { background: #eee; padding: 5px; }
+
+                .sdml-quiz { border: 1px solid rgba(0,0,0,0.25); border-radius: 10px; padding: 14px; margin: 12px 0; }
+                .sdml-quiz__title { font-size: 14px; letter-spacing: 0.02em; text-transform: uppercase; opacity: 0.85; margin-bottom: 6px; }
+                .sdml-quiz__question { font-size: 22px; margin: 8px 0 12px; }
+                .sdml-quiz__options { display: grid; gap: 8px; margin: 10px 0; }
+                .sdml-quiz__options label { display: flex; gap: 10px; align-items: center; cursor: pointer; }
+                .sdml-quiz__actions { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+                .sdml-quiz__input { border: 1px solid rgba(0,0,0,0.25); border-radius: 10px; padding: 10px 12px; font-size: 18px; min-width: 240px; }
+                .sdml-quiz__btn { border: 0; border-radius: 10px; padding: 10px 12px; cursor: pointer; background: rgba(25,113,194,0.9); color: white; font-size: 14px; }
+                .sdml-quiz__feedback { min-height: 1.2em; margin-top: 10px; font-weight: 600; }
+                .sdml-quiz__results { margin-top: 10px; padding-top: 10px; border-top: 1px dashed rgba(0,0,0,0.25); }
             </style>
         </head>
         <body>
@@ -88,6 +98,8 @@ function generateBox(box: Box): CompositeGeneratorNode {
     switch(box.$type) {
         case 'TextBox': return generateTextBox(box);
         case 'ComponentBoxReference': return generateComponentBoxReference(box);
+        case 'QuizBox': return generateQuizBox(box);
+        case 'ListBox': return generateListBox(box);
 
         case 'ContentBox': // TODO: generate with attributes consideration
             return expandToNode`
@@ -110,7 +122,7 @@ function generateComponentBoxReference(reference: ComponentBoxReference): Compos
 
     /* Override declaration attributes  */
     let declarationBox: ComponentBox = declaration.content;
-    if (declaration.content.$type !== 'ComponentSlot') {
+    if ((declaration.content.$type !== 'ComponentSlot') && (declaration.content.$type !== 'QuizBox')) {
         const mergedAttributes: Map<string, string> = new Map(declaration.content.attributes.map(attribute => [attribute.key, attribute.value]));
         for (const attribute of reference.attributes) {
             mergedAttributes.set(attribute.key, attribute.value);
@@ -125,6 +137,8 @@ function generateComponentBox(box: ComponentBox, slots: Record<string, Composite
     switch(box.$type) {
         case 'TextBox': return generateTextBox(box);
         case 'ComponentBoxReference': return generateComponentBoxReference(box);
+        case 'QuizBox': return generateQuizBox(box);
+        case 'ListBox': return generateListBox(box);
 
         case 'ComponentSlot': return generateComponentSlot(box, slots);
         case 'ComponentContentBox': // TODO: generate with attributes consideration
@@ -143,4 +157,93 @@ function generateComponentSlot(slot: ComponentSlot, slots: Record<string, Compos
 
 function generateTextBox(textBox: TextBox): CompositeGeneratorNode {
     return expandToNode`<p>${textBox.content.slice(1, -1).trim()}</p>`; // TODO: generate with attributes consideration
+}
+
+
+function textContent(text: string): string {
+    return text.slice(1, -1).trim();
+}
+
+function generateQuizBox(quiz: QuizBox): CompositeGeneratorNode {
+    const question = textContent(quiz.question);
+    const correctAnswer = quiz.correctAnswer ? textContent(quiz.correctAnswer) : '';
+    const options = quiz.options.map(opt => ({ id: opt.id, label: textContent(opt.content) }));
+
+    return expandToNode`
+        <div
+            class="sdml-quiz"
+            data-quiz-id="${quiz.id}"
+            data-quiz-type="${quiz.type}"
+            data-correct-answer="${correctAnswer}"
+            data-reveal-on-demand="${quiz.revealResultsOnDemand ? 'true' : 'false'}"
+        >
+            <div class="sdml-quiz__title">Quiz</div>
+            <div class="sdml-quiz__question">${question}</div>
+
+            ${quiz.type === 'short'
+                ? expandToNode`
+                    <div class="sdml-quiz__actions">
+                        <input class="sdml-quiz__input" type="text" placeholder="Your answer" />
+                        <button
+                            class="sdml-quiz__btn sdml-quiz__submit"
+                            type="button"
+                                    onclick="(function(btn){const r=btn.closest('.sdml-quiz');if(!r)return;const c=(r.getAttribute('data-correct-answer')||'').trim();const f=r.querySelector('.sdml-quiz__feedback');if(!f)return;const i=r.querySelector('input.sdml-quiz__input');if(!i)return;const v=(i.value||'').trim();if(!v)return;const ok=v.toLowerCase()===c.toLowerCase();f.textContent=ok?'Correct.':'Not quite.';f.style.color=ok?'#2aa198':'#dc322f';if(!ok){const res=r.querySelector('.sdml-quiz__results');if(res){res.style.display='block';}const rb=r.querySelector('.sdml-quiz__reveal');if(rb)rb.style.display='none';} })(this)"
+                        >Submit</button>
+                    </div>
+                `
+                : expandToNode`
+                    <div class="sdml-quiz__options">
+                        ${joinToNode(options.map(opt => expandToNode`
+                            <label>
+                                <input type="radio" name="quiz-${quiz.id}" value="${opt.id}" />
+                                <span>${opt.label}</span>
+                            </label>
+                        `))}
+                    </div>
+                    <div class="sdml-quiz__actions">
+                        <button
+                            class="sdml-quiz__btn sdml-quiz__submit"
+                            type="button"
+                                    onclick="(function(btn){const r=btn.closest('.sdml-quiz');if(!r)return;const c=(r.getAttribute('data-correct-answer')||'').trim();const f=r.querySelector('.sdml-quiz__feedback');if(!f)return;const ch=r.querySelector('input[type=radio]:checked');if(!ch)return;const v=(ch.value||'').trim();const ok=v.toLowerCase()===c.toLowerCase();f.textContent=ok?'Correct.':'Not quite.';f.style.color=ok?'#2aa198':'#dc322f';if(!ok){const res=r.querySelector('.sdml-quiz__results');if(res){res.style.display='block';}const rb=r.querySelector('.sdml-quiz__reveal');if(rb)rb.style.display='none';} })(this)"
+                        >Submit</button>
+                    </div>
+                `
+            }
+
+                    <div class="sdml-quiz__feedback" aria-live="polite"></div>
+                    ${quiz.revealResultsOnDemand
+                        ? expandToNode`
+                            <div class="sdml-quiz__reveal-wrap">
+                                <button class="sdml-quiz__btn sdml-quiz__reveal" type="button" onclick="(function(btn){const r=btn.closest('.sdml-quiz');if(!r)return;const res=r.querySelector('.sdml-quiz__results');if(res){res.style.display='block';}btn.style.display='none';})(this)">Reveal answer</button>
+                                <div class="sdml-quiz__results" style="display:none">Correct answer: <strong>${correctAnswer}</strong></div>
+                            </div>
+                        `
+                        : expandToNode`<div class="sdml-quiz__results">Correct answer: <strong>${correctAnswer || '—'}</strong></div>`
+                    }
+        </div>
+    `;
+}
+
+
+function generateListBox(listBox: ListBox): CompositeGeneratorNode {
+    const attributes = (listBox as unknown as { attributes?: unknown }).attributes;
+    const type = String(getAttributeValue(attributes, 'type') ?? 'unordered');
+    const spacing = Number(getAttributeValue(attributes, 'spaceBetweenItems') ?? 0);
+    const listTag = type === 'ordered' ? 'ol' : 'ul';
+    const items = listBox.items.map(textContent);
+
+    return expandToNode`
+        <${listTag} class="sdml-list" style="--sdml-list-gap: ${spacing}px">
+            ${joinToNode(items.map((item: string) => expandToNode`<li>${item}</li>`))}
+        </${listTag}>
+    `;
+}
+
+
+type AstAttribute = { key: string; value?: unknown };
+
+function getAttributeValue(attributes: unknown, key: string): unknown {
+    if (!Array.isArray(attributes)) return undefined;
+    const attr = (attributes as AstAttribute[]).find(a => a?.key === key);
+    return attr?.value;
 }

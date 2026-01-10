@@ -128,6 +128,7 @@ export class SlideDeckMlValidator {
         TextBox: new Set(['font']),
         ComponentContentBox: new Set(['column', 'height']),
         ContentBox: new Set(['column', 'height']),
+        ListBox: new Set(['type', 'spaceBetweenItems']),
         // Add box attributes here
     };
 
@@ -137,6 +138,8 @@ export class SlideDeckMlValidator {
 
     checkTerminalBoxAttributes(box: TerminalBox, validator: ValidationAcceptor): void {
         switch(box.$type) {
+            case 'QuizBox': break;
+
             case 'ComponentBoxReference':
                 this.checkAttributes(box.attributes, this.boxAttributes[box.reference.ref!.content.$type], box, validator); // Check correspondance between reference and component attributes
                 break;
@@ -161,4 +164,18 @@ export class SlideDeckMlValidator {
         }
     }
 
+    // checkListBox(listBox: ListBox, validator: ValidationAcceptor): void {
+    //     const authorizedAttributes: Set<string> = new Set(['type', 'spaceBetweenItems']);
+    //     const usedAttributes: Set<string> = new Set();
+    //     for (const attribute of listBox.attributes) {
+    //         if (!authorizedAttributes.has(attribute.key)) {
+    //             validator('error', `Attribute '${attribute.key}' is not authorized`, { node: listBox });
+    //         }
+    //         if (usedAttributes.has(attribute.key)) {
+    //             validator('warning', `Attribute '${attribute.key}' is declared multiple times`, { node: listBox });
+    //             continue;
+    //         }
+    //         usedAttributes.add(attribute.key);
+    //     }
+    // }
 }
