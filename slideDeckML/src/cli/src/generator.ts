@@ -1,7 +1,22 @@
-import { type ComponentBoxReference, type Box, type Model, type Slide, type TextBox, ComponentBox, ComponentSlot, Component, Attribute, QuizBox, ListBox } from 'slide-deck-ml-language';
 import * as fs from 'node:fs';
 import * as path from 'node:path';
 import { extractDestinationAndName } from './util.js';
+
+import {
+    Attribute,
+    Component,
+    ComponentBox,
+    ComponentSlot,
+    type Box,
+    type ComponentBoxReference,
+    type ImageBox,
+    type ListBox,
+    type Model,
+    type QuizBox,
+    type Slide,
+    type TextBox,
+    type VideoBox
+} from 'slide-deck-ml-language';
 
 import {
     CompositeGeneratorNode,
@@ -360,8 +375,10 @@ function generateSlide(slide: Slide): CompositeGeneratorNode {
 
 
 function generateBox(box: Box): CompositeGeneratorNode {
-    switch(box.$type) {
+    switch (box.$type) {
         case 'TextBox': return generateTextBox(box);
+        case 'ImageBox': return generateImageBox(box);
+        case 'VideoBox': return generateVideoBox(box);
         case 'ComponentBoxReference': return generateComponentBoxReference(box);
         case 'QuizBox': return generateQuizBox(box);
         case 'ListBox': return generateListBox(box);
@@ -372,6 +389,8 @@ function generateBox(box: Box): CompositeGeneratorNode {
                     ${joinToNode(box.boxes.map(box => generateBox(box).appendNewLineIfNotEmpty()))}
                 </div>
             `;
+
+        default: throw new Error(`Unknown box type: ${(box as any).$type}`);
     }
 }
 
@@ -399,8 +418,10 @@ function generateComponentBoxReference(reference: ComponentBoxReference): Compos
 }
 
 function generateComponentBox(box: ComponentBox, slots: Record<string, CompositeGeneratorNode>): CompositeGeneratorNode {
-    switch(box.$type) {
+    switch (box.$type) {
         case 'TextBox': return generateTextBox(box);
+        case 'ImageBox': return generateImageBox(box);
+        case 'VideoBox': return generateVideoBox(box);
         case 'ComponentBoxReference': return generateComponentBoxReference(box);
         case 'QuizBox': return generateQuizBox(box);
         case 'ListBox': return generateListBox(box);
@@ -412,6 +433,8 @@ function generateComponentBox(box: ComponentBox, slots: Record<string, Composite
                     ${joinToNode(box.boxes.map(box => generateComponentBox(box, slots).appendNewLineIfNotEmpty()))}
                 </div>
             `;
+
+        default: throw new Error(`Unknown box type: ${(box as any).$type}`);
     }
 }
 
@@ -420,7 +443,7 @@ function generateContentBoxAttributes(attributes: Attribute[]): string {
     for (const attribute of attributes) {
         switch (attribute.key) {
             case 'column':
-                style+= `display: grid; grid-template-columns: repeat(${attribute.value}, 1fr); `;
+                style += `display: grid; grid-template-columns: repeat(${attribute.value}, 1fr); `;
                 break;
             case 'height':
                 style += `height: ${attribute.value}; `;
@@ -434,9 +457,32 @@ function generateComponentSlot(slot: ComponentSlot, slots: Record<string, Compos
     return slots[slot.name] ?? (slot.content ? generateBox(slot.content) : expandToNode``); // Override slot content or use default
 }
 
-
 function generateTextBox(textBox: TextBox): CompositeGeneratorNode {
     return expandToNode`<p>${textBox.content.slice(1, -1).trim()}</p>`; // TODO: generate with attributes consideration
+}
+
+function generateImageBox(imageBox: ImageBox): CompositeGeneratorNode {
+    return expandToNode`<img src="${imageBox.src.slice(1, -1).trim()}" alt="${imageBox.alt.slice(1, -1).trim()}" />`;
+}
+
+function toYouTubeEmbed(url: string): string {
+    const match = url.match(/(?:youtu\.be\/|v=)([^?&]+)/);
+    return match ? `https://www.youtube.com/embed/${match[1]}` : url;
+}
+
+function generateVideoBox(videoBox: VideoBox): CompositeGeneratorNode {
+    const src = videoBox.src.slice(1, -1).trim();
+    const embed = toYouTubeEmbed(src);
+
+    return expandToNode`
+        <iframe
+            src="${embed}"
+            title="${videoBox.alt.slice(1, -1).trim()}"
+            frameborder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowfullscreen>
+        </iframe>
+    `;
 }
 
 

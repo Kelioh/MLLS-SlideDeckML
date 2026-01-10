@@ -53,7 +53,7 @@ ContentBox:
     '}';
 
 TerminalBox: 
-    ComponentBoxReference | TextBox | QuizBox | ListBox; // Add new boxes here
+    ComponentBoxReference | TextBox | QuizBox | ListBox | ImageBox | VideoBox; // Add new boxes here
 
 
 /* Terminal boxes definitions */
@@ -71,6 +71,17 @@ ComponentSlotReference:
 TextBox:
     'text' ('[' attributes+=Attribute (',' attributes+=Attribute)* ']')? content=TEXT;
 
+ImageBox:
+    'image' ('[' attributes+=Attribute (',' attributes+=Attribute)* ']')? '{'
+        'src' src=IMAGE_URL
+        'alt' alt=TEXT
+    '}';
+
+VideoBox:
+    'video' ('[' attributes+=Attribute (',' attributes+=Attribute)* ']')? '{'
+        'src' src=VIDEO_URL
+        'alt' alt=TEXT
+    '}';
 
 /* Attributes */
 
@@ -110,6 +121,8 @@ QuizOption:
 
 hidden terminal WS: /\s+/;
 terminal SLOT_ID: /@[_a-zA-Z][\w_]*/;
+terminal VIDEO_URL: /\{([^{}]+\.(mp4|webm|ogg|mov|m4v)(\?[^}]*)?|https?:\/\/(www\.)?(youtube\.com|youtu\.be)\/[^{}]*)\}/;
+terminal IMAGE_URL: /\{[^{}]*\.(jpg|jpeg|png|gif|webp|svg|bmp)\}/;
 terminal ID: /[_a-zA-Z][\w_]*/;
 terminal TEXT: /{[^{}]*}/;
 terminal STRING: /"[^"]*"/;
