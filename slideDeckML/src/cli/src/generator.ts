@@ -103,8 +103,8 @@ function generateBox(box: Box): CompositeGeneratorNode {
 
         case 'ContentBox': // TODO: generate with attributes consideration
             return expandToNode`
-                <div>
-                    ${joinToNode(box.boxes.map(b => generateBox(b).appendNewLineIfNotEmpty()))}
+                <div ${(box.attributes.length !== 0) ? `style="${generateContentBoxAttributes(box.attributes)}"` : ''}>
+                    ${joinToNode(box.boxes.map(box => generateBox(box).appendNewLineIfNotEmpty()))}
                 </div>
             `;
     }
@@ -143,11 +143,26 @@ function generateComponentBox(box: ComponentBox, slots: Record<string, Composite
         case 'ComponentSlot': return generateComponentSlot(box, slots);
         case 'ComponentContentBox': // TODO: generate with attributes consideration
             return expandToNode`
-                <div>
+                <div ${(box.attributes.length !== 0) ? `style="${generateContentBoxAttributes(box.attributes)}"` : ''}>
                     ${joinToNode(box.boxes.map(box => generateComponentBox(box, slots).appendNewLineIfNotEmpty()))}
                 </div>
             `;
     }
+}
+
+function generateContentBoxAttributes(attributes: Attribute[]): string {
+    let style: string = '';
+    for (const attribute of attributes) {
+        switch (attribute.key) {
+            case 'column':
+                style+= `display: grid; grid-template-columns: repeat(${attribute.value}, 1fr); `;
+                break;
+            case 'height':
+                style += `height: ${attribute.value}; `;
+                break;
+        }
+    }
+    return style;
 }
 
 function generateComponentSlot(slot: ComponentSlot, slots: Record<string, CompositeGeneratorNode>): CompositeGeneratorNode {

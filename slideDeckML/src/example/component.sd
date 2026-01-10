@@ -18,7 +18,7 @@ component slot_component {
 }
 
 component list_component {
-    list [type=unordered, spaceBetweenItems=50] {
+    list [type = unordered, spaceBetweenItems = 50] {
         {First}
         {Second}
         {Third}
@@ -40,7 +40,7 @@ component quiz_component {
 
 slide slide1 {
     box {
-        slot_component[column = 12] {
+        slot_component[column = 4] {
             @slot1
             text {
                 Ceci est le texte du slot 1
