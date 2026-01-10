@@ -37,7 +37,7 @@ ComponentSlot:
 /**********/
 
 Slide:
-    'slide' id=ID '{'
+    'slide' id=ID ('[' attributes+=Attribute (',' attributes+=Attribute)* ']')? '{'
         content=Box
     '}';
 
@@ -90,7 +90,8 @@ Attribute:
     key='height' '=' value=PERCENTAGE |
     key='font' '=' value=STRING |
     key='type' '=' value=LIST_TYPE |
-    key='spaceBetweenItems' '=' value=INTEGER;
+    key='spaceBetweenItems' '=' value=INTEGER |
+    key='annotable' '=' value=BOOLEAN;
     // Add new attributes here
 
 QuizBox:
@@ -120,6 +121,7 @@ QuizOption:
 /*************/
 
 hidden terminal WS: /\s+/;
+terminal BOOLEAN: /true|false/;
 terminal SLOT_ID: /@[_a-zA-Z][\w_]*/;
 terminal VIDEO_URL: /\{([^{}]+\.(mp4|webm|ogg|mov|m4v)(\?[^}]*)?|https?:\/\/(www\.)?(youtube\.com|youtu\.be)\/[^{}]*)\}/;
 terminal IMAGE_URL: /\{[^{}]*\.(jpg|jpeg|png|gif|webp|svg|bmp)\}/;

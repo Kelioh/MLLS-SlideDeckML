@@ -365,9 +365,12 @@ function generateModel(model: Model): CompositeGeneratorNode {
 
 
 function generateSlide(slide: Slide): CompositeGeneratorNode {
-    // TODO : need to check for attribute annotable, not all slides are annotable
+    const attributes = (slide as unknown as { attributes?: unknown }).attributes;
+    console.log(getAttributeValue(attributes, 'annotable'));
+    const isAnnotable = getAttributeValue(attributes, 'annotable') === 'true';
+
     return expandToNode`
-        <section id="${slide.id}" class="annotable" data-transition="fade">
+        <section id="${slide.id}" ${isAnnotable ? `class="annotable"` : ''} data-transition="fade">
             ${generateBox(slide.content)}
         </section>
     `;

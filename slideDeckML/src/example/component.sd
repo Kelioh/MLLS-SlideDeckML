@@ -46,7 +46,7 @@ component quiz_component {
 }
 
 
-slide slide1 {
+slide slide1 [annotable = true] {
     box {
         slot_component[column = 4] {
             @slot1

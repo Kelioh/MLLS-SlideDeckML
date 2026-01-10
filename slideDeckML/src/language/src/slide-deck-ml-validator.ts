@@ -1,6 +1,20 @@
 import type { AstNode, ValidationAcceptor, ValidationChecks } from 'langium';
-import { Attribute, Box, Component, ComponentBox, ComponentBoxReference, ComponentContentBox, ContentBox, Model, SlideDeckMlAstType, TerminalBox, TextBox } from './generated/ast.js';
 import type { SlideDeckMlServices } from './slide-deck-ml-module.js';
+
+import {
+    Attribute,
+    Box,
+    Component,
+    ComponentBox,
+    ComponentBoxReference,
+    ComponentContentBox,
+    ContentBox,
+    Model,
+    Slide,
+    SlideDeckMlAstType,
+    TerminalBox,
+    TextBox
+} from './generated/ast.js';
 
 /**
  * Register custom validation checks.
@@ -9,10 +23,10 @@ export function registerValidationChecks(services: SlideDeckMlServices) {
     const registry = services.validation.ValidationRegistry;
     const validator = services.validation.SlideDeckMlValidator;
     const checks: ValidationChecks<SlideDeckMlAstType> = {
-       Model: validator.checkComponentReferences,
-       ComponentContentBox: validator.checkContentBoxesAttributes,
-       ContentBox: validator.checkContentBoxesAttributes,
-       TerminalBox: validator.checkTerminalBoxAttributes,
+        Model: validator.checkComponentReferences,
+        ComponentContentBox: validator.checkContentBoxesAttributes,
+        ContentBox: validator.checkContentBoxesAttributes,
+        TerminalBox: validator.checkTerminalBoxAttributes,
     };
     registry.register(checks, validator);
 }
@@ -93,14 +107,14 @@ export class SlideDeckMlValidator {
         const informations: ComponentInformation = { slots: new Set(), references: new Set() };
 
         switch (componentBox.$type) {
-            case 'ComponentSlot': 
+            case 'ComponentSlot':
                 informations.slots.add(componentBox.name);
                 if (componentBox.content) { // Collect references from slot default implementation
                     this.collectComponentBoxReferences(componentBox.content).forEach(reference => informations.references.add(reference));
                 }
                 break;
-            
-            case 'ComponentBoxReference': 
+
+            case 'ComponentBoxReference':
                 informations.references.add(componentBox);
                 break;
 
@@ -117,7 +131,7 @@ export class SlideDeckMlValidator {
     }
 
     private collectComponentBoxReferences(box: Box): ComponentBoxReference[] {
-        switch(box.$type) {
+        switch (box.$type) {
             case 'ComponentBoxReference': return [box];
             case 'ContentBox': return box.boxes.flatMap(b => this.collectComponentBoxReferences(b));
             default: return [];
@@ -132,6 +146,7 @@ export class SlideDeckMlValidator {
         ComponentContentBox: new Set(['column', 'height']),
         ContentBox: new Set(['column', 'height']),
         ListBox: new Set(['type', 'spaceBetweenItems']),
+        Slide: new Set(['annotable']),
         // Add box attributes here
     };
 
@@ -140,13 +155,13 @@ export class SlideDeckMlValidator {
     }
 
     checkTerminalBoxAttributes(box: TerminalBox, validator: ValidationAcceptor): void {
-        switch(box.$type) {
+        switch (box.$type) {
             case 'QuizBox': break;
 
             case 'ComponentBoxReference':
                 this.checkAttributes(box.attributes, this.boxAttributes[box.reference.ref!.content.$type], box, validator); // Check correspondance between reference and component attributes
                 break;
-            
+
             default:
                 this.checkAttributes(box.attributes, this.boxAttributes[box.$type], box, validator);
                 break;
@@ -166,5 +181,5 @@ export class SlideDeckMlValidator {
             usedAttributes.add(attribute.key);
         }
     }
-    
+
 }
