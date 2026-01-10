@@ -163,19 +163,5 @@ export class SlideDeckMlValidator {
             usedAttributes.add(attribute.key);
         }
     }
-
-    // checkListBox(listBox: ListBox, validator: ValidationAcceptor): void {
-    //     const authorizedAttributes: Set<string> = new Set(['type', 'spaceBetweenItems']);
-    //     const usedAttributes: Set<string> = new Set();
-    //     for (const attribute of listBox.attributes) {
-    //         if (!authorizedAttributes.has(attribute.key)) {
-    //             validator('error', `Attribute '${attribute.key}' is not authorized`, { node: listBox });
-    //         }
-    //         if (usedAttributes.has(attribute.key)) {
-    //             validator('warning', `Attribute '${attribute.key}' is declared multiple times`, { node: listBox });
-    //             continue;
-    //         }
-    //         usedAttributes.add(attribute.key);
-    //     }
-    // }
+    
 }
