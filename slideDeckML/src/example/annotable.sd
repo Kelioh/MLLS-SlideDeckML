@@ -1,0 +1,31 @@
+presentation TEST
+
+slide slide1 {
+    box {
+        text { 
+            Ceci est le texte de la slide
+            Il est sur plusieurs lignes !
+        }
+        text {
+            Ceci est le texte 2
+        }
+        text {
+            ceci est le texte 3
+        }
+        text {
+            ceci est seulement le texte 4
+        }
+    }
+}
+
+slide slide2 {
+    text { 
+        Slide 2 !
+    }
+}
+
+slide slide3 {
+    text { 
+        Slide 3 !
+    }
+}
