@@ -1,0 +1,93 @@
+presentation AnimationsDemo
+
+theme font "Arial, sans-serif" primary "#1971c2"
+
+header bg "#1971c2" color "#FFFFFF" size "1.6rem" {
+    box {
+        text {Démonstration des Animations}
+    }
+}
+
+footer bg "#F5F5F5" color "#333333" size "1rem" {
+    box {
+        text {© 2026 - Animations avec Reveal.js}
+    }
+}
+
+// Slide 1: Introduction sans animation
+slide intro {
+    box {
+        text {Bienvenue dans la démo des animations!}
+        text {Appuyez sur espace pour voir les animations}
+    }
+}
+
+// Slide 2: Animations fade (apparition progressive)
+slide fadeAnimations {
+    box {
+        text {Animations de type FADE}
+        fragment fade-in text {Texte qui apparaît en fade-in}
+        fragment fade-up text {Texte qui monte en fade-up}
+        fragment fade-down text {Texte qui descend en fade-down}
+        fragment fade-left text {Texte qui vient de la gauche}
+        fragment fade-right text {Texte qui vient de la droite}
+    }
+}
+
+// Slide 3: Animations grow/shrink
+slide animationsGrowShrink {
+    box {
+        text {Animations GROW et SHRINK}
+        fragment grow text {Ce texte grandit (grow)}
+        fragment shrink text {Ce texte rétrécit (shrink)}
+    }
+}
+
+// Slide 4: Animations de highlight
+slide highlightAnimations {
+    box {
+        text {Animations de HIGHLIGHT}
+        fragment highlight-red text {Texte surligné en rouge}
+        fragment highlight-green text {Texte surligné en vert}
+        fragment highlight-blue text {Texte surligné en bleu}
+    }
+}
+
+// Slide 5: Animation strike
+slide animationStrike {
+    box {
+        text {Animation STRIKE (barré)}
+        fragment strike text {Ce texte sera barré}
+        text {Utile pour montrer ce qui est obsolète!}
+    }
+}
+
+// Slide 6: Combinaison complexe
+slide complexAnimation {
+    box {
+        text {Scénario complexe avec plusieurs animations}
+        fragment fade-in text {Étape 1: Introduction du problème}
+        fragment fade-up text {Étape 2: Analyse de la situation}
+        fragment fade-up text {Étape 3: Proposition de solution}
+        fragment highlight-green text {Conclusion: Solution adoptée!}
+    }
+}
+
+// Slide 7: Current visible (ne montre qu'un élément à la fois)
+slide currentVisibleAnimation {
+    box {
+        text {Animation CURRENT-VISIBLE (un seul visible à la fois)}
+        fragment current-visible text {Premier point}
+        fragment current-visible text {Deuxième point}
+        fragment current-visible text {Troisième point}
+    }
+}
+
+// Slide 8: Conclusion
+slide conclusion {
+    box {
+        fragment fade-in text {Conclusion}
+        fragment fade-up text {Vous maîtrisez maintenant les animations!}
+        fragment grow text {Merci!}
+    }
+}

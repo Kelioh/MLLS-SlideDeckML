@@ -1,63 +1,7 @@
-import * as fs from 'node:fs';
-import * as path from 'node:path';
-import { extractDestinationAndName } from './util.js';
-import { get } from 'node:http';
-
-import {
-    Attribute,
-    Component,
-    ComponentBox,
-    ComponentSlot,
-    type Box,
-    type ComponentBoxReference,
-    type Footer,
-    type Header,
-    type ImageBox,
-    type ListBox,
-    type Model,
-    type QuizBox,
-    type Slide,
-    type TextBox,
-    type Theme,
-    type VideoBox
-} from 'slide-deck-ml-language';
-
-import {
-    CompositeGeneratorNode,
-    expandToNode,
-    joinToNode,
-    toString
-} from 'langium/generate';
-
-
-/* Generate file */
-
-export function generateOutput(model: Model, filePath: string, destination: string): string {
-    const data = extractDestinationAndName(destination);
-    const generatedFilePath = `${path.join(data.destination, data.name)}.html`;
-
-    const fileNode = generateModel(model).appendNewLineIfNotEmpty();
-
-    if (!fs.existsSync(data.destination)) {
-        fs.mkdirSync(data.destination, { recursive: true });
-    }
-    fs.writeFileSync(generatedFilePath, toString(fileNode));
-
-    return generatedFilePath;
-}
-
-
-/* Nodes generation */
-
-let componentsSymbolTable: Map<string, Component>;
-
-function generateModel(model: Model): CompositeGeneratorNode {
-    componentsSymbolTable = new Map(model.components.map(component => [component.name, component]));
-    return expandToNode`
         <!doctype html>
         <html>
         <head>
-            <title>${model.name}</title>
+            <title>AnimationsDemo</title>
 
             <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5/dist/reveal.css">
             <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5/dist/theme/solarized.css">
@@ -67,7 +11,7 @@ function generateModel(model: Model): CompositeGeneratorNode {
                 body {
                     margin: 0;
                     padding: 0;
-                    font-family: ${model.theme?.fontName ? model.theme.fontName.slice(1, -1) : 'Arial, sans-serif'};
+                    font-family: rial, sans-seri;
                     overflow: hidden;
                 }
 
@@ -241,7 +185,101 @@ function generateModel(model: Model): CompositeGeneratorNode {
 
             <div class="reveal">
                 <div class="slides">
-                    ${joinToNode(model.slides.map((slide: Slide) => generateSlide(slide, model).appendNewLineIfNotEmpty()))}
+                    <section
+                        id="intro"
+                        
+                        data-transition="fade"
+                        data-header="<div  >
+    <p>Démonstration des Animations</p>
+</div>"
+                        data-footer="<div  >
+    <p>© 2026 - Animations Reveal.js</p>
+</div>"
+                        data-header-styles="background: 1971c; color: FFFFF; font-size: .6re"
+                        data-footer-styles="background: F5F5F; color: 33333; font-size: re"
+                    >
+                        <div  >
+                            <p>Bienvenue!</p>
+                            <p>Appuyez sur espace</p>
+                        </div>
+                    </section>
+                    <section
+                        id="fadeAnimations"
+                        
+                        data-transition="fade"
+                        data-header="<div  >
+    <p>Démonstration des Animations</p>
+</div>"
+                        data-footer="<div  >
+    <p>© 2026 - Animations Reveal.js</p>
+</div>"
+                        data-header-styles="background: 1971c; color: FFFFF; font-size: .6re"
+                        data-footer-styles="background: F5F5F; color: 33333; font-size: re"
+                    >
+                        <div  >
+                            <p>Animations FADE</p>
+                            <div class="fragment fade-in"><p>Fade in</p></div>
+                            <div class="fragment fade-up"><p>Fade up</p></div>
+                            <div class="fragment fade-down"><p>Fade down</p></div>
+                        </div>
+                    </section>
+                    <section
+                        id="animationsGrowShrink"
+                        
+                        data-transition="fade"
+                        data-header="<div  >
+    <p>Démonstration des Animations</p>
+</div>"
+                        data-footer="<div  >
+    <p>© 2026 - Animations Reveal.js</p>
+</div>"
+                        data-header-styles="background: 1971c; color: FFFFF; font-size: .6re"
+                        data-footer-styles="background: F5F5F; color: 33333; font-size: re"
+                    >
+                        <div  >
+                            <p>GROW et SHRINK</p>
+                            <div class="fragment grow"><p>Texte grandit</p></div>
+                            <div class="fragment shrink"><p>Texte rétrécit</p></div>
+                        </div>
+                    </section>
+                    <section
+                        id="highlightAnimations"
+                        
+                        data-transition="fade"
+                        data-header="<div  >
+    <p>Démonstration des Animations</p>
+</div>"
+                        data-footer="<div  >
+    <p>© 2026 - Animations Reveal.js</p>
+</div>"
+                        data-header-styles="background: 1971c; color: FFFFF; font-size: .6re"
+                        data-footer-styles="background: F5F5F; color: 33333; font-size: re"
+                    >
+                        <div  >
+                            <p>HIGHLIGHT</p>
+                            <div class="fragment highlight-red"><p>Rouge</p></div>
+                            <div class="fragment highlight-green"><p>Vert</p></div>
+                            <div class="fragment highlight-blue"><p>Bleu</p></div>
+                        </div>
+                    </section>
+                    <section
+                        id="conclusion"
+                        
+                        data-transition="fade"
+                        data-header="<div  >
+    <p>Démonstration des Animations</p>
+</div>"
+                        data-footer="<div  >
+    <p>© 2026 - Animations Reveal.js</p>
+</div>"
+                        data-header-styles="background: 1971c; color: FFFFF; font-size: .6re"
+                        data-footer-styles="background: F5F5F; color: 33333; font-size: re"
+                    >
+                        <div  >
+                            <div class="fragment fade-in"><p>Conclusion</p></div>
+                            <div class="fragment grow"><p>Merci!</p></div>
+                        </div>
+                    </section>
                 </div>
             </div>
 
@@ -252,7 +290,7 @@ function generateModel(model: Model): CompositeGeneratorNode {
             <script src="https://cdn.jsdelivr.net/npm/reveal.js@5/dist/reveal.js"></script>
             <script>
                 // Theme logo URL
-                const THEME_LOGO_URL = ${model.theme?.logo ? `"${model.theme.logo}"` : '""'};
+                const THEME_LOGO_URL = "";
 
                 Reveal.initialize({
                     hash: true,
@@ -340,10 +378,10 @@ function generateModel(model: Model): CompositeGeneratorNode {
                 function setTool(tool) {
                     currentTool = (currentTool === tool) ? null : tool;
                     document.querySelectorAll('#toolbar button').forEach(btn => btn.classList.remove('active'));
-                    if (currentTool) document.getElementById(\`btn-\${ currentTool }\`).classList.add('active');
+                    if (currentTool) document.getElementById(`btn-${ currentTool }`).classList.add('active');
 
                     document.querySelectorAll('.canvas-container').forEach(c => {
-                        c.className = \`canvas-container \${ currentTool ? 'active tool-' + currentTool : '' } \`;
+                        c.className = `canvas-container ${ currentTool ? 'active tool-' + currentTool : '' } `;
                     });
                 }
 
@@ -437,7 +475,7 @@ function generateModel(model: Model): CompositeGeneratorNode {
 
                     clone.querySelectorAll('.canvas-container').forEach(c => c.remove());
 
-                    clone.querySelector('#annotation-storage').innerText = \`window.savedPaths = \${ JSON.stringify(canvasData) }; \`;
+                    clone.querySelector('#annotation-storage').innerText = `window.savedPaths = ${ JSON.stringify(canvasData) }; `;
 
                     const blob = new Blob(["<!DOCTYPE html>", String.fromCharCode(10), clone.outerHTML], { type: 'text/html' });
                     const a = document.createElement('a');
@@ -455,10 +493,11 @@ function generateModel(model: Model): CompositeGeneratorNode {
                     const clone = document.documentElement.cloneNode(true);
                     clone.querySelector('#toolbar')?.remove();
                     clone.querySelectorAll('.canvas-container').forEach(c => c.remove());
-                    clone.querySelector('#annotation-storage').innerText = \`window.savedPaths = \${ JSON.stringify(data) }; \`;
+                    clone.querySelector('#annotation-storage').innerText = `window.savedPaths = ${ JSON.stringify(data) }; `;
 
                     const a = document.createElement('a');
-                    a.href = URL.createObjectURL(new Blob(["<!DOCTYPE html>\\\n" + clone.outerHTML], { type: 'text/html' }));
+                    a.href = URL.createObjectURL(new Blob(["<!DOCTYPE html>\
+" + clone.outerHTML], { type: 'text/html' }));
                     a.download = "presentation.html";
                     a.click();
                 }
@@ -489,290 +528,3 @@ function generateModel(model: Model): CompositeGeneratorNode {
             </script>
         </body>
         </html>
-    `;
-}
-
-
-function generateSlide(slide: Slide, model: Model): CompositeGeneratorNode {
-    const attributes = (slide as unknown as { attributes?: unknown }).attributes;
-    const isAnnotable = hasAttribute(attributes, 'annotable');
-
-    // Determine header and footer (slide-specific or global)
-    const header = slide.header || model.header;
-    const footer = slide.footer || model.footer;
-
-    // Generate header and footer HTML with styling
-    const headerHtml = header ? generateHeaderFooterHtml(header, 'header') : '';
-    const footerHtml = footer ? generateHeaderFooterHtml(footer, 'footer') : '';
-
-    // Generate style attributes for header/footer
-    const headerStyles = header ? generateHeaderFooterStyles(header) : '';
-    const footerStyles = footer ? generateHeaderFooterStyles(footer) : '';
-
-    return expandToNode`
-        <section
-            id="${slide.id}"
-            ${isAnnotable ? `class="annotable"` : ''}
-            data-transition="fade"
-            ${headerHtml ? `data-header="${headerHtml.replace(/"/g, '&quot;')}"` : ''}
-            ${footerHtml ? `data-footer="${footerHtml.replace(/"/g, '&quot;')}"` : ''}
-            ${headerStyles ? `data-header-styles="${headerStyles}"` : ''}
-            ${footerStyles ? `data-footer-styles="${footerStyles}"` : ''}
-        >
-            ${generateBox(slide.content)}
-        </section>
-    `;
-}
-
-
-function generateHeaderFooterHtml(headerOrFooter: Header | Footer, type: 'header' | 'footer'): string {
-    const boxHtml = toString(generateBox(headerOrFooter.content));
-    return boxHtml;
-}
-
-function generateHeaderFooterStyles(headerOrFooter: Header | Footer): string {
-    const styles: string[] = [];
-    if (headerOrFooter.background) {
-        styles.push(`background: ${headerOrFooter.background.slice(1, -1)}`);
-    }
-    if (headerOrFooter.color) {
-        styles.push(`color: ${headerOrFooter.color.slice(1, -1)}`);
-    }
-    if (headerOrFooter.fontSize) {
-        styles.push(`font-size: ${headerOrFooter.fontSize.slice(1, -1)}`);
-    }
-    return styles.join('; ');
-}
-
-
-function generateBox(box: Box): CompositeGeneratorNode {
-    // Handle fragment animation
-    const fragmentClass = box.fragmentStyle ? `class="fragment ${box.fragmentStyle}"` : '';
-    const content = box.content;
-
-    switch (content.$type) {
-        case 'TextBox':
-            return fragmentClass
-                ? expandToNode`<div ${fragmentClass}>${generateTextBox(content)}</div>`
-                : generateTextBox(content);
-
-        case 'ImageBox':
-            return fragmentClass
-                ? expandToNode`<div ${fragmentClass}>${generateImageBox(content)}</div>`
-                : generateImageBox(content);
-
-        case 'VideoBox':
-            return fragmentClass
-                ? expandToNode`<div ${fragmentClass}>${generateVideoBox(content)}</div>`
-                : generateVideoBox(content);
-
-        case 'ComponentBoxReference':
-            return fragmentClass
-                ? expandToNode`<div ${fragmentClass}>${generateComponentBoxReference(content)}</div>`
-                : generateComponentBoxReference(content);
-
-        case 'QuizBox':
-            return fragmentClass
-                ? expandToNode`<div ${fragmentClass}>${generateQuizBox(content)}</div>`
-                : generateQuizBox(content);
-
-        case 'ListBox':
-            return fragmentClass
-                ? expandToNode`<div ${fragmentClass}>${generateListBox(content)}</div>`
-                : generateListBox(content);
-
-        case 'ContentBox':
-            return expandToNode`
-                <div ${fragmentClass} ${(content.attributes.length !== 0) ? `style="${generateContentBoxAttributes(content.attributes)}"` : ''}>
-                    ${joinToNode(content.boxes.map(b => generateBox(b).appendNewLineIfNotEmpty()))}
-                </div>
-            `;
-
-        default: throw new Error(`Unknown box content type: ${(content as any).$type}`);
-    }
-}
-
-
-function generateComponentBoxReference(reference: ComponentBoxReference): CompositeGeneratorNode {
-    const declaration: Component = componentsSymbolTable.get(reference.reference.ref!.name)!; // Did not use reference.reference.ref! because it preserves the first declaration of a component (and not the last)
-
-    /* Generate slots boxes */
-    const slots: Record<string, CompositeGeneratorNode> = {};
-    for (let slot of reference.slots) {
-        slots[slot.name] = generateBox(slot.content);
-    }
-
-    /* Override declaration attributes  */
-    let declarationBox: ComponentBox = declaration.content;
-    if ((declaration.content.$type !== 'ComponentSlot') && (declaration.content.$type !== 'QuizBox')) {
-        const mergedAttributes: Map<string, string | undefined> = new Map(declaration.content.attributes.map(attribute => [attribute.key, attribute.value]));
-        for (const attribute of reference.attributes) {
-            mergedAttributes.set(attribute.key, attribute.value);
-        }
-        declarationBox = { ...declaration.content, attributes: Array.from(mergedAttributes.entries(), ([key, value]) => ({ $type: 'Attribute', key, value } as Attribute)) }; // Does not include $container, $containerProperty, $containerIndex, $cstNode, $document
-    }
-
-    return generateComponentBox(declarationBox, slots);
-}
-
-function generateComponentBox(box: ComponentBox, slots: Record<string, CompositeGeneratorNode>): CompositeGeneratorNode {
-    switch (box.$type) {
-        case 'TextBox': return generateTextBox(box);
-        case 'ImageBox': return generateImageBox(box);
-        case 'VideoBox': return generateVideoBox(box);
-        case 'ComponentBoxReference': return generateComponentBoxReference(box);
-        case 'QuizBox': return generateQuizBox(box);
-        case 'ListBox': return generateListBox(box);
-
-        case 'ComponentSlot': return generateComponentSlot(box, slots);
-        case 'ComponentContentBox':
-            return expandToNode`
-                <div ${(box.attributes.length !== 0) ? `style="${generateContentBoxAttributes(box.attributes)}"` : ''}>
-                    ${joinToNode(box.boxes.map(box => generateComponentBox(box, slots).appendNewLineIfNotEmpty()))}
-                </div>
-            `;
-
-        default: throw new Error(`Unknown box type: ${(box as any).$type}`);
-    }
-}
-
-function generateContentBoxAttributes(attributes: Attribute[]): string {
-    let style: string = '';
-    for (const attribute of attributes) {
-        switch (attribute.key) {
-            case 'column':
-                style += `display: grid; grid-template-columns: repeat(${attribute.value}, 1fr); `;
-                break;
-            case 'height':
-                style += `height: ${attribute.value}; `;
-                break;
-        }
-    }
-    return style;
-}
-
-function generateComponentSlot(slot: ComponentSlot, slots: Record<string, CompositeGeneratorNode>): CompositeGeneratorNode {
-    return slots[slot.name] ?? (slot.content ? generateBox(slot.content) : expandToNode``); // Override slot content or use default
-}
-
-function generateTextBox(textBox: TextBox): CompositeGeneratorNode {
-    return expandToNode`<p>${textBox.content.slice(1, -1).trim()}</p>`; // TODO: generate with attributes consideration
-}
-
-function generateImageBox(imageBox: ImageBox): CompositeGeneratorNode {
-    return expandToNode`<img src="${imageBox.src.slice(1, -1).trim()}" alt="${imageBox.alt.slice(1, -1).trim()}" />`;
-}
-
-function toYouTubeEmbed(url: string): string {
-    const match = url.match(/(?:youtu\.be\/|v=)([^?&]+)/);
-    return match ? `https://www.youtube.com/embed/${match[1]}` : url;
-}
-
-function generateVideoBox(videoBox: VideoBox): CompositeGeneratorNode {
-    const src = videoBox.src.slice(1, -1).trim();
-    const embed = toYouTubeEmbed(src);
-
-    return expandToNode`
-        <iframe
-            src="${embed}"
-            title="${videoBox.alt.slice(1, -1).trim()}"
-            frameborder="0"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-            allowfullscreen>
-        </iframe>
-    `;
-}
-
-
-function textContent(text: string): string {
-    return text.slice(1, -1).trim();
-}
-
-function generateQuizBox(quiz: QuizBox): CompositeGeneratorNode {
-    const question = textContent(quiz.question);
-    const correctAnswer = quiz.correctAnswer ? textContent(quiz.correctAnswer) : '';
-    const options = quiz.options.map(opt => ({ id: opt.id, label: textContent(opt.content) }));
-
-    return expandToNode`
-        <div
-            class="sdml-quiz"
-            data-quiz-id="${quiz.id}"
-            data-quiz-type="${quiz.type}"
-            data-correct-answer="${correctAnswer}"
-            data-reveal-on-demand="${quiz.revealResultsOnDemand ? 'true' : 'false'}"
-        >
-            <div class="sdml-quiz__title">Quiz</div>
-            <div class="sdml-quiz__question">${question}</div>
-
-            ${quiz.type === 'short'
-            ? expandToNode`
-                    <div class="sdml-quiz__actions">
-                        <input class="sdml-quiz__input" type="text" placeholder="Your answer" />
-                        <button
-                            class="sdml-quiz__btn sdml-quiz__submit"
-                            type="button"
-                                    onclick="(function(btn){const r=btn.closest('.sdml-quiz');if(!r)return;const c=(r.getAttribute('data-correct-answer')||'').trim();const f=r.querySelector('.sdml-quiz__feedback');if(!f)return;const i=r.querySelector('input.sdml-quiz__input');if(!i)return;const v=(i.value||'').trim();if(!v)return;const ok=v.toLowerCase()===c.toLowerCase();f.textContent=ok?'Correct.':'Not quite.';f.style.color=ok?'#2aa198':'#dc322f';if(!ok){const res=r.querySelector('.sdml-quiz__results');if(res){res.style.display='block';}const rb=r.querySelector('.sdml-quiz__reveal');if(rb)rb.style.display='none';} })(this)"
-                        >Submit</button>
-                    </div>
-                `
-            : expandToNode`
-                    <div class="sdml-quiz__options">
-                        ${joinToNode(options.map(opt => expandToNode`
-                            <label>
-                                <input type="radio" name="quiz-${quiz.id}" value="${opt.id}" />
-                                <span>${opt.label}</span>
-                            </label>
-                        `))}
-                    </div>
-                    <div class="sdml-quiz__actions">
-                        <button
-                            class="sdml-quiz__btn sdml-quiz__submit"
-                            type="button"
-                                    onclick="(function(btn){const r=btn.closest('.sdml-quiz');if(!r)return;const c=(r.getAttribute('data-correct-answer')||'').trim();const f=r.querySelector('.sdml-quiz__feedback');if(!f)return;const ch=r.querySelector('input[type=radio]:checked');if(!ch)return;const v=(ch.value||'').trim();const ok=v.toLowerCase()===c.toLowerCase();f.textContent=ok?'Correct.':'Not quite.';f.style.color=ok?'#2aa198':'#dc322f';if(!ok){const res=r.querySelector('.sdml-quiz__results');if(res){res.style.display='block';}const rb=r.querySelector('.sdml-quiz__reveal');if(rb)rb.style.display='none';} })(this)"
-                        >Submit</button>
-                    </div>
-                `
-        }
-
-                    <div class="sdml-quiz__feedback" aria-live="polite"></div>
-                    ${quiz.revealResultsOnDemand
-            ? expandToNode`
-                            <div class="sdml-quiz__reveal-wrap">
-                                <button class="sdml-quiz__btn sdml-quiz__reveal" type="button" onclick="(function(btn){const r=btn.closest('.sdml-quiz');if(!r)return;const res=r.querySelector('.sdml-quiz__results');if(res){res.style.display='block';}btn.style.display='none';})(this)">Reveal answer</button>
-                                <div class="sdml-quiz__results" style="display:none">Correct answer: <strong>${correctAnswer}</strong></div>
-                            </div>
-                        `
-            : expandToNode`<div class="sdml-quiz__results">Correct answer: <strong>${correctAnswer || '—'}</strong></div>`
-        }
-        </div>
-    `;
-}
-
-
-function generateListBox(listBox: ListBox): CompositeGeneratorNode {
-    const attributes = (listBox as unknown as { attributes?: unknown }).attributes;
-    const type = String(getAttributeValue(attributes, 'type') ?? 'unordered');
-    const spacing = Number(getAttributeValue(attributes, 'spaceBetweenItems') ?? 0);
-    const listTag = type === 'ordered' ? 'ol' : 'ul';
-    const items = listBox.items.map(textContent);
-
-    return expandToNode`
-        <${listTag} class="sdml-list" style="--sdml-list-gap: ${spacing}px">
-            ${joinToNode(items.map((item: string) => expandToNode`<li>${item}</li>`))}
-        </${listTag}>
-    `;
-}
-
-
-type AstAttribute = { key: string; value?: unknown };
-
-function getAttributeValue(attributes: unknown, key: string): unknown {
-    if (!Array.isArray(attributes)) return undefined;
-    const attr = (attributes as AstAttribute[]).find(a => a?.key === key);
-    return attr?.value;
-}
-
-function hasAttribute(attributes: unknown, key: string): boolean {
-    if (!Array.isArray(attributes)) return false;
-    return (attributes as AstAttribute[]).some(a => a?.key === key);
-}
