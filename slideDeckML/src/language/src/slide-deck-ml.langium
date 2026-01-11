@@ -59,7 +59,7 @@ ContentBox:
     '}';
 
 TerminalBox: 
-    ComponentBoxReference | TextBox | QuizBox | ListBox | ImageBox | VideoBox; // Add new boxes here
+    ComponentBoxReference | TextBox | QuizBox | ListBox | ImageBox | VideoBox | LiveQuizBox; // Add new boxes here
 
 
 /* Terminal boxes definitions */
@@ -112,6 +112,15 @@ QuizBox:
 ListBox:
     'list' ('[' attributes+=Attribute (',' attributes+=Attribute)* ']')? '{'
         items+=TEXT+
+    '}';
+
+LiveQuizBox:
+    'livequiz' id=ID ('[' attributes+=Attribute (',' attributes+=Attribute)* ']')? '{'
+        question=TEXT
+        options+=QuizOption*
+        correctAnswer=TEXT?
+        revealResultsOnDemand?='revealResultsOnDemand'?
+        sessionId=TEXT
     '}';
 
 QuizOption:

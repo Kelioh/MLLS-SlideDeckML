@@ -160,6 +160,7 @@ export class SlideDeckMlValidator {
             case 'QuizBox': break;
             case 'ImageBox': break;
             case 'VideoBox': break;
+            case 'LiveQuizBox': break;
 
             case 'ComponentBoxReference':
                 const componentContent = box.reference.ref?.content;

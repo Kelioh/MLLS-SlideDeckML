@@ -37,3 +37,18 @@ slide Question3 {
     }
   }
 }
+
+slide Question4 {
+  box {
+    livequiz sort3 {
+      {What’s the typical performance complexity target for sorting large arrays?}
+      option a {O(n^2)}
+      option b {O(n log n)}
+      option c {O(n)}
+      {b}
+      revealResultsOnDemand
+      {session123}
+    }
+  }
+}
+
