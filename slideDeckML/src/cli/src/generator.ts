@@ -252,7 +252,7 @@ function generateModel(model: Model): CompositeGeneratorNode {
             <script src="https://cdn.jsdelivr.net/npm/reveal.js@5/dist/reveal.js"></script>
             <script>
                 // Theme logo URL
-                const THEME_LOGO_URL = ${model.theme?.logo ? `"${model.theme.logo.slice(1, -1)}"` : '""'};
+                const THEME_LOGO_URL = ${model.theme?.logo ? `"${model.theme.logo}"` : '""'};
 
                 Reveal.initialize({
                     hash: true,

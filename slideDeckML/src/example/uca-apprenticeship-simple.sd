@@ -1,6 +1,6 @@
 presentation UCAApprenticeshipPresentation
 
-theme font "Arial, Helvetica, sans-serif" primary "#0055A4" logo "https://univ-cotedazur.fr/medias/photo/logo-uca-white_1633608750614-png"
+theme font "Arial, Helvetica, sans-serif" primary "#0055A4" logo "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3a/Logo_Universit%C3%A9_C%C3%B4te_d%27Azur.svg/320px-Logo_Universit%C3%A9_C%C3%B4te_d%27Azur.svg.png"
 
 header bg "#0055A4" color "#FFFFFF" size "1.6rem" {
     box {
