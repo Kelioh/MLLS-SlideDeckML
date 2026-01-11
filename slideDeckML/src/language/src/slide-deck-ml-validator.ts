@@ -131,9 +131,10 @@ export class SlideDeckMlValidator {
     }
 
     private collectComponentBoxReferences(box: Box): ComponentBoxReference[] {
-        switch (box.$type) {
-            case 'ComponentBoxReference': return [box];
-            case 'ContentBox': return box.boxes.flatMap(b => this.collectComponentBoxReferences(b));
+        const content = box.content;
+        switch (content.$type) {
+            case 'ComponentBoxReference': return [content];
+            case 'ContentBox': return content.boxes.flatMap(b => this.collectComponentBoxReferences(b));
             default: return [];
         }
     }
@@ -157,9 +158,14 @@ export class SlideDeckMlValidator {
     checkTerminalBoxAttributes(box: TerminalBox, validator: ValidationAcceptor): void {
         switch (box.$type) {
             case 'QuizBox': break;
+            case 'ImageBox': break;
+            case 'VideoBox': break;
 
             case 'ComponentBoxReference':
-                this.checkAttributes(box.attributes, this.boxAttributes[box.reference.ref!.content.$type], box, validator); // Check correspondance between reference and component attributes
+                const componentContent = box.reference.ref?.content;
+                if (componentContent) {
+                    this.checkAttributes(box.attributes, this.boxAttributes[componentContent.$type], box, validator);
+                }
                 break;
 
             default:

@@ -1,0 +1,55 @@
+presentation AnimationsDemo
+
+theme font "Arial, sans-serif" primary "#1971c2"
+
+header bg "#1971c2" color "#FFFFFF" size "1.6rem" {
+    box {
+        text {Démonstration des Animations}
+    }
+}
+
+footer bg "#F5F5F5" color "#333333" size "1rem" {
+    box {
+        text {© 2026 - Animations Reveal.js}
+    }
+}
+
+slide intro {
+    box {
+        text {Bienvenue!}
+        text {Appuyez sur espace}
+    }
+}
+
+slide fadeAnimations {
+    box {
+        text {Animations FADE}
+        fragment fade-in text {Fade in}
+        fragment fade-up text {Fade up}
+        fragment fade-down text {Fade down}
+    }
+}
+
+slide animationsGrowShrink {
+    box {
+        text {GROW et SHRINK}
+        fragment grow text {Texte grandit}
+        fragment shrink text {Texte rétrécit}
+    }
+}
+
+slide highlightAnimations {
+    box {
+        text {HIGHLIGHT}
+        fragment highlight-red text {Rouge}
+        fragment highlight-green text {Vert}
+        fragment highlight-blue text {Bleu}
+    }
+}
+
+slide conclusion {
+    box {
+        fragment fade-in text {Conclusion}
+        fragment grow text {Merci!}
+    }
+}

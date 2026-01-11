@@ -1,0 +1,49 @@
+presentation UCAApprenticeshipPresentation
+
+theme font "Arial, Helvetica, sans-serif" primary "#0055A4" logo "https://univ-cotedazur.fr/medias/photo/logo-uca-white_1633608750614-png"
+
+header bg "#0055A4" color "#FFFFFF" size "1.6rem" {
+    box {
+        text {Université Côte d'Azur}
+    }
+}
+
+footer bg "#F5F5F5" color "#333333" size "1rem" {
+    box {
+        text {© 2026 - Université Côte d'Azur}
+    }
+}
+
+slide titleSlide {
+    box {
+        text {Projet d'Apprentissage 2025-2026}
+        text {Développement IoT}
+        text {Sophia Antipolis}
+    }
+}
+
+slide outlineSlide {
+    box {
+        text {Plan de la présentation}
+        text {1. Contexte entreprise}
+        text {2. Objectifs du projet}
+        text {3. Architecture technique}
+        text {4. Démonstration}
+        text {5. Conclusion}
+    }
+}
+
+slide contextSlide {
+    box {
+        text {Contexte entreprise}
+        text {TechSophia Solutions}
+        text {Secteur IoT}
+    }
+}
+
+slide conclusion {
+    box {
+        text {Conclusion}
+        text {Merci!}
+    }
+}

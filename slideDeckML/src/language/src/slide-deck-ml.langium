@@ -2,6 +2,9 @@ grammar SlideDeckMl
 
 entry Model:
     'presentation' name=ID
+    (theme=Theme)?
+    (header=Header)?
+    (footer=Footer)?
     components+=Component*
     slides+=Slide*;
 
@@ -38,6 +41,8 @@ ComponentSlot:
 
 Slide:
     'slide' id=ID ('[' attributes+=Attribute (',' attributes+=Attribute)* ']')? '{'
+        (header=Header)?
+        (footer=Footer)?
         content=Box
     '}';
 
@@ -45,7 +50,8 @@ Slide:
 /* Composite pattern for boxes */
 
 Box:
-    ContentBox | TerminalBox;
+    ('fragment' fragmentStyle=FRAGMENT_STYLE)?
+    content=(ContentBox | TerminalBox);
 
 ContentBox:
     'box' ('[' attributes+=Attribute (',' attributes+=Attribute)* ']')? '{'
@@ -108,12 +114,31 @@ ListBox:
         items+=TEXT+
     '}';
 
-terminal LIST_TYPE: /(ordered|unordered)/;
-
-terminal QUIZ_TYPE: /(mcq|short)/;
-
 QuizOption:
     'option' id=ID content=TEXT;
+
+
+/*******************/
+/* Header & Footer */
+/*******************/
+
+Header:
+    'header' ('bg' background=STRING)? ('color' color=STRING)? ('size' fontSize=STRING)? '{'
+        content=Box
+    '}';
+
+Footer:
+    'footer' ('bg' background=STRING)? ('color' color=STRING)? ('size' fontSize=STRING)? '{'
+        content=Box
+    '}';
+
+
+/*********/
+/* Theme */
+/*********/
+
+Theme:
+    'theme' ('font' fontName=STRING)? ('primary' primaryColor=STRING)? ('logo' logo=STRING)?;
 
 
 /*************/
@@ -121,12 +146,15 @@ QuizOption:
 /*************/
 
 hidden terminal WS: /\s+/;
+terminal FRAGMENT_STYLE: /(fade-in|fade-up|fade-down|fade-left|fade-right|fade-in-then-out|fade-in-then-semi-out|grow|shrink|strike|highlight-red|highlight-green|highlight-blue|current-visible|semi-fade-out)/;
+terminal LIST_TYPE: /(ordered|unordered)/;
+terminal QUIZ_TYPE: /(mcq|short)/;
 terminal BOOLEAN: /true|false/;
 terminal SLOT_ID: /@[_a-zA-Z][\w_]*/;
 terminal VIDEO_URL: /\{([^{}]+\.(mp4|webm|ogg|mov|m4v)(\?[^}]*)?|https?:\/\/(www\.)?(youtube\.com|youtu\.be)\/[^{}]*)\}/;
 terminal IMAGE_URL: /\{[^{}]*\.(jpg|jpeg|png|gif|webp|svg|bmp)\}/;
-terminal ID: /[_a-zA-Z][\w_]*/;
-terminal TEXT: /{[^{}]*}/;
 terminal STRING: /"[^"]*"/;
 terminal PERCENTAGE: /(100|[0-9]{1,2})%/;
 terminal INTEGER: /[0-9]+/;
+terminal ID: /[_a-zA-Z][\w_]*/;
+terminal TEXT: /{[^{}]*}/;
