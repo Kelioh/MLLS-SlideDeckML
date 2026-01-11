@@ -1,7 +1,12 @@
 import * as fs from 'node:fs';
 import * as path from 'node:path';
+import { fileURLToPath } from 'node:url';
 import { extractDestinationAndName } from './util.js';
 import { get } from 'node:http';
+
+// ES module compatibility for __dirname
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 import {
     Attribute,
@@ -42,9 +47,59 @@ export function generateOutput(model: Model, filePath: string, destination: stri
     if (!fs.existsSync(data.destination)) {
         fs.mkdirSync(data.destination, { recursive: true });
     }
+
+    // Copy Reveal.js assets for offline use
+    copyRevealAssets(data.destination);
+
     fs.writeFileSync(generatedFilePath, toString(fileNode));
 
     return generatedFilePath;
+}
+
+function copyRevealAssets(destDir: string): void {
+    const revealDist = path.join(__dirname, '..', '..', '..', 'node_modules', 'reveal.js', 'dist');
+    const revealDestDir = path.join(destDir, 'reveal');
+
+    if (!fs.existsSync(revealDestDir)) {
+        fs.mkdirSync(revealDestDir, { recursive: true });
+    }
+
+    // Copy CSS
+    const cssFiles = ['reveal.css'];
+    const themePath = path.join(revealDist, 'theme');
+    const themeFiles = ['solarized.css'];
+
+    cssFiles.forEach(file => {
+        const src = path.join(revealDist, file);
+        const dest = path.join(revealDestDir, file);
+        if (fs.existsSync(src)) {
+            fs.copyFileSync(src, dest);
+        }
+    });
+
+    // Copy theme
+    const themeDestDir = path.join(revealDestDir, 'theme');
+    if (!fs.existsSync(themeDestDir)) {
+        fs.mkdirSync(themeDestDir, { recursive: true });
+    }
+
+    themeFiles.forEach(file => {
+        const src = path.join(themePath, file);
+        const dest = path.join(themeDestDir, file);
+        if (fs.existsSync(src)) {
+            fs.copyFileSync(src, dest);
+        }
+    });
+
+    // Copy JS
+    const jsFiles = ['reveal.js'];
+    jsFiles.forEach(file => {
+        const src = path.join(revealDist, file);
+        const dest = path.join(revealDestDir, file);
+        if (fs.existsSync(src)) {
+            fs.copyFileSync(src, dest);
+        }
+    });
 }
 
 
@@ -62,8 +117,8 @@ function generateModel(model: Model): CompositeGeneratorNode {
             <script src="https://cdn.socket.io/4.7.5/socket.io.min.js" crossorigin="anonymous"></script>
             <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
-            <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5/dist/reveal.css">
-            <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5/dist/theme/solarized.css">
+            <link rel="stylesheet" href="./reveal/reveal.css">
+            <link rel="stylesheet" href="./reveal/theme/solarized.css">
 
             <style>
                 /* Reset body margins/padding */
@@ -253,7 +308,7 @@ function generateModel(model: Model): CompositeGeneratorNode {
             
             <script id="annotation-storage">window.savedPaths = {};</script>
 
-            <script src="https://cdn.jsdelivr.net/npm/reveal.js@5/dist/reveal.js"></script>
+            <script src="./reveal/reveal.js"></script>
             <script src="https://cdn.jsdelivr.net/npm/qrcodejs2@0.0.2/qrcode.min.js"></script>
             <script src="http://localhost:3000/socket.io/socket.io.js"></script>
     <script>
