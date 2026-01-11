@@ -1,0 +1,81 @@
+presentation UCAApprenticeshipPresentation
+
+// Template institutionnel Université Côte d'Azur
+theme font "Arial, Helvetica, sans-serif" primary "#0055A4" logo "https://univ-cotedazur.fr/medias/photo/logo-uca-white_1633608750614-png"
+
+// Header global avec les couleurs UCA (bleu institutionnel)
+header bg "#0055A4" color "#FFFFFF" size "1.6rem" {
+    box {
+        text {Université Côte d'Azur - SI5/M2 INFO}
+    }
+}
+
+// Footer global UCA
+footer bg "#F5F5F5" color "#333333" size "1rem" {
+    box {
+        text {© 2026 - Université Côte d'Azur}
+    }
+}
+
+// Slide 1: Title slide avec nom du projet, status et photo du site
+slide titleSlide {
+    box {
+        text {Projet d'Apprentissage 2025-2026}
+        text {Développement d'une Plateforme IoT}
+        text {Status: Phase de développement}
+        text {Site: Sophia Antipolis - Technopole}
+    }
+}
+
+// Slide 2: Outline avec liste d'items
+slide outlineSlide {
+    box {
+        text {Plan de la présentation}
+        text {1. Contexte de l'entreprise}
+        text {2. Objectifs du projet}
+        text {3. Architecture technique}
+        text {4. Démonstration}
+        text {5. Conclusion et perspectives}
+    }
+}
+
+// Slide 3: Contexte entreprise
+slide contextSlide {
+    box {
+        text {Contexte de l'entreprise}
+        text {Entreprise: TechSophia Solutions}
+        text {Secteur: IoT et systèmes embarqués}
+        text {Équipe: 5 développeurs + 2 DevOps}
+    }
+}
+
+// Slide 4: Architecture technique
+slide architectureSlide {
+    box {
+        text {Architecture Technique}
+        text {Backend: Node.js + TypeScript}
+        text {Frontend: React + Redux}
+        text {Base de données: PostgreSQL}
+        text {Infrastructure: Docker + Kubernetes}
+    }
+}
+
+// Slide 5: Démonstration (avec mention vidéo)
+slide demoSlide {
+    box {
+        text {Démonstration en situation réelle}
+        text {[Vidéo de démonstration du système IoT]}
+        text {Capteurs connectés - Dashboard temps réel}
+        text {Alertes et notifications}
+    }
+}
+
+// Slide 6: Conclusion
+slide conclusionSlide {
+    box {
+        text {Conclusion}
+        text {Objectifs atteints: 80%}
+        text {Prochaines étapes: Déploiement production Q2 2026}
+        text {Merci de votre attention!}
+    }
+}
