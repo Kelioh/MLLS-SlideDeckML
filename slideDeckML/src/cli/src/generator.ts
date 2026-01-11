@@ -10,14 +10,17 @@ import {
     ComponentSlot,
     type Box,
     type ComponentBoxReference,
+    type Footer,
+    type Header,
     type ImageBox,
     type ListBox,
     type Model,
     type QuizBox,
+    type LiveQuizBox,
     type Slide,
     type TextBox,
-    type VideoBox,
-    type LiveQuizBox
+    type Theme,
+    type VideoBox
 } from 'slide-deck-ml-language';
 
 import {
@@ -63,11 +66,77 @@ function generateModel(model: Model): CompositeGeneratorNode {
             <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5/dist/theme/solarized.css">
 
             <style>
+                /* Reset body margins/padding */
+                body {
+                    margin: 0;
+                    padding: 0;
+                    font-family: ${model.theme?.fontName ? model.theme.fontName.slice(1, -1) : 'Arial, sans-serif'};
+                    overflow: hidden;
+                }
+
+                /* Reveal.js viewport adjustment for header/footer */
+                .reveal {
+                    top: 80px !important;
+                    height: calc(100% - 160px) !important;
+                }
+
                 .reveal .slides section {
                     height: 100% !important;
                     display: flex !important;
                     flex-direction: column;
                     justify-content: center;
+                }
+
+                /* Header & Footer Styling */
+                .slide-header {
+                    position: fixed;
+                    top: 0;
+                    left: 0;
+                    right: 0;
+                    text-align: center;
+                    font-size: 1.5rem;
+                    opacity: 0.8;
+                    border-bottom: 2px solid rgba(0,0,0,0.2);
+                    padding: 1.5rem 2rem;
+                    background: rgba(255,255,255,0.95);
+                    z-index: 1000;
+                    height: 80px;
+                    box-sizing: border-box;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    gap: 1rem;
+                }
+
+                .slide-header img.theme-logo {
+                    height: 50px;
+                    max-width: 100px;
+                    object-fit: contain;
+                }
+
+                .slide-footer {
+                    position: fixed;
+                    bottom: 0;
+                    left: 0;
+                    right: 0;
+                    text-align: center;
+                    font-size: 1.2rem;
+                    opacity: 0.7;
+                    border-top: 2px solid rgba(0,0,0,0.2);
+                    padding: 1.2rem 2rem;
+                    background: rgba(255,255,255,0.95);
+                    z-index: 1000;
+                    height: 80px;
+                    box-sizing: border-box;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                }
+
+                .slide-header p,
+                .slide-footer p {
+                    margin: 0;
+                    padding: 0;
                 }
 
                 .canvas-container {
@@ -171,12 +240,16 @@ function generateModel(model: Model): CompositeGeneratorNode {
                 <button onclick="clearCurrentSlide()">🗑️ Effacer (C)</button>
                 <button class="save-btn" onclick="exportAnnotatedHTML()">💾 Sauvegarder (S)</button>
             </div>
-            
+
+            <div id="global-header" class="slide-header"></div>
+
             <div class="reveal">
                 <div class="slides">
-                    ${joinToNode(model.slides.map((slide: Slide) => generateSlide(slide).appendNewLineIfNotEmpty()))}
+                    ${joinToNode(model.slides.map((slide: Slide) => generateSlide(slide, model).appendNewLineIfNotEmpty()))}
                 </div>
             </div>
+
+            <div id="global-footer" class="slide-footer"></div>
             
             <script id="annotation-storage">window.savedPaths = {};</script>
 
@@ -223,7 +296,62 @@ function generateModel(model: Model): CompositeGeneratorNode {
         });
     </script>
             <script>
-                Reveal.initialize({ width: "100%", height: "100%", margin: 0, center: false, hash: true });
+                // Theme logo URL
+                const THEME_LOGO_URL = ${model.theme?.logo ? `"${model.theme.logo}"` : '""'};
+
+                Reveal.initialize({
+                    hash: true,
+                    slideNumber: true,
+                    transition: 'slide',
+                    width: "100%",
+                    height: "100%",
+                    margin: 0.1,
+                    backgroundTransition: 'fade',
+                    center: true
+                });
+
+                // Update header/footer when slide changes
+                Reveal.on('slidechanged', event => {
+                    const currentSlide = event.currentSlide;
+                    const headerDiv = document.getElementById('global-header');
+                    const footerDiv = document.getElementById('global-footer');
+
+                    const headerContent = currentSlide.getAttribute('data-header');
+                    const footerContent = currentSlide.getAttribute('data-footer');
+                    const headerStyles = currentSlide.getAttribute('data-header-styles');
+                    const footerStyles = currentSlide.getAttribute('data-footer-styles');
+
+                    if (headerContent) {
+                        // Add logo if theme has one
+                        let finalHeaderContent = headerContent;
+                        if (THEME_LOGO_URL) {
+                            finalHeaderContent = '<img src="' + THEME_LOGO_URL + '" alt="Logo" class="theme-logo" />' + headerContent;
+                        }
+
+                        headerDiv.innerHTML = finalHeaderContent;
+                        headerDiv.style.display = 'block';
+                        if (headerStyles) {
+                            headerDiv.style.cssText += '; ' + headerStyles;
+                        }
+                    } else {
+                        headerDiv.style.display = 'none';
+                    }
+
+                    if (footerContent) {
+                        footerDiv.innerHTML = footerContent;
+                        footerDiv.style.display = 'block';
+                        if (footerStyles) {
+                            footerDiv.style.cssText += '; ' + footerStyles;
+                        }
+                    } else {
+                        footerDiv.style.display = 'none';
+                    }
+                });
+
+                // Trigger initial update
+                Reveal.on('ready', event => {
+                    Reveal.dispatchEvent({ type: 'slidechanged', currentSlide: event.currentSlide });
+                });
 
                 let currentTool = null;
                 let isDrawing = false;
@@ -410,36 +538,107 @@ function generateModel(model: Model): CompositeGeneratorNode {
 }
 
 
-function generateSlide(slide: Slide): CompositeGeneratorNode {
+function generateSlide(slide: Slide, model: Model): CompositeGeneratorNode {
     const attributes = (slide as unknown as { attributes?: unknown }).attributes;
     const isAnnotable = hasAttribute(attributes, 'annotable');
 
+    // Determine header and footer (slide-specific or global)
+    const header = slide.header || model.header;
+    const footer = slide.footer || model.footer;
+
+    // Generate header and footer HTML with styling
+    const headerHtml = header ? generateHeaderFooterHtml(header, 'header') : '';
+    const footerHtml = footer ? generateHeaderFooterHtml(footer, 'footer') : '';
+
+    // Generate style attributes for header/footer
+    const headerStyles = header ? generateHeaderFooterStyles(header) : '';
+    const footerStyles = footer ? generateHeaderFooterStyles(footer) : '';
+
     return expandToNode`
-        <section id="${slide.id}" ${isAnnotable ? `class="annotable"` : ''} data-transition="fade">
+        <section
+            id="${slide.id}"
+            ${isAnnotable ? `class="annotable"` : ''}
+            data-transition="fade"
+            ${headerHtml ? `data-header="${headerHtml.replace(/"/g, '&quot;')}"` : ''}
+            ${footerHtml ? `data-footer="${footerHtml.replace(/"/g, '&quot;')}"` : ''}
+            ${headerStyles ? `data-header-styles="${headerStyles}"` : ''}
+            ${footerStyles ? `data-footer-styles="${footerStyles}"` : ''}
+        >
             ${generateBox(slide.content)}
         </section>
     `;
 }
 
 
+function generateHeaderFooterHtml(headerOrFooter: Header | Footer, type: 'header' | 'footer'): string {
+    const boxHtml = toString(generateBox(headerOrFooter.content));
+    return boxHtml;
+}
+
+function generateHeaderFooterStyles(headerOrFooter: Header | Footer): string {
+    const styles: string[] = [];
+    if (headerOrFooter.background) {
+        styles.push(`background: ${headerOrFooter.background.slice(1, -1)}`);
+    }
+    if (headerOrFooter.color) {
+        styles.push(`color: ${headerOrFooter.color.slice(1, -1)}`);
+    }
+    if (headerOrFooter.fontSize) {
+        styles.push(`font-size: ${headerOrFooter.fontSize.slice(1, -1)}`);
+    }
+    return styles.join('; ');
+}
+
+
 function generateBox(box: Box): CompositeGeneratorNode {
-    switch (box.$type) {
-        case 'TextBox': return generateTextBox(box);
-        case 'ImageBox': return generateImageBox(box);
-        case 'VideoBox': return generateVideoBox(box);
-        case 'ComponentBoxReference': return generateComponentBoxReference(box);
-        case 'QuizBox': return generateQuizBox(box);
-        case 'ListBox': return generateListBox(box);
-        case 'LiveQuizBox': return generateLiveQuizBox(box);
+    // Handle fragment animation
+    const fragmentClass = box.fragmentStyle ? `class="fragment ${box.fragmentStyle}"` : '';
+    const content = box.content;
+
+    switch (content.$type) {
+        case 'TextBox':
+            return fragmentClass
+                ? expandToNode`<div ${fragmentClass}>${generateTextBox(content)}</div>`
+                : generateTextBox(content);
+
+        case 'ImageBox':
+            return fragmentClass
+                ? expandToNode`<div ${fragmentClass}>${generateImageBox(content)}</div>`
+                : generateImageBox(content);
+
+        case 'VideoBox':
+            return fragmentClass
+                ? expandToNode`<div ${fragmentClass}>${generateVideoBox(content)}</div>`
+                : generateVideoBox(content);
+
+        case 'ComponentBoxReference':
+            return fragmentClass
+                ? expandToNode`<div ${fragmentClass}>${generateComponentBoxReference(content)}</div>`
+                : generateComponentBoxReference(content);
+
+        case 'QuizBox':
+            return fragmentClass
+                ? expandToNode`<div ${fragmentClass}>${generateQuizBox(content)}</div>`
+                : generateQuizBox(content);
+        
+        case 'LiveQuizBox':
+            return fragmentClass
+                ? expandToNode`<div ${fragmentClass}>${generateLiveQuizBox(content)}</div>`
+                : generateLiveQuizBox(content);
+
+        case 'ListBox':
+            return fragmentClass
+                ? expandToNode`<div ${fragmentClass}>${generateListBox(content)}</div>`
+                : generateListBox(content);
 
         case 'ContentBox':
             return expandToNode`
-                <div ${(box.attributes.length !== 0) ? `style="${generateContentBoxAttributes(box.attributes)}"` : ''}>
-                    ${joinToNode(box.boxes.map(box => generateBox(box).appendNewLineIfNotEmpty()))}
+                <div ${fragmentClass} ${(content.attributes.length !== 0) ? `style="${generateContentBoxAttributes(content.attributes)}"` : ''}>
+                    ${joinToNode(content.boxes.map(b => generateBox(b).appendNewLineIfNotEmpty()))}
                 </div>
             `;
 
-        default: throw new Error(`Unknown box type: ${(box as any).$type}`);
+        default: throw new Error(`Unknown box content type: ${(content as any).$type}`);
     }
 }
 
