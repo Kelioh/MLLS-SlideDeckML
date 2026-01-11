@@ -157,6 +157,7 @@ export class SlideDeckMlValidator {
     checkTerminalBoxAttributes(box: TerminalBox, validator: ValidationAcceptor): void {
         switch (box.$type) {
             case 'QuizBox': break;
+            case 'LiveQuizBox': break;
 
             case 'ComponentBoxReference':
                 this.checkAttributes(box.attributes, this.boxAttributes[box.reference.ref!.content.$type], box, validator); // Check correspondance between reference and component attributes

@@ -16,7 +16,8 @@ import {
     type QuizBox,
     type Slide,
     type TextBox,
-    type VideoBox
+    type VideoBox,
+    type LiveQuizBox
 } from 'slide-deck-ml-language';
 
 import {
@@ -55,6 +56,8 @@ function generateModel(model: Model): CompositeGeneratorNode {
         <html>
         <head>
             <title>${model.name}</title>
+            <script src="https://cdn.socket.io/4.7.5/socket.io.min.js" crossorigin="anonymous"></script>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
             <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5/dist/reveal.css">
             <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5/dist/theme/solarized.css">
@@ -158,6 +161,7 @@ function generateModel(model: Model): CompositeGeneratorNode {
                 .sdml-quiz__results { margin-top: 10px; padding-top: 10px; border-top: 1px dashed rgba(0,0,0,0.25); }
             </style>
         </head>
+        
         <body>
             <div id="toolbar">
                 <button id="btn-pen" onclick="setTool('pen')">✏️ Stylo (D)</button>
@@ -177,6 +181,47 @@ function generateModel(model: Model): CompositeGeneratorNode {
             <script id="annotation-storage">window.savedPaths = {};</script>
 
             <script src="https://cdn.jsdelivr.net/npm/reveal.js@5/dist/reveal.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/qrcodejs2@0.0.2/qrcode.min.js"></script>
+            <script src="http://localhost:3000/socket.io/socket.io.js"></script>
+    <script>
+        window.addEventListener('DOMContentLoaded', () => {
+            if (typeof io !== 'undefined') {
+                const host = (window.location.protocol === 'file:') ? 'localhost' : window.location.hostname;
+                const serverUrl = "http://" + host + ":3000";
+
+                const socket = io(serverUrl, {
+                    reconnection: false,
+                    reconnectionAttempts: 0,
+                    timeout: 2000
+                });
+
+                window["sdmlMobileVoteUrl"] = "http://localhost:3000/vote";
+                
+                socket.on("connect", () => {
+                    console.log("Connected to:", serverUrl);
+                    socket.emit("join-session", "SESSION123");
+                });
+
+                let sdmlShownConnectError = false;
+                socket.on("connect_error", (err) => {
+                    if (sdmlShownConnectError) return;
+                    sdmlShownConnectError = true;
+                    console.warn("Socket.IO server not reachable:", serverUrl);
+                    try { socket.close(); } catch {}
+                });
+
+                socket.on("mobile-ip", (url) => {
+                    if (typeof url === 'string' && url.length > 0) {
+                        window["sdmlMobileVoteUrl"] = url;
+                        window.dispatchEvent(new CustomEvent('sdml-mobile-ip', { detail: { url } }));
+                        console.log('QR URL:', url);
+                    }
+                });
+
+                window["sdmlSocket"] = socket; 
+            }
+        });
+    </script>
             <script>
                 Reveal.initialize({ width: "100%", height: "100%", margin: 0, center: false, hash: true });
 
@@ -385,6 +430,7 @@ function generateBox(box: Box): CompositeGeneratorNode {
         case 'ComponentBoxReference': return generateComponentBoxReference(box);
         case 'QuizBox': return generateQuizBox(box);
         case 'ListBox': return generateListBox(box);
+        case 'LiveQuizBox': return generateLiveQuizBox(box);
 
         case 'ContentBox':
             return expandToNode`
@@ -428,6 +474,7 @@ function generateComponentBox(box: ComponentBox, slots: Record<string, Composite
         case 'ComponentBoxReference': return generateComponentBoxReference(box);
         case 'QuizBox': return generateQuizBox(box);
         case 'ListBox': return generateListBox(box);
+        case 'LiveQuizBox': return generateLiveQuizBox(box);
 
         case 'ComponentSlot': return generateComponentSlot(box, slots);
         case 'ComponentContentBox':
@@ -580,4 +627,135 @@ function getAttributeValue(attributes: unknown, key: string): unknown {
 function hasAttribute(attributes: unknown, key: string): boolean {
     if (!Array.isArray(attributes)) return false;
     return (attributes as AstAttribute[]).some(a => a?.key === key);
+}
+
+function generateLiveQuizBox(quiz: LiveQuizBox): CompositeGeneratorNode {
+    const quizId = quiz.id;
+    const questionText = textContent(quiz.question);
+    const correctAnswer = quiz.correctAnswer ? textContent(quiz.correctAnswer) : '';
+    const sessionId = "SESSION123";
+    
+    const options = quiz.options.map(opt => textContent(opt.content));
+    const optionsJson = JSON.stringify(options);
+
+    return expandToNode`
+        <div class="sdml-quiz live-quiz" id="quiz-${quizId}" data-correct-answer="${correctAnswer}">
+            <div class="sdml-quiz__title">Live Quiz</div>
+            <div class="sdml-quiz__question">${questionText}</div>
+            
+            <div style="display: flex; gap: 20px; align-items: flex-start;">
+                <div class="sdml-quiz__options" style="flex: 1;">
+                    ${joinToNode(options.map((opt, index) => expandToNode`
+                        <div class="live-option-row" style="margin: 8px 0; display: flex; justify-content: space-between; background: #fff; padding: 10px; border-radius: 4px; border: 1px solid #ddd;">
+                            <span>${opt}</span>
+                            <span class="vote-count" data-option="${opt}" style="font-weight: bold; color: #007bff;">0</span>
+                        </div>
+                    `))}
+                </div>
+                
+                <div class="sdml-quiz__qr-container" style="display: flex; flex-direction: column; align-items: center; gap: 8px;">
+                    <div id="qr-${quizId}" style="border: 2px solid #ddd; border-radius: 8px; padding: 6px; background: #fff;"></div>
+                    <div style="font-size: 12px; color: #666;">Scan to vote</div>
+                </div>
+            </div>
+
+            <div class="sdml-quiz__actions" style="margin-top: 15px;">
+                ${quiz.revealResultsOnDemand 
+                    ? expandToNode`
+                        <div class="sdml-quiz__reveal-wrap">
+                            <button class="sdml-quiz__btn sdml-quiz__reveal" type="button" 
+                                onclick="(function(btn){
+                                    const r = btn.closest('.sdml-quiz');
+                                    const res = r.querySelector('.sdml-quiz__results');
+                                    if(res) res.style.display = 'block';
+                                    btn.style.display = 'none';
+                                })(this)">Reveal Answer</button>
+                            <div class="sdml-quiz__results" style="display:none; margin-top: 10px; padding: 10px; background: #e0f2f1; border-radius: 4px;">
+                                Correct answer: <strong>${correctAnswer}</strong>
+                            </div>
+                        </div>`
+                    : expandToNode`
+                        <div class="sdml-quiz__results" style="margin-top: 10px; padding: 10px; background: #e0f2f1; border-radius: 4px;">
+                            Correct answer: <strong>${correctAnswer || '—'}</strong>
+                        </div>`
+                }
+            </div>
+
+            <script>
+                (function() {
+                    const quizId = "${quizId}";
+                    const sessionId = "${sessionId}";
+                    const options = ${optionsJson};
+                    const voteCounts = {};
+
+                    
+                    options.forEach(opt => { voteCounts[opt] = 0; });
+
+                    const renderQRCode = (url) => {
+                        const qrEl = document.getElementById("qr-" + quizId);
+                        if (!qrEl) return;
+
+                        qrEl.innerHTML = '';
+
+                        if (typeof QRCode === 'function') {
+                            const level = (QRCode.CorrectLevel && QRCode.CorrectLevel.M) ? QRCode.CorrectLevel.M : undefined;
+                            new QRCode(qrEl, {
+                                text: String(url || ''),
+                                width: 150,
+                                height: 150,
+                                ...(level ? { correctLevel: level } : {})
+                            });
+                            return;
+                        }
+                    };
+
+                    const updateQRCodeFromGlobal = () => {
+                        const url = window["sdmlMobileVoteUrl"] || "http://localhost:3000/vote";
+                        renderQRCode(url);
+                    };
+
+                    const initQuiz = (socket) => {
+                        
+                        socket.emit("register-quiz", {
+                            sessionId: sessionId,
+                            question: "${questionText}",
+                            options: options
+                        });
+
+                        socket.on("qcm-results-update", (v) => {
+                            
+                            voteCounts[v.choice] = (voteCounts[v.choice] || 0) + 1;
+                            
+                            const quizEl = document.getElementById("quiz-" + quizId);
+                            const countEl = quizEl.querySelector('.vote-count[data-option="' + v.choice + '"]');
+                            if (countEl) {
+                                countEl.textContent = voteCounts[v.choice];
+                                countEl.style.transform = "scale(1.2)";
+                                setTimeout(() => { countEl.style.transform = "scale(1)"; }, 200);
+                            }
+                        });
+                    };
+
+                    const interval = setInterval(() => {
+                        if (window.sdmlSocket) {
+                            clearInterval(interval);
+                            initQuiz(window.sdmlSocket);
+                        }
+                    }, 100);
+                    
+                    const onMobileIp = (ev) => {
+                        const url = (ev && ev.detail && ev.detail.url) ? ev.detail.url : window["sdmlMobileVoteUrl"];
+                        if (url) renderQRCode(url);
+                    };
+                    window.addEventListener('sdml-mobile-ip', onMobileIp);
+
+                    if (document.readyState === 'loading') {
+                        document.addEventListener('DOMContentLoaded', updateQRCodeFromGlobal);
+                    } else {
+                        updateQRCodeFromGlobal();
+                    }
+                })();
+            </script>
+        </div>
+    `;
 }

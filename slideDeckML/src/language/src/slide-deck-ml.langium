@@ -53,7 +53,7 @@ ContentBox:
     '}';
 
 TerminalBox: 
-    ComponentBoxReference | TextBox | QuizBox | ListBox | ImageBox | VideoBox; // Add new boxes here
+    ComponentBoxReference | TextBox | QuizBox | ListBox | ImageBox | VideoBox | LiveQuizBox; // Add new boxes here
 
 
 /* Terminal boxes definitions */
@@ -109,6 +109,15 @@ ListBox:
     '}';
 
 terminal LIST_TYPE: /(ordered|unordered)/;
+
+LiveQuizBox:
+    'livequiz' id=ID ('[' attributes+=Attribute (',' attributes+=Attribute)* ']')? '{'
+        question=TEXT
+        options+=QuizOption*
+        correctAnswer=TEXT?
+        revealResultsOnDemand?='revealResultsOnDemand'?
+        sessionId=TEXT
+    '}';
 
 terminal QUIZ_TYPE: /(mcq|short)/;
 
