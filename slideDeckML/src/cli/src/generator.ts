@@ -1,6 +1,7 @@
 import * as fs from 'node:fs';
 import * as path from 'node:path';
 import { extractDestinationAndName } from './util.js';
+import { get } from 'node:http';
 
 import {
     Attribute,
@@ -365,9 +366,11 @@ function generateModel(model: Model): CompositeGeneratorNode {
 
 
 function generateSlide(slide: Slide): CompositeGeneratorNode {
-    // TODO : need to check for attribute annotable, not all slides are annotable
+    const attributes = (slide as unknown as { attributes?: unknown }).attributes;
+    const isAnnotable = hasAttribute(attributes, 'annotable');
+
     return expandToNode`
-        <section id="${slide.id}" class="annotable" data-transition="fade">
+        <section id="${slide.id}" ${isAnnotable ? `class="annotable"` : ''} data-transition="fade">
             ${generateBox(slide.content)}
         </section>
     `;
@@ -407,7 +410,7 @@ function generateComponentBoxReference(reference: ComponentBoxReference): Compos
     /* Override declaration attributes  */
     let declarationBox: ComponentBox = declaration.content;
     if ((declaration.content.$type !== 'ComponentSlot') && (declaration.content.$type !== 'QuizBox')) {
-        const mergedAttributes: Map<string, string> = new Map(declaration.content.attributes.map(attribute => [attribute.key, attribute.value]));
+        const mergedAttributes: Map<string, string | undefined> = new Map(declaration.content.attributes.map(attribute => [attribute.key, attribute.value]));
         for (const attribute of reference.attributes) {
             mergedAttributes.set(attribute.key, attribute.value);
         }
@@ -572,4 +575,9 @@ function getAttributeValue(attributes: unknown, key: string): unknown {
     if (!Array.isArray(attributes)) return undefined;
     const attr = (attributes as AstAttribute[]).find(a => a?.key === key);
     return attr?.value;
+}
+
+function hasAttribute(attributes: unknown, key: string): boolean {
+    if (!Array.isArray(attributes)) return false;
+    return (attributes as AstAttribute[]).some(a => a?.key === key);
 }
