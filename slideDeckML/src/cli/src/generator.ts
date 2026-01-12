@@ -1,10 +1,8 @@
 import * as fs from 'node:fs';
 import * as path from 'node:path';
 import { extractDestinationAndName } from './util.js';
-import { get } from 'node:http';
 
 import {
-    Attribute,
     Component,
     ComponentBox,
     ComponentSlot,
@@ -19,8 +17,8 @@ import {
     type LiveQuizBox,
     type Slide,
     type TextBox,
-    type Theme,
-    type VideoBox
+    type VideoBox,
+    ContentBoxAttribute,
 } from 'slide-deck-ml-language';
 
 import {
@@ -653,16 +651,35 @@ function generateComponentBoxReference(reference: ComponentBoxReference): Compos
     }
 
     /* Override declaration attributes  */
-    let declarationBox: ComponentBox = declaration.content;
-    if ((declaration.content.$type !== 'ComponentSlot') && (declaration.content.$type !== 'QuizBox')) {
-        const mergedAttributes: Map<string, string | undefined> = new Map(declaration.content.attributes.map(attribute => [attribute.key, attribute.value]));
-        for (const attribute of reference.attributes) {
-            mergedAttributes.set(attribute.key, attribute.value);
-        }
-        declarationBox = { ...declaration.content, attributes: Array.from(mergedAttributes.entries(), ([key, value]) => ({ $type: 'Attribute', key, value } as Attribute)) }; // Does not include $container, $containerProperty, $containerIndex, $cstNode, $document
+    let declarationBox: any = declaration.content;
+    switch (declaration.content.$type) {
+        case 'ComponentContentBox': 
+        case 'TextBox':
+        case 'ListBox':
+        case 'ComponentBoxReference':
+            let mergedAttributes: Map<string, string | undefined>;
+            mergedAttributes = new Map(declarationBox.attributes.map((attribute: any) => [attribute.key, attribute.value]));
+            for (const attribute of reference.attributes) {
+                mergedAttributes.set(attribute.key, (attribute as any).value);
+            }
+            declarationBox = { ...declarationBox, attributes: Array.from(mergedAttributes.entries(), ([key, value]) => ({ $type: collectAttributeType(reference), key, value } as any)) }; // Does not include $container, $containerProperty, $containerIndex, $cstNode, $document
+            break;
     }
 
-    return generateComponentBox(declarationBox, slots);
+    return generateComponentBox(declarationBox as ComponentBox, slots);
+}
+
+function collectAttributeType(reference: ComponentBoxReference): string {
+    const componentContent = reference.reference.ref?.content;
+    if (componentContent) {
+        switch(componentContent.$type) {
+            case 'ComponentContentBox': return 'ContentBoxAttribute';
+            case 'TextBox': return 'TextBoxAttribute';
+            case 'ListBox': return 'ListBoxAttribute';
+            case 'ComponentBoxReference': return collectAttributeType(componentContent)
+        }
+    }
+    return '';
 }
 
 function generateComponentBox(box: ComponentBox, slots: Record<string, CompositeGeneratorNode>): CompositeGeneratorNode {
@@ -687,7 +704,7 @@ function generateComponentBox(box: ComponentBox, slots: Record<string, Composite
     }
 }
 
-function generateContentBoxAttributes(attributes: Attribute[]): string {
+function generateContentBoxAttributes(attributes: ContentBoxAttribute[]): string {
     let style: string = '';
     for (const attribute of attributes) {
         switch (attribute.key) {

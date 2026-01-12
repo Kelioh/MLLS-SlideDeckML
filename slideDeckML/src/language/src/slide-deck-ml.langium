@@ -25,7 +25,7 @@ ComponentBox:
     ComponentContentBox | ComponentSlot | TerminalBox;
 
 ComponentContentBox:
-    'box' ('[' attributes+=Attribute (',' attributes+=Attribute)* ']')? '{'
+    'box' ('[' attributes+=ContentBoxAttribute (',' attributes+=ContentBoxAttribute)* ']')? '{'
         boxes+=ComponentBox+
     '}';
 
@@ -40,7 +40,7 @@ ComponentSlot:
 /**********/
 
 Slide:
-    'slide' id=ID ('[' attributes+=Attribute (',' attributes+=Attribute)* ']')? '{'
+    'slide' id=ID ('[' attributes+=SlideAttribute (',' attributes+=SlideAttribute)* ']')? '{'
         (header=Header)?
         (footer=Footer)?
         content=Box
@@ -54,7 +54,7 @@ Box:
     content=(ContentBox | TerminalBox);
 
 ContentBox:
-    'box' ('[' attributes+=Attribute (',' attributes+=Attribute)* ']')? '{'
+    'box' ('[' attributes+=ContentBoxAttribute (',' attributes+=ContentBoxAttribute)* ']')? '{'
         boxes+=Box+
     '}';
 
@@ -65,7 +65,7 @@ TerminalBox:
 /* Terminal boxes definitions */
 
 ComponentBoxReference:
-    reference=[Component:ID] ('[' attributes+=Attribute (',' attributes+=Attribute)* ']')? ('{'
+    reference=[Component:ID] ('[' attributes+=ComponentBoxAttribute (',' attributes+=ComponentBoxAttribute)* ']')? ('{'
         slots+=ComponentSlotReference*
     '}' | '{}');
 
@@ -75,30 +75,28 @@ ComponentSlotReference:
 
 
 TextBox:
-    'text' ('[' attributes+=Attribute (',' attributes+=Attribute)* ']')? content=TEXT;
+    'text' ('[' attributes+=TextBoxAttribute (',' attributes+=TextBoxAttribute)* ']')? content=TEXT;
+
+
+ListBox:
+    'list' ('[' attributes+=ListBoxAttribute (',' attributes+=ListBoxAttribute)* ']')? '{'
+        items+=TEXT+
+    '}';
+
 
 ImageBox:
-    'image' ('[' attributes+=Attribute (',' attributes+=Attribute)* ']')? '{'
+    'image' '{'
         'src' src=IMAGE_URL
         'alt' alt=TEXT
     '}';
 
+
 VideoBox:
-    'video' ('[' attributes+=Attribute (',' attributes+=Attribute)* ']')? '{'
+    'video' '{'
         'src' src=VIDEO_URL
         'alt' alt=TEXT
     '}';
 
-/* Attributes */
-
-Attribute:
-    key='column' '=' value=INTEGER |
-    key='height' '=' value=PERCENTAGE |
-    key='font' '=' value=STRING |
-    key='type' '=' value=LIST_TYPE |
-    key='spaceBetweenItems' '=' value=INTEGER |
-    key='annotable';
-    // Add new attributes here
 
 QuizBox:
     'quiz' id=ID '{'
@@ -109,13 +107,8 @@ QuizBox:
         revealResultsOnDemand?='revealResultsOnDemand'?
     '}';
 
-ListBox:
-    'list' ('[' attributes+=Attribute (',' attributes+=Attribute)* ']')? '{'
-        items+=TEXT+
-    '}';
-
 LiveQuizBox:
-    'livequiz' id=ID ('[' attributes+=Attribute (',' attributes+=Attribute)* ']')? '{'
+    'livequiz' id=ID '{'
         question=TEXT
         options+=QuizOption*
         correctAnswer=TEXT?
@@ -125,6 +118,31 @@ LiveQuizBox:
 
 QuizOption:
     'option' id=ID content=TEXT;
+
+
+/* Attributes */
+
+ComponentBoxAttribute:
+    ContentBoxAttribute | TextBoxAttribute | ListBoxAttribute;
+
+SlideAttribute:
+    key='annotable';
+
+ContentBoxAttribute:
+    key='column' '=' value=INTEGER |
+    key='height' '=' value=PERCENTAGE |
+    key='alignment' '=' value=STRING;
+
+TextBoxAttribute:
+    key='bold' |
+    key='italic' |
+    key='underline' |
+    key='strikethrough' |
+    key='highlight';
+
+ListBoxAttribute:
+    key='type' '=' value=LIST_TYPE |
+    key='spaceBetweenItems' '=' value=INTEGER;
 
 
 /*******************/

@@ -2,16 +2,84 @@
         <html>
         <head>
             <title>Component</title>
+            <script src="https://cdn.socket.io/4.7.5/socket.io.min.js" crossorigin="anonymous"></script>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
             <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5/dist/reveal.css">
             <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5/dist/theme/solarized.css">
 
             <style>
+                /* Reset body margins/padding */
+                body {
+                    margin: 0;
+                    padding: 0;
+                    font-family: Arial, sans-serif;
+                    overflow: hidden;
+                }
+
+                /* Reveal.js viewport adjustment for header/footer */
+                .reveal {
+                    top: 80px !important;
+                    height: calc(100% - 160px) !important;
+                }
+
                 .reveal .slides section {
                     height: 100% !important;
                     display: flex !important;
                     flex-direction: column;
                     justify-content: center;
+                }
+
+                /* Header & Footer Styling */
+                .slide-header {
+                    position: fixed;
+                    top: 0;
+                    left: 0;
+                    right: 0;
+                    text-align: center;
+                    font-size: 1.5rem;
+                    opacity: 0.8;
+                    border-bottom: 2px solid rgba(0,0,0,0.2);
+                    padding: 1.5rem 2rem;
+                    background: rgba(255,255,255,0.95);
+                    z-index: 1000;
+                    height: 80px;
+                    box-sizing: border-box;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    gap: 1rem;
+                }
+
+                .slide-header img.theme-logo {
+                    height: 50px;
+                    max-width: 100px;
+                    object-fit: contain;
+                }
+
+                .slide-footer {
+                    position: fixed;
+                    bottom: 0;
+                    left: 0;
+                    right: 0;
+                    text-align: center;
+                    font-size: 1.2rem;
+                    opacity: 0.7;
+                    border-top: 2px solid rgba(0,0,0,0.2);
+                    padding: 1.2rem 2rem;
+                    background: rgba(255,255,255,0.95);
+                    z-index: 1000;
+                    height: 80px;
+                    box-sizing: border-box;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                }
+
+                .slide-header p,
+                .slide-footer p {
+                    margin: 0;
+                    padding: 0;
                 }
 
                 .canvas-container {
@@ -105,6 +173,7 @@
                 .sdml-quiz__results { margin-top: 10px; padding-top: 10px; border-top: 1px dashed rgba(0,0,0,0.25); }
             </style>
         </head>
+        
         <body>
             <div id="toolbar">
                 <button id="btn-pen" onclick="setTool('pen')">✏️ Stylo (D)</button>
@@ -114,29 +183,61 @@
                 <button onclick="clearCurrentSlide()">🗑️ Effacer (C)</button>
                 <button class="save-btn" onclick="exportAnnotatedHTML()">💾 Sauvegarder (S)</button>
             </div>
-            
+
+            <div id="global-header" class="slide-header"></div>
+
             <div class="reveal">
                 <div class="slides">
-                    <section id="slide1" class="annotable" data-transition="fade">
-                        <div >
-                            <div style="display: grid; grid-template-columns: repeat(4, 1fr); height: 100%; ">
+                    <section
+                        id="slide1"
+                        class="annotable"
+                        data-transition="fade"
+                        
+                        
+                        
+                        
+                    >
+                        <div  >
+                            <div style="display: grid; grid-template-columns: repeat(2, 1fr); height: 100%; ">
                                 <p>Ceci est le texte du composant</p>
-                                <p>Ceci est le texte du slot 1</p>
+                                <iframe
+                                    src="https://www.youtube.com/embed/AMShoQ_qdc0"
+                                    title="Hello World Song"
+                                    frameborder="0"
+                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                    allowfullscreen>
+                                </iframe>
                                 <p>Composant sans slot</p>
-                                <p>ceci est le texte du slot 2</p>
+                                <img src="https://images4.alphacoders.com/133/thumb-1920-1332281.jpeg" alt="Gojo" />
                             </div>
                         </div>
                     </section>
-                    <section id="slide2" class="annotable" data-transition="fade">
-                        <div >
+                    <section
+                        id="slide2"
+                        
+                        data-transition="fade"
+                        
+                        
+                        
+                        
+                    >
+                        <div  >
                             <p>Composant sans slot</p>
                             <p>Composant sans slot</p>
                         </div>
                     </section>
-                    <section id="slide3" class="annotable" data-transition="fade">
+                    <section
+                        id="slide3"
+                        
+                        data-transition="fade"
+                        
+                        
+                        
+                        
+                    >
                         <div style="display: grid; grid-template-columns: repeat(2, 1fr); height: 100%; ">
                             <p>Ceci est le texte du composant</p>
-                            <div style="display: grid; grid-template-columns: repeat(2, 1fr); ">
+                            <div  style="display: grid; grid-template-columns: repeat(2, 1fr); ">
                                 <p>Ceci est le texte par defaut du slot 1 !
                     Il est suivit du composant sans slot !</p>
                                 <p>Composant sans slot</p>
@@ -145,12 +246,28 @@
                             <p>ceci est le texte du slot 2</p>
                         </div>
                     </section>
-                    <section id="slide4" class="annotable" data-transition="fade">
+                    <section
+                        id="slide4"
+                        class="annotable"
+                        data-transition="fade"
+                        
+                        
+                        
+                        
+                    >
                         <ol class="sdml-list" style="--sdml-list-gap: 50px">
                             <li>First</li><li>Second</li><li>Third</li>
                         </ol>
                     </section>
-                    <section id="slide5" class="annotable" data-transition="fade">
+                    <section
+                        id="slide5"
+                        
+                        data-transition="fade"
+                        
+                        
+                        
+                        
+                    >
                         <div
                             class="sdml-quiz"
                             data-quiz-id="sort"
@@ -188,14 +305,123 @@
                                     </div>
                         </div>
                     </section>
+                    <section
+                        id="slide6"
+                        
+                        data-transition="fade"
+                        
+                        
+                        
+                        
+                    >
+                        <p>Composant sans slot</p>
+                    </section>
                 </div>
             </div>
+
+            <div id="global-footer" class="slide-footer"></div>
             
             <script id="annotation-storage">window.savedPaths = {};</script>
 
             <script src="https://cdn.jsdelivr.net/npm/reveal.js@5/dist/reveal.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/qrcodejs2@0.0.2/qrcode.min.js"></script>
+            <script src="http://localhost:3000/socket.io/socket.io.js"></script>
+    <script>
+        window.addEventListener('DOMContentLoaded', () => {
+            if (typeof io !== 'undefined') {
+                const host = (window.location.protocol === 'file:') ? 'localhost' : window.location.hostname;
+                const serverUrl = "http://" + host + ":3000";
+
+                const socket = io(serverUrl, {
+                    reconnection: false,
+                    reconnectionAttempts: 0,
+                    timeout: 2000
+                });
+
+                window["sdmlMobileVoteUrl"] = "http://localhost:3000/vote";
+                
+                socket.on("connect", () => {
+                    console.log("Connected to:", serverUrl);
+                    socket.emit("join-session", "SESSION123");
+                });
+
+                let sdmlShownConnectError = false;
+                socket.on("connect_error", (err) => {
+                    if (sdmlShownConnectError) return;
+                    sdmlShownConnectError = true;
+                    console.warn("Socket.IO server not reachable:", serverUrl);
+                    try { socket.close(); } catch {}
+                });
+
+                socket.on("mobile-ip", (url) => {
+                    if (typeof url === 'string' && url.length > 0) {
+                        window["sdmlMobileVoteUrl"] = url;
+                        window.dispatchEvent(new CustomEvent('sdml-mobile-ip', { detail: { url } }));
+                        console.log('QR URL:', url);
+                    }
+                });
+
+                window["sdmlSocket"] = socket; 
+            }
+        });
+    </script>
             <script>
-                Reveal.initialize({ width: "100%", height: "100%", margin: 0, center: false, hash: true });
+                // Theme logo URL
+                const THEME_LOGO_URL = "";
+
+                Reveal.initialize({
+                    hash: true,
+                    slideNumber: true,
+                    transition: 'slide',
+                    width: "100%",
+                    height: "100%",
+                    margin: 0.1,
+                    backgroundTransition: 'fade',
+                    center: true
+                });
+
+                // Update header/footer when slide changes
+                Reveal.on('slidechanged', event => {
+                    const currentSlide = event.currentSlide;
+                    const headerDiv = document.getElementById('global-header');
+                    const footerDiv = document.getElementById('global-footer');
+
+                    const headerContent = currentSlide.getAttribute('data-header');
+                    const footerContent = currentSlide.getAttribute('data-footer');
+                    const headerStyles = currentSlide.getAttribute('data-header-styles');
+                    const footerStyles = currentSlide.getAttribute('data-footer-styles');
+
+                    if (headerContent) {
+                        // Add logo if theme has one
+                        let finalHeaderContent = headerContent;
+                        if (THEME_LOGO_URL) {
+                            finalHeaderContent = '<img src="' + THEME_LOGO_URL + '" alt="Logo" class="theme-logo" />' + headerContent;
+                        }
+
+                        headerDiv.innerHTML = finalHeaderContent;
+                        headerDiv.style.display = 'block';
+                        if (headerStyles) {
+                            headerDiv.style.cssText += '; ' + headerStyles;
+                        }
+                    } else {
+                        headerDiv.style.display = 'none';
+                    }
+
+                    if (footerContent) {
+                        footerDiv.innerHTML = footerContent;
+                        footerDiv.style.display = 'block';
+                        if (footerStyles) {
+                            footerDiv.style.cssText += '; ' + footerStyles;
+                        }
+                    } else {
+                        footerDiv.style.display = 'none';
+                    }
+                });
+
+                // Trigger initial update
+                Reveal.on('ready', event => {
+                    Reveal.dispatchEvent({ type: 'slidechanged', currentSlide: event.currentSlide });
+                });
 
                 let currentTool = null;
                 let isDrawing = false;

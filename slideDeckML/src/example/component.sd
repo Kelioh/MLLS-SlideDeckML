@@ -1,7 +1,7 @@
 presentation Component
 
 component constant_component {
-    text[font = "arial"] {
+    text {
         Composant sans slot
     }
 }
@@ -45,10 +45,13 @@ component quiz_component {
     }
 }
 
+component nested_component {
+    constant_component {}
+}
 
 slide slide1 [annotable] {
     box {
-        slot_component[column = 4] {
+        slot_component[column = 2, height = 100%] {
             @slot1
             video {
                 src {https://youtu.be/AMShoQ_qdc0?si=03Zdvmdtdd8yeCXu}
@@ -66,13 +69,13 @@ slide slide1 [annotable] {
 
 slide slide2 {
     box {
-        constant_component[font = "wow"] {}
+        constant_component[bold] {}
         constant_component {}
     }
 }
 
 slide slide3 {
-    slot_component {
+    slot_component[column = 4, column = 2] {
         @slot2
         text {
             ceci est le texte du slot 2
@@ -86,4 +89,8 @@ slide slide4 [annotable] {
 
 slide slide5 {
     quiz_component {}
+}
+
+slide slide6 {
+    nested_component[underline] {}
 }
