@@ -19,7 +19,8 @@ export async function extractDocument(fileName: string, services: LangiumCoreSer
     const document = await services.shared.workspace.LangiumDocuments.getOrCreateDocument(URI.file(path.resolve(fileName)));
     await services.shared.workspace.DocumentBuilder.build([document], { validation: true });
 
-    const validationErrors = (document.diagnostics ?? []).filter(e => e.severity === 1);
+    const diagnostics = document.diagnostics ?? [];
+    const validationErrors = diagnostics.filter(e => e.severity === 1);
     if (validationErrors.length > 0) {
         console.error(chalk.red('There are validation errors:'));
         for (const validationError of validationErrors) {
@@ -28,6 +29,16 @@ export async function extractDocument(fileName: string, services: LangiumCoreSer
             ));
         }
         process.exit(1);
+    }
+
+    const validationWarnings = diagnostics.filter(e => e.severity === 2);
+    if (validationWarnings.length > 0) {
+        console.error(chalk.yellow('Warnings:'));
+        for (const warning of validationWarnings) {
+            console.error(chalk.yellow(
+                `line ${warning.range.start.line + 1}: ${warning.message} [${document.textDocument.getText(warning.range)}]`
+            ));
+        }
     }
 
     return document;

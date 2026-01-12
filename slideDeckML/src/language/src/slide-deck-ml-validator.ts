@@ -9,7 +9,9 @@ import {
     ComponentBoxReference,
     ComponentContentBox,
     ContentBox,
+    LiveQuizBox,
     Model,
+    QuizBox,
     Slide,
     SlideDeckMlAstType,
     TerminalBox,
@@ -27,6 +29,8 @@ export function registerValidationChecks(services: SlideDeckMlServices) {
         ComponentContentBox: validator.checkContentBoxesAttributes,
         ContentBox: validator.checkContentBoxesAttributes,
         TerminalBox: validator.checkTerminalBoxAttributes,
+        QuizBox: validator.checkQuizBox,
+        LiveQuizBox: validator.checkLiveQuizBox,
     };
     registry.register(checks, validator);
 }
@@ -187,6 +191,63 @@ export class SlideDeckMlValidator {
             }
             usedAttributes.add(attribute.key);
         }
+    }
+
+    checkQuizBox(quiz: QuizBox, validator: ValidationAcceptor): void {
+        this.checkQuizCommon(quiz, validator);
+
+        if (quiz.type !== 'mcq' && quiz.type !== 'short') {
+            validator('error', `Unknown quiz type '${quiz.type}'. Expected 'mcq' or 'short'.`, { node: quiz, property: 'type' });
+        }
+    }
+
+    checkLiveQuizBox(quiz: LiveQuizBox, validator: ValidationAcceptor): void {
+        this.checkQuizCommon(quiz, validator);
+
+        const sessionId = this.textContent(quiz.sessionId);
+        if (!sessionId) {
+            validator('error', `Live quiz requires a non-empty session id (e.g. {session123}).`, { node: quiz, property: 'sessionId' });
+        }
+    }
+
+    private checkQuizCommon(quiz: { question: string; correctAnswer?: string; options: Array<{ id: string }>; type?: string }, validator: ValidationAcceptor): void {
+        const question = this.textContent(quiz.question);
+        if (!question) {
+            validator('error', 'Quiz question is required.', { node: quiz as unknown as AstNode, property: 'question' as any });
+        }
+
+        const type = quiz.type;
+        const optionIds = new Set((quiz.options ?? []).map(o => o.id));
+        const correctAnswer = quiz.correctAnswer ? this.textContent(quiz.correctAnswer) : '';
+
+        if (type === 'mcq') {
+            if (!quiz.options || quiz.options.length < 2) {
+                validator('error', 'MCQ quizzes should define at least 2 options.', { node: quiz as unknown as AstNode, property: 'options' as any });
+            }
+            if (!correctAnswer) {
+                validator('warning', "MCQ quiz is missing 'correctAnswer'.", { node: quiz as unknown as AstNode, property: 'correctAnswer' as any });
+            } else if (optionIds.size > 0 && !optionIds.has(correctAnswer)) {
+                validator('warning', `MCQ correctAnswer '${correctAnswer}' does not match any option id (${Array.from(optionIds).join(', ')}).`, { node: quiz as unknown as AstNode, property: 'correctAnswer' as any });
+            }
+        }
+
+        if (type === 'short') {
+            if (quiz.options && quiz.options.length > 0) {
+                validator('warning', "Short-answer quizzes should not define 'option' entries.", { node: quiz as unknown as AstNode, property: 'options' as any });
+            }
+            if (!correctAnswer) {
+                validator('warning', "Short-answer quiz is missing 'correctAnswer'.", { node: quiz as unknown as AstNode, property: 'correctAnswer' as any });
+            }
+        }
+    }
+
+    private textContent(text: string | undefined): string {
+        if (!text) return '';
+        const trimmed = text.trim();
+        if (trimmed.startsWith('{') && trimmed.endsWith('}')) {
+            return trimmed.slice(1, -1).trim();
+        }
+        return trimmed;
     }
 
 }
