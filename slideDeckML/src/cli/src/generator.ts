@@ -6,19 +6,19 @@ import {
     Component,
     ComponentBox,
     ComponentSlot,
+    ContentBoxAttribute,
     type Box,
     type ComponentBoxReference,
     type Footer,
     type Header,
     type ImageBox,
     type ListBox,
+    type LiveQuizBox,
     type Model,
     type QuizBox,
-    type LiveQuizBox,
     type Slide,
     type TextBox,
-    type VideoBox,
-    ContentBoxAttribute,
+    type VideoBox
 } from 'slide-deck-ml-language';
 
 import {
@@ -671,10 +671,12 @@ function generateComponentBoxReference(reference: ComponentBoxReference): Compos
 function collectAttributeType(reference: ComponentBoxReference): string {
     const componentContent = reference.reference.ref?.content;
     if (componentContent) {
-        switch(componentContent.$type) {
+        switch (componentContent.$type) {
             case 'ComponentContentBox': return 'ContentBoxAttribute';
             case 'TextBox': return 'TextBoxAttribute';
             case 'ListBox': return 'ListBoxAttribute';
+            case 'ImageBox': return 'MediaBoxAttribute';
+            case 'VideoBox': return 'MediaBoxAttribute';
             case 'ComponentBoxReference': return collectAttributeType(componentContent)
         }
     }
@@ -702,6 +704,7 @@ function generateComponentBox(box: ComponentBox, slots: Record<string, Composite
         default: throw new Error(`Unknown box type: ${(box as any).$type}`);
     }
 }
+
 function generateContentBoxAttributes(attributes: ContentBoxAttribute[], boxCount: number): string {
     let style = '';
     let alignmentValue: string | undefined;
@@ -770,7 +773,47 @@ function generateComponentSlot(slot: ComponentSlot, slots: Record<string, Compos
 }
 
 function generateTextBox(textBox: TextBox): CompositeGeneratorNode {
-    return expandToNode`<p>${textBox.content.slice(1, -1).trim()}</p>`; // TODO: generate with attributes consideration
+    const attributes = (textBox as unknown as { attributes?: unknown }).attributes;
+
+    const bold = hasAttribute(attributes, 'bold');
+    const italic = hasAttribute(attributes, 'italic');
+    const underline = hasAttribute(attributes, 'underline');
+    const strikethrough = hasAttribute(attributes, 'strikethrough');
+    const highlight = hasAttribute(attributes, 'highlight');
+    const color = getAttributeValue(attributes, 'color');
+    const font = getAttributeValue(attributes, 'font');
+
+    const text = textBox.content.slice(1, -1).trim();
+
+    return expandToNode`<p style="${generateTextBoxStyles(bold, italic, underline, strikethrough, highlight, color, font)}">${text}</p>`;
+}
+
+function generateTextBoxStyles(bold: boolean, italic: boolean, underline: boolean, strikethrough: boolean, highlight: boolean, color: string | unknown, font: string | unknown): string {
+    let style = '';
+
+    if (bold) {
+        style += 'font-weight: bold; ';
+    }
+    if (italic) {
+        style += 'font-style: italic; ';
+    }
+    if (underline) {
+        style += 'text-decoration: underline; ';
+    }
+    if (strikethrough) {
+        style += 'text-decoration: line-through; ';
+    }
+    if (highlight) {
+        style += 'background-color: yellow; ';
+    }
+    if (color) {
+        style += `color: ${color}; `;
+    }
+    if (font) {
+        style += `font-family: ${font}; `;
+    }
+
+    return style;
 }
 
 function generateImageBox(imageBox: ImageBox): CompositeGeneratorNode {

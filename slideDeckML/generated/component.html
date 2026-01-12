@@ -197,21 +197,21 @@
                         
                         
                     >
-                        <div id="here2"  style="height: 100%;
+                        <div  style="height: 100%;
         place-items: center center;
         place-content: center center;
     ">
-                            <div id="here1" style="display: grid; 
+                            <div style="display: grid; 
                     grid-template-columns: repeat(3, 1fr); 
                     grid-template-rows: repeat(2, 50%);
                     width: 100%;
                     gap: 10px;
                     box-sizing: border-box;
-                height: 81%;
+                height: 100%;
         place-items: center center;
         place-content: center center;
     ">
-                                <p>Ceci est le texte du composant</p>
+                                <p style="">Ceci est le texte du composant</p>
                                 <iframe
                                     src="https://www.youtube.com/embed/uGSu6mhk3RQ"
                                     title="Hello World Song"
@@ -226,7 +226,7 @@
     "
                                     allowfullscreen>
                                 </iframe>
-                                <p>Composant sans slot</p>
+                                <p style="font-weight: bold; ">Composant sans slot</p>
                                 <img 
                                     src="https://images4.alphacoders.com/133/thumb-1920-1332281.jpeg" 
                                     alt="Gojo" 
@@ -253,9 +253,9 @@
                         
                         
                     >
-                        <div id="here2"  >
-                            <p>Composant sans slot</p>
-                            <p>Composant sans slot</p>
+                        <div  >
+                            <p style="font-weight: bold; ">Composant sans slot</p>
+                            <p style="font-weight: bold; ">Composant sans slot</p>
                         </div>
                     </section>
                     <section
@@ -267,18 +267,18 @@
                         
                         
                     >
-                        <div id="here1" style="display: grid; 
+                        <div style="display: grid; 
                     grid-template-columns: repeat(2, 1fr); 
                     grid-template-rows: repeat(2, 50%);
                     width: 100%;
                     gap: 10px;
                     box-sizing: border-box;
-                height: 81%;
+                height: 100%;
         place-items: center center;
         place-content: center center;
     ">
-                            <p>Ceci est le texte du composant</p>
-                            <div id="here2"  style="display: grid; 
+                            <p style="">Ceci est le texte du composant</p>
+                            <div  style="display: grid; 
                     grid-template-columns: repeat(2, 1fr); 
                     grid-template-rows: repeat(1, 100%);
                     width: 100%;
@@ -288,12 +288,12 @@
         place-items: center center;
         place-content: center center;
     ">
-                                <p>Ceci est le texte par defaut du slot 1 !
+                                <p style="">Ceci est le texte par defaut du slot 1 !
                     Il est suivit du composant sans slot !</p>
-                                <p>Composant sans slot</p>
+                                <p style="font-weight: bold; ">Composant sans slot</p>
                             </div>
-                            <p>Composant sans slot</p>
-                            <p>ceci est le texte du slot 2</p>
+                            <p style="font-weight: bold; ">Composant sans slot</p>
+                            <p style="">ceci est le texte du slot 2</p>
                         </div>
                     </section>
                     <section
@@ -364,7 +364,18 @@
                         
                         
                     >
-                        <div id="here2"  style="display: grid; 
+                        <p style="font-weight: bold; text-decoration: underline; ">Composant sans slot</p>
+                    </section>
+                    <section
+                        id="slide7"
+                        
+                        data-transition="fade"
+                        
+                        
+                        
+                        
+                    >
+                        <div  style="display: grid; 
                     grid-template-columns: repeat(2, 1fr); 
                     grid-template-rows: repeat(2, 50%);
                     width: 100%;
@@ -374,9 +385,9 @@
         place-items: center center;
         place-content: center center;
     ">
-                            <p>Colonne de gauche</p>
-                            <p>Colonne de droite</p>
-                            <div id="here2"  style="display: grid; 
+                            <p style="font-weight: bold; font-style: italic; text-decoration: underline; color: red; font-family: arial; ">Colonne de gauche</p>
+                            <p style="">Colonne de droite</p>
+                            <div  style="display: grid; 
                     grid-template-columns: repeat(2, 1fr); 
                     grid-template-rows: repeat(2, 50%);
                     width: 100%;
@@ -400,7 +411,7 @@
             height: auto;
         " 
                                 />
-                                <p>Un petit fou fou</p>
+                                <p style="">Un petit fou fou</p>
                                 <iframe
                                     src="https://www.youtube.com/embed/uGSu6mhk3RQ"
                                     title="Hello World Song"

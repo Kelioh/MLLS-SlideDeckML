@@ -1,7 +1,7 @@
 presentation Component
 
 component constant_component {
-    text[font = "arial"] {
+    text[bold] {
         Composant sans slot
     }
 }
@@ -97,7 +97,7 @@ slide slide6 {
 
 slide slide7 {
     box [column = 2] {
-        text {
+        text [bold, italic, underline, font = "arial", color = "red"] {
             Colonne de gauche
         }
         text {

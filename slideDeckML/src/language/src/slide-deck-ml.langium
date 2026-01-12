@@ -122,7 +122,7 @@ QuizOption:
 /* Attributes */
 
 ComponentBoxAttribute:
-    ContentBoxAttribute | TextBoxAttribute | ListBoxAttribute;
+    ContentBoxAttribute | TextBoxAttribute | ListBoxAttribute | MediaBoxAttribute;
 
 SlideAttribute:
     key='annotable';
@@ -137,7 +137,9 @@ TextBoxAttribute:
     key='italic' |
     key='underline' |
     key='strikethrough' |
-    key='highlight';
+    key='highlight' |
+    key='color' '=' value=STRING |
+    key='font' '=' value=STRING;
 
 ListBoxAttribute:
     key='type' '=' value=LIST_TYPE |

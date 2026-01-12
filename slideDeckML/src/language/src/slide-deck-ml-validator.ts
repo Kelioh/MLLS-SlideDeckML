@@ -8,16 +8,17 @@ import {
     ComponentBoxReference,
     ComponentContentBox,
     ContentBox,
-    isContentBoxAttribute,
-    isListBoxAttribute,
-    isTextBoxAttribute,
-    ListBox,
     ImageBox,
+    ListBox,
     Model,
     SlideDeckMlAstType,
     TerminalBox,
     TextBox,
-    VideoBox
+    VideoBox,
+    isContentBoxAttribute,
+    isListBoxAttribute,
+    isMediaBoxAttribute,
+    isTextBoxAttribute
 } from './generated/ast.js';
 
 /**
@@ -170,10 +171,12 @@ export class SlideDeckMlValidator {
     private collectAttributeTypeChecker(reference: ComponentBoxReference): (item: unknown) => boolean {
         const componentContent = reference.reference.ref?.content;
         if (componentContent) {
-            switch(componentContent.$type) {
+            switch (componentContent.$type) {
                 case 'ComponentContentBox': return isContentBoxAttribute;
                 case 'TextBox': return isTextBoxAttribute;
                 case 'ListBox': return isListBoxAttribute;
+                case 'ImageBox': return isMediaBoxAttribute;
+                case 'VideoBox': return isMediaBoxAttribute;
 
                 case 'ComponentBoxReference':
                     return this.collectAttributeTypeChecker(componentContent)
