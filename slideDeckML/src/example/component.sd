@@ -1,7 +1,7 @@
 presentation Component
 
 component constant_component {
-    text {
+    text[font = "arial"] {
         Composant sans slot
     }
 }
@@ -50,15 +50,15 @@ component nested_component {
 }
 
 slide slide1 [annotable] {
-    box {
-        slot_component[column = 2, height = 100%] {
+    box [height = 100%] {
+        slot_component[column = 3] {
             @slot1
-            video {
-                src {https://youtu.be/AMShoQ_qdc0?si=03Zdvmdtdd8yeCXu}
+            video [scale = 100%] {
+                src {https://youtu.be/uGSu6mhk3RQ?si=7k--2FqMo6HaFlEz}
                 alt {Hello World Song}
             }
             @slot2
-            image {
+            image [scale = 100%] {
                 src {https://images4.alphacoders.com/133/thumb-1920-1332281.jpeg}
                 alt {Gojo}
             }
@@ -93,4 +93,28 @@ slide slide5 {
 
 slide slide6 {
     nested_component[underline] {}
+}
+
+slide slide7 {
+    box [column = 2] {
+        text {
+            Colonne de gauche
+        }
+        text {
+            Colonne de droite
+        }
+        box [column = 2] {
+            image [scale = 100%] {
+                src {https://images4.alphacoders.com/133/thumb-1920-1332281.jpeg}
+                alt {Gojo}
+            }
+            text {
+                Un petit fou fou
+            }
+            video [scale = 100%] {
+                src {https://youtu.be/uGSu6mhk3RQ?si=7k--2FqMo6HaFlEz}
+                alt {Hello World Song}
+            }
+        }
+    }
 }

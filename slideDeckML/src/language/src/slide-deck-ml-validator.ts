@@ -12,9 +12,12 @@ import {
     isListBoxAttribute,
     isTextBoxAttribute,
     ListBox,
+    ImageBox,
     Model,
     SlideDeckMlAstType,
+    TerminalBox,
     TextBox,
+    VideoBox
 } from './generated/ast.js';
 
 /**
@@ -171,7 +174,7 @@ export class SlideDeckMlValidator {
                 case 'ComponentContentBox': return isContentBoxAttribute;
                 case 'TextBox': return isTextBoxAttribute;
                 case 'ListBox': return isListBoxAttribute;
-                
+
                 case 'ComponentBoxReference':
                     return this.collectAttributeTypeChecker(componentContent)
             }
@@ -179,7 +182,7 @@ export class SlideDeckMlValidator {
         return (item: unknown) => false;
     }
 
-    
+
     checkBoxAttributesUsages(box: ComponentContentBox | ContentBox | TextBox | ListBox, validator: ValidationAcceptor): void {
         const usedAttributes: Set<string> = new Set();
         for (const attribute of box.attributes) {

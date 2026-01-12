@@ -85,14 +85,13 @@ ListBox:
 
 
 ImageBox:
-    'image' '{'
+    'image' ('[' attributes+=MediaBoxAttribute (',' attributes+=MediaBoxAttribute)* ']')? '{'
         'src' src=IMAGE_URL
         'alt' alt=TEXT
     '}';
 
-
 VideoBox:
-    'video' '{'
+    'video' ('[' attributes+=MediaBoxAttribute (',' attributes+=MediaBoxAttribute)* ']')? '{'
         'src' src=VIDEO_URL
         'alt' alt=TEXT
     '}';
@@ -143,6 +142,9 @@ TextBoxAttribute:
 ListBoxAttribute:
     key='type' '=' value=LIST_TYPE |
     key='spaceBetweenItems' '=' value=INTEGER;
+
+MediaBoxAttribute:
+    key='scale' '=' value=PERCENTAGE;
 
 
 /*******************/

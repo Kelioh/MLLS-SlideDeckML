@@ -535,7 +535,6 @@ function generateModel(model: Model): CompositeGeneratorNode {
     `;
 }
 
-
 function generateSlide(slide: Slide, model: Model): CompositeGeneratorNode {
     const attributes = (slide as unknown as { attributes?: unknown }).attributes;
     const isAnnotable = hasAttribute(attributes, 'annotable');
@@ -618,7 +617,7 @@ function generateBox(box: Box): CompositeGeneratorNode {
             return fragmentClass
                 ? expandToNode`<div ${fragmentClass}>${generateQuizBox(content)}</div>`
                 : generateQuizBox(content);
-        
+
         case 'LiveQuizBox':
             return fragmentClass
                 ? expandToNode`<div ${fragmentClass}>${generateLiveQuizBox(content)}</div>`
@@ -631,7 +630,7 @@ function generateBox(box: Box): CompositeGeneratorNode {
 
         case 'ContentBox':
             return expandToNode`
-                <div ${fragmentClass} ${(content.attributes.length !== 0) ? `style="${generateContentBoxAttributes(content.attributes)}"` : ''}>
+                <div ${fragmentClass} ${(content.attributes.length !== 0) ? `style="${generateContentBoxAttributes(content.attributes, content.boxes.length)}"` : ''}>
                     ${joinToNode(content.boxes.map(b => generateBox(b).appendNewLineIfNotEmpty()))}
                 </div>
             `;
@@ -653,7 +652,7 @@ function generateComponentBoxReference(reference: ComponentBoxReference): Compos
     /* Override declaration attributes  */
     let declarationBox: any = declaration.content;
     switch (declaration.content.$type) {
-        case 'ComponentContentBox': 
+        case 'ComponentContentBox':
         case 'TextBox':
         case 'ListBox':
         case 'ComponentBoxReference':
@@ -695,7 +694,7 @@ function generateComponentBox(box: ComponentBox, slots: Record<string, Composite
         case 'ComponentSlot': return generateComponentSlot(box, slots);
         case 'ComponentContentBox':
             return expandToNode`
-                <div ${(box.attributes.length !== 0) ? `style="${generateContentBoxAttributes(box.attributes)}"` : ''}>
+                <div ${(box.attributes.length !== 0) ? `style="${generateContentBoxAttributes(box.attributes, box.boxes.length)}"` : ''}>
                     ${joinToNode(box.boxes.map(box => generateComponentBox(box, slots).appendNewLineIfNotEmpty()))}
                 </div>
             `;
@@ -703,20 +702,67 @@ function generateComponentBox(box: ComponentBox, slots: Record<string, Composite
         default: throw new Error(`Unknown box type: ${(box as any).$type}`);
     }
 }
+function generateContentBoxAttributes(attributes: ContentBoxAttribute[], boxCount: number): string {
+    let style = '';
+    let alignmentValue: string | undefined;
+    let hasHeight = false;
 
-function generateContentBoxAttributes(attributes: ContentBoxAttribute[]): string {
-    let style: string = '';
     for (const attribute of attributes) {
         switch (attribute.key) {
             case 'column':
-                style += `display: grid; grid-template-columns: repeat(${attribute.value}, 1fr); `;
+                style += `display: grid; 
+                    grid-template-columns: repeat(${attribute.value}, 1fr); 
+                    grid-template-rows: repeat(${Math.ceil(boxCount / (attribute.value as any))}, ${100 / Math.ceil(boxCount / (attribute.value as any))}%);
+                    width: 100%;
+                    gap: 10px;
+                    box-sizing: border-box;
+                `;
                 break;
+
             case 'height':
-                style += `height: ${attribute.value}; `;
+                style += `height: ${attribute.value};`;
+                hasHeight = true;
+                break;
+
+            case 'alignment':
+                alignmentValue = attribute.value;
                 break;
         }
     }
+
+    if (!hasHeight) {
+        style += 'height: 100%; ';
+    }
+
+    const alignment = mapAlignment(alignmentValue);
+
+    style += `
+        place-items: ${alignment};
+        place-content: ${alignment};
+    `;
+
     return style;
+}
+
+function mapAlignment(value?: string): string {
+    if (!value) {
+        return 'center center';
+    }
+
+    const [vertical, horizontal] = value.split(' ');
+
+    const map: Record<string, string> = {
+        top: 'start',
+        center: 'center',
+        bottom: 'end',
+        left: 'start',
+        right: 'end'
+    };
+
+    const v = map[vertical] ?? 'center';
+    const h = map[horizontal] ?? 'center';
+
+    return `${v} ${h}`;
 }
 
 function generateComponentSlot(slot: ComponentSlot, slots: Record<string, CompositeGeneratorNode>): CompositeGeneratorNode {
@@ -728,7 +774,37 @@ function generateTextBox(textBox: TextBox): CompositeGeneratorNode {
 }
 
 function generateImageBox(imageBox: ImageBox): CompositeGeneratorNode {
-    return expandToNode`<img src="${imageBox.src.slice(1, -1).trim()}" alt="${imageBox.alt.slice(1, -1).trim()}" />`;
+    const src = imageBox.src.slice(1, -1).trim();
+    const alt = imageBox.alt.slice(1, -1).trim();
+    const attributes = (imageBox as unknown as { attributes?: unknown }).attributes;
+    const scaleAttribute = getAttributeValue(attributes, 'scale');
+
+    let style = `
+        display: block;
+        max-width: 100%;
+        max-height: 100%;
+        object-fit: contain;
+        margin: auto;
+    `;
+
+    if (scaleAttribute) {
+        style += `
+            width: ${scaleAttribute};
+            height: auto;
+        `;
+    } else {
+        style += `
+            width: 100%; 
+            height: 100%;
+        `;
+    }
+
+    return expandToNode`
+        <img 
+            src="${src}" 
+            alt="${alt}" 
+            style="${style}" 
+        />`;
 }
 
 function toYouTubeEmbed(url: string): string {
@@ -739,18 +815,36 @@ function toYouTubeEmbed(url: string): string {
 function generateVideoBox(videoBox: VideoBox): CompositeGeneratorNode {
     const src = videoBox.src.slice(1, -1).trim();
     const embed = toYouTubeEmbed(src);
+    const alt = videoBox.alt.slice(1, -1).trim();
+
+    const attributes = (videoBox as unknown as { attributes?: unknown }).attributes;
+    const scaleAttribute = getAttributeValue(attributes, 'scale');
+
+    let maxWidthStyle = '100%';
+    if (scaleAttribute) {
+        const val = scaleAttribute.toString();
+        maxWidthStyle = val.endsWith('%') ? val : `${val}%`;
+    }
+
+    const style = `
+        display: block;
+        aspect-ratio: 16 / 9;
+        width: auto;
+        height: auto;
+        max-width: ${maxWidthStyle};
+        max-height: 100%;
+        border: 0;
+    `;
 
     return expandToNode`
         <iframe
             src="${embed}"
-            title="${videoBox.alt.slice(1, -1).trim()}"
-            frameborder="0"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            title="${alt}"
+            style="${style}"
             allowfullscreen>
         </iframe>
     `;
 }
-
 
 function textContent(text: string): string {
     return text.slice(1, -1).trim();
@@ -850,7 +944,7 @@ function generateLiveQuizBox(quiz: LiveQuizBox): CompositeGeneratorNode {
     const questionText = textContent(quiz.question);
     const correctAnswer = quiz.correctAnswer ? textContent(quiz.correctAnswer) : '';
     const sessionId = "SESSION123";
-    
+
     const options = quiz.options.map(opt => textContent(opt.content));
     const optionsJson = JSON.stringify(options);
 
@@ -876,8 +970,8 @@ function generateLiveQuizBox(quiz: LiveQuizBox): CompositeGeneratorNode {
             </div>
 
             <div class="sdml-quiz__actions" style="margin-top: 15px;">
-                ${quiz.revealResultsOnDemand 
-                    ? expandToNode`
+                ${quiz.revealResultsOnDemand
+            ? expandToNode`
                         <div class="sdml-quiz__reveal-wrap">
                             <button class="sdml-quiz__btn sdml-quiz__reveal" type="button" 
                                 onclick="(function(btn){
@@ -890,11 +984,11 @@ function generateLiveQuizBox(quiz: LiveQuizBox): CompositeGeneratorNode {
                                 Correct answer: <strong>${correctAnswer}</strong>
                             </div>
                         </div>`
-                    : expandToNode`
+            : expandToNode`
                         <div class="sdml-quiz__results" style="margin-top: 10px; padding: 10px; background: #e0f2f1; border-radius: 4px;">
                             Correct answer: <strong>${correctAnswer || '—'}</strong>
                         </div>`
-                }
+        }
             </div>
 
             <script>
