@@ -50,8 +50,7 @@ Slide:
 /* Composite pattern for boxes */
 
 Box:
-    ('fragment' fragmentStyle=FRAGMENT_STYLE)?
-    content=(ContentBox | TerminalBox);
+    ContentBox | TerminalBox;
 
 ContentBox:
     'box' ('[' attributes+=Attribute (',' attributes+=Attribute)* ']')? '{'
@@ -97,6 +96,7 @@ Attribute:
     key='font' '=' value=STRING |
     key='type' '=' value=LIST_TYPE |
     key='spaceBetweenItems' '=' value=INTEGER |
+    key='fragment' '=' value=FRAGMENT_STYLE |
     key='annotable';
     // Add new attributes here
 

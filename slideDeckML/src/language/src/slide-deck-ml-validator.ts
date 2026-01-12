@@ -131,10 +131,9 @@ export class SlideDeckMlValidator {
     }
 
     private collectComponentBoxReferences(box: Box): ComponentBoxReference[] {
-        const content = box.content;
-        switch (content.$type) {
-            case 'ComponentBoxReference': return [content];
-            case 'ContentBox': return content.boxes.flatMap(b => this.collectComponentBoxReferences(b));
+        switch (box.$type) {
+            case 'ComponentBoxReference': return [box];
+            case 'ContentBox': return box.boxes.flatMap((b: Box) => this.collectComponentBoxReferences(b));
             default: return [];
         }
     }
@@ -143,10 +142,15 @@ export class SlideDeckMlValidator {
     /* Boxes attributes */
 
     private boxAttributes: Record<string, Set<string>> = {
-        TextBox: new Set(['font']),
-        ComponentContentBox: new Set(['column', 'height']),
-        ContentBox: new Set(['column', 'height']),
-        ListBox: new Set(['type', 'spaceBetweenItems']),
+        TextBox: new Set(['font', 'fragment']),
+        ComponentContentBox: new Set(['column', 'height', 'fragment']),
+        ContentBox: new Set(['column', 'height', 'fragment']),
+        ListBox: new Set(['type', 'spaceBetweenItems', 'fragment']),
+        ImageBox: new Set(['fragment']),
+        VideoBox: new Set(['fragment']),
+        QuizBox: new Set(['fragment']),
+        LiveQuizBox: new Set(['fragment']),
+        ComponentBoxReference: new Set(['fragment']),
         Slide: new Set(['annotable']),
         // Add box attributes here
     };
