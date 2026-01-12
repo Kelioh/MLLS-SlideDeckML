@@ -1,7 +1,7 @@
         <!doctype html>
         <html>
         <head>
-            <title>Component</title>
+            <title>AnimationsDemo</title>
             <script src="https://cdn.socket.io/4.7.5/socket.io.min.js" crossorigin="anonymous"></script>
             <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
@@ -13,7 +13,7 @@
                 body {
                     margin: 0;
                     padding: 0;
-                    font-family: Arial, sans-serif;
+                    font-family: rial, sans-seri;
                     overflow: hidden;
                 }
 
@@ -189,244 +189,161 @@
             <div class="reveal">
                 <div class="slides">
                     <section
-                        id="slide1"
-                        class="annotable"
-                        data-transition="fade"
-                        
-                        
-                        
-                        
-                    >
-                        <div  style="height: 100%;
-        place-items: center center;
-        place-content: center center;
-    ">
-                            <div style="display: grid; 
-                    grid-template-columns: repeat(3, 1fr); 
-                    grid-template-rows: repeat(2, 50%);
-                    width: 100%;
-                    gap: 10px;
-                    box-sizing: border-box;
-                height: 100%;
-        place-items: center center;
-        place-content: center center;
-    ">
-                                <p style="">Ceci est le texte du composant</p>
-                                <iframe
-                                    src="https://www.youtube.com/embed/uGSu6mhk3RQ"
-                                    title="Hello World Song"
-                                    style="
-        display: block;
-        aspect-ratio: 16 / 9;
-        width: auto;
-        height: auto;
-        max-width: 100%;
-        max-height: 100%;
-        border: 0;
-    "
-                                    allowfullscreen>
-                                </iframe>
-                                <p style="font-weight: bold; ">Composant sans slot</p>
-                                <img 
-                                    src="https://images4.alphacoders.com/133/thumb-1920-1332281.jpeg" 
-                                    alt="Gojo" 
-                                    style="
-        display: block;
-        max-width: 100%;
-        max-height: 100%;
-        object-fit: contain;
-        margin: auto;
-    
-            width: 100%;
-            height: auto;
-        " 
-                                />
-                            </div>
-                        </div>
-                    </section>
-                    <section
-                        id="slide2"
+                        id="intro"
                         
                         data-transition="fade"
-                        
-                        
-                        
-                        
+                        data-header="<div  >
+    <p style=&quot;&quot;>Démonstration des Animations</p>
+</div>"
+                        data-footer="<div  >
+    <p style=&quot;&quot;>© 2026 - Animations avec Reveal.js</p>
+</div>"
+                        data-header-styles="background: 1971c; color: FFFFF; font-size: .6re"
+                        data-footer-styles="background: F5F5F; color: 33333; font-size: re"
                     >
                         <div  >
-                            <p style="font-weight: bold; ">Composant sans slot</p>
-                            <p style="font-weight: bold; ">Composant sans slot</p>
+                            <p style="">Bienvenue dans la démo des animations!</p>
+                            <p style="">Appuyez sur espace pour voir les animations</p>
                         </div>
                     </section>
                     <section
-                        id="slide3"
+                        id="fadeAnimations"
                         
                         data-transition="fade"
-                        
-                        
-                        
-                        
+                        data-header="<div  >
+    <p style=&quot;&quot;>Démonstration des Animations</p>
+</div>"
+                        data-footer="<div  >
+    <p style=&quot;&quot;>© 2026 - Animations avec Reveal.js</p>
+</div>"
+                        data-header-styles="background: 1971c; color: FFFFF; font-size: .6re"
+                        data-footer-styles="background: F5F5F; color: 33333; font-size: re"
                     >
-                        <div style="display: grid; 
-                    grid-template-columns: repeat(2, 1fr); 
-                    grid-template-rows: repeat(2, 50%);
-                    width: 100%;
-                    gap: 10px;
-                    box-sizing: border-box;
-                height: 100%;
-        place-items: center center;
-        place-content: center center;
-    ">
-                            <p style="">Ceci est le texte du composant</p>
-                            <div  style="display: grid; 
-                    grid-template-columns: repeat(2, 1fr); 
-                    grid-template-rows: repeat(1, 100%);
-                    width: 100%;
-                    gap: 10px;
-                    box-sizing: border-box;
-                height: 100%; 
-        place-items: center center;
-        place-content: center center;
-    ">
-                                <p style="">Ceci est le texte par defaut du slot 1 !
-                    Il est suivit du composant sans slot !</p>
-                                <p style="font-weight: bold; ">Composant sans slot</p>
-                            </div>
-                            <p style="font-weight: bold; ">Composant sans slot</p>
-                            <p style="">ceci est le texte du slot 2</p>
+                        <div  >
+                            <p style="">Animations de type FADE</p>
+                            <div class="fragment fade-in"><p style="">Texte qui apparaît en fade-in</p></div>
+                            <div class="fragment fade-up"><p style="">Texte qui monte en fade-up</p></div>
+                            <div class="fragment fade-down"><p style="">Texte qui descend en fade-down</p></div>
+                            <div class="fragment fade-left"><p style="">Texte qui vient de la gauche</p></div>
+                            <div class="fragment fade-right"><p style="">Texte qui vient de la droite</p></div>
                         </div>
                     </section>
                     <section
-                        id="slide4"
-                        class="annotable"
-                        data-transition="fade"
-                        
-                        
-                        
-                        
-                    >
-                        <ol class="sdml-list" style="--sdml-list-gap: 50px">
-                            <li>First</li><li>Second</li><li>Third</li>
-                        </ol>
-                    </section>
-                    <section
-                        id="slide5"
+                        id="animationsGrowShrink"
                         
                         data-transition="fade"
-                        
-                        
-                        
-                        
+                        data-header="<div  >
+    <p style=&quot;&quot;>Démonstration des Animations</p>
+</div>"
+                        data-footer="<div  >
+    <p style=&quot;&quot;>© 2026 - Animations avec Reveal.js</p>
+</div>"
+                        data-header-styles="background: 1971c; color: FFFFF; font-size: .6re"
+                        data-footer-styles="background: F5F5F; color: 33333; font-size: re"
                     >
-                        <div
-                            class="sdml-quiz"
-                            data-quiz-id="sort"
-                            data-quiz-type="mcq"
-                            data-correct-answer="c"
-                            data-reveal-on-demand="true"
-                        >
-                            <div class="sdml-quiz__title">Quiz</div>
-                            <div class="sdml-quiz__question">Which sorting algorithm has average-case O(n log n)?</div>
-
-                            <div class="sdml-quiz__options">
-                                <label>
-                                    <input type="radio" name="quiz-sort" value="a" />
-                                    <span>Bubble sort</span>
-                                </label><label>
-                                    <input type="radio" name="quiz-sort" value="b" />
-                                    <span>Quick sort</span>
-                                </label><label>
-                                    <input type="radio" name="quiz-sort" value="c" />
-                                    <span>Merge sort</span>
-                                </label>
-                            </div>
-                            <div class="sdml-quiz__actions">
-                                <button
-                                    class="sdml-quiz__btn sdml-quiz__submit"
-                                    type="button"
-                                            onclick="(function(btn){const r=btn.closest('.sdml-quiz');if(!r)return;const c=(r.getAttribute('data-correct-answer')||'').trim();const f=r.querySelector('.sdml-quiz__feedback');if(!f)return;const ch=r.querySelector('input[type=radio]:checked');if(!ch)return;const v=(ch.value||'').trim();const ok=v.toLowerCase()===c.toLowerCase();f.textContent=ok?'Correct.':'Not quite.';f.style.color=ok?'#2aa198':'#dc322f';if(!ok){const res=r.querySelector('.sdml-quiz__results');if(res){res.style.display='block';}const rb=r.querySelector('.sdml-quiz__reveal');if(rb)rb.style.display='none';} })(this)"
-                                >Submit</button>
-                            </div>
-
-                                    <div class="sdml-quiz__feedback" aria-live="polite"></div>
-                                    <div class="sdml-quiz__reveal-wrap">
-                                        <button class="sdml-quiz__btn sdml-quiz__reveal" type="button" onclick="(function(btn){const r=btn.closest('.sdml-quiz');if(!r)return;const res=r.querySelector('.sdml-quiz__results');if(res){res.style.display='block';}btn.style.display='none';})(this)">Reveal answer</button>
-                                        <div class="sdml-quiz__results" style="display:none">Correct answer: <strong>c</strong></div>
-                                    </div>
+                        <div  >
+                            <p style="">Animations GROW et SHRINK</p>
+                            <div class="fragment grow"><p style="">Ce texte grandit (grow)</p></div>
+                            <div class="fragment shrink"><p style="">Ce texte rétrécit (shrink)</p></div>
                         </div>
                     </section>
                     <section
-                        id="slide6"
+                        id="highlightAnimations"
                         
                         data-transition="fade"
-                        
-                        
-                        
-                        
+                        data-header="<div  >
+    <p style=&quot;&quot;>Démonstration des Animations</p>
+</div>"
+                        data-footer="<div  >
+    <p style=&quot;&quot;>© 2026 - Animations avec Reveal.js</p>
+</div>"
+                        data-header-styles="background: 1971c; color: FFFFF; font-size: .6re"
+                        data-footer-styles="background: F5F5F; color: 33333; font-size: re"
                     >
-                        <p style="font-weight: bold; text-decoration: underline; ">Composant sans slot</p>
+                        <div  >
+                            <p style="">Animations de HIGHLIGHT</p>
+                            <div class="fragment highlight-red"><p style="">Texte surligné en rouge</p></div>
+                            <div class="fragment highlight-green"><p style="">Texte surligné en vert</p></div>
+                            <div class="fragment highlight-blue"><p style="">Texte surligné en bleu</p></div>
+                        </div>
                     </section>
                     <section
-                        id="slide7"
+                        id="animationStrike"
                         
                         data-transition="fade"
-                        
-                        
-                        
-                        
+                        data-header="<div  >
+    <p style=&quot;&quot;>Démonstration des Animations</p>
+</div>"
+                        data-footer="<div  >
+    <p style=&quot;&quot;>© 2026 - Animations avec Reveal.js</p>
+</div>"
+                        data-header-styles="background: 1971c; color: FFFFF; font-size: .6re"
+                        data-footer-styles="background: F5F5F; color: 33333; font-size: re"
                     >
-                        <div  style="display: grid; 
-                    grid-template-columns: repeat(2, 1fr); 
-                    grid-template-rows: repeat(2, 50%);
-                    width: 100%;
-                    gap: 10px;
-                    box-sizing: border-box;
-                height: 100%; 
-        place-items: center center;
-        place-content: center center;
-    ">
-                            <p style="font-weight: bold; font-style: italic; text-decoration: underline; color: red; font-family: arial; ">Colonne de gauche</p>
-                            <p style="">Colonne de droite</p>
-                            <div  style="display: grid; 
-                    grid-template-columns: repeat(2, 1fr); 
-                    grid-template-rows: repeat(2, 50%);
-                    width: 100%;
-                    gap: 10px;
-                    box-sizing: border-box;
-                height: 100%; 
-        place-items: center center;
-        place-content: center center;
-    ">
-                                <img 
-                                    src="https://images4.alphacoders.com/133/thumb-1920-1332281.jpeg" 
-                                    alt="Gojo" 
-                                    style="
-        display: block;
-        max-width: 100%;
-        max-height: 100%;
-        object-fit: contain;
-        margin: auto;
-    
-            width: 100%;
-            height: auto;
-        " 
-                                />
-                                <p style="">Un petit fou fou</p>
-                                <iframe
-                                    src="https://www.youtube.com/embed/uGSu6mhk3RQ"
-                                    title="Hello World Song"
-                                    style="
-        display: block;
-        aspect-ratio: 16 / 9;
-        width: auto;
-        height: auto;
-        max-width: 100%;
-        max-height: 100%;
-        border: 0;
-    "
-                                    allowfullscreen>
-                                </iframe>
-                            </div>
+                        <div  >
+                            <p style="">Animation STRIKE (barré)</p>
+                            <div class="fragment strike"><p style="">Ce texte sera barré</p></div>
+                            <p style="">Utile pour montrer ce qui est obsolète!</p>
+                        </div>
+                    </section>
+                    <section
+                        id="complexAnimation"
+                        
+                        data-transition="fade"
+                        data-header="<div  >
+    <p style=&quot;&quot;>Démonstration des Animations</p>
+</div>"
+                        data-footer="<div  >
+    <p style=&quot;&quot;>© 2026 - Animations avec Reveal.js</p>
+</div>"
+                        data-header-styles="background: 1971c; color: FFFFF; font-size: .6re"
+                        data-footer-styles="background: F5F5F; color: 33333; font-size: re"
+                    >
+                        <div  >
+                            <p style="">Scénario complexe avec plusieurs animations</p>
+                            <div class="fragment fade-in"><p style="">Étape 1: Introduction du problème</p></div>
+                            <div class="fragment fade-up"><p style="">Étape 2: Analyse de la situation</p></div>
+                            <div class="fragment fade-up"><p style="">Étape 3: Proposition de solution</p></div>
+                            <div class="fragment highlight-green"><p style="">Conclusion: Solution adoptée!</p></div>
+                        </div>
+                    </section>
+                    <section
+                        id="currentVisibleAnimation"
+                        
+                        data-transition="fade"
+                        data-header="<div  >
+    <p style=&quot;&quot;>Démonstration des Animations</p>
+</div>"
+                        data-footer="<div  >
+    <p style=&quot;&quot;>© 2026 - Animations avec Reveal.js</p>
+</div>"
+                        data-header-styles="background: 1971c; color: FFFFF; font-size: .6re"
+                        data-footer-styles="background: F5F5F; color: 33333; font-size: re"
+                    >
+                        <div  >
+                            <p style="">Animation CURRENT-VISIBLE (un seul visible à la fois)</p>
+                            <div class="fragment current-visible"><p style="">Premier point</p></div>
+                            <div class="fragment current-visible"><p style="">Deuxième point</p></div>
+                            <div class="fragment current-visible"><p style="">Troisième point</p></div>
+                        </div>
+                    </section>
+                    <section
+                        id="conclusion"
+                        
+                        data-transition="fade"
+                        data-header="<div  >
+    <p style=&quot;&quot;>Démonstration des Animations</p>
+</div>"
+                        data-footer="<div  >
+    <p style=&quot;&quot;>© 2026 - Animations avec Reveal.js</p>
+</div>"
+                        data-header-styles="background: 1971c; color: FFFFF; font-size: .6re"
+                        data-footer-styles="background: F5F5F; color: 33333; font-size: re"
+                    >
+                        <div  >
+                            <div class="fragment fade-in"><p style="">Conclusion</p></div>
+                            <div class="fragment fade-up"><p style="">Vous maîtrisez maintenant les animations!</p></div>
+                            <div class="fragment grow"><p style="">Merci!</p></div>
                         </div>
                     </section>
                 </div>

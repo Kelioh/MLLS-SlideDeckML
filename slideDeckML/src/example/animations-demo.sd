@@ -14,7 +14,6 @@ footer bg "#F5F5F5" color "#333333" size "1rem" {
     }
 }
 
-// Slide 1: Introduction sans animation
 slide intro {
     box {
         text {Bienvenue dans la démo des animations!}
@@ -22,7 +21,6 @@ slide intro {
     }
 }
 
-// Slide 2: Animations fade (apparition progressive)
 slide fadeAnimations {
     box {
         text {Animations de type FADE}
@@ -34,7 +32,6 @@ slide fadeAnimations {
     }
 }
 
-// Slide 3: Animations grow/shrink
 slide animationsGrowShrink {
     box {
         text {Animations GROW et SHRINK}
@@ -43,7 +40,6 @@ slide animationsGrowShrink {
     }
 }
 
-// Slide 4: Animations de highlight
 slide highlightAnimations {
     box {
         text {Animations de HIGHLIGHT}
@@ -53,7 +49,6 @@ slide highlightAnimations {
     }
 }
 
-// Slide 5: Animation strike
 slide animationStrike {
     box {
         text {Animation STRIKE (barré)}
@@ -62,7 +57,6 @@ slide animationStrike {
     }
 }
 
-// Slide 6: Combinaison complexe
 slide complexAnimation {
     box {
         text {Scénario complexe avec plusieurs animations}
@@ -73,7 +67,6 @@ slide complexAnimation {
     }
 }
 
-// Slide 7: Current visible (ne montre qu'un élément à la fois)
 slide currentVisibleAnimation {
     box {
         text {Animation CURRENT-VISIBLE (un seul visible à la fois)}
@@ -83,7 +76,6 @@ slide currentVisibleAnimation {
     }
 }
 
-// Slide 8: Conclusion
 slide conclusion {
     box {
         text [fragment=fade-in] {Conclusion}
