@@ -12,7 +12,6 @@ import {
     ListBox,
     Model,
     SlideDeckMlAstType,
-    TerminalBox,
     TextBox,
     VideoBox,
     isContentBoxAttribute,
@@ -138,10 +137,9 @@ export class SlideDeckMlValidator {
     }
 
     private collectComponentBoxReferences(box: Box): ComponentBoxReference[] {
-        const content = box.content;
-        switch (content.$type) {
-            case 'ComponentBoxReference': return [content];
-            case 'ContentBox': return content.boxes.flatMap(b => this.collectComponentBoxReferences(b));
+        switch (box.$type) {
+            case 'ComponentBoxReference': return [box];
+            case 'ContentBox': return box.boxes.flatMap((b: Box) => this.collectComponentBoxReferences(b));
             default: return [];
         }
     }

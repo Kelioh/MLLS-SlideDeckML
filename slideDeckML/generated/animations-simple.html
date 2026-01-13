@@ -2,6 +2,8 @@
         <html>
         <head>
             <title>AnimationsDemo</title>
+            <script src="https://cdn.socket.io/4.7.5/socket.io.min.js" crossorigin="anonymous"></script>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
             <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5/dist/reveal.css">
             <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5/dist/theme/solarized.css">
@@ -171,6 +173,7 @@
                 .sdml-quiz__results { margin-top: 10px; padding-top: 10px; border-top: 1px dashed rgba(0,0,0,0.25); }
             </style>
         </head>
+        
         <body>
             <div id="toolbar">
                 <button id="btn-pen" onclick="setTool('pen')">✏️ Stylo (D)</button>
@@ -190,17 +193,17 @@
                         
                         data-transition="fade"
                         data-header="<div  >
-    <p>Démonstration des Animations</p>
+    <p style=&quot;&quot;>Démonstration des Animations</p>
 </div>"
                         data-footer="<div  >
-    <p>© 2026 - Animations Reveal.js</p>
+    <p style=&quot;&quot;>© 2026 - Animations Reveal.js</p>
 </div>"
                         data-header-styles="background: 1971c; color: FFFFF; font-size: .6re"
                         data-footer-styles="background: F5F5F; color: 33333; font-size: re"
                     >
                         <div  >
-                            <p>Bienvenue!</p>
-                            <p>Appuyez sur espace</p>
+                            <p style="">Bienvenue!</p>
+                            <p style="">Appuyez sur espace</p>
                         </div>
                     </section>
                     <section
@@ -208,19 +211,19 @@
                         
                         data-transition="fade"
                         data-header="<div  >
-    <p>Démonstration des Animations</p>
+    <p style=&quot;&quot;>Démonstration des Animations</p>
 </div>"
                         data-footer="<div  >
-    <p>© 2026 - Animations Reveal.js</p>
+    <p style=&quot;&quot;>© 2026 - Animations Reveal.js</p>
 </div>"
                         data-header-styles="background: 1971c; color: FFFFF; font-size: .6re"
                         data-footer-styles="background: F5F5F; color: 33333; font-size: re"
                     >
                         <div  >
-                            <p>Animations FADE</p>
-                            <div class="fragment fade-in"><p>Fade in</p></div>
-                            <div class="fragment fade-up"><p>Fade up</p></div>
-                            <div class="fragment fade-down"><p>Fade down</p></div>
+                            <p style="">Animations FADE</p>
+                            <div class="fragment fade-in"><p style="">Fade in</p></div>
+                            <div class="fragment fade-up"><p style="">Fade up</p></div>
+                            <div class="fragment fade-down"><p style="">Fade down</p></div>
                         </div>
                     </section>
                     <section
@@ -228,18 +231,18 @@
                         
                         data-transition="fade"
                         data-header="<div  >
-    <p>Démonstration des Animations</p>
+    <p style=&quot;&quot;>Démonstration des Animations</p>
 </div>"
                         data-footer="<div  >
-    <p>© 2026 - Animations Reveal.js</p>
+    <p style=&quot;&quot;>© 2026 - Animations Reveal.js</p>
 </div>"
                         data-header-styles="background: 1971c; color: FFFFF; font-size: .6re"
                         data-footer-styles="background: F5F5F; color: 33333; font-size: re"
                     >
                         <div  >
-                            <p>GROW et SHRINK</p>
-                            <div class="fragment grow"><p>Texte grandit</p></div>
-                            <div class="fragment shrink"><p>Texte rétrécit</p></div>
+                            <p style="">GROW et SHRINK</p>
+                            <div class="fragment grow"><p style="">Texte grandit</p></div>
+                            <div class="fragment shrink"><p style="">Texte rétrécit</p></div>
                         </div>
                     </section>
                     <section
@@ -247,19 +250,19 @@
                         
                         data-transition="fade"
                         data-header="<div  >
-    <p>Démonstration des Animations</p>
+    <p style=&quot;&quot;>Démonstration des Animations</p>
 </div>"
                         data-footer="<div  >
-    <p>© 2026 - Animations Reveal.js</p>
+    <p style=&quot;&quot;>© 2026 - Animations Reveal.js</p>
 </div>"
                         data-header-styles="background: 1971c; color: FFFFF; font-size: .6re"
                         data-footer-styles="background: F5F5F; color: 33333; font-size: re"
                     >
                         <div  >
-                            <p>HIGHLIGHT</p>
-                            <div class="fragment highlight-red"><p>Rouge</p></div>
-                            <div class="fragment highlight-green"><p>Vert</p></div>
-                            <div class="fragment highlight-blue"><p>Bleu</p></div>
+                            <p style="">HIGHLIGHT</p>
+                            <div class="fragment highlight-red"><p style="">Rouge</p></div>
+                            <div class="fragment highlight-green"><p style="">Vert</p></div>
+                            <div class="fragment highlight-blue"><p style="">Bleu</p></div>
                         </div>
                     </section>
                     <section
@@ -267,17 +270,17 @@
                         
                         data-transition="fade"
                         data-header="<div  >
-    <p>Démonstration des Animations</p>
+    <p style=&quot;&quot;>Démonstration des Animations</p>
 </div>"
                         data-footer="<div  >
-    <p>© 2026 - Animations Reveal.js</p>
+    <p style=&quot;&quot;>© 2026 - Animations Reveal.js</p>
 </div>"
                         data-header-styles="background: 1971c; color: FFFFF; font-size: .6re"
                         data-footer-styles="background: F5F5F; color: 33333; font-size: re"
                     >
                         <div  >
-                            <div class="fragment fade-in"><p>Conclusion</p></div>
-                            <div class="fragment grow"><p>Merci!</p></div>
+                            <div class="fragment fade-in"><p style="">Conclusion</p></div>
+                            <div class="fragment grow"><p style="">Merci!</p></div>
                         </div>
                     </section>
                 </div>
@@ -288,6 +291,47 @@
             <script id="annotation-storage">window.savedPaths = {};</script>
 
             <script src="https://cdn.jsdelivr.net/npm/reveal.js@5/dist/reveal.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/qrcodejs2@0.0.2/qrcode.min.js"></script>
+            <script src="http://localhost:3000/socket.io/socket.io.js"></script>
+    <script>
+        window.addEventListener('DOMContentLoaded', () => {
+            if (typeof io !== 'undefined') {
+                const host = (window.location.protocol === 'file:') ? 'localhost' : window.location.hostname;
+                const serverUrl = "http://" + host + ":3000";
+
+                const socket = io(serverUrl, {
+                    reconnection: false,
+                    reconnectionAttempts: 0,
+                    timeout: 2000
+                });
+
+                window["sdmlMobileVoteUrl"] = "http://localhost:3000/vote";
+                
+                socket.on("connect", () => {
+                    console.log("Connected to:", serverUrl);
+                    socket.emit("join-session", "SESSION123");
+                });
+
+                let sdmlShownConnectError = false;
+                socket.on("connect_error", (err) => {
+                    if (sdmlShownConnectError) return;
+                    sdmlShownConnectError = true;
+                    console.warn("Socket.IO server not reachable:", serverUrl);
+                    try { socket.close(); } catch {}
+                });
+
+                socket.on("mobile-ip", (url) => {
+                    if (typeof url === 'string' && url.length > 0) {
+                        window["sdmlMobileVoteUrl"] = url;
+                        window.dispatchEvent(new CustomEvent('sdml-mobile-ip', { detail: { url } }));
+                        console.log('QR URL:', url);
+                    }
+                });
+
+                window["sdmlSocket"] = socket; 
+            }
+        });
+    </script>
             <script>
                 // Theme logo URL
                 const THEME_LOGO_URL = "";

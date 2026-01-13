@@ -588,55 +588,56 @@ function generateHeaderFooterStyles(headerOrFooter: Header | Footer): string {
 
 
 function generateBox(box: Box): CompositeGeneratorNode {
-    // Handle fragment animation
-    const fragmentClass = box.fragmentStyle ? `class="fragment ${box.fragmentStyle}"` : '';
-    const content = box.content;
+    switch (box.$type) {
+        case 'ContentBox':
+            return generateContentBoxWithFragment(box as any);
 
-    switch (content.$type) {
         case 'TextBox':
-            return fragmentClass
-                ? expandToNode`<div ${fragmentClass}>${generateTextBox(content)}</div>`
-                : generateTextBox(content);
+            return generateTerminalBoxWithFragment(box, generateTextBox(box as any));
 
         case 'ImageBox':
-            return fragmentClass
-                ? expandToNode`<div ${fragmentClass}>${generateImageBox(content)}</div>`
-                : generateImageBox(content);
+            return generateTerminalBoxWithFragment(box, generateImageBox(box as any));
 
         case 'VideoBox':
-            return fragmentClass
-                ? expandToNode`<div ${fragmentClass}>${generateVideoBox(content)}</div>`
-                : generateVideoBox(content);
+            return generateTerminalBoxWithFragment(box, generateVideoBox(box as any));
 
         case 'ComponentBoxReference':
-            return fragmentClass
-                ? expandToNode`<div ${fragmentClass}>${generateComponentBoxReference(content)}</div>`
-                : generateComponentBoxReference(content);
+            return generateTerminalBoxWithFragment(box, generateComponentBoxReference(box as any));
 
         case 'QuizBox':
-            return fragmentClass
-                ? expandToNode`<div ${fragmentClass}>${generateQuizBox(content)}</div>`
-                : generateQuizBox(content);
+            return generateTerminalBoxWithFragment(box, generateQuizBox(box as any));
 
         case 'LiveQuizBox':
-            return fragmentClass
-                ? expandToNode`<div ${fragmentClass}>${generateLiveQuizBox(content)}</div>`
-                : generateLiveQuizBox(content);
+            return generateTerminalBoxWithFragment(box, generateLiveQuizBox(box as any));
 
         case 'ListBox':
-            return fragmentClass
-                ? expandToNode`<div ${fragmentClass}>${generateListBox(content)}</div>`
-                : generateListBox(content);
+            return generateTerminalBoxWithFragment(box, generateListBox(box as any));
 
-        case 'ContentBox':
-            return expandToNode`
-                <div ${fragmentClass} ${(content.attributes.length !== 0) ? `style="${generateContentBoxAttributes(content.attributes, content.boxes.length)}"` : ''}>
-                    ${joinToNode(content.boxes.map(b => generateBox(b).appendNewLineIfNotEmpty()))}
-                </div>
-            `;
-
-        default: throw new Error(`Unknown box content type: ${(content as any).$type}`);
+        default:
+            throw new Error(`Unknown box type: ${(box as any).$type}`);
     }
+}
+
+function generateContentBoxWithFragment(box: any): CompositeGeneratorNode {
+    const fragmentStyle = getAttributeValue(box.attributes, 'fragment');
+    const fragmentClass = fragmentStyle ? `class="fragment ${fragmentStyle}"` : '';
+    const styleAttr = box.attributes.length !== 0 ? `style="${generateContentBoxAttributes(box.attributes, box.boxes.length)}"` : '';
+
+    return expandToNode`
+        <div ${fragmentClass} ${styleAttr}>
+            ${joinToNode(box.boxes.map((b: Box) => generateBox(b).appendNewLineIfNotEmpty()))}
+        </div>
+    `;
+}
+
+function generateTerminalBoxWithFragment(box: any, content: CompositeGeneratorNode): CompositeGeneratorNode {
+    const attributes = (box as unknown as { attributes?: unknown }).attributes;
+    const fragmentStyle = getAttributeValue(attributes, 'fragment');
+
+    if (fragmentStyle) {
+        return expandToNode`<div class="fragment ${fragmentStyle}">${content}</div>`;
+    }
+    return content;
 }
 
 

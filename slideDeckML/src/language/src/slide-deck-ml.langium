@@ -50,8 +50,7 @@ Slide:
 /* Composite pattern for boxes */
 
 Box:
-    ('fragment' fragmentStyle=FRAGMENT_STYLE)?
-    content=(ContentBox | TerminalBox);
+    ContentBox | TerminalBox;
 
 ContentBox:
     'box' ('[' attributes+=ContentBoxAttribute (',' attributes+=ContentBoxAttribute)* ']')? '{'
@@ -128,11 +127,13 @@ SlideAttribute:
     key='annotable';
 
 ContentBoxAttribute:
+    key='fragment' '=' value=FRAGMENT_STYLE |
     key='column' '=' value=INTEGER |
     key='height' '=' value=PERCENTAGE |
     key='alignment' '=' value=STRING;
 
 TextBoxAttribute:
+    key='fragment' '=' value=FRAGMENT_STYLE |
     key='bold' |
     key='italic' |
     key='underline' |
@@ -142,10 +143,12 @@ TextBoxAttribute:
     key='font' '=' value=STRING;
 
 ListBoxAttribute:
+    key='fragment' '=' value=FRAGMENT_STYLE |
     key='type' '=' value=LIST_TYPE |
     key='spaceBetweenItems' '=' value=INTEGER;
 
 MediaBoxAttribute:
+    key='fragment' '=' value=FRAGMENT_STYLE |
     key='scale' '=' value=PERCENTAGE;
 
 

@@ -24,32 +24,32 @@ slide intro {
 slide fadeAnimations {
     box {
         text {Animations FADE}
-        fragment fade-in text {Fade in}
-        fragment fade-up text {Fade up}
-        fragment fade-down text {Fade down}
+        text [fragment=fade-in] {Fade in}
+        text [fragment=fade-up] {Fade up}
+        text [fragment=fade-down] {Fade down}
     }
 }
 
 slide animationsGrowShrink {
     box {
         text {GROW et SHRINK}
-        fragment grow text {Texte grandit}
-        fragment shrink text {Texte rétrécit}
+        text [fragment=grow] {Texte grandit}
+        text [fragment=shrink] {Texte rétrécit}
     }
 }
 
 slide highlightAnimations {
     box {
         text {HIGHLIGHT}
-        fragment highlight-red text {Rouge}
-        fragment highlight-green text {Vert}
-        fragment highlight-blue text {Bleu}
+        text [fragment=highlight-red] {Rouge}
+        text [fragment=highlight-green] {Vert}
+        text [fragment=highlight-blue] {Bleu}
     }
 }
 
 slide conclusion {
     box {
-        fragment fade-in text {Conclusion}
-        fragment grow text {Merci!}
+        text [fragment=fade-in] {Conclusion}
+        text [fragment=grow] {Merci!}
     }
 }

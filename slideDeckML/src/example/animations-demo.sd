@@ -14,7 +14,6 @@ footer bg "#F5F5F5" color "#333333" size "1rem" {
     }
 }
 
-// Slide 1: Introduction sans animation
 slide intro {
     box {
         text {Bienvenue dans la démo des animations!}
@@ -22,72 +21,65 @@ slide intro {
     }
 }
 
-// Slide 2: Animations fade (apparition progressive)
 slide fadeAnimations {
     box {
         text {Animations de type FADE}
-        fragment fade-in text {Texte qui apparaît en fade-in}
-        fragment fade-up text {Texte qui monte en fade-up}
-        fragment fade-down text {Texte qui descend en fade-down}
-        fragment fade-left text {Texte qui vient de la gauche}
-        fragment fade-right text {Texte qui vient de la droite}
+        text [fragment=fade-in] {Texte qui apparaît en fade-in}
+        text [fragment=fade-up] {Texte qui monte en fade-up}
+        text [fragment=fade-down] {Texte qui descend en fade-down}
+        text [fragment=fade-left] {Texte qui vient de la gauche}
+        text [fragment=fade-right] {Texte qui vient de la droite}
     }
 }
 
-// Slide 3: Animations grow/shrink
 slide animationsGrowShrink {
     box {
         text {Animations GROW et SHRINK}
-        fragment grow text {Ce texte grandit (grow)}
-        fragment shrink text {Ce texte rétrécit (shrink)}
+        text [fragment=grow] {Ce texte grandit (grow)}
+        text [fragment=shrink] {Ce texte rétrécit (shrink)}
     }
 }
 
-// Slide 4: Animations de highlight
 slide highlightAnimations {
     box {
         text {Animations de HIGHLIGHT}
-        fragment highlight-red text {Texte surligné en rouge}
-        fragment highlight-green text {Texte surligné en vert}
-        fragment highlight-blue text {Texte surligné en bleu}
+        text [fragment=highlight-red] {Texte surligné en rouge}
+        text [fragment=highlight-green] {Texte surligné en vert}
+        text [fragment=highlight-blue] {Texte surligné en bleu}
     }
 }
 
-// Slide 5: Animation strike
 slide animationStrike {
     box {
         text {Animation STRIKE (barré)}
-        fragment strike text {Ce texte sera barré}
+        text [fragment=strike] {Ce texte sera barré}
         text {Utile pour montrer ce qui est obsolète!}
     }
 }
 
-// Slide 6: Combinaison complexe
 slide complexAnimation {
     box {
         text {Scénario complexe avec plusieurs animations}
-        fragment fade-in text {Étape 1: Introduction du problème}
-        fragment fade-up text {Étape 2: Analyse de la situation}
-        fragment fade-up text {Étape 3: Proposition de solution}
-        fragment highlight-green text {Conclusion: Solution adoptée!}
+        text [fragment=fade-in] {Étape 1: Introduction du problème}
+        text [fragment=fade-up] {Étape 2: Analyse de la situation}
+        text [fragment=fade-up] {Étape 3: Proposition de solution}
+        text [fragment=highlight-green] {Conclusion: Solution adoptée!}
     }
 }
 
-// Slide 7: Current visible (ne montre qu'un élément à la fois)
 slide currentVisibleAnimation {
     box {
         text {Animation CURRENT-VISIBLE (un seul visible à la fois)}
-        fragment current-visible text {Premier point}
-        fragment current-visible text {Deuxième point}
-        fragment current-visible text {Troisième point}
+        text [fragment=current-visible] {Premier point}
+        text [fragment=current-visible] {Deuxième point}
+        text [fragment=current-visible] {Troisième point}
     }
 }
 
-// Slide 8: Conclusion
 slide conclusion {
     box {
-        fragment fade-in text {Conclusion}
-        fragment fade-up text {Vous maîtrisez maintenant les animations!}
-        fragment grow text {Merci!}
+        text [fragment=fade-in] {Conclusion}
+        text [fragment=fade-up] {Vous maîtrisez maintenant les animations!}
+        text [fragment=grow] {Merci!}
     }
 }
