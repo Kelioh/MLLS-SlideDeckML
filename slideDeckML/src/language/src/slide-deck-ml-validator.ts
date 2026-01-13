@@ -2,20 +2,24 @@ import type { AstNode, ValidationAcceptor, ValidationChecks } from 'langium';
 import type { SlideDeckMlServices } from './slide-deck-ml-module.js';
 
 import {
-    Attribute,
     Box,
     Component,
     ComponentBox,
     ComponentBoxReference,
     ComponentContentBox,
     ContentBox,
+    ImageBox,
+    ListBox,
     LiveQuizBox,
     Model,
     QuizBox,
-    Slide,
     SlideDeckMlAstType,
-    TerminalBox,
-    TextBox
+    TextBox,
+    VideoBox,
+    isContentBoxAttribute,
+    isListBoxAttribute,
+    isMediaBoxAttribute,
+    isTextBoxAttribute
 } from './generated/ast.js';
 
 /**
@@ -26,9 +30,11 @@ export function registerValidationChecks(services: SlideDeckMlServices) {
     const validator = services.validation.SlideDeckMlValidator;
     const checks: ValidationChecks<SlideDeckMlAstType> = {
         Model: validator.checkComponentReferences,
-        ComponentContentBox: validator.checkContentBoxesAttributes,
-        ContentBox: validator.checkContentBoxesAttributes,
-        TerminalBox: validator.checkTerminalBoxAttributes,
+        ComponentBoxReference: validator.checkComponentBoxAttributes,
+        ComponentContentBox: validator.checkBoxAttributesUsages,
+        ContentBox: validator.checkBoxAttributesUsages,
+        TextBox: validator.checkBoxAttributesUsages,
+        ListBox: validator.checkBoxAttributesUsages,
         QuizBox: validator.checkQuizBox,
         LiveQuizBox: validator.checkLiveQuizBox,
     };
@@ -135,10 +141,9 @@ export class SlideDeckMlValidator {
     }
 
     private collectComponentBoxReferences(box: Box): ComponentBoxReference[] {
-        const content = box.content;
-        switch (content.$type) {
-            case 'ComponentBoxReference': return [content];
-            case 'ContentBox': return content.boxes.flatMap(b => this.collectComponentBoxReferences(b));
+        switch (box.$type) {
+            case 'ComponentBoxReference': return [box];
+            case 'ContentBox': return box.boxes.flatMap((b: Box) => this.collectComponentBoxReferences(b));
             default: return [];
         }
     }
@@ -146,47 +151,48 @@ export class SlideDeckMlValidator {
 
     /* Boxes attributes */
 
-    private boxAttributes: Record<string, Set<string>> = {
-        TextBox: new Set(['font']),
-        ComponentContentBox: new Set(['column', 'height']),
-        ContentBox: new Set(['column', 'height']),
-        ListBox: new Set(['type', 'spaceBetweenItems']),
-        Slide: new Set(['annotable']),
-        // Add box attributes here
-    };
-
-    checkContentBoxesAttributes(box: ContentBox | ComponentContentBox, validator: ValidationAcceptor): void {
-        this.checkAttributes(box.attributes, this.boxAttributes[box.$type], box, validator);
-    }
-
-    checkTerminalBoxAttributes(box: TerminalBox, validator: ValidationAcceptor): void {
-        switch (box.$type) {
-            case 'QuizBox': break;
-            case 'ImageBox': break;
-            case 'VideoBox': break;
-            case 'LiveQuizBox': break;
-
-            case 'ComponentBoxReference':
-                const componentContent = box.reference.ref?.content;
-                if (componentContent) {
-                    this.checkAttributes(box.attributes, this.boxAttributes[componentContent.$type], box, validator);
+    checkComponentBoxAttributes(reference: ComponentBoxReference, validator: ValidationAcceptor): void {
+        const componentContent = reference.reference.ref?.content;
+        if (componentContent) {
+            let attributeTypeChecker: (item: unknown) => boolean = this.collectAttributeTypeChecker(reference);
+            const usedAttributes: Set<string> = new Set();
+            for (const attribute of reference.attributes) {
+                if (!attributeTypeChecker(attribute)) {
+                    validator('error', `Attribute '${attribute.key}' is not authorized`, { node: reference });
                 }
-                break;
 
-            default:
-                this.checkAttributes(box.attributes, this.boxAttributes[box.$type], box, validator);
-                break;
+                if (usedAttributes.has(attribute.key)) {
+                    validator('warning', `Attribute '${attribute.key}' is declared multiple times`, { node: reference });
+                    continue;
+                }
+                usedAttributes.add(attribute.key);
+            }
         }
     }
 
-    private checkAttributes(attributes: Attribute[], authorizedAttributes: Set<string>, node: AstNode, validator: ValidationAcceptor): void {
-        const usedAttributes: Set<string> = new Set();
-        for (const attribute of attributes) {
-            if (!authorizedAttributes.has(attribute.key)) {
-                validator('error', `Attribute '${attribute.key}' is not authorized`, { node: node });
+    private collectAttributeTypeChecker(reference: ComponentBoxReference): (item: unknown) => boolean {
+        const componentContent = reference.reference.ref?.content;
+        if (componentContent) {
+            switch (componentContent.$type) {
+                case 'ComponentContentBox': return isContentBoxAttribute;
+                case 'TextBox': return isTextBoxAttribute;
+                case 'ListBox': return isListBoxAttribute;
+                case 'ImageBox': return isMediaBoxAttribute;
+                case 'VideoBox': return isMediaBoxAttribute;
+
+                case 'ComponentBoxReference':
+                    return this.collectAttributeTypeChecker(componentContent)
             }
+        }
+        return (item: unknown) => false;
+    }
+
+
+    checkBoxAttributesUsages(box: ComponentContentBox | ContentBox | TextBox | ListBox, validator: ValidationAcceptor): void {
+        const usedAttributes: Set<string> = new Set();
+        for (const attribute of box.attributes) {
             if (usedAttributes.has(attribute.key)) {
-                validator('warning', `Attribute '${attribute.key}' is declared multiple times`, { node: node });
+                validator('warning', `Attribute '${attribute.key}' is declared multiple times`, { node: box });
                 continue;
             }
             usedAttributes.add(attribute.key);

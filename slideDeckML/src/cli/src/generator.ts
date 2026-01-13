@@ -1,25 +1,23 @@
 import * as fs from 'node:fs';
 import * as path from 'node:path';
 import { extractDestinationAndName } from './util.js';
-import { get } from 'node:http';
 
 import {
-    Attribute,
     Component,
     ComponentBox,
     ComponentSlot,
+    ContentBoxAttribute,
     type Box,
     type ComponentBoxReference,
     type Footer,
     type Header,
     type ImageBox,
     type ListBox,
+    type LiveQuizBox,
     type Model,
     type QuizBox,
-    type LiveQuizBox,
     type Slide,
     type TextBox,
-    type Theme,
     type VideoBox
 } from 'slide-deck-ml-language';
 
@@ -537,7 +535,6 @@ function generateModel(model: Model): CompositeGeneratorNode {
     `;
 }
 
-
 function generateSlide(slide: Slide, model: Model): CompositeGeneratorNode {
     const attributes = (slide as unknown as { attributes?: unknown }).attributes;
     const isAnnotable = hasAttribute(attributes, 'annotable');
@@ -591,55 +588,56 @@ function generateHeaderFooterStyles(headerOrFooter: Header | Footer): string {
 
 
 function generateBox(box: Box): CompositeGeneratorNode {
-    // Handle fragment animation
-    const fragmentClass = box.fragmentStyle ? `class="fragment ${box.fragmentStyle}"` : '';
-    const content = box.content;
+    switch (box.$type) {
+        case 'ContentBox':
+            return generateContentBoxWithFragment(box as any);
 
-    switch (content.$type) {
         case 'TextBox':
-            return fragmentClass
-                ? expandToNode`<div ${fragmentClass}>${generateTextBox(content)}</div>`
-                : generateTextBox(content);
+            return generateTerminalBoxWithFragment(box, generateTextBox(box as any));
 
         case 'ImageBox':
-            return fragmentClass
-                ? expandToNode`<div ${fragmentClass}>${generateImageBox(content)}</div>`
-                : generateImageBox(content);
+            return generateTerminalBoxWithFragment(box, generateImageBox(box as any));
 
         case 'VideoBox':
-            return fragmentClass
-                ? expandToNode`<div ${fragmentClass}>${generateVideoBox(content)}</div>`
-                : generateVideoBox(content);
+            return generateTerminalBoxWithFragment(box, generateVideoBox(box as any));
 
         case 'ComponentBoxReference':
-            return fragmentClass
-                ? expandToNode`<div ${fragmentClass}>${generateComponentBoxReference(content)}</div>`
-                : generateComponentBoxReference(content);
+            return generateTerminalBoxWithFragment(box, generateComponentBoxReference(box as any));
 
         case 'QuizBox':
-            return fragmentClass
-                ? expandToNode`<div ${fragmentClass}>${generateQuizBox(content)}</div>`
-                : generateQuizBox(content);
-        
+            return generateTerminalBoxWithFragment(box, generateQuizBox(box as any));
+
         case 'LiveQuizBox':
-            return fragmentClass
-                ? expandToNode`<div ${fragmentClass}>${generateLiveQuizBox(content)}</div>`
-                : generateLiveQuizBox(content);
+            return generateTerminalBoxWithFragment(box, generateLiveQuizBox(box as any));
 
         case 'ListBox':
-            return fragmentClass
-                ? expandToNode`<div ${fragmentClass}>${generateListBox(content)}</div>`
-                : generateListBox(content);
+            return generateTerminalBoxWithFragment(box, generateListBox(box as any));
 
-        case 'ContentBox':
-            return expandToNode`
-                <div ${fragmentClass} ${(content.attributes.length !== 0) ? `style="${generateContentBoxAttributes(content.attributes)}"` : ''}>
-                    ${joinToNode(content.boxes.map(b => generateBox(b).appendNewLineIfNotEmpty()))}
-                </div>
-            `;
-
-        default: throw new Error(`Unknown box content type: ${(content as any).$type}`);
+        default:
+            throw new Error(`Unknown box type: ${(box as any).$type}`);
     }
+}
+
+function generateContentBoxWithFragment(box: any): CompositeGeneratorNode {
+    const fragmentStyle = getAttributeValue(box.attributes, 'fragment');
+    const fragmentClass = fragmentStyle ? `class="fragment ${fragmentStyle}"` : '';
+    const styleAttr = box.attributes.length !== 0 ? `style="${generateContentBoxAttributes(box.attributes, box.boxes.length)}"` : '';
+
+    return expandToNode`
+        <div ${fragmentClass} ${styleAttr}>
+            ${joinToNode(box.boxes.map((b: Box) => generateBox(b).appendNewLineIfNotEmpty()))}
+        </div>
+    `;
+}
+
+function generateTerminalBoxWithFragment(box: any, content: CompositeGeneratorNode): CompositeGeneratorNode {
+    const attributes = (box as unknown as { attributes?: unknown }).attributes;
+    const fragmentStyle = getAttributeValue(attributes, 'fragment');
+
+    if (fragmentStyle) {
+        return expandToNode`<div class="fragment ${fragmentStyle}">${content}</div>`;
+    }
+    return content;
 }
 
 
@@ -653,16 +651,37 @@ function generateComponentBoxReference(reference: ComponentBoxReference): Compos
     }
 
     /* Override declaration attributes  */
-    let declarationBox: ComponentBox = declaration.content;
-    if ((declaration.content.$type !== 'ComponentSlot') && (declaration.content.$type !== 'QuizBox')) {
-        const mergedAttributes: Map<string, string | undefined> = new Map(declaration.content.attributes.map(attribute => [attribute.key, attribute.value]));
-        for (const attribute of reference.attributes) {
-            mergedAttributes.set(attribute.key, attribute.value);
-        }
-        declarationBox = { ...declaration.content, attributes: Array.from(mergedAttributes.entries(), ([key, value]) => ({ $type: 'Attribute', key, value } as Attribute)) }; // Does not include $container, $containerProperty, $containerIndex, $cstNode, $document
+    let declarationBox: any = declaration.content;
+    switch (declaration.content.$type) {
+        case 'ComponentContentBox':
+        case 'TextBox':
+        case 'ListBox':
+        case 'ComponentBoxReference':
+            let mergedAttributes: Map<string, string | undefined>;
+            mergedAttributes = new Map(declarationBox.attributes.map((attribute: any) => [attribute.key, attribute.value]));
+            for (const attribute of reference.attributes) {
+                mergedAttributes.set(attribute.key, (attribute as any).value);
+            }
+            declarationBox = { ...declarationBox, attributes: Array.from(mergedAttributes.entries(), ([key, value]) => ({ $type: collectAttributeType(reference), key, value } as any)) }; // Does not include $container, $containerProperty, $containerIndex, $cstNode, $document
+            break;
     }
 
-    return generateComponentBox(declarationBox, slots);
+    return generateComponentBox(declarationBox as ComponentBox, slots);
+}
+
+function collectAttributeType(reference: ComponentBoxReference): string {
+    const componentContent = reference.reference.ref?.content;
+    if (componentContent) {
+        switch (componentContent.$type) {
+            case 'ComponentContentBox': return 'ContentBoxAttribute';
+            case 'TextBox': return 'TextBoxAttribute';
+            case 'ListBox': return 'ListBoxAttribute';
+            case 'ImageBox': return 'MediaBoxAttribute';
+            case 'VideoBox': return 'MediaBoxAttribute';
+            case 'ComponentBoxReference': return collectAttributeType(componentContent)
+        }
+    }
+    return '';
 }
 
 function generateComponentBox(box: ComponentBox, slots: Record<string, CompositeGeneratorNode>): CompositeGeneratorNode {
@@ -678,7 +697,7 @@ function generateComponentBox(box: ComponentBox, slots: Record<string, Composite
         case 'ComponentSlot': return generateComponentSlot(box, slots);
         case 'ComponentContentBox':
             return expandToNode`
-                <div ${(box.attributes.length !== 0) ? `style="${generateContentBoxAttributes(box.attributes)}"` : ''}>
+                <div ${(box.attributes.length !== 0) ? `style="${generateContentBoxAttributes(box.attributes, box.boxes.length)}"` : ''}>
                     ${joinToNode(box.boxes.map(box => generateComponentBox(box, slots).appendNewLineIfNotEmpty()))}
                 </div>
             `;
@@ -687,19 +706,67 @@ function generateComponentBox(box: ComponentBox, slots: Record<string, Composite
     }
 }
 
-function generateContentBoxAttributes(attributes: Attribute[]): string {
-    let style: string = '';
+function generateContentBoxAttributes(attributes: ContentBoxAttribute[], boxCount: number): string {
+    let style = '';
+    let alignmentValue: string | undefined;
+    let hasHeight = false;
+
     for (const attribute of attributes) {
         switch (attribute.key) {
             case 'column':
-                style += `display: grid; grid-template-columns: repeat(${attribute.value}, 1fr); `;
+                style += `display: grid; 
+                    grid-template-columns: repeat(${attribute.value}, 1fr); 
+                    grid-template-rows: repeat(${Math.ceil(boxCount / (attribute.value as any))}, ${100 / Math.ceil(boxCount / (attribute.value as any))}%);
+                    width: 100%;
+                    gap: 10px;
+                    box-sizing: border-box;
+                `;
                 break;
+
             case 'height':
-                style += `height: ${attribute.value}; `;
+                style += `height: ${attribute.value};`;
+                hasHeight = true;
+                break;
+
+            case 'alignment':
+                alignmentValue = attribute.value;
                 break;
         }
     }
+
+    if (!hasHeight) {
+        style += 'height: 100%; ';
+    }
+
+    const alignment = mapAlignment(alignmentValue);
+
+    style += `
+        place-items: ${alignment};
+        place-content: ${alignment};
+    `;
+
     return style;
+}
+
+function mapAlignment(value?: string): string {
+    if (!value) {
+        return 'center center';
+    }
+
+    const [vertical, horizontal] = value.split(' ');
+
+    const map: Record<string, string> = {
+        top: 'start',
+        center: 'center',
+        bottom: 'end',
+        left: 'start',
+        right: 'end'
+    };
+
+    const v = map[vertical] ?? 'center';
+    const h = map[horizontal] ?? 'center';
+
+    return `${v} ${h}`;
 }
 
 function generateComponentSlot(slot: ComponentSlot, slots: Record<string, CompositeGeneratorNode>): CompositeGeneratorNode {
@@ -707,11 +774,81 @@ function generateComponentSlot(slot: ComponentSlot, slots: Record<string, Compos
 }
 
 function generateTextBox(textBox: TextBox): CompositeGeneratorNode {
-    return expandToNode`<p>${textBox.content.slice(1, -1).trim()}</p>`; // TODO: generate with attributes consideration
+    const attributes = (textBox as unknown as { attributes?: unknown }).attributes;
+
+    const bold = hasAttribute(attributes, 'bold');
+    const italic = hasAttribute(attributes, 'italic');
+    const underline = hasAttribute(attributes, 'underline');
+    const strikethrough = hasAttribute(attributes, 'strikethrough');
+    const highlight = hasAttribute(attributes, 'highlight');
+    const color = getAttributeValue(attributes, 'color');
+    const font = getAttributeValue(attributes, 'font');
+
+    const text = textBox.content.slice(1, -1).trim();
+
+    return expandToNode`<p style="${generateTextBoxStyles(bold, italic, underline, strikethrough, highlight, color, font)}">${text}</p>`;
+}
+
+function generateTextBoxStyles(bold: boolean, italic: boolean, underline: boolean, strikethrough: boolean, highlight: boolean, color: string | unknown, font: string | unknown): string {
+    let style = '';
+
+    if (bold) {
+        style += 'font-weight: bold; ';
+    }
+    if (italic) {
+        style += 'font-style: italic; ';
+    }
+    if (underline) {
+        style += 'text-decoration: underline; ';
+    }
+    if (strikethrough) {
+        style += 'text-decoration: line-through; ';
+    }
+    if (highlight) {
+        style += 'background-color: yellow; ';
+    }
+    if (color) {
+        style += `color: ${color}; `;
+    }
+    if (font) {
+        style += `font-family: ${font}; `;
+    }
+
+    return style;
 }
 
 function generateImageBox(imageBox: ImageBox): CompositeGeneratorNode {
-    return expandToNode`<img src="${imageBox.src.slice(1, -1).trim()}" alt="${imageBox.alt.slice(1, -1).trim()}" />`;
+    const src = imageBox.src.slice(1, -1).trim();
+    const alt = imageBox.alt.slice(1, -1).trim();
+    const attributes = (imageBox as unknown as { attributes?: unknown }).attributes;
+    const scaleAttribute = getAttributeValue(attributes, 'scale');
+
+    let style = `
+        display: block;
+        max-width: 100%;
+        max-height: 100%;
+        object-fit: contain;
+        margin: auto;
+    `;
+
+    if (scaleAttribute) {
+        style += `
+            width: ${scaleAttribute};
+            height: auto;
+        `;
+    } else {
+        style += `
+            width: 100%; 
+            height: 100%;
+        `;
+    }
+
+    return expandToNode`
+        <img 
+            src="${src}" 
+            alt="${alt}" 
+            style="${style}" 
+        />`;
 }
 
 function toYouTubeEmbed(url: string): string {
@@ -722,18 +859,36 @@ function toYouTubeEmbed(url: string): string {
 function generateVideoBox(videoBox: VideoBox): CompositeGeneratorNode {
     const src = videoBox.src.slice(1, -1).trim();
     const embed = toYouTubeEmbed(src);
+    const alt = videoBox.alt.slice(1, -1).trim();
+
+    const attributes = (videoBox as unknown as { attributes?: unknown }).attributes;
+    const scaleAttribute = getAttributeValue(attributes, 'scale');
+
+    let maxWidthStyle = '100%';
+    if (scaleAttribute) {
+        const val = scaleAttribute.toString();
+        maxWidthStyle = val.endsWith('%') ? val : `${val}%`;
+    }
+
+    const style = `
+        display: block;
+        aspect-ratio: 16 / 9;
+        width: auto;
+        height: auto;
+        max-width: ${maxWidthStyle};
+        max-height: 100%;
+        border: 0;
+    `;
 
     return expandToNode`
         <iframe
             src="${embed}"
-            title="${videoBox.alt.slice(1, -1).trim()}"
-            frameborder="0"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            title="${alt}"
+            style="${style}"
             allowfullscreen>
         </iframe>
     `;
 }
-
 
 function textContent(text: string): string {
     return text.slice(1, -1).trim();
@@ -833,7 +988,7 @@ function generateLiveQuizBox(quiz: LiveQuizBox): CompositeGeneratorNode {
     const questionText = textContent(quiz.question);
     const correctAnswer = quiz.correctAnswer ? textContent(quiz.correctAnswer) : '';
     const sessionId = "SESSION123";
-    
+
     const options = quiz.options.map(opt => textContent(opt.content));
     const optionsJson = JSON.stringify(options);
 
@@ -859,8 +1014,8 @@ function generateLiveQuizBox(quiz: LiveQuizBox): CompositeGeneratorNode {
             </div>
 
             <div class="sdml-quiz__actions" style="margin-top: 15px;">
-                ${quiz.revealResultsOnDemand 
-                    ? expandToNode`
+                ${quiz.revealResultsOnDemand
+            ? expandToNode`
                         <div class="sdml-quiz__reveal-wrap">
                             <button class="sdml-quiz__btn sdml-quiz__reveal" type="button" 
                                 onclick="(function(btn){
@@ -873,11 +1028,11 @@ function generateLiveQuizBox(quiz: LiveQuizBox): CompositeGeneratorNode {
                                 Correct answer: <strong>${correctAnswer}</strong>
                             </div>
                         </div>`
-                    : expandToNode`
+            : expandToNode`
                         <div class="sdml-quiz__results" style="margin-top: 10px; padding: 10px; background: #e0f2f1; border-radius: 4px;">
                             Correct answer: <strong>${correctAnswer || '—'}</strong>
                         </div>`
-                }
+        }
             </div>
 
             <script>

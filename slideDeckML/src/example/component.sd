@@ -1,7 +1,7 @@
 presentation Component
 
 component constant_component {
-    text[font = "arial"] {
+    text[bold] {
         Composant sans slot
     }
 }
@@ -45,17 +45,20 @@ component quiz_component {
     }
 }
 
+component nested_component {
+    constant_component {}
+}
 
 slide slide1 [annotable] {
-    box {
-        slot_component[column = 4] {
+    box [height = 100%] {
+        slot_component[column = 3] {
             @slot1
-            video {
-                src {https://youtu.be/AMShoQ_qdc0?si=03Zdvmdtdd8yeCXu}
+            video [scale = 100%] {
+                src {https://youtu.be/uGSu6mhk3RQ?si=7k--2FqMo6HaFlEz}
                 alt {Hello World Song}
             }
             @slot2
-            image {
+            image [scale = 100%] {
                 src {https://images4.alphacoders.com/133/thumb-1920-1332281.jpeg}
                 alt {Gojo}
             }
@@ -66,13 +69,13 @@ slide slide1 [annotable] {
 
 slide slide2 {
     box {
-        constant_component[font = "wow"] {}
+        constant_component[bold] {}
         constant_component {}
     }
 }
 
 slide slide3 {
-    slot_component {
+    slot_component[column = 4, column = 2] {
         @slot2
         text {
             ceci est le texte du slot 2
@@ -86,4 +89,32 @@ slide slide4 [annotable] {
 
 slide slide5 {
     quiz_component {}
+}
+
+slide slide6 {
+    nested_component[underline] {}
+}
+
+slide slide7 {
+    box [column = 2] {
+        text [bold, italic, underline, font = "arial", color = "red"] {
+            Colonne de gauche
+        }
+        text {
+            Colonne de droite
+        }
+        box [column = 2] {
+            image [scale = 100%] {
+                src {https://images4.alphacoders.com/133/thumb-1920-1332281.jpeg}
+                alt {Gojo}
+            }
+            text {
+                Un petit fou fou
+            }
+            video [scale = 100%] {
+                src {https://youtu.be/uGSu6mhk3RQ?si=7k--2FqMo6HaFlEz}
+                alt {Hello World Song}
+            }
+        }
+    }
 }
