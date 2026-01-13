@@ -124,12 +124,13 @@ ComponentBoxAttribute:
     ContentBoxAttribute | TextBoxAttribute | ListBoxAttribute | MediaBoxAttribute;
 
 SlideAttribute:
-    key='annotable';
+    key='non-annotable';
 
 ContentBoxAttribute:
     key='fragment' '=' value=FRAGMENT_STYLE |
     key='column' '=' value=INTEGER |
     key='height' '=' value=PERCENTAGE |
+    key='width' '=' value=PERCENTAGE |
     key='alignment' '=' value=STRING;
 
 TextBoxAttribute:
@@ -140,7 +141,8 @@ TextBoxAttribute:
     key='strikethrough' |
     key='highlight' |
     key='color' '=' value=STRING |
-    key='font' '=' value=STRING;
+    key='font' '=' value=STRING |
+    key='text-size' '=' value=STRING;
 
 ListBoxAttribute:
     key='fragment' '=' value=FRAGMENT_STYLE |
@@ -150,7 +152,6 @@ ListBoxAttribute:
 MediaBoxAttribute:
     key='fragment' '=' value=FRAGMENT_STYLE |
     key='scale' '=' value=PERCENTAGE;
-
 
 /*******************/
 /* Header & Footer */

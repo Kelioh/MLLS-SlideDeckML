@@ -74,8 +74,7 @@ function generateModel(model: Model): CompositeGeneratorNode {
 
                 /* Reveal.js viewport adjustment for header/footer */
                 .reveal {
-                    top: 80px !important;
-                    height: calc(100% - 160px) !important;
+                    height: calc(100% - 80px) !important;
                 }
 
                 .reveal .slides section {
@@ -537,7 +536,7 @@ function generateModel(model: Model): CompositeGeneratorNode {
 
 function generateSlide(slide: Slide, model: Model): CompositeGeneratorNode {
     const attributes = (slide as unknown as { attributes?: unknown }).attributes;
-    const isAnnotable = hasAttribute(attributes, 'annotable');
+    const isNonAnnotable = hasAttribute(attributes, 'non-annotable');
 
     // Determine header and footer (slide-specific or global)
     const header = slide.header || model.header;
@@ -554,7 +553,7 @@ function generateSlide(slide: Slide, model: Model): CompositeGeneratorNode {
     return expandToNode`
         <section
             id="${slide.id}"
-            ${isAnnotable ? `class="annotable"` : ''}
+            ${isNonAnnotable ? '' : 'class="annotable"'}
             data-transition="fade"
             ${headerHtml ? `data-header="${headerHtml.replace(/"/g, '&quot;')}"` : ''}
             ${footerHtml ? `data-footer="${footerHtml.replace(/"/g, '&quot;')}"` : ''}
@@ -621,7 +620,7 @@ function generateBox(box: Box): CompositeGeneratorNode {
 function generateContentBoxWithFragment(box: any): CompositeGeneratorNode {
     const fragmentStyle = getAttributeValue(box.attributes, 'fragment');
     const fragmentClass = fragmentStyle ? `class="fragment ${fragmentStyle}"` : '';
-    const styleAttr = box.attributes.length !== 0 ? `style="${generateContentBoxAttributes(box.attributes, box.boxes.length)}"` : '';
+    const styleAttr = `style="${generateContentBoxAttributes(box.attributes, box.boxes.length)}"`;
 
     return expandToNode`
         <div ${fragmentClass} ${styleAttr}>
@@ -697,7 +696,7 @@ function generateComponentBox(box: ComponentBox, slots: Record<string, Composite
         case 'ComponentSlot': return generateComponentSlot(box, slots);
         case 'ComponentContentBox':
             return expandToNode`
-                <div ${(box.attributes.length !== 0) ? `style="${generateContentBoxAttributes(box.attributes, box.boxes.length)}"` : ''}>
+                <div ${`style="${generateContentBoxAttributes(box.attributes, box.boxes.length)}"`}>
                     ${joinToNode(box.boxes.map(box => generateComponentBox(box, slots).appendNewLineIfNotEmpty()))}
                 </div>
             `;
@@ -710,22 +709,21 @@ function generateContentBoxAttributes(attributes: ContentBoxAttribute[], boxCoun
     let style = '';
     let alignmentValue: string | undefined;
     let hasHeight = false;
+    let hasWidth = false;
+
+    const columnAttr = getAttributeValue(attributes, 'column');
+    const column = columnAttr ? parseInt(columnAttr as string, 10) : 2;
 
     for (const attribute of attributes) {
         switch (attribute.key) {
-            case 'column':
-                style += `display: grid; 
-                    grid-template-columns: repeat(${attribute.value}, 1fr); 
-                    grid-template-rows: repeat(${Math.ceil(boxCount / (attribute.value as any))}, ${100 / Math.ceil(boxCount / (attribute.value as any))}%);
-                    width: 100%;
-                    gap: 10px;
-                    box-sizing: border-box;
-                `;
-                break;
-
             case 'height':
                 style += `height: ${attribute.value};`;
                 hasHeight = true;
+                break;
+
+            case 'width':
+                style += `width: ${attribute.value};`;
+                hasWidth = true;
                 break;
 
             case 'alignment':
@@ -734,8 +732,19 @@ function generateContentBoxAttributes(attributes: ContentBoxAttribute[], boxCoun
         }
     }
 
+    style += `display: grid; 
+            grid-template-columns: repeat(${column}, 1fr); 
+            grid-template-rows: repeat(${Math.ceil(boxCount / column)}, calc(${100 / Math.ceil(boxCount / column)}% - ${10 * (Math.ceil(boxCount / column) - 1) * 1 / (Math.ceil(boxCount / column))}px));
+            gap: 10px;
+            box-sizing: border-box;
+    `;
+
     if (!hasHeight) {
         style += 'height: 100%; ';
+    }
+
+    if (!hasWidth) {
+        style += 'width: 100%; ';
     }
 
     const alignment = mapAlignment(alignmentValue);
@@ -783,13 +792,14 @@ function generateTextBox(textBox: TextBox): CompositeGeneratorNode {
     const highlight = hasAttribute(attributes, 'highlight');
     const color = getAttributeValue(attributes, 'color');
     const font = getAttributeValue(attributes, 'font');
+    const textSize = getAttributeValue(attributes, 'text-size');
 
     const text = textBox.content.slice(1, -1).trim();
 
-    return expandToNode`<p style="${generateTextBoxStyles(bold, italic, underline, strikethrough, highlight, color, font)}">${text}</p>`;
+    return expandToNode`<p style="${generateTextBoxStyles(bold, italic, underline, strikethrough, highlight, color, font, textSize)}">${text}</p>`;
 }
 
-function generateTextBoxStyles(bold: boolean, italic: boolean, underline: boolean, strikethrough: boolean, highlight: boolean, color: string | unknown, font: string | unknown): string {
+function generateTextBoxStyles(bold: boolean, italic: boolean, underline: boolean, strikethrough: boolean, highlight: boolean, color: string | unknown, font: string | unknown, textSize: string | unknown): string {
     let style = '';
 
     if (bold) {
@@ -812,6 +822,20 @@ function generateTextBoxStyles(bold: boolean, italic: boolean, underline: boolea
     }
     if (font) {
         style += `font-family: ${font}; `;
+    }
+    if (textSize) {
+        if (textSize === 'xs') {
+            textSize = '0.8em';
+        } else if (textSize === 's') {
+            textSize = '0.9em';
+        } else if (textSize === 'm') {
+            textSize = '1em';
+        } else if (textSize === 'l') {
+            textSize = '1.2em';
+        } else if (textSize === 'xl') {
+            textSize = '1.5em';
+        }
+        style += `font-size: ${textSize}; `;
     }
 
     return style;

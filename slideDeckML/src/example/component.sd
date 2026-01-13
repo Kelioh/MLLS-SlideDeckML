@@ -49,7 +49,7 @@ component nested_component {
     constant_component {}
 }
 
-slide slide1 [annotable] {
+slide slide1 [non-annotable] {
     box [height = 100%] {
         slot_component[column = 3] {
             @slot1
@@ -83,7 +83,7 @@ slide slide3 {
     }
 }
 
-slide slide4 [annotable] {
+slide slide4 [non-annotable] {
     list_component[type = ordered] {}
 }
 
@@ -97,23 +97,43 @@ slide slide6 {
 
 slide slide7 {
     box [column = 2] {
-        text [bold, italic, underline, font = "arial", color = "red"] {
-            Colonne de gauche
+        text [bold, italic, underline, font = "arial", color = "red", text-size = "m"] {
+            Colonne de gauche mais un texte un peu plus long
         }
-        text {
-            Colonne de droite
+        box [width = 50%] {
+            image [scale = 100%] {
+                src {https://images4.alphacoders.com/133/thumb-1920-1332281.jpeg}
+                alt {Gojo}
+            }
+            image [scale = 100%] {
+                src {https://images4.alphacoders.com/133/thumb-1920-1332281.jpeg}
+                alt {Gojo}
+            }
+            image [scale = 100%] {
+                src {https://images4.alphacoders.com/133/thumb-1920-1332281.jpeg}
+                alt {Gojo}
+            }
+            image [scale = 100%] {
+                src {https://images4.alphacoders.com/133/thumb-1920-1332281.jpeg}
+                alt {Gojo}
+            }
         }
         box [column = 2] {
             image [scale = 100%] {
                 src {https://images4.alphacoders.com/133/thumb-1920-1332281.jpeg}
                 alt {Gojo}
             }
-            text {
-                Un petit fou fou
+            image [scale = 100%] {
+                src {https://images4.alphacoders.com/133/thumb-1920-1332281.jpeg}
+                alt {Gojo}
             }
-            video [scale = 100%] {
-                src {https://youtu.be/uGSu6mhk3RQ?si=7k--2FqMo6HaFlEz}
-                alt {Hello World Song}
+            image [scale = 100%] {
+                src {https://images4.alphacoders.com/133/thumb-1920-1332281.jpeg}
+                alt {Gojo}
+            }
+            image [scale = 100%] {
+                src {https://images4.alphacoders.com/133/thumb-1920-1332281.jpeg}
+                alt {Gojo}
             }
         }
     }

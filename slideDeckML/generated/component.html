@@ -19,8 +19,7 @@
 
                 /* Reveal.js viewport adjustment for header/footer */
                 .reveal {
-                    top: 80px !important;
-                    height: calc(100% - 160px) !important;
+                    height: calc(100% - 80px) !important;
                 }
 
                 .reveal .slides section {
@@ -190,24 +189,28 @@
                 <div class="slides">
                     <section
                         id="slide1"
-                        class="annotable"
+                        
                         data-transition="fade"
                         
                         
                         
                         
                     >
-                        <div  style="height: 100%;
+                        <div  style="height: 100%;display: grid; 
+            grid-template-columns: repeat(2, 1fr); 
+            grid-template-rows: repeat(1, calc(100% - 0px));
+            gap: 10px;
+            box-sizing: border-box;
+    width: 100%; 
         place-items: center center;
         place-content: center center;
     ">
-                            <div style="display: grid; 
-                    grid-template-columns: repeat(3, 1fr); 
-                    grid-template-rows: repeat(2, 50%);
-                    width: 100%;
-                    gap: 10px;
-                    box-sizing: border-box;
-                height: 100%;
+                            <div style="height: 100%;display: grid; 
+            grid-template-columns: repeat(3, 1fr); 
+            grid-template-rows: repeat(2, calc(50% - 5px));
+            gap: 10px;
+            box-sizing: border-box;
+    width: 100%; 
         place-items: center center;
         place-content: center center;
     ">
@@ -246,45 +249,51 @@
                     </section>
                     <section
                         id="slide2"
-                        
+                        class="annotable"
                         data-transition="fade"
                         
                         
                         
                         
                     >
-                        <div  >
+                        <div  style="display: grid; 
+            grid-template-columns: repeat(2, 1fr); 
+            grid-template-rows: repeat(1, calc(100% - 0px));
+            gap: 10px;
+            box-sizing: border-box;
+    height: 100%; width: 100%; 
+        place-items: center center;
+        place-content: center center;
+    ">
                             <p style="font-weight: bold; ">Composant sans slot</p>
                             <p style="font-weight: bold; ">Composant sans slot</p>
                         </div>
                     </section>
                     <section
                         id="slide3"
-                        
+                        class="annotable"
                         data-transition="fade"
                         
                         
                         
                         
                     >
-                        <div style="display: grid; 
-                    grid-template-columns: repeat(2, 1fr); 
-                    grid-template-rows: repeat(2, 50%);
-                    width: 100%;
-                    gap: 10px;
-                    box-sizing: border-box;
-                height: 100%;
+                        <div style="height: 100%;display: grid; 
+            grid-template-columns: repeat(2, 1fr); 
+            grid-template-rows: repeat(2, calc(50% - 5px));
+            gap: 10px;
+            box-sizing: border-box;
+    width: 100%; 
         place-items: center center;
         place-content: center center;
     ">
                             <p style="">Ceci est le texte du composant</p>
                             <div  style="display: grid; 
-                    grid-template-columns: repeat(2, 1fr); 
-                    grid-template-rows: repeat(1, 100%);
-                    width: 100%;
-                    gap: 10px;
-                    box-sizing: border-box;
-                height: 100%; 
+            grid-template-columns: repeat(2, 1fr); 
+            grid-template-rows: repeat(1, calc(100% - 0px));
+            gap: 10px;
+            box-sizing: border-box;
+    height: 100%; width: 100%; 
         place-items: center center;
         place-content: center center;
     ">
@@ -298,7 +307,7 @@
                     </section>
                     <section
                         id="slide4"
-                        class="annotable"
+                        
                         data-transition="fade"
                         
                         
@@ -311,7 +320,7 @@
                     </section>
                     <section
                         id="slide5"
-                        
+                        class="annotable"
                         data-transition="fade"
                         
                         
@@ -357,7 +366,7 @@
                     </section>
                     <section
                         id="slide6"
-                        
+                        class="annotable"
                         data-transition="fade"
                         
                         
@@ -368,7 +377,7 @@
                     </section>
                     <section
                         id="slide7"
-                        
+                        class="annotable"
                         data-transition="fade"
                         
                         
@@ -376,24 +385,21 @@
                         
                     >
                         <div  style="display: grid; 
-                    grid-template-columns: repeat(2, 1fr); 
-                    grid-template-rows: repeat(2, 50%);
-                    width: 100%;
-                    gap: 10px;
-                    box-sizing: border-box;
-                height: 100%; 
+            grid-template-columns: repeat(2, 1fr); 
+            grid-template-rows: repeat(2, calc(50% - 5px));
+            gap: 10px;
+            box-sizing: border-box;
+    height: 100%; width: 100%; 
         place-items: center center;
         place-content: center center;
     ">
-                            <p style="font-weight: bold; font-style: italic; text-decoration: underline; color: red; font-family: arial; ">Colonne de gauche</p>
-                            <p style="">Colonne de droite</p>
-                            <div  style="display: grid; 
-                    grid-template-columns: repeat(2, 1fr); 
-                    grid-template-rows: repeat(2, 50%);
-                    width: 100%;
-                    gap: 10px;
-                    box-sizing: border-box;
-                height: 100%; 
+                            <p style="font-weight: bold; font-style: italic; text-decoration: underline; color: red; font-family: arial; font-size: 1em; ">Colonne de gauche mais un texte un peu plus long</p>
+                            <div  style="width: 50%;display: grid; 
+            grid-template-columns: repeat(2, 1fr); 
+            grid-template-rows: repeat(2, calc(50% - 5px));
+            gap: 10px;
+            box-sizing: border-box;
+    height: 100%; 
         place-items: center center;
         place-content: center center;
     ">
@@ -411,21 +417,114 @@
             height: auto;
         " 
                                 />
-                                <p style="">Un petit fou fou</p>
-                                <iframe
-                                    src="https://www.youtube.com/embed/uGSu6mhk3RQ"
-                                    title="Hello World Song"
+                                <img 
+                                    src="https://images4.alphacoders.com/133/thumb-1920-1332281.jpeg" 
+                                    alt="Gojo" 
                                     style="
         display: block;
-        aspect-ratio: 16 / 9;
-        width: auto;
-        height: auto;
         max-width: 100%;
         max-height: 100%;
-        border: 0;
-    "
-                                    allowfullscreen>
-                                </iframe>
+        object-fit: contain;
+        margin: auto;
+    
+            width: 100%;
+            height: auto;
+        " 
+                                />
+                                <img 
+                                    src="https://images4.alphacoders.com/133/thumb-1920-1332281.jpeg" 
+                                    alt="Gojo" 
+                                    style="
+        display: block;
+        max-width: 100%;
+        max-height: 100%;
+        object-fit: contain;
+        margin: auto;
+    
+            width: 100%;
+            height: auto;
+        " 
+                                />
+                                <img 
+                                    src="https://images4.alphacoders.com/133/thumb-1920-1332281.jpeg" 
+                                    alt="Gojo" 
+                                    style="
+        display: block;
+        max-width: 100%;
+        max-height: 100%;
+        object-fit: contain;
+        margin: auto;
+    
+            width: 100%;
+            height: auto;
+        " 
+                                />
+                            </div>
+                            <div  style="display: grid; 
+            grid-template-columns: repeat(2, 1fr); 
+            grid-template-rows: repeat(2, calc(50% - 5px));
+            gap: 10px;
+            box-sizing: border-box;
+    height: 100%; width: 100%; 
+        place-items: center center;
+        place-content: center center;
+    ">
+                                <img 
+                                    src="https://images4.alphacoders.com/133/thumb-1920-1332281.jpeg" 
+                                    alt="Gojo" 
+                                    style="
+        display: block;
+        max-width: 100%;
+        max-height: 100%;
+        object-fit: contain;
+        margin: auto;
+    
+            width: 100%;
+            height: auto;
+        " 
+                                />
+                                <img 
+                                    src="https://images4.alphacoders.com/133/thumb-1920-1332281.jpeg" 
+                                    alt="Gojo" 
+                                    style="
+        display: block;
+        max-width: 100%;
+        max-height: 100%;
+        object-fit: contain;
+        margin: auto;
+    
+            width: 100%;
+            height: auto;
+        " 
+                                />
+                                <img 
+                                    src="https://images4.alphacoders.com/133/thumb-1920-1332281.jpeg" 
+                                    alt="Gojo" 
+                                    style="
+        display: block;
+        max-width: 100%;
+        max-height: 100%;
+        object-fit: contain;
+        margin: auto;
+    
+            width: 100%;
+            height: auto;
+        " 
+                                />
+                                <img 
+                                    src="https://images4.alphacoders.com/133/thumb-1920-1332281.jpeg" 
+                                    alt="Gojo" 
+                                    style="
+        display: block;
+        max-width: 100%;
+        max-height: 100%;
+        object-fit: contain;
+        margin: auto;
+    
+            width: 100%;
+            height: auto;
+        " 
+                                />
                             </div>
                         </div>
                     </section>
