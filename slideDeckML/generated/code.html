@@ -7,6 +7,7 @@
 
             <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5/dist/reveal.css">
             <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5/dist/theme/solarized.css">
+            <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5/plugin/highlight/monokai.css">
 
             <style>
                 /* Reset body margins/padding */
@@ -19,8 +20,7 @@
 
                 /* Reveal.js viewport adjustment for header/footer */
                 .reveal {
-                    top: 80px !important;
-                    height: calc(100% - 160px) !important;
+                    height: calc(100% - 80px) !important;
                 }
 
                 .reveal .slides section {
@@ -190,251 +190,113 @@
                 <div class="slides">
                     <section
                         id="Question1"
-                        
+                        class="annotable"
                         data-transition="fade"
                         
                         
                         
                         
                     >
-                        <div  >
-                            <p style="">Question</p>
-                            <div
-                                class="sdml-quiz"
-                                data-quiz-id="performance"
-                                data-quiz-type="short"
-                                data-correct-answer="n log n"
-                                data-reveal-on-demand="true"
-                            >
-                                <div class="sdml-quiz__title">Quiz</div>
-                                <div class="sdml-quiz__question">What’s the typical performance complexity target for sorting large arrays?</div>
-
-                                <div class="sdml-quiz__actions">
-                                    <input class="sdml-quiz__input" type="text" placeholder="Your answer" />
-                                    <button
-                                        class="sdml-quiz__btn sdml-quiz__submit"
-                                        type="button"
-                                                onclick="(function(btn){const r=btn.closest('.sdml-quiz');if(!r)return;const c=(r.getAttribute('data-correct-answer')||'').trim();const f=r.querySelector('.sdml-quiz__feedback');if(!f)return;const i=r.querySelector('input.sdml-quiz__input');if(!i)return;const v=(i.value||'').trim();if(!v)return;const ok=v.toLowerCase()===c.toLowerCase();f.textContent=ok?'Correct.':'Not quite.';f.style.color=ok?'#2aa198':'#dc322f';if(!ok){const res=r.querySelector('.sdml-quiz__results');if(res){res.style.display='block';}const rb=r.querySelector('.sdml-quiz__reveal');if(rb)rb.style.display='none';} })(this)"
-                                    >Submit</button>
+                        <div class="code-box-container" style="display: flex; gap: 2rem; align-items: center; width: 100%; height: 500px;">
+                            <div style="flex: 2;">
+                                <pre><code data-noescape class="language-python" data-line-numbers="1|2|3|4|5|6">      def quicksort(arr):
+          if len(arr) <= 1:
+              return arr
+          pivot = arr[len(arr) // 2]
+          left = [x for x in arr if x < pivot]
+    </code></pre>
+                            </div>
+                            <div class="image-stack" style="flex: 1; position: relative; height: 100%;">
+                                <div class="code-step-image" data-start="1" data-end="3"
+                                     style="position: absolute; opacity: 1; transition: opacity 0.3s; width: 100%; height: 100%;">
+                                    <img 
+                                        src="https://images4.alphacoders.com/133/thumb-1920-1332281.jpeg" 
+                                        alt="Gojo" 
+                                        style="
+        display: block;
+        max-width: 100%;
+        max-height: 100%;
+        object-fit: contain;
+        margin: auto;
+    
+            width: 100%; 
+            height: 100%;
+        " 
+                                    />
+                                </div><div class="code-step-image" data-start="4" data-end="5"
+                                     style="position: absolute; opacity: 0; transition: opacity 0.3s; width: 100%; height: 100%;">
+                                    <img 
+                                        src="https://images4.alphacoders.com/133/thumb-1920-1332282.jpeg" 
+                                        alt="Gojo" 
+                                        style="
+        display: block;
+        max-width: 100%;
+        max-height: 100%;
+        object-fit: contain;
+        margin: auto;
+    
+            width: 100%; 
+            height: 100%;
+        " 
+                                    />
                                 </div>
-
-                                        <div class="sdml-quiz__feedback" aria-live="polite"></div>
-                                        <div class="sdml-quiz__reveal-wrap">
-                                            <button class="sdml-quiz__btn sdml-quiz__reveal" type="button" onclick="(function(btn){const r=btn.closest('.sdml-quiz');if(!r)return;const res=r.querySelector('.sdml-quiz__results');if(res){res.style.display='block';}btn.style.display='none';})(this)">Reveal answer</button>
-                                            <div class="sdml-quiz__results" style="display:none">Correct answer: <strong>n log n</strong></div>
-                                        </div>
                             </div>
                         </div>
                     </section>
                     <section
                         id="Question2"
-                        
+                        class="annotable"
                         data-transition="fade"
                         
                         
                         
                         
                     >
-                        <div  >
-                            <div
-                                class="sdml-quiz"
-                                data-quiz-id="sort"
-                                data-quiz-type="mcq"
-                                data-correct-answer="c"
-                                data-reveal-on-demand="true"
-                            >
-                                <div class="sdml-quiz__title">Quiz</div>
-                                <div class="sdml-quiz__question">Which sorting algorithm has average-case O(n log n)?</div>
-
-                                <div class="sdml-quiz__options">
-                                    <label>
-                                        <input type="radio" name="quiz-sort" value="a" />
-                                        <span>Bubble sort</span>
-                                    </label><label>
-                                        <input type="radio" name="quiz-sort" value="b" />
-                                        <span>Quick sort</span>
-                                    </label><label>
-                                        <input type="radio" name="quiz-sort" value="c" />
-                                        <span>Merge sort</span>
-                                    </label>
-                                </div>
-                                <div class="sdml-quiz__actions">
-                                    <button
-                                        class="sdml-quiz__btn sdml-quiz__submit"
-                                        type="button"
-                                                onclick="(function(btn){const r=btn.closest('.sdml-quiz');if(!r)return;const c=(r.getAttribute('data-correct-answer')||'').trim();const f=r.querySelector('.sdml-quiz__feedback');if(!f)return;const ch=r.querySelector('input[type=radio]:checked');if(!ch)return;const v=(ch.value||'').trim();const ok=v.toLowerCase()===c.toLowerCase();f.textContent=ok?'Correct.':'Not quite.';f.style.color=ok?'#2aa198':'#dc322f';if(!ok){const res=r.querySelector('.sdml-quiz__results');if(res){res.style.display='block';}const rb=r.querySelector('.sdml-quiz__reveal');if(rb)rb.style.display='none';} })(this)"
-                                    >Submit</button>
-                                </div>
-
-                                        <div class="sdml-quiz__feedback" aria-live="polite"></div>
-                                        <div class="sdml-quiz__reveal-wrap">
-                                            <button class="sdml-quiz__btn sdml-quiz__reveal" type="button" onclick="(function(btn){const r=btn.closest('.sdml-quiz');if(!r)return;const res=r.querySelector('.sdml-quiz__results');if(res){res.style.display='block';}btn.style.display='none';})(this)">Reveal answer</button>
-                                            <div class="sdml-quiz__results" style="display:none">Correct answer: <strong>c</strong></div>
-                                        </div>
+                        <div class="code-box-container" style="display: flex; gap: 2rem; align-items: center; width: 100%; height: 500px;">
+                            <div style="flex: 2;">
+                                <pre><code data-noescape class="language-c" data-line-numbers="1|2|3|4|5|6|7|8">      void function(int* arr) {
+          if (len(arr) <= 1) {
+              return;
+          }
+          pivot = arr[len(arr) / 2];
+          left = /* ... */;
+      }
+    </code></pre>
                             </div>
-                        </div>
-                    </section>
-                    <section
-                        id="Question3"
-                        
-                        data-transition="fade"
-                        
-                        
-                        
-                        
-                    >
-                        <div  >
-                            <div
-                                class="sdml-quiz"
-                                data-quiz-id="sort2"
-                                data-quiz-type="short"
-                                data-correct-answer="n log n"
-                                data-reveal-on-demand="true"
-                            >
-                                <div class="sdml-quiz__title">Quiz</div>
-                                <div class="sdml-quiz__question">What’s the typical performance complexity target for sorting large arrays?</div>
-
-                                <div class="sdml-quiz__actions">
-                                    <input class="sdml-quiz__input" type="text" placeholder="Your answer" />
-                                    <button
-                                        class="sdml-quiz__btn sdml-quiz__submit"
-                                        type="button"
-                                                onclick="(function(btn){const r=btn.closest('.sdml-quiz');if(!r)return;const c=(r.getAttribute('data-correct-answer')||'').trim();const f=r.querySelector('.sdml-quiz__feedback');if(!f)return;const i=r.querySelector('input.sdml-quiz__input');if(!i)return;const v=(i.value||'').trim();if(!v)return;const ok=v.toLowerCase()===c.toLowerCase();f.textContent=ok?'Correct.':'Not quite.';f.style.color=ok?'#2aa198':'#dc322f';if(!ok){const res=r.querySelector('.sdml-quiz__results');if(res){res.style.display='block';}const rb=r.querySelector('.sdml-quiz__reveal');if(rb)rb.style.display='none';} })(this)"
-                                    >Submit</button>
+                            <div class="image-stack" style="flex: 1; position: relative; height: 100%;">
+                                <div class="code-step-image" data-start="1" data-end="2"
+                                     style="position: absolute; opacity: 1; transition: opacity 0.3s; width: 100%; height: 100%;">
+                                    <img 
+                                        src="https://images4.alphacoders.com/133/thumb-1920-1332281.jpeg" 
+                                        alt="Gojo" 
+                                        style="
+        display: block;
+        max-width: 100%;
+        max-height: 100%;
+        object-fit: contain;
+        margin: auto;
+    
+            width: 100%; 
+            height: 100%;
+        " 
+                                    />
+                                </div><div class="code-step-image" data-start="4" data-end="5"
+                                     style="position: absolute; opacity: 0; transition: opacity 0.3s; width: 100%; height: 100%;">
+                                    <img 
+                                        src="https://images4.alphacoders.com/133/thumb-1920-1332282.jpeg" 
+                                        alt="Gojo" 
+                                        style="
+        display: block;
+        max-width: 100%;
+        max-height: 100%;
+        object-fit: contain;
+        margin: auto;
+    
+            width: 100%; 
+            height: 100%;
+        " 
+                                    />
                                 </div>
-
-                                        <div class="sdml-quiz__feedback" aria-live="polite"></div>
-                                        <div class="sdml-quiz__reveal-wrap">
-                                            <button class="sdml-quiz__btn sdml-quiz__reveal" type="button" onclick="(function(btn){const r=btn.closest('.sdml-quiz');if(!r)return;const res=r.querySelector('.sdml-quiz__results');if(res){res.style.display='block';}btn.style.display='none';})(this)">Reveal answer</button>
-                                            <div class="sdml-quiz__results" style="display:none">Correct answer: <strong>n log n</strong></div>
-                                        </div>
-                            </div>
-                        </div>
-                    </section>
-                    <section
-                        id="Question4"
-                        
-                        data-transition="fade"
-                        
-                        
-                        
-                        
-                    >
-                        <div  >
-                            <div class="sdml-quiz live-quiz" id="quiz-sort3" data-correct-answer="b">
-                                <div class="sdml-quiz__title">Live Quiz</div>
-                                <div class="sdml-quiz__question">What’s the typical performance complexity target for sorting large arrays?</div>
-                                
-                                <div style="display: flex; gap: 20px; align-items: flex-start;">
-                                    <div class="sdml-quiz__options" style="flex: 1;">
-                                        <div class="live-option-row" style="margin: 8px 0; display: flex; justify-content: space-between; background: #fff; padding: 10px; border-radius: 4px; border: 1px solid #ddd;">
-                                            <span>O(n^2)</span>
-                                            <span class="vote-count" data-option="O(n^2)" style="font-weight: bold; color: #007bff;">0</span>
-                                        </div><div class="live-option-row" style="margin: 8px 0; display: flex; justify-content: space-between; background: #fff; padding: 10px; border-radius: 4px; border: 1px solid #ddd;">
-                                            <span>O(n log n)</span>
-                                            <span class="vote-count" data-option="O(n log n)" style="font-weight: bold; color: #007bff;">0</span>
-                                        </div><div class="live-option-row" style="margin: 8px 0; display: flex; justify-content: space-between; background: #fff; padding: 10px; border-radius: 4px; border: 1px solid #ddd;">
-                                            <span>O(n)</span>
-                                            <span class="vote-count" data-option="O(n)" style="font-weight: bold; color: #007bff;">0</span>
-                                        </div>
-                                    </div>
-                                    
-                                    <div class="sdml-quiz__qr-container" style="display: flex; flex-direction: column; align-items: center; gap: 8px;">
-                                        <div id="qr-sort3" style="border: 2px solid #ddd; border-radius: 8px; padding: 6px; background: #fff;"></div>
-                                        <div style="font-size: 12px; color: #666;">Scan to vote</div>
-                                    </div>
-                                </div>
-
-                                <div class="sdml-quiz__actions" style="margin-top: 15px;">
-                                    <div class="sdml-quiz__reveal-wrap">
-                                        <button class="sdml-quiz__btn sdml-quiz__reveal" type="button" 
-                                            onclick="(function(btn){
-                                                const r = btn.closest('.sdml-quiz');
-                                                const res = r.querySelector('.sdml-quiz__results');
-                                                if(res) res.style.display = 'block';
-                                                btn.style.display = 'none';
-                                            })(this)">Reveal Answer</button>
-                                        <div class="sdml-quiz__results" style="display:none; margin-top: 10px; padding: 10px; background: #e0f2f1; border-radius: 4px;">
-                                            Correct answer: <strong>b</strong>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <script>
-                                    (function() {
-                                        const quizId = "sort3";
-                                        const sessionId = "SESSION123";
-                                        const options = ["O(n^2)","O(n log n)","O(n)"];
-                                        const voteCounts = {};
-
-                                        
-                                        options.forEach(opt => { voteCounts[opt] = 0; });
-
-                                        const renderQRCode = (url) => {
-                                            const qrEl = document.getElementById("qr-" + quizId);
-                                            if (!qrEl) return;
-
-                                            qrEl.innerHTML = '';
-
-                                            if (typeof QRCode === 'function') {
-                                                const level = (QRCode.CorrectLevel && QRCode.CorrectLevel.M) ? QRCode.CorrectLevel.M : undefined;
-                                                new QRCode(qrEl, {
-                                                    text: String(url || ''),
-                                                    width: 150,
-                                                    height: 150,
-                                                    ...(level ? { correctLevel: level } : {})
-                                                });
-                                                return;
-                                            }
-                                        };
-
-                                        const updateQRCodeFromGlobal = () => {
-                                            const url = window["sdmlMobileVoteUrl"] || "http://localhost:3000/vote";
-                                            renderQRCode(url);
-                                        };
-
-                                        const initQuiz = (socket) => {
-                                            
-                                            socket.emit("register-quiz", {
-                                                sessionId: sessionId,
-                                                question: "What’s the typical performance complexity target for sorting large arrays?",
-                                                options: options
-                                            });
-
-                                            socket.on("qcm-results-update", (v) => {
-                                                
-                                                voteCounts[v.choice] = (voteCounts[v.choice] || 0) + 1;
-                                                
-                                                const quizEl = document.getElementById("quiz-" + quizId);
-                                                const countEl = quizEl.querySelector('.vote-count[data-option="' + v.choice + '"]');
-                                                if (countEl) {
-                                                    countEl.textContent = voteCounts[v.choice];
-                                                    countEl.style.transform = "scale(1.2)";
-                                                    setTimeout(() => { countEl.style.transform = "scale(1)"; }, 200);
-                                                }
-                                            });
-                                        };
-
-                                        const interval = setInterval(() => {
-                                            if (window.sdmlSocket) {
-                                                clearInterval(interval);
-                                                initQuiz(window.sdmlSocket);
-                                            }
-                                        }, 100);
-                                        
-                                        const onMobileIp = (ev) => {
-                                            const url = (ev && ev.detail && ev.detail.url) ? ev.detail.url : window["sdmlMobileVoteUrl"];
-                                            if (url) renderQRCode(url);
-                                        };
-                                        window.addEventListener('sdml-mobile-ip', onMobileIp);
-
-                                        if (document.readyState === 'loading') {
-                                            document.addEventListener('DOMContentLoaded', updateQRCodeFromGlobal);
-                                        } else {
-                                            updateQRCodeFromGlobal();
-                                        }
-                                    })();
-                                </script>
                             </div>
                         </div>
                     </section>
@@ -446,6 +308,7 @@
             <script id="annotation-storage">window.savedPaths = {};</script>
 
             <script src="https://cdn.jsdelivr.net/npm/reveal.js@5/dist/reveal.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/reveal.js@5/plugin/highlight/highlight.js"></script>
             <script src="https://cdn.jsdelivr.net/npm/qrcodejs2@0.0.2/qrcode.min.js"></script>
             <script src="http://localhost:3000/socket.io/socket.io.js"></script>
     <script>
@@ -488,6 +351,78 @@
         });
     </script>
             <script>
+            const updateCodeStepImage = (codeBoxContainer, lineIndex) => {
+                if (!codeBoxContainer) return;
+                const images = Array.from(codeBoxContainer.querySelectorAll('.code-step-image'));
+                if (images.length === 0) return;
+
+                images.forEach(img => {
+                    img.style.opacity = '0';
+                    img.style.zIndex = '1';
+                });
+
+                if (!lineIndex || lineIndex < 1) return;
+
+                // If multiple ranges overlap, the last matching one wins.
+                let active = null;
+                for (const img of images) {
+                    const startAttr = img.getAttribute('data-start');
+                    const endAttr = img.getAttribute('data-end');
+                    const start = startAttr ? Number(startAttr) : NaN;
+                    const end = endAttr ? Number(endAttr) : start;
+                    if (Number.isFinite(start) && lineIndex >= start && lineIndex <= end) {
+                        active = img;
+                    }
+                }
+
+                if (active) {
+                    active.style.opacity = '1';
+                    active.style.zIndex = '10';
+                }
+            };
+
+            const updateAllCodeBoxesInSlide = (slideEl, lineIndex) => {
+                if (!slideEl) return;
+                const boxes = Array.from(slideEl.querySelectorAll('.code-box-container'));
+                for (const box of boxes) {
+                    updateCodeStepImage(box, lineIndex);
+                }
+            };
+
+            const parseLineNumberSpecStart = (spec) => {
+                if (!spec) return 1;
+                const s = String(spec).trim();
+                if (!s) return 1;
+                const first = s.split('-')[0];
+                const n = Number(first);
+                return Number.isFinite(n) && n >= 1 ? n : 1;
+            };
+
+            const currentHighlightedLineForBox = (codeBoxContainer) => {
+                if (!codeBoxContainer) return 1;
+                const fragCandidates = Array.from(codeBoxContainer.querySelectorAll('.fragment[data-line-numbers]'));
+                const visible = fragCandidates.filter(f => f.classList.contains('visible') || f.classList.contains('current-fragment'));
+                const activeFrag = visible.length > 0 ? visible[visible.length - 1] : null;
+                if (activeFrag) {
+                    const spec = activeFrag.getAttribute('data-line-numbers');
+                    if (spec) return parseLineNumberSpecStart(spec);
+                }
+
+                const codeEl = codeBoxContainer.querySelector('pre code');
+                const stepsAttr = codeEl ? (codeEl.getAttribute('data-line-numbers') || '') : '';
+                const steps = stepsAttr.split('|').map(s => s.trim()).filter(Boolean);
+                if (steps.length === 0) return 1;
+
+                const slideF = Reveal.getIndices().f;
+                const candidates = (typeof slideF === 'number') ? [slideF, slideF - 1, slideF + 1, 0] : [0];
+                for (const idx of candidates) {
+                    if (idx >= 0 && idx < steps.length) {
+                        return parseLineNumberSpecStart(steps[idx]);
+                    }
+                }
+
+                return parseLineNumberSpecStart(steps[0]);
+            };
                 // Theme logo URL
                 const THEME_LOGO_URL = "";
 
@@ -501,6 +436,30 @@
                     margin: 0.1,
                     backgroundTransition: 'fade',
                     center: true
+                });
+
+                const syncCodeBoxImages = (slideEl) => {
+                    if (!slideEl) return;
+                    const boxes = Array.from(slideEl.querySelectorAll('.code-box-container'));
+                    for (const box of boxes) {
+                        updateCodeStepImage(box, currentHighlightedLineForBox(box));
+                    }
+                };
+
+                Reveal.on('ready', (event) => {
+                    syncCodeBoxImages(event.currentSlide);
+                });
+
+                Reveal.on('slidechanged', (event) => {
+                    syncCodeBoxImages(event.currentSlide);
+                });
+
+                Reveal.on('fragmentshown', () => {
+                    syncCodeBoxImages(Reveal.getCurrentSlide());
+                });
+
+                Reveal.on('fragmenthidden', () => {
+                    syncCodeBoxImages(Reveal.getCurrentSlide());
                 });
 
                 // Update header/footer when slide changes

@@ -58,7 +58,7 @@ ContentBox:
     '}';
 
 TerminalBox: 
-    ComponentBoxReference | TextBox | QuizBox | ListBox | ImageBox | VideoBox | LiveQuizBox; // Add new boxes here
+    ComponentBoxReference | TextBox | QuizBox | ListBox | ImageBox | VideoBox | LiveQuizBox | CodeBox; // Add new boxes here
 
 
 /* Terminal boxes definitions */
@@ -116,6 +116,19 @@ LiveQuizBox:
 
 QuizOption:
     'option' id=ID content=TEXT;
+
+CodeBox:
+    'code' ('[' attributes+=TextBoxAttribute (',' attributes+=TextBoxAttribute)* ']')? '{'
+        language=STRING
+        code=CODE
+        lines+=CodeLineBox*
+    '}';
+
+CodeLineBox:
+    'line' '{'
+        start=INTEGER ('..' end=INTEGER)?
+        image=ImageBox
+    '}';
 
 
 /* Attributes */
@@ -193,3 +206,4 @@ terminal PERCENTAGE: /(100|[0-9]{1,2})%/;
 terminal INTEGER: /[0-9]+/;
 terminal ID: /[_a-zA-Z][\w_]*/;
 terminal TEXT: /{[^{}]*}/;
+terminal CODE: /```[^]*?```/;
