@@ -18,7 +18,9 @@ import {
     type QuizBox,
     type Slide,
     type TextBox,
-    type VideoBox
+    type VideoBox,
+    type CodeBox,
+    type CodeLineBox,
 } from 'slide-deck-ml-language';
 
 import {
@@ -62,6 +64,7 @@ function generateModel(model: Model): CompositeGeneratorNode {
 
             <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5/dist/reveal.css">
             <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5/dist/theme/solarized.css">
+            <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5/plugin/highlight/monokai.css">
 
             <style>
                 /* Reset body margins/padding */
@@ -251,6 +254,7 @@ function generateModel(model: Model): CompositeGeneratorNode {
             <script id="annotation-storage">window.savedPaths = {};</script>
 
             <script src="https://cdn.jsdelivr.net/npm/reveal.js@5/dist/reveal.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/reveal.js@5/plugin/highlight/highlight.js"></script>
             <script src="https://cdn.jsdelivr.net/npm/qrcodejs2@0.0.2/qrcode.min.js"></script>
             <script src="http://localhost:3000/socket.io/socket.io.js"></script>
     <script>
@@ -293,10 +297,83 @@ function generateModel(model: Model): CompositeGeneratorNode {
         });
     </script>
             <script>
+            const updateCodeStepImage = (codeBoxContainer, lineIndex) => {
+                if (!codeBoxContainer) return;
+                const images = Array.from(codeBoxContainer.querySelectorAll('.code-step-image'));
+                if (images.length === 0) return;
+
+                images.forEach(img => {
+                    img.style.opacity = '0';
+                    img.style.zIndex = '1';
+                });
+
+                if (!lineIndex || lineIndex < 1) return;
+
+                // If multiple ranges overlap, the last matching one wins.
+                let active = null;
+                for (const img of images) {
+                    const startAttr = img.getAttribute('data-start');
+                    const endAttr = img.getAttribute('data-end');
+                    const start = startAttr ? Number(startAttr) : NaN;
+                    const end = endAttr ? Number(endAttr) : start;
+                    if (Number.isFinite(start) && lineIndex >= start && lineIndex <= end) {
+                        active = img;
+                    }
+                }
+
+                if (active) {
+                    active.style.opacity = '1';
+                    active.style.zIndex = '10';
+                }
+            };
+
+            const updateAllCodeBoxesInSlide = (slideEl, lineIndex) => {
+                if (!slideEl) return;
+                const boxes = Array.from(slideEl.querySelectorAll('.code-box-container'));
+                for (const box of boxes) {
+                    updateCodeStepImage(box, lineIndex);
+                }
+            };
+
+            const parseLineNumberSpecStart = (spec) => {
+                if (!spec) return 1;
+                const s = String(spec).trim();
+                if (!s) return 1;
+                const first = s.split('-')[0];
+                const n = Number(first);
+                return Number.isFinite(n) && n >= 1 ? n : 1;
+            };
+
+            const currentHighlightedLineForBox = (codeBoxContainer) => {
+                if (!codeBoxContainer) return 1;
+                const fragCandidates = Array.from(codeBoxContainer.querySelectorAll('.fragment[data-line-numbers]'));
+                const visible = fragCandidates.filter(f => f.classList.contains('visible') || f.classList.contains('current-fragment'));
+                const activeFrag = visible.length > 0 ? visible[visible.length - 1] : null;
+                if (activeFrag) {
+                    const spec = activeFrag.getAttribute('data-line-numbers');
+                    if (spec) return parseLineNumberSpecStart(spec);
+                }
+
+                const codeEl = codeBoxContainer.querySelector('pre code');
+                const stepsAttr = codeEl ? (codeEl.getAttribute('data-line-numbers') || '') : '';
+                const steps = stepsAttr.split('|').map(s => s.trim()).filter(Boolean);
+                if (steps.length === 0) return 1;
+
+                const slideF = Reveal.getIndices().f;
+                const candidates = (typeof slideF === 'number') ? [slideF, slideF - 1, slideF + 1, 0] : [0];
+                for (const idx of candidates) {
+                    if (idx >= 0 && idx < steps.length) {
+                        return parseLineNumberSpecStart(steps[idx]);
+                    }
+                }
+
+                return parseLineNumberSpecStart(steps[0]);
+            };
                 // Theme logo URL
-                const THEME_LOGO_URL = ${model.theme?.logo ? `"${model.theme.logo}"` : '""'};
+                const THEME_LOGO_URL = ${model.theme?.logo ? `"${model.theme?.logo}"` : '""'};
 
                 Reveal.initialize({
+                    plugins: [RevealHighlight],
                     hash: true,
                     slideNumber: true,
                     transition: 'slide',
@@ -305,6 +382,30 @@ function generateModel(model: Model): CompositeGeneratorNode {
                     margin: 0.1,
                     backgroundTransition: 'fade',
                     center: true
+                });
+
+                const syncCodeBoxImages = (slideEl) => {
+                    if (!slideEl) return;
+                    const boxes = Array.from(slideEl.querySelectorAll('.code-box-container'));
+                    for (const box of boxes) {
+                        updateCodeStepImage(box, currentHighlightedLineForBox(box));
+                    }
+                };
+
+                Reveal.on('ready', (event) => {
+                    syncCodeBoxImages(event.currentSlide);
+                });
+
+                Reveal.on('slidechanged', (event) => {
+                    syncCodeBoxImages(event.currentSlide);
+                });
+
+                Reveal.on('fragmentshown', () => {
+                    syncCodeBoxImages(Reveal.getCurrentSlide());
+                });
+
+                Reveal.on('fragmenthidden', () => {
+                    syncCodeBoxImages(Reveal.getCurrentSlide());
                 });
 
                 // Update header/footer when slide changes
@@ -611,6 +712,9 @@ function generateBox(box: Box): CompositeGeneratorNode {
 
         case 'ListBox':
             return generateTerminalBoxWithFragment(box, generateListBox(box as any));
+
+        case 'CodeBox':
+            return generateTerminalBoxWithFragment(box, generateCodeBox(box as any));
 
         default:
             throw new Error(`Unknown box type: ${(box as any).$type}`);
@@ -1134,6 +1238,55 @@ function generateLiveQuizBox(quiz: LiveQuizBox): CompositeGeneratorNode {
                     }
                 })();
             </script>
+        </div>
+    `;
+}
+
+function generateCodeBox(codeBox: CodeBox): CompositeGeneratorNode {
+    const mappings: CodeLineBox[] = Array.isArray(codeBox.lines) ? codeBox.lines : [];
+
+    let fullCode = '';
+    if (codeBox.code) {
+        const raw = String(codeBox.code);
+        if (raw.startsWith('```') && raw.endsWith('```') && raw.length >= 6) {
+            fullCode = raw.slice(3, -3);
+        } else {
+            fullCode = raw;
+        }
+    }
+
+    fullCode = fullCode.replace(/^\r?\n/, '');
+    fullCode = fullCode.replace(/\r?\n$/, '');
+
+    const codeLines = fullCode.length > 0 ? fullCode.split(/\r?\n/) : [];
+    const lineHighlightSteps = codeLines.length > 0
+        ? Array.from({ length: codeLines.length }, (_, idx) => String(idx + 1)).join('|')
+        : '';
+
+    const imageStack = mappings.map((mapping, idx) => {
+        const startRaw = Number(mapping.start);
+        const endRaw = mapping.end !== undefined ? Number(mapping.end) : startRaw;
+        const start = startRaw === 0 ? 1 : startRaw;
+        const end = Math.max(start, endRaw === 0 ? 1 : endRaw);
+
+        return expandToNode`
+            <div class="code-step-image" data-start="${start}" data-end="${end}"
+                 style="position: absolute; opacity: ${idx === 0 ? '1' : '0'}; transition: opacity 0.3s; width: 100%; height: 100%;">
+                ${generateImageBox(mapping.image)}
+            </div>
+        `;
+    });
+
+    const dataLineNumbersAttr = lineHighlightSteps.length > 0 ? `data-line-numbers="${lineHighlightSteps}"` : '';
+
+    return expandToNode`
+        <div class="code-box-container" style="display: flex; gap: 2rem; align-items: center; width: 100%; height: 500px;">
+            <div style="flex: 2;">
+                <pre><code data-noescape class="language-${codeBox.language}" ${dataLineNumbersAttr}>${fullCode}</code></pre>
+            </div>
+            <div class="image-stack" style="flex: 1; position: relative; height: 100%;">
+                ${joinToNode(imageStack)}
+            </div>
         </div>
     `;
 }

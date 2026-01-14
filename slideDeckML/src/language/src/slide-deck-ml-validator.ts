@@ -175,6 +175,7 @@ export class SlideDeckMlValidator {
                 case 'ListBox': return isListBoxAttribute;
                 case 'ImageBox': return isMediaBoxAttribute;
                 case 'VideoBox': return isMediaBoxAttribute;
+                case 'CodeBox' : return isTextBoxAttribute;
 
                 case 'ComponentBoxReference':
                     return this.collectAttributeTypeChecker(componentContent)
