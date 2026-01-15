@@ -58,7 +58,7 @@ ContentBox:
     '}';
 
 TerminalBox: 
-    ComponentBoxReference | TextBox | QuizBox | ListBox | ImageBox | VideoBox | LiveQuizBox | CodeBox; // Add new boxes here
+    ComponentBoxReference | TextBox | QuizBox | ListBox | ImageBox | VideoBox | LiveQuizBox | CodeBox | MathematicalBox; // Add new boxes here
 
 
 /* Terminal boxes definitions */
@@ -132,7 +132,15 @@ CodeLineBox:
     '}';
 
 
+MathematicalBox:
+    'mathematics' ('[' attributes+=(CommonAttribute | TextAttribute) (',' attributes+=(CommonAttribute | TextAttribute))* ']')? content=MATH_EXPR;
+
+
 /* Attributes */
+
+SlideAttribute:
+    key='non-annotable';
+
 
 ComponentReferenceAttribute:
     CommonAttribute | ContentAttribute | TextAttribute | ListAttribute | MediaAttribute;
@@ -140,10 +148,6 @@ ComponentReferenceAttribute:
 
 CommonAttribute:
     key='fragment' '=' value=FRAGMENT_STYLE;
-
-
-SlideAttribute:
-    key='non-annotable';
 
 
 ContentAttribute:
@@ -201,6 +205,7 @@ Theme:
 /*************/
 
 hidden terminal WS: /\s+/;
+terminal MATH_EXPR: /\$\$[\s\S]*?\$\$/;
 terminal FRAGMENT_STYLE: /(fade-in|fade-up|fade-down|fade-left|fade-right|fade-in-then-out|fade-in-then-semi-out|grow|shrink|strike|highlight-red|highlight-green|highlight-blue|current-visible|semi-fade-out)/;
 terminal LIST_TYPE: /(ordered|unordered)/;
 terminal QUIZ_TYPE: /(mcq|short)/;

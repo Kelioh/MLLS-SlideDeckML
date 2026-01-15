@@ -170,11 +170,15 @@ export class SlideDeckMlValidator {
         if (componentContent) {
             switch (componentContent.$type) {
                 case 'ComponentContentBox': return item => isCommonAttribute(item) || isContentAttribute(item);
-                case 'TextBox': return item => isCommonAttribute(item) || isTextAttribute(item);
+                
                 case 'ListBox': return item => isCommonAttribute(item) || isListAttribute(item);
-                case 'ImageBox': return item => isCommonAttribute(item) || isMediaAttribute(item);
+
+                case 'ImageBox':
                 case 'VideoBox': return item => isCommonAttribute(item) || isMediaAttribute(item);
-                case 'CodeBox' : return item => isCommonAttribute(item) || isTextAttribute(item);
+
+                case 'CodeBox' :
+                case 'MathematicalBox':
+                case 'TextBox': return item => isCommonAttribute(item) || isTextAttribute(item);
 
                 case 'ComponentBoxReference':
                     return this.collectAttributeTypeChecker(componentContent)

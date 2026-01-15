@@ -7,21 +7,22 @@ import {
     ComponentBox,
     ComponentSlot,
     type Box,
+    type CodeBox,
+    type CodeLineBox,
     type ComponentBoxReference,
     type Footer,
     type Header,
     type ImageBox,
     type ListBox,
     type LiveQuizBox,
+    type MathematicalBox,
     type Model,
     type QuizBox,
     type Slide,
     type TextBox,
-    type VideoBox,
-    type CodeBox,
-    type CodeLineBox,
     CommonAttribute,
     ContentAttribute,
+    VideoBox,
 } from 'slide-deck-ml-language';
 
 import {
@@ -63,9 +64,20 @@ function generateModel(model: Model): CompositeGeneratorNode {
             <script src="https://cdn.socket.io/4.7.5/socket.io.min.js" crossorigin="anonymous"></script>
             <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
+            <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+
+            <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" 
+                    onload="renderMathInElement(document.body, {
+                    delimiters: [
+                        {left: '$$', right: '$$', display: true},
+                        {left: '$', right: '$', display: false}
+                    ]
+                    });"></script>
+
             <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5/dist/reveal.css">
             <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5/dist/theme/solarized.css">
             <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5/plugin/highlight/monokai.css">
+            <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
 
             <style>
                 /* Reset body margins/padding */
@@ -698,6 +710,7 @@ function generateBox(box: Box): CompositeGeneratorNode {
         case 'LiveQuizBox': return generateTerminalBoxWithFragment(box, generateLiveQuizBox(box));
         case 'ListBox': return generateTerminalBoxWithFragment(box, generateListBox(box));
         case 'CodeBox': return generateTerminalBoxWithFragment(box, generateCodeBox(box));
+        case 'MathematicalBox': return generateTerminalBoxWithFragment(box, generateMathBox(box));
         // Add terminals boxes here
 
         case 'ContentBox': return generateContentBoxWithFragment(box as any);
@@ -762,6 +775,7 @@ function generateComponentBox(box: ComponentBox, slots: Record<string, Composite
         case 'LiveQuizBox': return generateTerminalBoxWithFragment(box, generateLiveQuizBox(box));
         case 'ListBox': return generateTerminalBoxWithFragment(box, generateListBox(box));
         case 'CodeBox': return generateTerminalBoxWithFragment(box, generateCodeBox(box));
+        case 'MathematicalBox': return generateTerminalBoxWithFragment(box, generateMathBox(box));
         // Add terminals boxes here
 
         case 'ComponentSlot': return generateTerminalBoxWithFragment(box, generateComponentSlot(box, slots));
@@ -872,6 +886,29 @@ function generateTextBox(textBox: TextBox): CompositeGeneratorNode {
     const text = textBox.content.slice(1, -1).trim();
 
     return expandToNode`<p style="${generateTextBoxStyles(bold, italic, underline, strikethrough, highlight, color, font, textSize)}">${text}</p>`;
+}
+
+function generateMathBox(mathBox: MathematicalBox): CompositeGeneratorNode {
+    const attributes = (mathBox as unknown as { attributes?: unknown }).attributes;
+
+    const bold = hasAttribute(attributes, 'bold');
+    const italic = hasAttribute(attributes, 'italic');
+    const underline = hasAttribute(attributes, 'underline');
+    const strikethrough = hasAttribute(attributes, 'strikethrough');
+    const highlight = hasAttribute(attributes, 'highlight');
+    const color = getAttributeValue(attributes, 'color');
+    const font = getAttributeValue(attributes, 'font');
+    const textSize = getAttributeValue(attributes, 'text-size');
+
+    const formula = mathBox.content.slice(2, -2).trim();
+
+    return expandToNode`
+        <div class="math-box" style="${generateTextBoxStyles(bold, italic, underline, strikethrough, highlight, color, font, textSize)}">
+            <div class="math-content">
+                $${formula}$
+            </div>
+        </div>
+    `;
 }
 
 function generateTextBoxStyles(bold: boolean, italic: boolean, underline: boolean, strikethrough: boolean, highlight: boolean, color: string | unknown, font: string | unknown, textSize: string | unknown): string {
