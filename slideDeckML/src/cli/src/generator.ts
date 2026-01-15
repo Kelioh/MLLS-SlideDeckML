@@ -6,7 +6,6 @@ import {
     Component,
     ComponentBox,
     ComponentSlot,
-    ContentBoxAttribute,
     type Box,
     type ComponentBoxReference,
     type Footer,
@@ -21,6 +20,8 @@ import {
     type VideoBox,
     type CodeBox,
     type CodeLineBox,
+    CommonAttribute,
+    ContentAttribute,
 } from 'slide-deck-ml-language';
 
 import {
@@ -689,35 +690,19 @@ function generateHeaderFooterStyles(headerOrFooter: Header | Footer): string {
 
 function generateBox(box: Box): CompositeGeneratorNode {
     switch (box.$type) {
-        case 'ContentBox':
-            return generateContentBoxWithFragment(box as any);
+        case 'TextBox': return generateTerminalBoxWithFragment(box, generateTextBox(box));
+        case 'ImageBox': return generateTerminalBoxWithFragment(box, generateImageBox(box));
+        case 'VideoBox': return generateTerminalBoxWithFragment(box, generateVideoBox(box));
+        case 'ComponentBoxReference': return generateTerminalBoxWithFragment(box, generateComponentBoxReference(box));
+        case 'QuizBox': return generateTerminalBoxWithFragment(box, generateQuizBox(box));
+        case 'LiveQuizBox': return generateTerminalBoxWithFragment(box, generateLiveQuizBox(box));
+        case 'ListBox': return generateTerminalBoxWithFragment(box, generateListBox(box));
+        case 'CodeBox': return generateTerminalBoxWithFragment(box, generateCodeBox(box));
+        // Add terminals boxes here
 
-        case 'TextBox':
-            return generateTerminalBoxWithFragment(box, generateTextBox(box as any));
+        case 'ContentBox': return generateContentBoxWithFragment(box as any);
 
-        case 'ImageBox':
-            return generateTerminalBoxWithFragment(box, generateImageBox(box as any));
-
-        case 'VideoBox':
-            return generateTerminalBoxWithFragment(box, generateVideoBox(box as any));
-
-        case 'ComponentBoxReference':
-            return generateTerminalBoxWithFragment(box, generateComponentBoxReference(box as any));
-
-        case 'QuizBox':
-            return generateTerminalBoxWithFragment(box, generateQuizBox(box as any));
-
-        case 'LiveQuizBox':
-            return generateTerminalBoxWithFragment(box, generateLiveQuizBox(box as any));
-
-        case 'ListBox':
-            return generateTerminalBoxWithFragment(box, generateListBox(box as any));
-
-        case 'CodeBox':
-            return generateTerminalBoxWithFragment(box, generateCodeBox(box as any));
-
-        default:
-            throw new Error(`Unknown box type: ${(box as any).$type}`);
+        default: throw new Error(`Unknown box type: ${(box as any).$type}`);
     }
 }
 
@@ -755,52 +740,38 @@ function generateComponentBoxReference(reference: ComponentBoxReference): Compos
 
     /* Override declaration attributes  */
     let declarationBox: any = declaration.content;
-    switch (declaration.content.$type) {
-        case 'ComponentContentBox':
-        case 'TextBox':
-        case 'ListBox':
-        case 'ComponentBoxReference':
-            let mergedAttributes: Map<string, string | undefined>;
-            mergedAttributes = new Map(declarationBox.attributes.map((attribute: any) => [attribute.key, attribute.value]));
-            for (const attribute of reference.attributes) {
-                mergedAttributes.set(attribute.key, (attribute as any).value);
-            }
-            declarationBox = { ...declarationBox, attributes: Array.from(mergedAttributes.entries(), ([key, value]) => ({ $type: collectAttributeType(reference), key, value } as any)) }; // Does not include $container, $containerProperty, $containerIndex, $cstNode, $document
-            break;
+    if (declarationBox.attributes) {
+        let mergedAttributes: Map<string, string | undefined>;
+        mergedAttributes = new Map(declarationBox.attributes.map((attribute: any) => [attribute.key, attribute.value]));
+        for (const attribute of reference.attributes) {
+            mergedAttributes.set(attribute.key, (attribute as any).value);
+        }
+        declarationBox = { ...declarationBox, attributes: Array.from(mergedAttributes.entries(), ([key, value]) => ({ key, value } as any)) }; // Does not include $type, $container, $containerProperty, $containerIndex, $cstNode, $document
     }
 
     return generateComponentBox(declarationBox as ComponentBox, slots);
 }
 
-function collectAttributeType(reference: ComponentBoxReference): string {
-    const componentContent = reference.reference.ref?.content;
-    if (componentContent) {
-        switch (componentContent.$type) {
-            case 'ComponentContentBox': return 'ContentBoxAttribute';
-            case 'TextBox': return 'TextBoxAttribute';
-            case 'ListBox': return 'ListBoxAttribute';
-            case 'ImageBox': return 'MediaBoxAttribute';
-            case 'VideoBox': return 'MediaBoxAttribute';
-            case 'ComponentBoxReference': return collectAttributeType(componentContent)
-        }
-    }
-    return '';
-}
-
 function generateComponentBox(box: ComponentBox, slots: Record<string, CompositeGeneratorNode>): CompositeGeneratorNode {
     switch (box.$type) {
-        case 'TextBox': return generateTextBox(box);
-        case 'ImageBox': return generateImageBox(box);
-        case 'VideoBox': return generateVideoBox(box);
-        case 'ComponentBoxReference': return generateComponentBoxReference(box);
-        case 'QuizBox': return generateQuizBox(box);
-        case 'ListBox': return generateListBox(box);
-        case 'LiveQuizBox': return generateLiveQuizBox(box);
+        case 'TextBox': return generateTerminalBoxWithFragment(box, generateTextBox(box));
+        case 'ImageBox': return generateTerminalBoxWithFragment(box, generateImageBox(box));
+        case 'VideoBox': return generateTerminalBoxWithFragment(box, generateVideoBox(box));
+        case 'ComponentBoxReference': return generateTerminalBoxWithFragment(box, generateComponentBoxReference(box));
+        case 'QuizBox': return generateTerminalBoxWithFragment(box, generateQuizBox(box));
+        case 'LiveQuizBox': return generateTerminalBoxWithFragment(box, generateLiveQuizBox(box));
+        case 'ListBox': return generateTerminalBoxWithFragment(box, generateListBox(box));
+        case 'CodeBox': return generateTerminalBoxWithFragment(box, generateCodeBox(box));
+        // Add terminals boxes here
 
-        case 'ComponentSlot': return generateComponentSlot(box, slots);
+        case 'ComponentSlot': return generateTerminalBoxWithFragment(box, generateComponentSlot(box, slots));
         case 'ComponentContentBox':
+            const fragmentStyle = getAttributeValue(box.attributes, 'fragment');
+            const fragmentClass = fragmentStyle ? `class="fragment ${fragmentStyle}"` : '';
+            const styleAttr = `style="${generateContentBoxAttributes(box.attributes, box.boxes.length)}"`;
+
             return expandToNode`
-                <div ${`style="${generateContentBoxAttributes(box.attributes, box.boxes.length)}"`}>
+                <div ${fragmentClass} ${styleAttr}>
                     ${joinToNode(box.boxes.map(box => generateComponentBox(box, slots).appendNewLineIfNotEmpty()))}
                 </div>
             `;
@@ -809,7 +780,7 @@ function generateComponentBox(box: ComponentBox, slots: Record<string, Composite
     }
 }
 
-function generateContentBoxAttributes(attributes: ContentBoxAttribute[], boxCount: number): string {
+function generateContentBoxAttributes(attributes: (CommonAttribute | ContentAttribute)[], boxCount: number): string {
     let style = '';
     let alignmentValue: string | undefined;
     let hasHeight = false;

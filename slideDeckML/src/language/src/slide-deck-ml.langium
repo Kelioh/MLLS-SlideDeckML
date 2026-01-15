@@ -25,7 +25,7 @@ ComponentBox:
     ComponentContentBox | ComponentSlot | TerminalBox;
 
 ComponentContentBox:
-    'box' ('[' attributes+=ContentBoxAttribute (',' attributes+=ContentBoxAttribute)* ']')? '{'
+    'box' ('[' attributes+=(CommonAttribute | ContentAttribute) (',' attributes+=(CommonAttribute | ContentAttribute))* ']')? '{'
         boxes+=ComponentBox+
     '}';
 
@@ -53,7 +53,7 @@ Box:
     ContentBox | TerminalBox;
 
 ContentBox:
-    'box' ('[' attributes+=ContentBoxAttribute (',' attributes+=ContentBoxAttribute)* ']')? '{'
+    'box' ('[' attributes+=(CommonAttribute | ContentAttribute) (',' attributes+=(CommonAttribute | ContentAttribute))* ']')? '{'
         boxes+=Box+
     '}';
 
@@ -64,7 +64,7 @@ TerminalBox:
 /* Terminal boxes definitions */
 
 ComponentBoxReference:
-    reference=[Component:ID] ('[' attributes+=ComponentBoxAttribute (',' attributes+=ComponentBoxAttribute)* ']')? ('{'
+    reference=[Component:ID] ('[' attributes+=ComponentReferenceAttribute (',' attributes+=ComponentReferenceAttribute)* ']')? ('{'
         slots+=ComponentSlotReference*
     '}' | '{}');
 
@@ -74,23 +74,23 @@ ComponentSlotReference:
 
 
 TextBox:
-    'text' ('[' attributes+=TextBoxAttribute (',' attributes+=TextBoxAttribute)* ']')? content=TEXT;
+    'text' ('[' attributes+=(CommonAttribute | TextAttribute) (',' attributes+=(CommonAttribute | TextAttribute))* ']')? content=TEXT;
 
 
 ListBox:
-    'list' ('[' attributes+=ListBoxAttribute (',' attributes+=ListBoxAttribute)* ']')? '{'
+    'list' ('[' attributes+=(CommonAttribute | ListAttribute) (',' attributes+=(CommonAttribute | ListAttribute))* ']')? '{'
         items+=TEXT+
     '}';
 
 
 ImageBox:
-    'image' ('[' attributes+=MediaBoxAttribute (',' attributes+=MediaBoxAttribute)* ']')? '{'
+    'image' ('[' attributes+=(CommonAttribute | MediaAttribute) (',' attributes+=(CommonAttribute | MediaAttribute))* ']')? '{'
         'src' src=IMAGE_URL
         'alt' alt=TEXT
     '}';
 
 VideoBox:
-    'video' ('[' attributes+=MediaBoxAttribute (',' attributes+=MediaBoxAttribute)* ']')? '{'
+    'video' ('[' attributes+=(CommonAttribute | MediaAttribute) (',' attributes+=(CommonAttribute | MediaAttribute))* ']')? '{'
         'src' src=VIDEO_URL
         'alt' alt=TEXT
     '}';
@@ -117,8 +117,9 @@ LiveQuizBox:
 QuizOption:
     'option' id=ID content=TEXT;
 
+
 CodeBox:
-    'code' ('[' attributes+=TextBoxAttribute (',' attributes+=TextBoxAttribute)* ']')? '{'
+    'code' ('[' attributes+=(CommonAttribute | TextAttribute) (',' attributes+=(CommonAttribute | TextAttribute))* ']')? '{'
         language=STRING
         code=CODE
         lines+=CodeLineBox*
@@ -133,21 +134,26 @@ CodeLineBox:
 
 /* Attributes */
 
-ComponentBoxAttribute:
-    ContentBoxAttribute | TextBoxAttribute | ListBoxAttribute | MediaBoxAttribute;
+ComponentReferenceAttribute:
+    CommonAttribute | ContentAttribute | TextAttribute | ListAttribute | MediaAttribute;
+
+
+CommonAttribute:
+    key='fragment' '=' value=FRAGMENT_STYLE;
+
 
 SlideAttribute:
     key='non-annotable';
 
-ContentBoxAttribute:
-    key='fragment' '=' value=FRAGMENT_STYLE |
+
+ContentAttribute:
     key='column' '=' value=INTEGER |
     key='height' '=' value=PERCENTAGE |
     key='width' '=' value=PERCENTAGE |
     key='alignment' '=' value=STRING;
 
-TextBoxAttribute:
-    key='fragment' '=' value=FRAGMENT_STYLE |
+
+TextAttribute:
     key='bold' |
     key='italic' |
     key='underline' |
@@ -157,14 +163,15 @@ TextBoxAttribute:
     key='font' '=' value=STRING |
     key='text-size' '=' value=STRING;
 
-ListBoxAttribute:
-    key='fragment' '=' value=FRAGMENT_STYLE |
+
+ListAttribute:
     key='type' '=' value=LIST_TYPE |
     key='spaceBetweenItems' '=' value=INTEGER;
 
-MediaBoxAttribute:
-    key='fragment' '=' value=FRAGMENT_STYLE |
+
+MediaAttribute:
     key='scale' '=' value=PERCENTAGE;
+
 
 /*******************/
 /* Header & Footer */

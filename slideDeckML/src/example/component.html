@@ -7,6 +7,7 @@
 
             <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5/dist/reveal.css">
             <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5/dist/theme/solarized.css">
+            <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5/plugin/highlight/monokai.css">
 
             <style>
                 /* Reset body margins/padding */
@@ -19,8 +20,7 @@
 
                 /* Reveal.js viewport adjustment for header/footer */
                 .reveal {
-                    top: 80px !important;
-                    height: calc(100% - 160px) !important;
+                    height: calc(100% - 80px) !important;
                 }
 
                 .reveal .slides section {
@@ -190,65 +190,125 @@
                 <div class="slides">
                     <section
                         id="slide1"
-                        class="annotable"
+                        
                         data-transition="fade"
                         
                         
                         
                         
                     >
-                        <div  >
-                            <div style="display: grid; grid-template-columns: repeat(2, 1fr); height: 100%; ">
-                                <p>Ceci est le texte du composant</p>
+                        <div  style="height: 100%;display: grid; 
+            grid-template-columns: repeat(2, 1fr); 
+            grid-template-rows: repeat(1, calc(100% - 0px));
+            gap: 10px;
+            box-sizing: border-box;
+    width: 100%; 
+        place-items: center center;
+        place-content: center center;
+    ">
+                            <div  style="height: 100%;display: grid; 
+            grid-template-columns: repeat(3, 1fr); 
+            grid-template-rows: repeat(2, calc(50% - 5px));
+            gap: 10px;
+            box-sizing: border-box;
+    width: 100%; 
+        place-items: center center;
+        place-content: center center;
+    ">
+                                <p style="">Ceci est le texte du composant</p>
                                 <iframe
-                                    src="https://www.youtube.com/embed/AMShoQ_qdc0"
+                                    src="https://www.youtube.com/embed/uGSu6mhk3RQ"
                                     title="Hello World Song"
-                                    frameborder="0"
-                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                    style="
+        display: block;
+        aspect-ratio: 16 / 9;
+        width: auto;
+        height: auto;
+        max-width: 100%;
+        max-height: 100%;
+        border: 0;
+    "
                                     allowfullscreen>
                                 </iframe>
-                                <p>Composant sans slot</p>
-                                <img src="https://images4.alphacoders.com/133/thumb-1920-1332281.jpeg" alt="Gojo" />
+                                <div class="fragment fade-in"><p style="font-weight: bold; ">Composant sans slot</p></div>
+                                <img 
+                                    src="https://images4.alphacoders.com/133/thumb-1920-1332281.jpeg" 
+                                    alt="Gojo" 
+                                    style="
+        display: block;
+        max-width: 100%;
+        max-height: 100%;
+        object-fit: contain;
+        margin: auto;
+    
+            width: 100%;
+            height: auto;
+        " 
+                                />
                             </div>
                         </div>
                     </section>
                     <section
                         id="slide2"
-                        
+                        class="annotable"
                         data-transition="fade"
                         
                         
                         
                         
                     >
-                        <div  >
-                            <p>Composant sans slot</p>
-                            <p>Composant sans slot</p>
+                        <div  style="display: grid; 
+            grid-template-columns: repeat(2, 1fr); 
+            grid-template-rows: repeat(1, calc(100% - 0px));
+            gap: 10px;
+            box-sizing: border-box;
+    height: 100%; width: 100%; 
+        place-items: center center;
+        place-content: center center;
+    ">
+                            <div class="fragment shrink"><div class="fragment shrink"><p style="font-weight: bold; ">Composant sans slot</p></div></div>
+                            <div class="fragment fade-in"><p style="font-weight: bold; ">Composant sans slot</p></div>
                         </div>
                     </section>
                     <section
                         id="slide3"
-                        
+                        class="annotable"
                         data-transition="fade"
                         
                         
                         
                         
                     >
-                        <div style="display: grid; grid-template-columns: repeat(2, 1fr); height: 100%; ">
-                            <p>Ceci est le texte du composant</p>
-                            <div  style="display: grid; grid-template-columns: repeat(2, 1fr); ">
-                                <p>Ceci est le texte par defaut du slot 1 !
+                        <div  style="height: 100%;display: grid; 
+            grid-template-columns: repeat(2, 1fr); 
+            grid-template-rows: repeat(2, calc(50% - 5px));
+            gap: 10px;
+            box-sizing: border-box;
+    width: 100%; 
+        place-items: center center;
+        place-content: center center;
+    ">
+                            <p style="">Ceci est le texte du composant</p>
+                            <div  style="display: grid; 
+            grid-template-columns: repeat(2, 1fr); 
+            grid-template-rows: repeat(1, calc(100% - 0px));
+            gap: 10px;
+            box-sizing: border-box;
+    height: 100%; width: 100%; 
+        place-items: center center;
+        place-content: center center;
+    ">
+                                <p style="">Ceci est le texte par defaut du slot 1 !
                     Il est suivit du composant sans slot !</p>
-                                <p>Composant sans slot</p>
+                                <div class="fragment fade-in"><p style="font-weight: bold; ">Composant sans slot</p></div>
                             </div>
-                            <p>Composant sans slot</p>
-                            <p>ceci est le texte du slot 2</p>
+                            <div class="fragment fade-in"><p style="font-weight: bold; ">Composant sans slot</p></div>
+                            <p style="">ceci est le texte du slot 2</p>
                         </div>
                     </section>
                     <section
                         id="slide4"
-                        class="annotable"
+                        
                         data-transition="fade"
                         
                         
@@ -261,7 +321,7 @@
                     </section>
                     <section
                         id="slide5"
-                        
+                        class="annotable"
                         data-transition="fade"
                         
                         
@@ -307,14 +367,191 @@
                     </section>
                     <section
                         id="slide6"
-                        
+                        class="annotable"
                         data-transition="fade"
                         
                         
                         
                         
                     >
-                        <p>Composant sans slot</p>
+                        <div  style="display: grid; 
+            grid-template-columns: repeat(2, 1fr); 
+            grid-template-rows: repeat(1, calc(100% - 0px));
+            gap: 10px;
+            box-sizing: border-box;
+    height: 100%; width: 100%; 
+        place-items: center center;
+        place-content: center center;
+    ">
+                            <div class="fragment shrink"><div class="fragment shrink"><div class="fragment shrink"><p style="font-weight: bold; text-decoration: underline; ">Composant sans slot</p></div></div></div>
+                            <img 
+                                src="https://images4.alphacoders.com/133/thumb-1920-1332281.jpeg" 
+                                alt="Gojo" 
+                                style="
+        display: block;
+        max-width: 100%;
+        max-height: 100%;
+        object-fit: contain;
+        margin: auto;
+    
+            width: 50%;
+            height: auto;
+        " 
+                            />
+                        </div>
+                    </section>
+                    <section
+                        id="slide7"
+                        class="annotable"
+                        data-transition="fade"
+                        
+                        
+                        
+                        
+                    >
+                        <div  style="display: grid; 
+            grid-template-columns: repeat(2, 1fr); 
+            grid-template-rows: repeat(2, calc(50% - 5px));
+            gap: 10px;
+            box-sizing: border-box;
+    height: 100%; width: 100%; 
+        place-items: center center;
+        place-content: center center;
+    ">
+                            <p style="font-weight: bold; font-style: italic; text-decoration: underline; color: red; font-family: arial; font-size: 1em; ">Colonne de gauche mais un texte un peu plus long</p>
+                            <div  style="width: 50%;display: grid; 
+            grid-template-columns: repeat(2, 1fr); 
+            grid-template-rows: repeat(2, calc(50% - 5px));
+            gap: 10px;
+            box-sizing: border-box;
+    height: 100%; 
+        place-items: center center;
+        place-content: center center;
+    ">
+                                <div class="fragment shrink"><img 
+                                    src="https://images4.alphacoders.com/133/thumb-1920-1332281.jpeg" 
+                                    alt="Gojo" 
+                                    style="
+        display: block;
+        max-width: 100%;
+        max-height: 100%;
+        object-fit: contain;
+        margin: auto;
+    
+            width: 100%;
+            height: auto;
+        " 
+                                /></div>
+                                <img 
+                                    src="https://images4.alphacoders.com/133/thumb-1920-1332281.jpeg" 
+                                    alt="Gojo" 
+                                    style="
+        display: block;
+        max-width: 100%;
+        max-height: 100%;
+        object-fit: contain;
+        margin: auto;
+    
+            width: 100%;
+            height: auto;
+        " 
+                                />
+                                <img 
+                                    src="https://images4.alphacoders.com/133/thumb-1920-1332281.jpeg" 
+                                    alt="Gojo" 
+                                    style="
+        display: block;
+        max-width: 100%;
+        max-height: 100%;
+        object-fit: contain;
+        margin: auto;
+    
+            width: 100%;
+            height: auto;
+        " 
+                                />
+                                <img 
+                                    src="https://images4.alphacoders.com/133/thumb-1920-1332281.jpeg" 
+                                    alt="Gojo" 
+                                    style="
+        display: block;
+        max-width: 100%;
+        max-height: 100%;
+        object-fit: contain;
+        margin: auto;
+    
+            width: 100%;
+            height: auto;
+        " 
+                                />
+                            </div>
+                            <div  style="display: grid; 
+            grid-template-columns: repeat(2, 1fr); 
+            grid-template-rows: repeat(2, calc(50% - 5px));
+            gap: 10px;
+            box-sizing: border-box;
+    height: 100%; width: 100%; 
+        place-items: center center;
+        place-content: center center;
+    ">
+                                <img 
+                                    src="https://images4.alphacoders.com/133/thumb-1920-1332281.jpeg" 
+                                    alt="Gojo" 
+                                    style="
+        display: block;
+        max-width: 100%;
+        max-height: 100%;
+        object-fit: contain;
+        margin: auto;
+    
+            width: 100%;
+            height: auto;
+        " 
+                                />
+                                <img 
+                                    src="https://images4.alphacoders.com/133/thumb-1920-1332281.jpeg" 
+                                    alt="Gojo" 
+                                    style="
+        display: block;
+        max-width: 100%;
+        max-height: 100%;
+        object-fit: contain;
+        margin: auto;
+    
+            width: 100%;
+            height: auto;
+        " 
+                                />
+                                <img 
+                                    src="https://images4.alphacoders.com/133/thumb-1920-1332281.jpeg" 
+                                    alt="Gojo" 
+                                    style="
+        display: block;
+        max-width: 100%;
+        max-height: 100%;
+        object-fit: contain;
+        margin: auto;
+    
+            width: 100%;
+            height: auto;
+        " 
+                                />
+                                <img 
+                                    src="https://images4.alphacoders.com/133/thumb-1920-1332281.jpeg" 
+                                    alt="Gojo" 
+                                    style="
+        display: block;
+        max-width: 100%;
+        max-height: 100%;
+        object-fit: contain;
+        margin: auto;
+    
+            width: 100%;
+            height: auto;
+        " 
+                                />
+                            </div>
+                        </div>
                     </section>
                 </div>
             </div>
@@ -324,6 +561,7 @@
             <script id="annotation-storage">window.savedPaths = {};</script>
 
             <script src="https://cdn.jsdelivr.net/npm/reveal.js@5/dist/reveal.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/reveal.js@5/plugin/highlight/highlight.js"></script>
             <script src="https://cdn.jsdelivr.net/npm/qrcodejs2@0.0.2/qrcode.min.js"></script>
             <script src="http://localhost:3000/socket.io/socket.io.js"></script>
     <script>
@@ -366,10 +604,83 @@
         });
     </script>
             <script>
+            const updateCodeStepImage = (codeBoxContainer, lineIndex) => {
+                if (!codeBoxContainer) return;
+                const images = Array.from(codeBoxContainer.querySelectorAll('.code-step-image'));
+                if (images.length === 0) return;
+
+                images.forEach(img => {
+                    img.style.opacity = '0';
+                    img.style.zIndex = '1';
+                });
+
+                if (!lineIndex || lineIndex < 1) return;
+
+                // If multiple ranges overlap, the last matching one wins.
+                let active = null;
+                for (const img of images) {
+                    const startAttr = img.getAttribute('data-start');
+                    const endAttr = img.getAttribute('data-end');
+                    const start = startAttr ? Number(startAttr) : NaN;
+                    const end = endAttr ? Number(endAttr) : start;
+                    if (Number.isFinite(start) && lineIndex >= start && lineIndex <= end) {
+                        active = img;
+                    }
+                }
+
+                if (active) {
+                    active.style.opacity = '1';
+                    active.style.zIndex = '10';
+                }
+            };
+
+            const updateAllCodeBoxesInSlide = (slideEl, lineIndex) => {
+                if (!slideEl) return;
+                const boxes = Array.from(slideEl.querySelectorAll('.code-box-container'));
+                for (const box of boxes) {
+                    updateCodeStepImage(box, lineIndex);
+                }
+            };
+
+            const parseLineNumberSpecStart = (spec) => {
+                if (!spec) return 1;
+                const s = String(spec).trim();
+                if (!s) return 1;
+                const first = s.split('-')[0];
+                const n = Number(first);
+                return Number.isFinite(n) && n >= 1 ? n : 1;
+            };
+
+            const currentHighlightedLineForBox = (codeBoxContainer) => {
+                if (!codeBoxContainer) return 1;
+                const fragCandidates = Array.from(codeBoxContainer.querySelectorAll('.fragment[data-line-numbers]'));
+                const visible = fragCandidates.filter(f => f.classList.contains('visible') || f.classList.contains('current-fragment'));
+                const activeFrag = visible.length > 0 ? visible[visible.length - 1] : null;
+                if (activeFrag) {
+                    const spec = activeFrag.getAttribute('data-line-numbers');
+                    if (spec) return parseLineNumberSpecStart(spec);
+                }
+
+                const codeEl = codeBoxContainer.querySelector('pre code');
+                const stepsAttr = codeEl ? (codeEl.getAttribute('data-line-numbers') || '') : '';
+                const steps = stepsAttr.split('|').map(s => s.trim()).filter(Boolean);
+                if (steps.length === 0) return 1;
+
+                const slideF = Reveal.getIndices().f;
+                const candidates = (typeof slideF === 'number') ? [slideF, slideF - 1, slideF + 1, 0] : [0];
+                for (const idx of candidates) {
+                    if (idx >= 0 && idx < steps.length) {
+                        return parseLineNumberSpecStart(steps[idx]);
+                    }
+                }
+
+                return parseLineNumberSpecStart(steps[0]);
+            };
                 // Theme logo URL
                 const THEME_LOGO_URL = "";
 
                 Reveal.initialize({
+                    plugins: [RevealHighlight],
                     hash: true,
                     slideNumber: true,
                     transition: 'slide',
@@ -378,6 +689,30 @@
                     margin: 0.1,
                     backgroundTransition: 'fade',
                     center: true
+                });
+
+                const syncCodeBoxImages = (slideEl) => {
+                    if (!slideEl) return;
+                    const boxes = Array.from(slideEl.querySelectorAll('.code-box-container'));
+                    for (const box of boxes) {
+                        updateCodeStepImage(box, currentHighlightedLineForBox(box));
+                    }
+                };
+
+                Reveal.on('ready', (event) => {
+                    syncCodeBoxImages(event.currentSlide);
+                });
+
+                Reveal.on('slidechanged', (event) => {
+                    syncCodeBoxImages(event.currentSlide);
+                });
+
+                Reveal.on('fragmentshown', () => {
+                    syncCodeBoxImages(Reveal.getCurrentSlide());
+                });
+
+                Reveal.on('fragmenthidden', () => {
+                    syncCodeBoxImages(Reveal.getCurrentSlide());
                 });
 
                 // Update header/footer when slide changes

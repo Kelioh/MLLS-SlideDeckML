@@ -1,7 +1,7 @@
 presentation Component
 
 component constant_component {
-    text[bold] {
+    text[bold, fragment = fade-in] {
         Composant sans slot
     }
 }
@@ -49,6 +49,14 @@ component nested_component {
     constant_component {}
 }
 
+component image_component {
+    image [scale = 100%] {
+        src {https://images4.alphacoders.com/133/thumb-1920-1332281.jpeg}
+        alt {Gojo}
+    }
+}
+
+
 slide slide1 [non-annotable] {
     box [height = 100%] {
         slot_component[column = 3] {
@@ -69,7 +77,7 @@ slide slide1 [non-annotable] {
 
 slide slide2 {
     box {
-        constant_component[bold] {}
+        constant_component[bold, fragment = shrink] {}
         constant_component {}
     }
 }
@@ -92,7 +100,10 @@ slide slide5 {
 }
 
 slide slide6 {
-    nested_component[underline] {}
+    box [column = 2] {
+        nested_component [underline, fragment = shrink] {}
+        image_component [scale = 50%] {}
+    }
 }
 
 slide slide7 {
@@ -101,7 +112,7 @@ slide slide7 {
             Colonne de gauche mais un texte un peu plus long
         }
         box [width = 50%] {
-            image [scale = 100%] {
+            image [scale = 100%, fragment = shrink] {
                 src {https://images4.alphacoders.com/133/thumb-1920-1332281.jpeg}
                 alt {Gojo}
             }
