@@ -100,6 +100,10 @@ slide slide7 {
         text [bold, italic, underline, font = "arial", color = "red", text-size = "m"] {
             Colonne de gauche mais un texte un peu plus long
         }
+        mathematics [color = "#2980b9", text-size = "xl", fragment = fade-in]
+        $$ 
+        \zeta(s) = \sum_{n=1}^{\infty} \frac{1}{n^s} = \prod_{p \in \text{primes}} \frac{1}{1 - p^{-s}} 
+        $$
         box [width = 50%] {
             image [scale = 100%] {
                 src {https://images4.alphacoders.com/133/thumb-1920-1332281.jpeg}
@@ -118,7 +122,7 @@ slide slide7 {
                 alt {Gojo}
             }
         }
-        box [column = 2] {
+        box [column = 2, fragment = fade-in] {
             image [scale = 100%] {
                 src {https://images4.alphacoders.com/133/thumb-1920-1332281.jpeg}
                 alt {Gojo}
@@ -137,4 +141,11 @@ slide slide7 {
             }
         }
     }
+}
+
+slide slide8 {
+    mathematics [color = "#2980b9", text-size = "xl"]
+        $$ 
+        \zeta(s) = \sum_{n=1}^{\infty} \frac{1}{n^s} = \prod_{p \in \text{primes}} \frac{1}{1 - p^{-s}} 
+        $$
 }
