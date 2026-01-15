@@ -147,13 +147,13 @@ ComponentReferenceAttribute:
 
 
 CommonAttribute:
-    key='fragment' '=' value=FRAGMENT_STYLE;
+    key='fragment' '=' value=FRAGMENT_STYLE |
+    key='height' '=' value=PERCENTAGE |
+    key='width' '=' value=PERCENTAGE;
 
 
 ContentAttribute:
     key='column' '=' value=INTEGER |
-    key='height' '=' value=PERCENTAGE |
-    key='width' '=' value=PERCENTAGE |
     key='alignment' '=' value=STRING;
 
 

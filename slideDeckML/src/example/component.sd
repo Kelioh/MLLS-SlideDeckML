@@ -100,7 +100,7 @@ slide slide5 {
 }
 
 slide slide6 {
-    box [column = 2] {
+    box [column = 2, height = 50%] {
         nested_component [underline, fragment = shrink] {}
         image_component [scale = 50%] {}
     }
@@ -108,7 +108,7 @@ slide slide6 {
 
 slide slide7 {
     box [column = 2] {
-        text [bold, italic, underline, font = "arial", color = "red", text-size = "m"] {
+        text [bold, italic, underline, font = "arial", color = "red", text-size = "m", height = 50%] {
             Colonne de gauche mais un texte un peu plus long
         }
         mathematics [color = "#2980b9", text-size = "xl", fragment = fade-in]
@@ -156,7 +156,7 @@ slide slide7 {
 
 slide slide8 {
     mathematics [color = "#2980b9", text-size = "xl"]
-        $$ 
-        \zeta(s) = \sum_{n=1}^{\infty} \frac{1}{n^s} = \prod_{p \in \text{primes}} \frac{1}{1 - p^{-s}} 
-        $$
+    $$ 
+    \zeta(s) = \sum_{n=1}^{\infty} \frac{1}{n^s} = \prod_{p \in \text{primes}} \frac{1}{1 - p^{-s}} 
+    $$
 }
