@@ -2,6 +2,10 @@ import { type Module, inject } from 'langium';
 import { createDefaultModule, createDefaultSharedModule, type DefaultSharedModuleContext, type LangiumServices, type LangiumSharedServices, type PartialLangiumServices } from 'langium/lsp';
 import { SlideDeckMlGeneratedModule, SlideDeckMlGeneratedSharedModule } from './generated/module.js';
 import { SlideDeckMlValidator, registerValidationChecks } from './slide-deck-ml-validator.js';
+import { SlideDeckMlHoverProvider } from './slide-deck-ml-hover-provider.js';
+import { SlideDeckMlCompletionProvider } from './slide-deck-ml-completion-provider.js';
+import { SlideDeckMlCodeActionProvider } from './slide-deck-ml-code-actions.js';
+import { SlideDeckMlFormatter } from './slide-deck-ml-formatter.js';
 
 /**
  * Declaration of custom services - add your own service classes here.
@@ -26,6 +30,12 @@ export type SlideDeckMlServices = LangiumServices & SlideDeckMlAddedServices
 export const SlideDeckMlModule: Module<SlideDeckMlServices, PartialLangiumServices & SlideDeckMlAddedServices> = {
     validation: {
         SlideDeckMlValidator: () => new SlideDeckMlValidator()
+    },
+    lsp: {
+        HoverProvider: (services) => new SlideDeckMlHoverProvider(services),
+        CompletionProvider: (services) => new SlideDeckMlCompletionProvider(services),
+        CodeActionProvider: () => new SlideDeckMlCodeActionProvider(),
+        Formatter: () => new SlideDeckMlFormatter()
     }
 };
 
