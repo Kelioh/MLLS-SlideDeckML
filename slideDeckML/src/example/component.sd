@@ -225,7 +225,3 @@ slide slide11 {
         }
     }
 }
-
-slide slide12 {
-    quiz_component [alignment = "bottom right"] {}
-}
