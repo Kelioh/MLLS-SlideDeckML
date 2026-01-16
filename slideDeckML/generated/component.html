@@ -386,41 +386,45 @@
                         
                         
                     >
-                            <div
-                                class="sdml-quiz"
-                                data-quiz-id="sort"
-                                data-quiz-type="mcq"
-                                data-correct-answer="c"
-                                data-reveal-on-demand="true"
-                            >
-                                <div class="sdml-quiz__title">Quiz</div>
-                                <div class="sdml-quiz__question">Which sorting algorithm has average-case O(n log n)?</div>
+                        <div class="box-wrapper" style="display: flex; width: 100%; height: 100%; justify-content: center; align-items: center;">
+                            <div class="box" style="display: flex; flex-direction: column; width: 100%; height: 100%; justify-content: center; align-items: center;">
+                                <div
+                                    class="sdml-quiz"
+                                    data-quiz-id="sort"
+                                    data-quiz-type="mcq"
+                                    data-correct-answer="c"
+                                    data-reveal-on-demand="true"
+                                >
+                                    <div class="sdml-quiz__title">Quiz</div>
+                                    <div class="sdml-quiz__question">Which sorting algorithm has average-case O(n log n)?</div>
 
-                                <div class="sdml-quiz__options">
-                                    <label>
-                                        <input type="radio" name="quiz-sort" value="a" />
-                                        <span>Bubble sort</span>
-                                    </label><label>
-                                        <input type="radio" name="quiz-sort" value="b" />
-                                        <span>Quick sort</span>
-                                    </label><label>
-                                        <input type="radio" name="quiz-sort" value="c" />
-                                        <span>Merge sort</span>
-                                    </label>
-                                </div>
-                                <div class="sdml-quiz__actions">
-                                    <button
-                                        class="sdml-quiz__btn sdml-quiz__submit"
-                                        type="button"
-                                                onclick="(function(btn){const r=btn.closest('.sdml-quiz');if(!r)return;const c=(r.getAttribute('data-correct-answer')||'').trim();const f=r.querySelector('.sdml-quiz__feedback');if(!f)return;const ch=r.querySelector('input[type=radio]:checked');if(!ch)return;const v=(ch.value||'').trim();const ok=v.toLowerCase()===c.toLowerCase();f.textContent=ok?'Correct.':'Not quite.';f.style.color=ok?'#2aa198':'#dc322f';if(!ok){const res=r.querySelector('.sdml-quiz__results');if(res){res.style.display='block';}const rb=r.querySelector('.sdml-quiz__reveal');if(rb)rb.style.display='none';} })(this)"
-                                    >Submit</button>
-                                </div>
+                            <div class="sdml-quiz__options">
+                                <label>
+                                    <input type="radio" name="quiz-sort" value="a" />
+                                    <span>Bubble sort</span>
+                                </label><label>
+                                    <input type="radio" name="quiz-sort" value="b" />
+                                    <span>Quick sort</span>
+                                </label><label>
+                                    <input type="radio" name="quiz-sort" value="c" />
+                                    <span>Merge sort</span>
+                                </label>
+                            </div>
+                            <div class="sdml-quiz__actions">
+                                <button
+                                    class="sdml-quiz__btn sdml-quiz__submit"
+                                    type="button"
+                                            onclick="(function(btn){const r=btn.closest('.sdml-quiz');if(!r)return;const c=(r.getAttribute('data-correct-answer')||'').trim();const f=r.querySelector('.sdml-quiz__feedback');if(!f)return;const ch=r.querySelector('input[type=radio]:checked');if(!ch)return;const v=(ch.value||'').trim();const ok=v.toLowerCase()===c.toLowerCase();f.textContent=ok?'Correct.':'Not quite.';f.style.color=ok?'#2aa198':'#dc322f';if(!ok){const res=r.querySelector('.sdml-quiz__results');if(res){res.style.display='block';}const rb=r.querySelector('.sdml-quiz__reveal');if(rb)rb.style.display='none';} })(this)"
+                                >Submit</button>
+                            </div>
 
-                                        <div class="sdml-quiz__feedback" aria-live="polite"></div>
-                                        <div class="sdml-quiz__reveal-wrap">
-                                            <button class="sdml-quiz__btn sdml-quiz__reveal" type="button" onclick="(function(btn){const r=btn.closest('.sdml-quiz');if(!r)return;const res=r.querySelector('.sdml-quiz__results');if(res){res.style.display='block';}btn.style.display='none';})(this)">Reveal answer</button>
-                                            <div class="sdml-quiz__results" style="display:none">Correct answer: <strong>c</strong></div>
-                                        </div>
+                                    <div class="sdml-quiz__feedback" aria-live="polite"></div>
+                                    <div class="sdml-quiz__reveal-wrap">
+                                        <button class="sdml-quiz__btn sdml-quiz__reveal" type="button" onclick="(function(btn){const r=btn.closest('.sdml-quiz');if(!r)return;const res=r.querySelector('.sdml-quiz__results');if(res){res.style.display='block';}btn.style.display='none';})(this)">Reveal answer</button>
+                                        <div class="sdml-quiz__results" style="display:none">Correct answer: <strong>c</strong></div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </section>
                     <section

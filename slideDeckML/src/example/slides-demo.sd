@@ -1,0 +1,171 @@
+presentation SlideDeckMl_MLLS_Demo
+
+theme font "Roboto" primary "#2c3e50" logo "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3a/Logo_Universit%C3%A9_C%C3%B4te_d%27Azur.svg/320px-Logo_Universit%C3%A9_C%C3%B4te_d%27Azur.svg.png"
+
+header bg "white" color "#2c3e50" size "20px" {
+    box [alignment = "right"] {
+        text [italic] {SlideDeckML Framework Demo}
+    }
+}
+
+footer bg "#2c3e50" color "white" {
+    box [column = 2] {
+        text {L. Brunet - MLLS Project}
+        text [alignment = "right"] {2024}
+    }
+}
+
+component slot_component {
+    box [column = 2, height = 100%] {
+        text [bold, color = "blue"] {
+            Structure du Composant :
+        }
+        slot @slot1 {
+            text {Ceci est le texte par défaut du slot disponible !}
+        }
+    }
+}
+
+component code_example {
+    code [text-size = "14px"] {
+        "java"
+        ```
+        public class Main {
+            public static void main(String[] args) {
+                System.out.println("Hello SlideDeckML");
+            }
+        }
+        ```
+        line { 3..4 image [scale = 50%] { src {https://logo.png} alt {Explaining line 3} } }
+    }
+}
+
+component math_formula {
+    mathematics [color = "#2980b9", text-size = "xl", fragment = fade-in]
+    $$ \zeta(s) = \sum_{n=1}^{\infty} \frac{1}{n^s} = \prod_{p \in \text{primes}} \frac{1}{1 - p^{-s}} $$
+}
+
+slide slide1 [non-annotable] {
+    box [height = 100%, alignment = "center"] {
+        text [bold, text-size = "80px", fragment = grow] {
+            SlideDeckML
+        }
+        text [italic, color = "gray"] {
+            Le futur des présentations déclaratives
+        }
+    }
+}
+
+slide sommaire {
+    box [alignment = "top left"] {
+        text [bold, underline] {Sommaire :}
+        list [type = ordered, spaceBetweenItems = 30] {
+            {Mise en page & Boîtes}
+            {Composants & Slots}
+            {Équations Mathématiques}
+            {Code & Interactivité}
+            {Multimédia & Vidéos}
+        }
+    }
+}
+
+slide colonnes_demo {
+    box [column = 3, height = 80%] {
+        text [highlight, color = "red"] {Colonne 1 : Style Highlight}
+        text [bold, color = "green"] {Colonne 2 : Style Bold}
+        text [italic, color = "blue"] {Colonne 3 : Style Italic}
+    }
+}
+
+slide demo_slots {
+    slot_component {
+        @slot1
+        box [alignment = "center"] {
+            text [bold] {Contenu Injecté dans le Slot !}
+            image [scale = 40%] {
+                src {https://images4.alphacoders.com/133/thumb-1920-1332281.jpeg}
+                alt {Logo Demo}
+            }
+        }
+    }
+}
+
+slide science_slide {
+    box [alignment = "center"] {
+        text [bold] {Calcul Théorique :}
+        math_formula {}
+        text [fragment = fade-in] {Cette formule apparaîtra puis disparaîtra.}
+    }
+}
+
+slide code_slide {
+    box {
+        text [bold] {Démonstration de Code Source :}
+        code_example {}
+    }
+}
+
+slide quiz_slide {
+    quiz [fragment = fade-up] q1 {
+        {Quel terminal définit une expression LaTeX dans notre BNF ?}
+        mcq
+        option a {TEXT}
+        option b {STRING}
+        option c {MATH_EXPR}
+        {c}
+        revealResultsOnDemand
+    }
+}
+
+slide live_quiz_slide {
+    livequiz lq1 {
+        {Êtes-vous convaincus par le DSL ?}
+        option yes {Oui}
+        option no {Absolument}
+        {yes}
+        {session_mlls_2024}
+    }
+}
+
+slide video_demo {
+    box [alignment = "center"] {
+        text [bold] {Support Vidéo Direct :}
+        video [scale = 80%] {
+            src {https://youtu.be/uGSu6mhk3RQ}
+            alt {Video de démonstration}
+        }
+    }
+}
+
+slide position_demo {
+    box [height = 100%, width = 100%] {
+        text [width = 50%, alignment = "bottom right", color = "red", highlight] {
+            Ce texte est forcé en bas à droite de la slide.
+        }
+        text [width = 50%, alignment = "top left", italic] {
+            Celui-ci est en haut à gauche.
+        }
+    }
+}
+
+slide nested_demo {
+    box [column = 2, height = 100%] {
+        box [alignment = "center"] {
+            text {Conteneur Interne 1}
+        }
+        box [column = 2] {
+            image [scale = 90%] { src {https://images4.alphacoders.com/133/thumb-1920-1332281.jpeg} alt {Img1} }
+            image [scale = 90%] { src {https://images4.alphacoders.com/133/thumb-1920-1332281.jpeg} alt {Img2} }
+        }
+    }
+}
+
+slide conclusion {
+    box [alignment = "center"] {
+        text [text-size = "xl", bold] {Merci de votre attention !}
+        list [type = unordered] {
+            {Questions ?}
+            {GitHub : slide-deck-ml}
+        }
+    }
+}
