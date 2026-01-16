@@ -25,7 +25,7 @@ ComponentBox:
     ComponentContentBox | ComponentSlot | TerminalBox;
 
 ComponentContentBox:
-    'box' ('[' attributes+=ContentBoxAttribute (',' attributes+=ContentBoxAttribute)* ']')? '{'
+    'box' ('[' attributes+=(CommonAttribute | ContentAttribute) (',' attributes+=(CommonAttribute | ContentAttribute))* ']')? '{'
         boxes+=ComponentBox+
     '}';
 
@@ -53,18 +53,18 @@ Box:
     ContentBox | TerminalBox;
 
 ContentBox:
-    'box' ('[' attributes+=ContentBoxAttribute (',' attributes+=ContentBoxAttribute)* ']')? '{'
+    'box' ('[' attributes+=(CommonAttribute | ContentAttribute) (',' attributes+=(CommonAttribute | ContentAttribute))* ']')? '{'
         boxes+=Box+
     '}';
 
 TerminalBox: 
-    ComponentBoxReference | TextBox | QuizBox | ListBox | ImageBox | VideoBox | LiveQuizBox; // Add new boxes here
+    ComponentBoxReference | TextBox | QuizBox | ListBox | ImageBox | VideoBox | LiveQuizBox | CodeBox | MathematicalBox; // Add new boxes here
 
 
 /* Terminal boxes definitions */
 
 ComponentBoxReference:
-    reference=[Component:ID] ('[' attributes+=ComponentBoxAttribute (',' attributes+=ComponentBoxAttribute)* ']')? ('{'
+    reference=[Component:ID] ('[' attributes+=ComponentReferenceAttribute (',' attributes+=ComponentReferenceAttribute)* ']')? ('{'
         slots+=ComponentSlotReference*
     '}' | '{}');
 
@@ -74,23 +74,23 @@ ComponentSlotReference:
 
 
 TextBox:
-    'text' ('[' attributes+=TextBoxAttribute (',' attributes+=TextBoxAttribute)* ']')? content=TEXT;
+    'text' ('[' attributes+=(CommonAttribute | TextAttribute) (',' attributes+=(CommonAttribute | TextAttribute))* ']')? content=TEXT;
 
 
 ListBox:
-    'list' ('[' attributes+=ListBoxAttribute (',' attributes+=ListBoxAttribute)* ']')? '{'
+    'list' ('[' attributes+=(CommonAttribute | ListAttribute) (',' attributes+=(CommonAttribute | ListAttribute))* ']')? '{'
         items+=TEXT+
     '}';
 
 
 ImageBox:
-    'image' ('[' attributes+=MediaBoxAttribute (',' attributes+=MediaBoxAttribute)* ']')? '{'
+    'image' ('[' attributes+=(CommonAttribute | MediaAttribute) (',' attributes+=(CommonAttribute | MediaAttribute))* ']')? '{'
         'src' src=IMAGE_URL
         'alt' alt=TEXT
     '}';
 
 VideoBox:
-    'video' ('[' attributes+=MediaBoxAttribute (',' attributes+=MediaBoxAttribute)* ']')? '{'
+    'video' ('[' attributes+=(CommonAttribute | MediaAttribute) (',' attributes+=(CommonAttribute | MediaAttribute))* ']')? '{'
         'src' src=VIDEO_URL
         'alt' alt=TEXT
     '}';
@@ -118,37 +118,62 @@ QuizOption:
     'option' id=ID content=TEXT;
 
 
+CodeBox:
+    'code' ('[' attributes+=(CommonAttribute | TextAttribute) (',' attributes+=(CommonAttribute | TextAttribute))* ']')? '{'
+        language=STRING
+        code=CODE
+        lines+=CodeLineBox*
+    '}';
+
+CodeLineBox:
+    'line' '{'
+        start=INTEGER ('..' end=INTEGER)?
+        image=ImageBox
+    '}';
+
+
+MathematicalBox:
+    'mathematics' ('[' attributes+=(CommonAttribute | TextAttribute) (',' attributes+=(CommonAttribute | TextAttribute))* ']')? content=MATH_EXPR;
+
+
 /* Attributes */
 
-ComponentBoxAttribute:
-    ContentBoxAttribute | TextBoxAttribute | ListBoxAttribute | MediaBoxAttribute;
-
 SlideAttribute:
-    key='annotable';
+    key='non-annotable';
 
-ContentBoxAttribute:
+
+ComponentReferenceAttribute:
+    CommonAttribute | ContentAttribute | TextAttribute | ListAttribute | MediaAttribute;
+
+
+CommonAttribute:
     key='fragment' '=' value=FRAGMENT_STYLE |
-    key='column' '=' value=INTEGER |
     key='height' '=' value=PERCENTAGE |
+    key='width' '=' value=PERCENTAGE;
+
+
+ContentAttribute:
+    key='column' '=' value=INTEGER |
     key='alignment' '=' value=STRING;
 
-TextBoxAttribute:
-    key='fragment' '=' value=FRAGMENT_STYLE |
+
+TextAttribute:
     key='bold' |
     key='italic' |
     key='underline' |
     key='strikethrough' |
     key='highlight' |
     key='color' '=' value=STRING |
-    key='font' '=' value=STRING;
+    key='font' '=' value=STRING |
+    key='text-size' '=' value=STRING;
 
-ListBoxAttribute:
-    key='fragment' '=' value=FRAGMENT_STYLE |
+
+ListAttribute:
     key='type' '=' value=LIST_TYPE |
     key='spaceBetweenItems' '=' value=INTEGER;
 
-MediaBoxAttribute:
-    key='fragment' '=' value=FRAGMENT_STYLE |
+
+MediaAttribute:
     key='scale' '=' value=PERCENTAGE;
 
 
@@ -180,6 +205,7 @@ Theme:
 /*************/
 
 hidden terminal WS: /\s+/;
+terminal MATH_EXPR: /\$\$[\s\S]*?\$\$/;
 terminal FRAGMENT_STYLE: /(fade-in|fade-up|fade-down|fade-left|fade-right|fade-in-then-out|fade-in-then-semi-out|grow|shrink|strike|highlight-red|highlight-green|highlight-blue|current-visible|semi-fade-out)/;
 terminal LIST_TYPE: /(ordered|unordered)/;
 terminal QUIZ_TYPE: /(mcq|short)/;
@@ -192,3 +218,4 @@ terminal PERCENTAGE: /(100|[0-9]{1,2})%/;
 terminal INTEGER: /[0-9]+/;
 terminal ID: /[_a-zA-Z][\w_]*/;
 terminal TEXT: /{[^{}]*}/;
+terminal CODE: /```[^]*?```/;

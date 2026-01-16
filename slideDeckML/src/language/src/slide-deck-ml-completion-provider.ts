@@ -121,6 +121,26 @@ export class SlideDeckMlCompletionProvider extends DefaultCompletionProvider {
             insertTextFormat: InsertTextFormat.Snippet,
             sortText: '0_livequiz'
         });
+
+        acceptor(context, {
+            label: 'code',
+            kind: CompletionItemKind.Keyword,
+            detail: 'Code block element',
+            documentation: 'Displays syntax-highlighted code with optional line annotations',
+            insertText: 'code {\n\t"${1:javascript}"\n\t\\`\\`\\`\n\t${2:// Your code here}\n\t\\`\\`\\`\n}',
+            insertTextFormat: InsertTextFormat.Snippet,
+            sortText: '0_code'
+        });
+
+        acceptor(context, {
+            label: 'mathematics',
+            kind: CompletionItemKind.Keyword,
+            detail: 'Mathematical expression',
+            documentation: 'Displays LaTeX mathematical expressions using KaTeX/MathJax',
+            insertText: 'mathematics \\$\\$${1:E = mc^2}\\$\\$',
+            insertTextFormat: InsertTextFormat.Snippet,
+            sortText: '0_mathematics'
+        });
     }
 
     private addBoxContentCompletions(context: CompletionContext, acceptor: CompletionAcceptor): void {

@@ -291,6 +291,81 @@ option a {First choice}
 option b {Second choice}
 \`\`\``;
 
+            case 'code':
+                return `### Code Box
+
+**Display syntax-highlighted code** in your slides.
+
+**Required:**
+- \`language\`: Programming language (e.g., "javascript", "python")
+- \`code\`: Code content wrapped in triple backticks
+
+**Optional:**
+- \`line\`: Highlight specific lines with an image annotation
+
+**Example:**
+\`\`\`
+code {
+    "javascript"
+    \\\`\\\`\\\`
+    function hello() {
+        console.log("Hello!");
+    }
+    \\\`\\\`\\\`
+}
+\`\`\``;
+
+            case 'mathematics':
+                return `### Mathematics Box
+
+**Display LaTeX mathematical expressions** in your slides.
+
+Uses KaTeX/MathJax for rendering mathematical notation.
+
+**Syntax:** Wrap expression in \`$$..$$\`
+
+**Example:**
+\`\`\`
+mathematics $$E = mc^2$$
+
+mathematics $$\\\\int_0^\\\\infty e^{-x^2} dx = \\\\frac{\\\\sqrt{\\\\pi}}{2}$$
+\`\`\`
+
+**Common LaTeX:**
+- Fractions: \`\\\\frac{a}{b}\`
+- Subscripts: \`x_i\`
+- Superscripts: \`x^2\`
+- Greek letters: \`\\\\alpha, \\\\beta, \\\\gamma\`
+- Integrals: \`\\\\int, \\\\sum, \\\\prod\``;
+
+            case 'line':
+                return `### Code Line Annotation
+
+**Highlight specific lines** in a code block with an image.
+
+**Syntax:**
+\`\`\`
+line {
+    start..end
+    image { src {annotation.png} alt {Description} }
+}
+\`\`\`
+
+**Example:**
+\`\`\`
+code {
+    "python"
+    \\\`\\\`\\\`
+    def greet(name):
+        return f"Hello, {name}!"
+    \\\`\\\`\\\`
+    line {
+        1..2
+        image { src {arrow.png} alt {Function definition} }
+    }
+}
+\`\`\``;
+
             default:
                 return undefined;
         }

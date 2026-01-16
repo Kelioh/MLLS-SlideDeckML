@@ -1,0 +1,15 @@
+presentation Test
+
+slide test {
+    box {
+        code {
+            ""
+            ```
+            ```
+        }
+        
+        mathematics $$$$
+        
+        mathematics $$\frac{a}{b$$
+    }
+}

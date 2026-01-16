@@ -1,7 +1,7 @@
 presentation Component
 
 component constant_component {
-    text[bold] {
+    text[bold, fragment = fade-in] {
         Composant sans slot
     }
 }
@@ -49,7 +49,15 @@ component nested_component {
     constant_component {}
 }
 
-slide slide1 [annotable] {
+component image_component {
+    image [scale = 100%] {
+        src {https://images4.alphacoders.com/133/thumb-1920-1332281.jpeg}
+        alt {Gojo}
+    }
+}
+
+
+slide slide1 [non-annotable] {
     box [height = 100%] {
         slot_component[column = 3] {
             @slot1
@@ -69,7 +77,7 @@ slide slide1 [annotable] {
 
 slide slide2 {
     box {
-        constant_component[bold] {}
+        constant_component[bold, fragment = shrink] {}
         constant_component {}
     }
 }
@@ -83,7 +91,7 @@ slide slide3 {
     }
 }
 
-slide slide4 [annotable] {
+slide slide4 [non-annotable] {
     list_component[type = ordered] {}
 }
 
@@ -92,29 +100,63 @@ slide slide5 {
 }
 
 slide slide6 {
-    nested_component[underline] {}
+    box [column = 2, height = 50%] {
+        nested_component [underline, fragment = shrink] {}
+        image_component [scale = 50%] {}
+    }
 }
 
 slide slide7 {
     box [column = 2] {
-        text [bold, italic, underline, font = "arial", color = "red"] {
-            Colonne de gauche
+        text [bold, italic, underline, font = "arial", color = "red", text-size = "m", height = 50%] {
+            Colonne de gauche mais un texte un peu plus long
         }
-        text {
-            Colonne de droite
-        }
-        box [column = 2] {
+        mathematics [color = "#2980b9", text-size = "xl", fragment = fade-in]
+        $$ 
+        \zeta(s) = \sum_{n=1}^{\infty} \frac{1}{n^s} = \prod_{p \in \text{primes}} \frac{1}{1 - p^{-s}} 
+        $$
+        box [width = 50%] {
+            image [scale = 100%, fragment = shrink] {
+                src {https://images4.alphacoders.com/133/thumb-1920-1332281.jpeg}
+                alt {Gojo}
+            }
             image [scale = 100%] {
                 src {https://images4.alphacoders.com/133/thumb-1920-1332281.jpeg}
                 alt {Gojo}
             }
-            text {
-                Un petit fou fou
+            image [scale = 100%] {
+                src {https://images4.alphacoders.com/133/thumb-1920-1332281.jpeg}
+                alt {Gojo}
             }
-            video [scale = 100%] {
-                src {https://youtu.be/uGSu6mhk3RQ?si=7k--2FqMo6HaFlEz}
-                alt {Hello World Song}
+            image [scale = 100%] {
+                src {https://images4.alphacoders.com/133/thumb-1920-1332281.jpeg}
+                alt {Gojo}
+            }
+        }
+        box [column = 2, fragment = fade-in] {
+            image [scale = 100%] {
+                src {https://images4.alphacoders.com/133/thumb-1920-1332281.jpeg}
+                alt {Gojo}
+            }
+            image [scale = 100%] {
+                src {https://images4.alphacoders.com/133/thumb-1920-1332281.jpeg}
+                alt {Gojo}
+            }
+            image [scale = 100%] {
+                src {https://images4.alphacoders.com/133/thumb-1920-1332281.jpeg}
+                alt {Gojo}
+            }
+            image [scale = 100%] {
+                src {https://images4.alphacoders.com/133/thumb-1920-1332281.jpeg}
+                alt {Gojo}
             }
         }
     }
+}
+
+slide slide8 {
+    mathematics [color = "#2980b9", text-size = "xl"]
+    $$ 
+    \zeta(s) = \sum_{n=1}^{\infty} \frac{1}{n^s} = \prod_{p \in \text{primes}} \frac{1}{1 - p^{-s}} 
+    $$
 }

@@ -1,24 +1,13 @@
         <!doctype html>
         <html>
         <head>
-            <title>Component</title>
+            <title>Quiz</title>
             <script src="https://cdn.socket.io/4.7.5/socket.io.min.js" crossorigin="anonymous"></script>
             <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-
-            <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
-
-            <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" 
-                    onload="renderMathInElement(document.body, {
-                    delimiters: [
-                        {left: '$$', right: '$$', display: true},
-                        {left: '$', right: '$', display: false}
-                    ]
-                    });"></script>
 
             <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5/dist/reveal.css">
             <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5/dist/theme/solarized.css">
             <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5/plugin/highlight/monokai.css">
-            <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
 
             <style>
                 /* Reset body margins/padding */
@@ -200,377 +189,62 @@
             <div class="reveal">
                 <div class="slides">
                     <section
-                        id="slide1"
-                        
+                        id="Question1"
+                        class="annotable"
                         data-transition="fade"
                         
                         
                         
                         
                     >
-                        <div  style="height: 100%;display: grid; 
-            grid-template-columns: repeat(2, 1fr); 
-            grid-template-rows: repeat(1, calc(100% - 0px));
-            gap: 10px;
-            box-sizing: border-box;
-    width: 100%; 
-        place-items: center center;
-        place-content: center center;
-    ">
-                            <div  style="height: 100%;display: grid; 
-            grid-template-columns: repeat(3, 1fr); 
-            grid-template-rows: repeat(2, calc(50% - 5px));
-            gap: 10px;
-            box-sizing: border-box;
-    width: 100%; 
-        place-items: center center;
-        place-content: center center;
-    ">
-                                <p style="">Ceci est le texte du composant</p>
-                                <iframe
-                                    src="https://www.youtube.com/embed/uGSu6mhk3RQ"
-                                    title="Hello World Song"
-                                    style="
-        display: block;
-        aspect-ratio: 16 / 9;
-        width: auto;
-        height: auto;
-        max-width: 100%;
-        max-height: 100%;
-        border: 0;
-    "
-                                    allowfullscreen>
-                                </iframe>
-                                <div class="fragment fade-in"><p style="font-weight: bold; ">Composant sans slot</p></div>
-                                <img 
-                                    src="https://images4.alphacoders.com/133/thumb-1920-1332281.jpeg" 
-                                    alt="Gojo" 
-                                    style="
+                        <div class="code-box-container" style="display: flex; gap: 2rem; align-items: center; width: 100%; height: 500px;">
+                            <div style="flex: 2;">
+                                <pre><code data-noescape class="language-python" data-line-numbers="1|2|3|4|5|6">      def quicksort(arr):
+          if len(arr) <= 1:
+              return arr
+          pivot = arr[len(arr) // 2]
+          left = [x for x in arr if x < pivot]
+    </code></pre>
+                            </div>
+                            <div class="image-stack" style="flex: 1; position: relative; height: 100%;">
+                                <div class="code-step-image" data-start="1" data-end="3"
+                                     style="position: absolute; opacity: 1; transition: opacity 0.3s; width: 100%; height: 100%;">
+                                    <img 
+                                        src="https://images4.alphacoders.com/133/thumb-1920-1332281.jpeg" 
+                                        alt="Gojo" 
+                                        style="
         display: block;
         max-width: 100%;
         max-height: 100%;
         object-fit: contain;
         margin: auto;
     
-            width: 100%;
-            height: auto;
+            width: 100%; 
+            height: 100%;
         " 
-                                />
-                            </div>
-                        </div>
-                    </section>
-                    <section
-                        id="slide2"
-                        class="annotable"
-                        data-transition="fade"
-                        
-                        
-                        
-                        
-                    >
-                        <div  style="display: grid; 
-            grid-template-columns: repeat(2, 1fr); 
-            grid-template-rows: repeat(1, calc(100% - 0px));
-            gap: 10px;
-            box-sizing: border-box;
-    height: 100%; width: 100%; 
-        place-items: center center;
-        place-content: center center;
-    ">
-                            <div class="fragment shrink"><div class="fragment shrink"><p style="font-weight: bold; ">Composant sans slot</p></div></div>
-                            <div class="fragment fade-in"><p style="font-weight: bold; ">Composant sans slot</p></div>
-                        </div>
-                    </section>
-                    <section
-                        id="slide3"
-                        class="annotable"
-                        data-transition="fade"
-                        
-                        
-                        
-                        
-                    >
-                        <div  style="height: 100%;display: grid; 
-            grid-template-columns: repeat(2, 1fr); 
-            grid-template-rows: repeat(2, calc(50% - 5px));
-            gap: 10px;
-            box-sizing: border-box;
-    width: 100%; 
-        place-items: center center;
-        place-content: center center;
-    ">
-                            <p style="">Ceci est le texte du composant</p>
-                            <div  style="display: grid; 
-            grid-template-columns: repeat(2, 1fr); 
-            grid-template-rows: repeat(1, calc(100% - 0px));
-            gap: 10px;
-            box-sizing: border-box;
-    height: 100%; width: 100%; 
-        place-items: center center;
-        place-content: center center;
-    ">
-                                <p style="">Ceci est le texte par defaut du slot 1 !
-                    Il est suivit du composant sans slot !</p>
-                                <div class="fragment fade-in"><p style="font-weight: bold; ">Composant sans slot</p></div>
-                            </div>
-                            <div class="fragment fade-in"><p style="font-weight: bold; ">Composant sans slot</p></div>
-                            <p style="">ceci est le texte du slot 2</p>
-                        </div>
-                    </section>
-                    <section
-                        id="slide4"
-                        
-                        data-transition="fade"
-                        
-                        
-                        
-                        
-                    >
-                        <ol class="sdml-list" style="--sdml-list-gap: 50px">
-                            <li>First</li><li>Second</li><li>Third</li>
-                        </ol>
-                    </section>
-                    <section
-                        id="slide5"
-                        class="annotable"
-                        data-transition="fade"
-                        
-                        
-                        
-                        
-                    >
-                        <div
-                            class="sdml-quiz"
-                            data-quiz-id="sort"
-                            data-quiz-type="mcq"
-                            data-correct-answer="c"
-                            data-reveal-on-demand="true"
-                        >
-                            <div class="sdml-quiz__title">Quiz</div>
-                            <div class="sdml-quiz__question">Which sorting algorithm has average-case O(n log n)?</div>
-
-                            <div class="sdml-quiz__options">
-                                <label>
-                                    <input type="radio" name="quiz-sort" value="a" />
-                                    <span>Bubble sort</span>
-                                </label><label>
-                                    <input type="radio" name="quiz-sort" value="b" />
-                                    <span>Quick sort</span>
-                                </label><label>
-                                    <input type="radio" name="quiz-sort" value="c" />
-                                    <span>Merge sort</span>
-                                </label>
-                            </div>
-                            <div class="sdml-quiz__actions">
-                                <button
-                                    class="sdml-quiz__btn sdml-quiz__submit"
-                                    type="button"
-                                            onclick="(function(btn){const r=btn.closest('.sdml-quiz');if(!r)return;const c=(r.getAttribute('data-correct-answer')||'').trim();const f=r.querySelector('.sdml-quiz__feedback');if(!f)return;const ch=r.querySelector('input[type=radio]:checked');if(!ch)return;const v=(ch.value||'').trim();const ok=v.toLowerCase()===c.toLowerCase();f.textContent=ok?'Correct.':'Not quite.';f.style.color=ok?'#2aa198':'#dc322f';if(!ok){const res=r.querySelector('.sdml-quiz__results');if(res){res.style.display='block';}const rb=r.querySelector('.sdml-quiz__reveal');if(rb)rb.style.display='none';} })(this)"
-                                >Submit</button>
-                            </div>
-
-                                    <div class="sdml-quiz__feedback" aria-live="polite"></div>
-                                    <div class="sdml-quiz__reveal-wrap">
-                                        <button class="sdml-quiz__btn sdml-quiz__reveal" type="button" onclick="(function(btn){const r=btn.closest('.sdml-quiz');if(!r)return;const res=r.querySelector('.sdml-quiz__results');if(res){res.style.display='block';}btn.style.display='none';})(this)">Reveal answer</button>
-                                        <div class="sdml-quiz__results" style="display:none">Correct answer: <strong>c</strong></div>
-                                    </div>
-                        </div>
-                    </section>
-                    <section
-                        id="slide6"
-                        class="annotable"
-                        data-transition="fade"
-                        
-                        
-                        
-                        
-                    >
-                        <div  style="height: 50%;display: grid; 
-            grid-template-columns: repeat(2, 1fr); 
-            grid-template-rows: repeat(1, calc(100% - 0px));
-            gap: 10px;
-            box-sizing: border-box;
-    width: 100%; 
-        place-items: center center;
-        place-content: center center;
-    ">
-                            <div class="fragment shrink"><div class="fragment shrink"><div class="fragment shrink"><p style="font-weight: bold; text-decoration: underline; ">Composant sans slot</p></div></div></div>
-                            <img 
-                                src="https://images4.alphacoders.com/133/thumb-1920-1332281.jpeg" 
-                                alt="Gojo" 
-                                style="
+                                    />
+                                </div><div class="code-step-image" data-start="4" data-end="5"
+                                     style="position: absolute; opacity: 0; transition: opacity 0.3s; width: 100%; height: 100%;">
+                                    <img 
+                                        src="https://images4.alphacoders.com/133/thumb-1920-1332282.jpeg" 
+                                        alt="Gojo" 
+                                        style="
         display: block;
         max-width: 100%;
         max-height: 100%;
         object-fit: contain;
         margin: auto;
     
-            width: 50%;
-            height: auto;
+            width: 100%; 
+            height: 100%;
         " 
-                            />
-                        </div>
-                    </section>
-                    <section
-                        id="slide7"
-                        class="annotable"
-                        data-transition="fade"
-                        
-                        
-                        
-                        
-                    >
-                        <div  style="display: grid; 
-            grid-template-columns: repeat(2, 1fr); 
-            grid-template-rows: repeat(2, calc(50% - 5px));
-            gap: 10px;
-            box-sizing: border-box;
-    height: 100%; width: 100%; 
-        place-items: center center;
-        place-content: center center;
-    ">
-                            <p style="font-weight: bold; font-style: italic; text-decoration: underline; color: red; font-family: arial; font-size: 1em; ">Colonne de gauche mais un texte un peu plus long</p>
-                            <div class="fragment fade-in"><div class="math-box" style="color: #2980b9; font-size: 1.5em; ">
-                                <div class="math-content">
-                                    $\zeta(s) = \sum_{n=1}^{\infty} \frac{1}{n^s} = \prod_{p \in \text{primes}} \frac{1}{1 - p^{-s}}$
+                                    />
                                 </div>
-                            </div></div>
-                            <div  style="width: 50%;display: grid; 
-            grid-template-columns: repeat(2, 1fr); 
-            grid-template-rows: repeat(2, calc(50% - 5px));
-            gap: 10px;
-            box-sizing: border-box;
-    height: 100%; 
-        place-items: center center;
-        place-content: center center;
-    ">
-                                <div class="fragment shrink"><img 
-                                    src="https://images4.alphacoders.com/133/thumb-1920-1332281.jpeg" 
-                                    alt="Gojo" 
-                                    style="
-        display: block;
-        max-width: 100%;
-        max-height: 100%;
-        object-fit: contain;
-        margin: auto;
-    
-            width: 100%;
-            height: auto;
-        " 
-                                /></div>
-                                <img 
-                                    src="https://images4.alphacoders.com/133/thumb-1920-1332281.jpeg" 
-                                    alt="Gojo" 
-                                    style="
-        display: block;
-        max-width: 100%;
-        max-height: 100%;
-        object-fit: contain;
-        margin: auto;
-    
-            width: 100%;
-            height: auto;
-        " 
-                                />
-                                <img 
-                                    src="https://images4.alphacoders.com/133/thumb-1920-1332281.jpeg" 
-                                    alt="Gojo" 
-                                    style="
-        display: block;
-        max-width: 100%;
-        max-height: 100%;
-        object-fit: contain;
-        margin: auto;
-    
-            width: 100%;
-            height: auto;
-        " 
-                                />
-                                <img 
-                                    src="https://images4.alphacoders.com/133/thumb-1920-1332281.jpeg" 
-                                    alt="Gojo" 
-                                    style="
-        display: block;
-        max-width: 100%;
-        max-height: 100%;
-        object-fit: contain;
-        margin: auto;
-    
-            width: 100%;
-            height: auto;
-        " 
-                                />
-                            </div>
-                            <div class="fragment fade-in" style="display: grid; 
-            grid-template-columns: repeat(2, 1fr); 
-            grid-template-rows: repeat(2, calc(50% - 5px));
-            gap: 10px;
-            box-sizing: border-box;
-    height: 100%; width: 100%; 
-        place-items: center center;
-        place-content: center center;
-    ">
-                                <img 
-                                    src="https://images4.alphacoders.com/133/thumb-1920-1332281.jpeg" 
-                                    alt="Gojo" 
-                                    style="
-        display: block;
-        max-width: 100%;
-        max-height: 100%;
-        object-fit: contain;
-        margin: auto;
-    
-            width: 100%;
-            height: auto;
-        " 
-                                />
-                                <img 
-                                    src="https://images4.alphacoders.com/133/thumb-1920-1332281.jpeg" 
-                                    alt="Gojo" 
-                                    style="
-        display: block;
-        max-width: 100%;
-        max-height: 100%;
-        object-fit: contain;
-        margin: auto;
-    
-            width: 100%;
-            height: auto;
-        " 
-                                />
-                                <img 
-                                    src="https://images4.alphacoders.com/133/thumb-1920-1332281.jpeg" 
-                                    alt="Gojo" 
-                                    style="
-        display: block;
-        max-width: 100%;
-        max-height: 100%;
-        object-fit: contain;
-        margin: auto;
-    
-            width: 100%;
-            height: auto;
-        " 
-                                />
-                                <img 
-                                    src="https://images4.alphacoders.com/133/thumb-1920-1332281.jpeg" 
-                                    alt="Gojo" 
-                                    style="
-        display: block;
-        max-width: 100%;
-        max-height: 100%;
-        object-fit: contain;
-        margin: auto;
-    
-            width: 100%;
-            height: auto;
-        " 
-                                />
                             </div>
                         </div>
                     </section>
                     <section
-                        id="slide8"
+                        id="Question2"
                         class="annotable"
                         data-transition="fade"
                         
@@ -578,9 +252,51 @@
                         
                         
                     >
-                        <div class="math-box" style="color: #2980b9; font-size: 1.5em; ">
-                            <div class="math-content">
-                                $\zeta(s) = \sum_{n=1}^{\infty} \frac{1}{n^s} = \prod_{p \in \text{primes}} \frac{1}{1 - p^{-s}}$
+                        <div class="code-box-container" style="display: flex; gap: 2rem; align-items: center; width: 100%; height: 500px;">
+                            <div style="flex: 2;">
+                                <pre><code data-noescape class="language-c" data-line-numbers="1|2|3|4|5|6|7|8">      void function(int* arr) {
+          if (len(arr) <= 1) {
+              return;
+          }
+          pivot = arr[len(arr) / 2];
+          left = /* ... */;
+      }
+    </code></pre>
+                            </div>
+                            <div class="image-stack" style="flex: 1; position: relative; height: 100%;">
+                                <div class="code-step-image" data-start="1" data-end="2"
+                                     style="position: absolute; opacity: 1; transition: opacity 0.3s; width: 100%; height: 100%;">
+                                    <img 
+                                        src="https://images4.alphacoders.com/133/thumb-1920-1332281.jpeg" 
+                                        alt="Gojo" 
+                                        style="
+        display: block;
+        max-width: 100%;
+        max-height: 100%;
+        object-fit: contain;
+        margin: auto;
+    
+            width: 100%; 
+            height: 100%;
+        " 
+                                    />
+                                </div><div class="code-step-image" data-start="4" data-end="5"
+                                     style="position: absolute; opacity: 0; transition: opacity 0.3s; width: 100%; height: 100%;">
+                                    <img 
+                                        src="https://images4.alphacoders.com/133/thumb-1920-1332282.jpeg" 
+                                        alt="Gojo" 
+                                        style="
+        display: block;
+        max-width: 100%;
+        max-height: 100%;
+        object-fit: contain;
+        margin: auto;
+    
+            width: 100%; 
+            height: 100%;
+        " 
+                                    />
+                                </div>
                             </div>
                         </div>
                     </section>

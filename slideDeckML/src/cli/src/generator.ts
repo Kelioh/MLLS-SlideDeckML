@@ -6,19 +6,23 @@ import {
     Component,
     ComponentBox,
     ComponentSlot,
-    ContentBoxAttribute,
     type Box,
+    type CodeBox,
+    type CodeLineBox,
     type ComponentBoxReference,
     type Footer,
     type Header,
     type ImageBox,
     type ListBox,
     type LiveQuizBox,
+    type MathematicalBox,
     type Model,
     type QuizBox,
     type Slide,
     type TextBox,
-    type VideoBox
+    CommonAttribute,
+    ContentAttribute,
+    VideoBox,
 } from 'slide-deck-ml-language';
 
 import {
@@ -60,8 +64,20 @@ function generateModel(model: Model): CompositeGeneratorNode {
             <script src="https://cdn.socket.io/4.7.5/socket.io.min.js" crossorigin="anonymous"></script>
             <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
+            <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+
+            <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" 
+                    onload="renderMathInElement(document.body, {
+                    delimiters: [
+                        {left: '$$', right: '$$', display: true},
+                        {left: '$', right: '$', display: false}
+                    ]
+                    });"></script>
+
             <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5/dist/reveal.css">
             <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5/dist/theme/solarized.css">
+            <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5/plugin/highlight/monokai.css">
+            <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
 
             <style>
                 /* Reset body margins/padding */
@@ -74,8 +90,7 @@ function generateModel(model: Model): CompositeGeneratorNode {
 
                 /* Reveal.js viewport adjustment for header/footer */
                 .reveal {
-                    top: 80px !important;
-                    height: calc(100% - 160px) !important;
+                    height: calc(100% - 80px) !important;
                 }
 
                 .reveal .slides section {
@@ -252,6 +267,7 @@ function generateModel(model: Model): CompositeGeneratorNode {
             <script id="annotation-storage">window.savedPaths = {};</script>
 
             <script src="https://cdn.jsdelivr.net/npm/reveal.js@5/dist/reveal.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/reveal.js@5/plugin/highlight/highlight.js"></script>
             <script src="https://cdn.jsdelivr.net/npm/qrcodejs2@0.0.2/qrcode.min.js"></script>
             <script src="http://localhost:3000/socket.io/socket.io.js"></script>
     <script>
@@ -294,10 +310,83 @@ function generateModel(model: Model): CompositeGeneratorNode {
         });
     </script>
             <script>
+            const updateCodeStepImage = (codeBoxContainer, lineIndex) => {
+                if (!codeBoxContainer) return;
+                const images = Array.from(codeBoxContainer.querySelectorAll('.code-step-image'));
+                if (images.length === 0) return;
+
+                images.forEach(img => {
+                    img.style.opacity = '0';
+                    img.style.zIndex = '1';
+                });
+
+                if (!lineIndex || lineIndex < 1) return;
+
+                // If multiple ranges overlap, the last matching one wins.
+                let active = null;
+                for (const img of images) {
+                    const startAttr = img.getAttribute('data-start');
+                    const endAttr = img.getAttribute('data-end');
+                    const start = startAttr ? Number(startAttr) : NaN;
+                    const end = endAttr ? Number(endAttr) : start;
+                    if (Number.isFinite(start) && lineIndex >= start && lineIndex <= end) {
+                        active = img;
+                    }
+                }
+
+                if (active) {
+                    active.style.opacity = '1';
+                    active.style.zIndex = '10';
+                }
+            };
+
+            const updateAllCodeBoxesInSlide = (slideEl, lineIndex) => {
+                if (!slideEl) return;
+                const boxes = Array.from(slideEl.querySelectorAll('.code-box-container'));
+                for (const box of boxes) {
+                    updateCodeStepImage(box, lineIndex);
+                }
+            };
+
+            const parseLineNumberSpecStart = (spec) => {
+                if (!spec) return 1;
+                const s = String(spec).trim();
+                if (!s) return 1;
+                const first = s.split('-')[0];
+                const n = Number(first);
+                return Number.isFinite(n) && n >= 1 ? n : 1;
+            };
+
+            const currentHighlightedLineForBox = (codeBoxContainer) => {
+                if (!codeBoxContainer) return 1;
+                const fragCandidates = Array.from(codeBoxContainer.querySelectorAll('.fragment[data-line-numbers]'));
+                const visible = fragCandidates.filter(f => f.classList.contains('visible') || f.classList.contains('current-fragment'));
+                const activeFrag = visible.length > 0 ? visible[visible.length - 1] : null;
+                if (activeFrag) {
+                    const spec = activeFrag.getAttribute('data-line-numbers');
+                    if (spec) return parseLineNumberSpecStart(spec);
+                }
+
+                const codeEl = codeBoxContainer.querySelector('pre code');
+                const stepsAttr = codeEl ? (codeEl.getAttribute('data-line-numbers') || '') : '';
+                const steps = stepsAttr.split('|').map(s => s.trim()).filter(Boolean);
+                if (steps.length === 0) return 1;
+
+                const slideF = Reveal.getIndices().f;
+                const candidates = (typeof slideF === 'number') ? [slideF, slideF - 1, slideF + 1, 0] : [0];
+                for (const idx of candidates) {
+                    if (idx >= 0 && idx < steps.length) {
+                        return parseLineNumberSpecStart(steps[idx]);
+                    }
+                }
+
+                return parseLineNumberSpecStart(steps[0]);
+            };
                 // Theme logo URL
-                const THEME_LOGO_URL = ${model.theme?.logo ? `"${model.theme.logo}"` : '""'};
+                const THEME_LOGO_URL = ${model.theme?.logo ? `"${model.theme?.logo}"` : '""'};
 
                 Reveal.initialize({
+                    plugins: [RevealHighlight],
                     hash: true,
                     slideNumber: true,
                     transition: 'slide',
@@ -306,6 +395,30 @@ function generateModel(model: Model): CompositeGeneratorNode {
                     margin: 0.1,
                     backgroundTransition: 'fade',
                     center: true
+                });
+
+                const syncCodeBoxImages = (slideEl) => {
+                    if (!slideEl) return;
+                    const boxes = Array.from(slideEl.querySelectorAll('.code-box-container'));
+                    for (const box of boxes) {
+                        updateCodeStepImage(box, currentHighlightedLineForBox(box));
+                    }
+                };
+
+                Reveal.on('ready', (event) => {
+                    syncCodeBoxImages(event.currentSlide);
+                });
+
+                Reveal.on('slidechanged', (event) => {
+                    syncCodeBoxImages(event.currentSlide);
+                });
+
+                Reveal.on('fragmentshown', () => {
+                    syncCodeBoxImages(Reveal.getCurrentSlide());
+                });
+
+                Reveal.on('fragmenthidden', () => {
+                    syncCodeBoxImages(Reveal.getCurrentSlide());
                 });
 
                 // Update header/footer when slide changes
@@ -537,7 +650,7 @@ function generateModel(model: Model): CompositeGeneratorNode {
 
 function generateSlide(slide: Slide, model: Model): CompositeGeneratorNode {
     const attributes = (slide as unknown as { attributes?: unknown }).attributes;
-    const isAnnotable = hasAttribute(attributes, 'annotable');
+    const isNonAnnotable = hasAttribute(attributes, 'non-annotable');
 
     // Determine header and footer (slide-specific or global)
     const header = slide.header || model.header;
@@ -554,7 +667,7 @@ function generateSlide(slide: Slide, model: Model): CompositeGeneratorNode {
     return expandToNode`
         <section
             id="${slide.id}"
-            ${isAnnotable ? `class="annotable"` : ''}
+            ${isNonAnnotable ? '' : 'class="annotable"'}
             data-transition="fade"
             ${headerHtml ? `data-header="${headerHtml.replace(/"/g, '&quot;')}"` : ''}
             ${footerHtml ? `data-footer="${footerHtml.replace(/"/g, '&quot;')}"` : ''}
@@ -589,39 +702,27 @@ function generateHeaderFooterStyles(headerOrFooter: Header | Footer): string {
 
 function generateBox(box: Box): CompositeGeneratorNode {
     switch (box.$type) {
-        case 'ContentBox':
-            return generateContentBoxWithFragment(box as any);
+        case 'TextBox': return generateTerminalBoxWithFragment(box, generateTextBox(box));
+        case 'ImageBox': return generateTerminalBoxWithFragment(box, generateImageBox(box));
+        case 'VideoBox': return generateTerminalBoxWithFragment(box, generateVideoBox(box));
+        case 'ComponentBoxReference': return generateTerminalBoxWithFragment(box, generateComponentBoxReference(box));
+        case 'QuizBox': return generateTerminalBoxWithFragment(box, generateQuizBox(box));
+        case 'LiveQuizBox': return generateTerminalBoxWithFragment(box, generateLiveQuizBox(box));
+        case 'ListBox': return generateTerminalBoxWithFragment(box, generateListBox(box));
+        case 'CodeBox': return generateTerminalBoxWithFragment(box, generateCodeBox(box));
+        case 'MathematicalBox': return generateTerminalBoxWithFragment(box, generateMathBox(box));
+        // Add terminals boxes here
 
-        case 'TextBox':
-            return generateTerminalBoxWithFragment(box, generateTextBox(box as any));
+        case 'ContentBox': return generateContentBoxWithFragment(box as any);
 
-        case 'ImageBox':
-            return generateTerminalBoxWithFragment(box, generateImageBox(box as any));
-
-        case 'VideoBox':
-            return generateTerminalBoxWithFragment(box, generateVideoBox(box as any));
-
-        case 'ComponentBoxReference':
-            return generateTerminalBoxWithFragment(box, generateComponentBoxReference(box as any));
-
-        case 'QuizBox':
-            return generateTerminalBoxWithFragment(box, generateQuizBox(box as any));
-
-        case 'LiveQuizBox':
-            return generateTerminalBoxWithFragment(box, generateLiveQuizBox(box as any));
-
-        case 'ListBox':
-            return generateTerminalBoxWithFragment(box, generateListBox(box as any));
-
-        default:
-            throw new Error(`Unknown box type: ${(box as any).$type}`);
+        default: throw new Error(`Unknown box type: ${(box as any).$type}`);
     }
 }
 
 function generateContentBoxWithFragment(box: any): CompositeGeneratorNode {
     const fragmentStyle = getAttributeValue(box.attributes, 'fragment');
     const fragmentClass = fragmentStyle ? `class="fragment ${fragmentStyle}"` : '';
-    const styleAttr = box.attributes.length !== 0 ? `style="${generateContentBoxAttributes(box.attributes, box.boxes.length)}"` : '';
+    const styleAttr = `style="${generateContentBoxAttributes(box.attributes, box.boxes.length)}"`;
 
     return expandToNode`
         <div ${fragmentClass} ${styleAttr}>
@@ -652,52 +753,39 @@ function generateComponentBoxReference(reference: ComponentBoxReference): Compos
 
     /* Override declaration attributes  */
     let declarationBox: any = declaration.content;
-    switch (declaration.content.$type) {
-        case 'ComponentContentBox':
-        case 'TextBox':
-        case 'ListBox':
-        case 'ComponentBoxReference':
-            let mergedAttributes: Map<string, string | undefined>;
-            mergedAttributes = new Map(declarationBox.attributes.map((attribute: any) => [attribute.key, attribute.value]));
-            for (const attribute of reference.attributes) {
-                mergedAttributes.set(attribute.key, (attribute as any).value);
-            }
-            declarationBox = { ...declarationBox, attributes: Array.from(mergedAttributes.entries(), ([key, value]) => ({ $type: collectAttributeType(reference), key, value } as any)) }; // Does not include $container, $containerProperty, $containerIndex, $cstNode, $document
-            break;
+    if (declarationBox.attributes) {
+        let mergedAttributes: Map<string, string | undefined>;
+        mergedAttributes = new Map(declarationBox.attributes.map((attribute: any) => [attribute.key, attribute.value]));
+        for (const attribute of reference.attributes) {
+            mergedAttributes.set(attribute.key, (attribute as any).value);
+        }
+        declarationBox = { ...declarationBox, attributes: Array.from(mergedAttributes.entries(), ([key, value]) => ({ key, value } as any)) }; // Does not include $type, $container, $containerProperty, $containerIndex, $cstNode, $document
     }
 
     return generateComponentBox(declarationBox as ComponentBox, slots);
 }
 
-function collectAttributeType(reference: ComponentBoxReference): string {
-    const componentContent = reference.reference.ref?.content;
-    if (componentContent) {
-        switch (componentContent.$type) {
-            case 'ComponentContentBox': return 'ContentBoxAttribute';
-            case 'TextBox': return 'TextBoxAttribute';
-            case 'ListBox': return 'ListBoxAttribute';
-            case 'ImageBox': return 'MediaBoxAttribute';
-            case 'VideoBox': return 'MediaBoxAttribute';
-            case 'ComponentBoxReference': return collectAttributeType(componentContent)
-        }
-    }
-    return '';
-}
-
 function generateComponentBox(box: ComponentBox, slots: Record<string, CompositeGeneratorNode>): CompositeGeneratorNode {
     switch (box.$type) {
-        case 'TextBox': return generateTextBox(box);
-        case 'ImageBox': return generateImageBox(box);
-        case 'VideoBox': return generateVideoBox(box);
-        case 'ComponentBoxReference': return generateComponentBoxReference(box);
-        case 'QuizBox': return generateQuizBox(box);
-        case 'ListBox': return generateListBox(box);
-        case 'LiveQuizBox': return generateLiveQuizBox(box);
+        case 'TextBox': return generateTerminalBoxWithFragment(box, generateTextBox(box));
+        case 'ImageBox': return generateTerminalBoxWithFragment(box, generateImageBox(box));
+        case 'VideoBox': return generateTerminalBoxWithFragment(box, generateVideoBox(box));
+        case 'ComponentBoxReference': return generateTerminalBoxWithFragment(box, generateComponentBoxReference(box));
+        case 'QuizBox': return generateTerminalBoxWithFragment(box, generateQuizBox(box));
+        case 'LiveQuizBox': return generateTerminalBoxWithFragment(box, generateLiveQuizBox(box));
+        case 'ListBox': return generateTerminalBoxWithFragment(box, generateListBox(box));
+        case 'CodeBox': return generateTerminalBoxWithFragment(box, generateCodeBox(box));
+        case 'MathematicalBox': return generateTerminalBoxWithFragment(box, generateMathBox(box));
+        // Add terminals boxes here
 
-        case 'ComponentSlot': return generateComponentSlot(box, slots);
+        case 'ComponentSlot': return generateTerminalBoxWithFragment(box, generateComponentSlot(box, slots));
         case 'ComponentContentBox':
+            const fragmentStyle = getAttributeValue(box.attributes, 'fragment');
+            const fragmentClass = fragmentStyle ? `class="fragment ${fragmentStyle}"` : '';
+            const styleAttr = `style="${generateContentBoxAttributes(box.attributes, box.boxes.length)}"`;
+
             return expandToNode`
-                <div ${(box.attributes.length !== 0) ? `style="${generateContentBoxAttributes(box.attributes, box.boxes.length)}"` : ''}>
+                <div ${fragmentClass} ${styleAttr}>
                     ${joinToNode(box.boxes.map(box => generateComponentBox(box, slots).appendNewLineIfNotEmpty()))}
                 </div>
             `;
@@ -706,26 +794,25 @@ function generateComponentBox(box: ComponentBox, slots: Record<string, Composite
     }
 }
 
-function generateContentBoxAttributes(attributes: ContentBoxAttribute[], boxCount: number): string {
+function generateContentBoxAttributes(attributes: (CommonAttribute | ContentAttribute)[], boxCount: number): string {
     let style = '';
     let alignmentValue: string | undefined;
     let hasHeight = false;
+    let hasWidth = false;
+
+    const columnAttr = getAttributeValue(attributes, 'column');
+    const column = columnAttr ? parseInt(columnAttr as string, 10) : 2;
 
     for (const attribute of attributes) {
         switch (attribute.key) {
-            case 'column':
-                style += `display: grid; 
-                    grid-template-columns: repeat(${attribute.value}, 1fr); 
-                    grid-template-rows: repeat(${Math.ceil(boxCount / (attribute.value as any))}, ${100 / Math.ceil(boxCount / (attribute.value as any))}%);
-                    width: 100%;
-                    gap: 10px;
-                    box-sizing: border-box;
-                `;
-                break;
-
             case 'height':
                 style += `height: ${attribute.value};`;
                 hasHeight = true;
+                break;
+
+            case 'width':
+                style += `width: ${attribute.value};`;
+                hasWidth = true;
                 break;
 
             case 'alignment':
@@ -734,8 +821,19 @@ function generateContentBoxAttributes(attributes: ContentBoxAttribute[], boxCoun
         }
     }
 
+    style += `display: grid; 
+            grid-template-columns: repeat(${column}, 1fr); 
+            grid-template-rows: repeat(${Math.ceil(boxCount / column)}, calc(${100 / Math.ceil(boxCount / column)}% - ${10 * (Math.ceil(boxCount / column) - 1) * 1 / (Math.ceil(boxCount / column))}px));
+            gap: 10px;
+            box-sizing: border-box;
+    `;
+
     if (!hasHeight) {
         style += 'height: 100%; ';
+    }
+
+    if (!hasWidth) {
+        style += 'width: 100%; ';
     }
 
     const alignment = mapAlignment(alignmentValue);
@@ -783,13 +881,37 @@ function generateTextBox(textBox: TextBox): CompositeGeneratorNode {
     const highlight = hasAttribute(attributes, 'highlight');
     const color = getAttributeValue(attributes, 'color');
     const font = getAttributeValue(attributes, 'font');
+    const textSize = getAttributeValue(attributes, 'text-size');
 
     const text = textBox.content.slice(1, -1).trim();
 
-    return expandToNode`<p style="${generateTextBoxStyles(bold, italic, underline, strikethrough, highlight, color, font)}">${text}</p>`;
+    return expandToNode`<p style="${generateTextBoxStyles(bold, italic, underline, strikethrough, highlight, color, font, textSize)}">${text}</p>`;
 }
 
-function generateTextBoxStyles(bold: boolean, italic: boolean, underline: boolean, strikethrough: boolean, highlight: boolean, color: string | unknown, font: string | unknown): string {
+function generateMathBox(mathBox: MathematicalBox): CompositeGeneratorNode {
+    const attributes = (mathBox as unknown as { attributes?: unknown }).attributes;
+
+    const bold = hasAttribute(attributes, 'bold');
+    const italic = hasAttribute(attributes, 'italic');
+    const underline = hasAttribute(attributes, 'underline');
+    const strikethrough = hasAttribute(attributes, 'strikethrough');
+    const highlight = hasAttribute(attributes, 'highlight');
+    const color = getAttributeValue(attributes, 'color');
+    const font = getAttributeValue(attributes, 'font');
+    const textSize = getAttributeValue(attributes, 'text-size');
+
+    const formula = mathBox.content.slice(2, -2).trim();
+
+    return expandToNode`
+        <div class="math-box" style="${generateTextBoxStyles(bold, italic, underline, strikethrough, highlight, color, font, textSize)}">
+            <div class="math-content">
+                $${formula}$
+            </div>
+        </div>
+    `;
+}
+
+function generateTextBoxStyles(bold: boolean, italic: boolean, underline: boolean, strikethrough: boolean, highlight: boolean, color: string | unknown, font: string | unknown, textSize: string | unknown): string {
     let style = '';
 
     if (bold) {
@@ -812,6 +934,20 @@ function generateTextBoxStyles(bold: boolean, italic: boolean, underline: boolea
     }
     if (font) {
         style += `font-family: ${font}; `;
+    }
+    if (textSize) {
+        if (textSize === 'xs') {
+            textSize = '0.8em';
+        } else if (textSize === 's') {
+            textSize = '0.9em';
+        } else if (textSize === 'm') {
+            textSize = '1em';
+        } else if (textSize === 'l') {
+            textSize = '1.2em';
+        } else if (textSize === 'xl') {
+            textSize = '1.5em';
+        }
+        style += `font-size: ${textSize}; `;
     }
 
     return style;
@@ -1110,6 +1246,55 @@ function generateLiveQuizBox(quiz: LiveQuizBox): CompositeGeneratorNode {
                     }
                 })();
             </script>
+        </div>
+    `;
+}
+
+function generateCodeBox(codeBox: CodeBox): CompositeGeneratorNode {
+    const mappings: CodeLineBox[] = Array.isArray(codeBox.lines) ? codeBox.lines : [];
+
+    let fullCode = '';
+    if (codeBox.code) {
+        const raw = String(codeBox.code);
+        if (raw.startsWith('```') && raw.endsWith('```') && raw.length >= 6) {
+            fullCode = raw.slice(3, -3);
+        } else {
+            fullCode = raw;
+        }
+    }
+
+    fullCode = fullCode.replace(/^\r?\n/, '');
+    fullCode = fullCode.replace(/\r?\n$/, '');
+
+    const codeLines = fullCode.length > 0 ? fullCode.split(/\r?\n/) : [];
+    const lineHighlightSteps = codeLines.length > 0
+        ? Array.from({ length: codeLines.length }, (_, idx) => String(idx + 1)).join('|')
+        : '';
+
+    const imageStack = mappings.map((mapping, idx) => {
+        const startRaw = Number(mapping.start);
+        const endRaw = mapping.end !== undefined ? Number(mapping.end) : startRaw;
+        const start = startRaw === 0 ? 1 : startRaw;
+        const end = Math.max(start, endRaw === 0 ? 1 : endRaw);
+
+        return expandToNode`
+            <div class="code-step-image" data-start="${start}" data-end="${end}"
+                 style="position: absolute; opacity: ${idx === 0 ? '1' : '0'}; transition: opacity 0.3s; width: 100%; height: 100%;">
+                ${generateImageBox(mapping.image)}
+            </div>
+        `;
+    });
+
+    const dataLineNumbersAttr = lineHighlightSteps.length > 0 ? `data-line-numbers="${lineHighlightSteps}"` : '';
+
+    return expandToNode`
+        <div class="code-box-container" style="display: flex; gap: 2rem; align-items: center; width: 100%; height: 500px;">
+            <div style="flex: 2;">
+                <pre><code data-noescape class="language-${codeBox.language}" ${dataLineNumbersAttr}>${fullCode}</code></pre>
+            </div>
+            <div class="image-stack" style="flex: 1; position: relative; height: 100%;">
+                ${joinToNode(imageStack)}
+            </div>
         </div>
     `;
 }

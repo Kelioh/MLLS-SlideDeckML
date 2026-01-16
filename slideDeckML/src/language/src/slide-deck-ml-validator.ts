@@ -7,22 +7,22 @@ import {
     ComponentBox,
     ComponentBoxReference,
     ComponentContentBox,
+    CodeBox,
     ContentBox,
-    ContentBoxAttribute,
     ImageBox,
     ListBox,
-    ListBoxAttribute,
     LiveQuizBox,
-    MediaBoxAttribute,
+    MathematicalBox,
     Model,
+    VideoBox,
     QuizBox,
     SlideDeckMlAstType,
     TextBox,
-    VideoBox,
-    isContentBoxAttribute,
-    isListBoxAttribute,
-    isMediaBoxAttribute,
-    isTextBoxAttribute
+    isCommonAttribute,
+    isContentAttribute,
+    isListAttribute,
+    isMediaAttribute,
+    isTextAttribute,
 } from './generated/ast.js';
 
 /**
@@ -42,6 +42,8 @@ export function registerValidationChecks(services: SlideDeckMlServices) {
         LiveQuizBox: validator.checkLiveQuizBox,
         ImageBox: validator.checkImageBox,
         VideoBox: validator.checkVideoBox,
+        CodeBox: validator.checkCodeBox,
+        MathematicalBox: validator.checkMathematicalBox,
     };
     registry.register(checks, validator);
 }
@@ -179,11 +181,16 @@ export class SlideDeckMlValidator {
         const componentContent = reference.reference.ref?.content;
         if (componentContent) {
             switch (componentContent.$type) {
-                case 'ComponentContentBox': return isContentBoxAttribute;
-                case 'TextBox': return isTextBoxAttribute;
-                case 'ListBox': return isListBoxAttribute;
-                case 'ImageBox': return isMediaBoxAttribute;
-                case 'VideoBox': return isMediaBoxAttribute;
+                case 'ComponentContentBox': return item => isCommonAttribute(item) || isContentAttribute(item);
+                
+                case 'ListBox': return item => isCommonAttribute(item) || isListAttribute(item);
+
+                case 'ImageBox':
+                case 'VideoBox': return item => isCommonAttribute(item) || isMediaAttribute(item);
+
+                case 'CodeBox' :
+                case 'MathematicalBox':
+                case 'TextBox': return item => isCommonAttribute(item) || isTextAttribute(item);
 
                 case 'ComponentBoxReference':
                     return this.collectAttributeTypeChecker(componentContent)
@@ -412,6 +419,54 @@ export class SlideDeckMlValidator {
                     }
                     break;
             }
+        }
+    }
+
+
+    /* CodeBox validation */
+
+    checkCodeBox(codeBox: CodeBox, validator: ValidationAcceptor): void {
+        // Check language is specified and not empty
+        const language = codeBox.language?.replace(/"/g, '').trim();
+        if (!language) {
+            validator('warning', 'Code block should specify a programming language (e.g., "javascript", "python").', { node: codeBox, property: 'language' });
+        }
+
+        // Check code content is not empty
+        const code = codeBox.code?.replace(/```/g, '').trim();
+        if (!code) {
+            validator('warning', 'Code block content is empty.', { node: codeBox, property: 'code' });
+        }
+
+        // Check line annotations have valid ranges
+        for (const line of codeBox.lines || []) {
+            const startNum = parseInt(line.start, 10);
+            const endNum = line.end ? parseInt(line.end, 10) : undefined;
+
+            if (isNaN(startNum) || startNum < 1) {
+                validator('error', `Line annotation start must be at least 1, got ${line.start}.`, { node: line });
+            }
+            if (endNum !== undefined && endNum < startNum) {
+                validator('error', `Line annotation end (${line.end}) must be greater than or equal to start (${line.start}).`, { node: line });
+            }
+        }
+    }
+
+
+    /* MathematicalBox validation */
+
+    checkMathematicalBox(mathBox: MathematicalBox, validator: ValidationAcceptor): void {
+        // Check expression is not empty
+        const content = mathBox.content?.replace(/\$\$/g, '').trim();
+        if (!content) {
+            validator('warning', 'Mathematical expression is empty.', { node: mathBox, property: 'content' });
+        }
+
+        // Check for common LaTeX syntax errors
+        const openBraces = (content?.match(/\{/g) || []).length;
+        const closeBraces = (content?.match(/\}/g) || []).length;
+        if (openBraces !== closeBraces) {
+            validator('warning', `Unbalanced braces in mathematical expression: ${openBraces} opening, ${closeBraces} closing.`, { node: mathBox });
         }
     }
 
