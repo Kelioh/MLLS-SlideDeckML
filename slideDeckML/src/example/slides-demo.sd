@@ -90,11 +90,19 @@ slide demo_slots {
     }
 }
 
-slide science_slide {
-    box [alignment = "center"] {
-        text [bold] {Calcul Théorique :}
-        math_formula {}
-        text [fragment = fade-in] {Cette formule apparaîtra puis disparaîtra.}
+slide mathematics_slide {
+    box [alignment = "center", column = 1] {
+        text [height = 10%, text-size = "l", alignment = "top left"] {Démonstration d'une formule mathématique}
+
+        box [column = 2] {
+            text [width = 60%, underline] {
+                Voici un exemple d'une formule mathématique complexe que nous pouvons afficher simplement
+            }
+            mathematics
+            $$ 
+            \zeta(s) = \sum_{n=1}^{\infty} \frac{1}{n^s} = \prod_{p \in \text{primes}} \frac{1}{1 - p^{-s}} 
+            $$
+        }
     }
 }
 
@@ -128,22 +136,60 @@ slide live_quiz_slide {
 }
 
 slide video_demo {
-    box [alignment = "center"] {
-        text [bold] {Support Vidéo Direct :}
-        video [scale = 80%] {
-            src {https://youtu.be/uGSu6mhk3RQ}
-            alt {Video de démonstration}
+    box [alignment = "center", column = 1] {
+        text [height = 10%, text-size = "l", alignment = "top left"] {Vidéos dans vos présentations}
+
+        box [column = 2] {
+            text [width = 60%, text-size = "m"] {
+                Voici une superbe musique d'un youtubeur assez connu mais qui commence à dater
+            }
+            video [scale = 100%] {
+                src {https://youtu.be/uGSu6mhk3RQ?si=7k--2FqMo6HaFlEz}
+                alt {Top 1 Squeezie}
+            }
+            text [width = 60%, text-size = "m"] {
+                Voici une autre musique mais que j'aime moins et que j'affiche donc plus petite
+            }
+            video [scale = 50%] {
+                src {https://youtu.be/AMShoQ_qdc0?si=T6-DSbTopB2YHnbI}
+                alt {Hello World Song}
+            }
+        }
+    }
+}
+
+slide image_demo {
+    box [alignment = "center", column = 1] {
+        text [height = 10%, text-size = "l", alignment = "top left"] {Images dans vos présentations}
+
+        box [column = 2] {
+            text [width = 60%, text-size = "m"] {
+                Vous pouvez aussi intégrer des images dans vos slides
+            }
+            image [scale = 100%] { 
+                src {https://www.recyclivre.com/blog/wp-content/uploads/2025/03/couvsiteluffy.jpeg} 
+                alt {Luffy}
+            }
+        }
+        box [column = 2] {
+            text [width = 60%, text-size = "m"] {
+                Voici une photo plus petite
+            }
+            image [scale = 30%] { 
+                src {https://images4.alphacoders.com/133/thumb-1920-1332281.jpeg} 
+                alt {Gojo} 
+            }
         }
     }
 }
 
 slide position_demo {
     box [height = 100%, width = 100%] {
-        text [width = 50%, alignment = "bottom right", color = "red", highlight] {
-            Ce texte est forcé en bas à droite de la slide.
+        text [alignment = "top left", color = "red", highlight] {
+            Ce texte est forcé en haut à gauche
         }
-        text [width = 50%, alignment = "top left", italic] {
-            Celui-ci est en haut à gauche.
+        text [alignment = "bottom right", italic] {
+            Celui-ci est en bas à droite
         }
     }
 }

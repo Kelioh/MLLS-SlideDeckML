@@ -31,7 +31,8 @@
 
                 /* Reveal.js viewport adjustment for header/footer */
                 .reveal {
-                    height: calc(100% - 80px) !important;
+                    top: 80px !important;
+                    height: calc(100% - 160px) !important;
                 }
 
                 .reveal .slides section {
@@ -203,37 +204,49 @@
                         id="slide1"
                         
                         data-transition="fade"
-                        data-header="<div  style=&quot;width: 100%; height:100%; display: grid; 
-            grid-template-columns: repeat(2, 1fr); 
-            grid-template-rows: repeat(1, calc(100% - 0px));
-            gap: 10px;
-            box-sizing: border-box;
+                        data-header="<div  style=&quot;width: 100%; height:100%; 
+        display: grid; 
+        grid-template-columns: calc(50% - 5px) calc(50% - 5px); 
+        grid-template-rows: calc(100% - 0px);
+        gap: 10px;
+        width: 100%;
+        height: 100%;
+        max-width: 100%;
+        max-height: 100%;
+        box-sizing: border-box;
+        overflow: hidden;
     height: 100%; width: 100%; 
         place-items: end center;
         place-content: end center;
     &quot;>
-    <div class=&quot;box-wrapper&quot; style=&quot;display: flex; width: 100%; height: 100%; justify-content: center; align-items: center;&quot;>
-        <div class=&quot;text-box&quot; style=&quot;display: flex; flex-direction: column; width: 100%; height: 100%; justify-content: center; align-items: center;font-style: italic; &quot;>
+    <div class=&quot;box-wrapper&quot; style=&quot;display: flex; width: 100%; height: 100%;&quot;>
+        <div class=&quot;text-box&quot; style=&quot;display: flex; flex-direction: column; width: 100%; height: 100%;place-items: center center; place-content: center center;font-style: italic; color: black; &quot;>
             SlideDeckML Framework Demo
         </div>
     </div>
 </div>"
-                        data-footer="<div  style=&quot;width: 100%; height:100%; display: grid; 
-            grid-template-columns: repeat(2, 1fr); 
-            grid-template-rows: repeat(1, calc(100% - 0px));
-            gap: 10px;
-            box-sizing: border-box;
+                        data-footer="<div  style=&quot;width: 100%; height:100%; 
+        display: grid; 
+        grid-template-columns: calc(50% - 5px) calc(50% - 5px); 
+        grid-template-rows: calc(100% - 0px);
+        gap: 10px;
+        width: 100%;
+        height: 100%;
+        max-width: 100%;
+        max-height: 100%;
+        box-sizing: border-box;
+        overflow: hidden;
     height: 100%; width: 100%; 
         place-items: center center;
         place-content: center center;
     &quot;>
-    <div class=&quot;box-wrapper&quot; style=&quot;display: flex; width: 100%; height: 100%; justify-content: center; align-items: center;&quot;>
-        <div class=&quot;text-box&quot; style=&quot;display: flex; flex-direction: column; width: 100%; height: 100%; justify-content: center; align-items: center;&quot;>
+    <div class=&quot;box-wrapper&quot; style=&quot;display: flex; width: 100%; height: 100%;&quot;>
+        <div class=&quot;text-box&quot; style=&quot;display: flex; flex-direction: column; width: 100%; height: 100%;place-items: center center; place-content: center center;color: black; &quot;>
             L. Brunet - MLLS Project
         </div>
     </div>
     <div class=&quot;box-wrapper&quot; style=&quot;display: flex; width: 100%; height: 100%; justify-content: flex-end; align-items: center;&quot;>
-        <div class=&quot;text-box&quot; style=&quot;display: flex; flex-direction: column; width: 100%; height: 100%; justify-content: center; align-items: flex-end;&quot;>
+        <div class=&quot;text-box&quot; style=&quot;display: flex; flex-direction: column; width: 100%; height: 100%; justify-content: center; align-items: flex-end;color: black; &quot;>
             2024
         </div>
     </div>
@@ -241,22 +254,28 @@
                         data-header-styles="background: hit; color: 2c3e5; font-size: 0p"
                         data-footer-styles="background: 2c3e5; color: hit"
                     >
-                        <div  style="width: 100%; height:100%; height: 100%;display: grid; 
-            grid-template-columns: repeat(2, 1fr); 
-            grid-template-rows: repeat(1, calc(100% - 0px));
-            gap: 10px;
-            box-sizing: border-box;
+                        <div  style="width: 100%; height:100%; 
+        display: grid; 
+        grid-template-columns: calc(50% - 5px) calc(50% - 5px); 
+        grid-template-rows: calc(100% - 0px);
+        gap: 10px;
+        width: 100%;
+        height: 100%;
+        max-width: 100%;
+        max-height: 100%;
+        box-sizing: border-box;
+        overflow: hidden;
     width: 100%; 
         place-items: center center;
         place-content: center center;
     ">
-                            <div class="fragment grow" style="width: 100%; height:100%;"><div class="box-wrapper" style="display: flex; width: 100%; height: 100%; justify-content: center; align-items: center;">
-                                <div class="text-box" style="display: flex; flex-direction: column; width: 100%; height: 100%; justify-content: center; align-items: center;font-weight: bold; font-size: 80px; ">
+                            <div class="fragment grow" style="width: 100%; height:100%;"><div class="box-wrapper" style="display: flex; width: 100%; height: 100%;">
+                                <div class="text-box" style="display: flex; flex-direction: column; width: 100%; height: 100%;place-items: center center; place-content: center center;font-weight: bold; font-size: 80px; color: black; ">
                                     SlideDeckML
                                 </div>
                             </div></div>
-                            <div class="box-wrapper" style="display: flex; width: 100%; height: 100%; justify-content: center; align-items: center;">
-                                <div class="text-box" style="display: flex; flex-direction: column; width: 100%; height: 100%; justify-content: center; align-items: center;font-style: italic; color: gray; ">
+                            <div class="box-wrapper" style="display: flex; width: 100%; height: 100%;">
+                                <div class="text-box" style="display: flex; flex-direction: column; width: 100%; height: 100%;place-items: center center; place-content: center center;font-style: italic; color: gray; ">
                                     Le futur des présentations déclaratives
                                 </div>
                             </div>
@@ -266,37 +285,49 @@
                         id="sommaire"
                         class="annotable"
                         data-transition="fade"
-                        data-header="<div  style=&quot;width: 100%; height:100%; display: grid; 
-            grid-template-columns: repeat(2, 1fr); 
-            grid-template-rows: repeat(1, calc(100% - 0px));
-            gap: 10px;
-            box-sizing: border-box;
+                        data-header="<div  style=&quot;width: 100%; height:100%; 
+        display: grid; 
+        grid-template-columns: calc(50% - 5px) calc(50% - 5px); 
+        grid-template-rows: calc(100% - 0px);
+        gap: 10px;
+        width: 100%;
+        height: 100%;
+        max-width: 100%;
+        max-height: 100%;
+        box-sizing: border-box;
+        overflow: hidden;
     height: 100%; width: 100%; 
         place-items: end center;
         place-content: end center;
     &quot;>
-    <div class=&quot;box-wrapper&quot; style=&quot;display: flex; width: 100%; height: 100%; justify-content: center; align-items: center;&quot;>
-        <div class=&quot;text-box&quot; style=&quot;display: flex; flex-direction: column; width: 100%; height: 100%; justify-content: center; align-items: center;font-style: italic; &quot;>
+    <div class=&quot;box-wrapper&quot; style=&quot;display: flex; width: 100%; height: 100%;&quot;>
+        <div class=&quot;text-box&quot; style=&quot;display: flex; flex-direction: column; width: 100%; height: 100%;place-items: center center; place-content: center center;font-style: italic; color: black; &quot;>
             SlideDeckML Framework Demo
         </div>
     </div>
 </div>"
-                        data-footer="<div  style=&quot;width: 100%; height:100%; display: grid; 
-            grid-template-columns: repeat(2, 1fr); 
-            grid-template-rows: repeat(1, calc(100% - 0px));
-            gap: 10px;
-            box-sizing: border-box;
+                        data-footer="<div  style=&quot;width: 100%; height:100%; 
+        display: grid; 
+        grid-template-columns: calc(50% - 5px) calc(50% - 5px); 
+        grid-template-rows: calc(100% - 0px);
+        gap: 10px;
+        width: 100%;
+        height: 100%;
+        max-width: 100%;
+        max-height: 100%;
+        box-sizing: border-box;
+        overflow: hidden;
     height: 100%; width: 100%; 
         place-items: center center;
         place-content: center center;
     &quot;>
-    <div class=&quot;box-wrapper&quot; style=&quot;display: flex; width: 100%; height: 100%; justify-content: center; align-items: center;&quot;>
-        <div class=&quot;text-box&quot; style=&quot;display: flex; flex-direction: column; width: 100%; height: 100%; justify-content: center; align-items: center;&quot;>
+    <div class=&quot;box-wrapper&quot; style=&quot;display: flex; width: 100%; height: 100%;&quot;>
+        <div class=&quot;text-box&quot; style=&quot;display: flex; flex-direction: column; width: 100%; height: 100%;place-items: center center; place-content: center center;color: black; &quot;>
             L. Brunet - MLLS Project
         </div>
     </div>
     <div class=&quot;box-wrapper&quot; style=&quot;display: flex; width: 100%; height: 100%; justify-content: flex-end; align-items: center;&quot;>
-        <div class=&quot;text-box&quot; style=&quot;display: flex; flex-direction: column; width: 100%; height: 100%; justify-content: center; align-items: flex-end;&quot;>
+        <div class=&quot;text-box&quot; style=&quot;display: flex; flex-direction: column; width: 100%; height: 100%; justify-content: center; align-items: flex-end;color: black; &quot;>
             2024
         </div>
     </div>
@@ -304,22 +335,28 @@
                         data-header-styles="background: hit; color: 2c3e5; font-size: 0p"
                         data-footer-styles="background: 2c3e5; color: hit"
                     >
-                        <div  style="width: 100%; height:100%; display: grid; 
-            grid-template-columns: repeat(2, 1fr); 
-            grid-template-rows: repeat(1, calc(100% - 0px));
-            gap: 10px;
-            box-sizing: border-box;
+                        <div  style="width: 100%; height:100%; 
+        display: grid; 
+        grid-template-columns: calc(50% - 5px) calc(50% - 5px); 
+        grid-template-rows: calc(100% - 0px);
+        gap: 10px;
+        width: 100%;
+        height: 100%;
+        max-width: 100%;
+        max-height: 100%;
+        box-sizing: border-box;
+        overflow: hidden;
     height: 100%; width: 100%; 
         place-items: start start;
         place-content: start start;
     ">
-                            <div class="box-wrapper" style="display: flex; width: 100%; height: 100%; justify-content: center; align-items: center;">
-                                <div class="text-box" style="display: flex; flex-direction: column; width: 100%; height: 100%; justify-content: center; align-items: center;font-weight: bold; text-decoration: underline; ">
+                            <div class="box-wrapper" style="display: flex; width: 100%; height: 100%;">
+                                <div class="text-box" style="display: flex; flex-direction: column; width: 100%; height: 100%;place-items: center center; place-content: center center;font-weight: bold; text-decoration: underline; color: black; ">
                                     Sommaire :
                                 </div>
                             </div>
-                                <div class="box-wrapper" style="display: flex; width: 100%; height: 100%; justify-content: center; align-items: center;">
-                                    <div class="box" style="display: flex; flex-direction: column; width: 100%; height: 100%; justify-content: center; align-items: center;">
+                                <div class="box-wrapper" style="display: flex; width: 100%; height: 100%;">
+                                    <div class="box" style="display: flex; flex-direction: column; width: 100%; height: 100%;place-items: center center; place-content: center center;">
                                         <ol class="sdml-list" style="--sdml-list-gap: 30px">
                                             <li>Mise en page & Boîtes</li><li>Composants & Slots</li><li>Équations Mathématiques</li><li>Code & Interactivité</li><li>Multimédia & Vidéos</li>
                             </ol>
@@ -331,37 +368,49 @@
                         id="colonnes_demo"
                         class="annotable"
                         data-transition="fade"
-                        data-header="<div  style=&quot;width: 100%; height:100%; display: grid; 
-            grid-template-columns: repeat(2, 1fr); 
-            grid-template-rows: repeat(1, calc(100% - 0px));
-            gap: 10px;
-            box-sizing: border-box;
+                        data-header="<div  style=&quot;width: 100%; height:100%; 
+        display: grid; 
+        grid-template-columns: calc(50% - 5px) calc(50% - 5px); 
+        grid-template-rows: calc(100% - 0px);
+        gap: 10px;
+        width: 100%;
+        height: 100%;
+        max-width: 100%;
+        max-height: 100%;
+        box-sizing: border-box;
+        overflow: hidden;
     height: 100%; width: 100%; 
         place-items: end center;
         place-content: end center;
     &quot;>
-    <div class=&quot;box-wrapper&quot; style=&quot;display: flex; width: 100%; height: 100%; justify-content: center; align-items: center;&quot;>
-        <div class=&quot;text-box&quot; style=&quot;display: flex; flex-direction: column; width: 100%; height: 100%; justify-content: center; align-items: center;font-style: italic; &quot;>
+    <div class=&quot;box-wrapper&quot; style=&quot;display: flex; width: 100%; height: 100%;&quot;>
+        <div class=&quot;text-box&quot; style=&quot;display: flex; flex-direction: column; width: 100%; height: 100%;place-items: center center; place-content: center center;font-style: italic; color: black; &quot;>
             SlideDeckML Framework Demo
         </div>
     </div>
 </div>"
-                        data-footer="<div  style=&quot;width: 100%; height:100%; display: grid; 
-            grid-template-columns: repeat(2, 1fr); 
-            grid-template-rows: repeat(1, calc(100% - 0px));
-            gap: 10px;
-            box-sizing: border-box;
+                        data-footer="<div  style=&quot;width: 100%; height:100%; 
+        display: grid; 
+        grid-template-columns: calc(50% - 5px) calc(50% - 5px); 
+        grid-template-rows: calc(100% - 0px);
+        gap: 10px;
+        width: 100%;
+        height: 100%;
+        max-width: 100%;
+        max-height: 100%;
+        box-sizing: border-box;
+        overflow: hidden;
     height: 100%; width: 100%; 
         place-items: center center;
         place-content: center center;
     &quot;>
-    <div class=&quot;box-wrapper&quot; style=&quot;display: flex; width: 100%; height: 100%; justify-content: center; align-items: center;&quot;>
-        <div class=&quot;text-box&quot; style=&quot;display: flex; flex-direction: column; width: 100%; height: 100%; justify-content: center; align-items: center;&quot;>
+    <div class=&quot;box-wrapper&quot; style=&quot;display: flex; width: 100%; height: 100%;&quot;>
+        <div class=&quot;text-box&quot; style=&quot;display: flex; flex-direction: column; width: 100%; height: 100%;place-items: center center; place-content: center center;color: black; &quot;>
             L. Brunet - MLLS Project
         </div>
     </div>
     <div class=&quot;box-wrapper&quot; style=&quot;display: flex; width: 100%; height: 100%; justify-content: flex-end; align-items: center;&quot;>
-        <div class=&quot;text-box&quot; style=&quot;display: flex; flex-direction: column; width: 100%; height: 100%; justify-content: center; align-items: flex-end;&quot;>
+        <div class=&quot;text-box&quot; style=&quot;display: flex; flex-direction: column; width: 100%; height: 100%; justify-content: center; align-items: flex-end;color: black; &quot;>
             2024
         </div>
     </div>
@@ -369,27 +418,33 @@
                         data-header-styles="background: hit; color: 2c3e5; font-size: 0p"
                         data-footer-styles="background: 2c3e5; color: hit"
                     >
-                        <div  style="width: 100%; height:100%; height: 80%;display: grid; 
-            grid-template-columns: repeat(3, 1fr); 
-            grid-template-rows: repeat(1, calc(100% - 0px));
-            gap: 10px;
-            box-sizing: border-box;
+                        <div  style="width: 100%; height:100%; 
+        display: grid; 
+        grid-template-columns: calc(33.333333333333336% - 6.666666666666667px) calc(33.333333333333336% - 6.666666666666667px) calc(33.333333333333336% - 6.666666666666667px); 
+        grid-template-rows: calc(100% - 0px);
+        gap: 10px;
+        width: 100%;
+        height: 80%;
+        max-width: 100%;
+        max-height: 100%;
+        box-sizing: border-box;
+        overflow: hidden;
     width: 100%; 
         place-items: center center;
         place-content: center center;
     ">
-                            <div class="box-wrapper" style="display: flex; width: 100%; height: 100%; justify-content: center; align-items: center;">
-                                <div class="text-box" style="display: flex; flex-direction: column; width: 100%; height: 100%; justify-content: center; align-items: center;background-color: yellow; color: red; ">
-                                    Colonne 1 : Style Highlight
+                            <div class="box-wrapper" style="display: flex; width: 100%; height: 100%;">
+                                <div class="text-box" style="display: flex; flex-direction: column; width: 100%; height: 100%;place-items: center center; place-content: center center;color: red; ">
+                                    <span style="background-color: yellow; padding: 0 4px; border-radius: 2px;">Colonne 1 : Style Highlight</span>
                                 </div>
                             </div>
-                            <div class="box-wrapper" style="display: flex; width: 100%; height: 100%; justify-content: center; align-items: center;">
-                                <div class="text-box" style="display: flex; flex-direction: column; width: 100%; height: 100%; justify-content: center; align-items: center;font-weight: bold; color: green; ">
+                            <div class="box-wrapper" style="display: flex; width: 100%; height: 100%;">
+                                <div class="text-box" style="display: flex; flex-direction: column; width: 100%; height: 100%;place-items: center center; place-content: center center;font-weight: bold; color: green; ">
                                     Colonne 2 : Style Bold
                                 </div>
                             </div>
-                            <div class="box-wrapper" style="display: flex; width: 100%; height: 100%; justify-content: center; align-items: center;">
-                                <div class="text-box" style="display: flex; flex-direction: column; width: 100%; height: 100%; justify-content: center; align-items: center;font-style: italic; color: blue; ">
+                            <div class="box-wrapper" style="display: flex; width: 100%; height: 100%;">
+                                <div class="text-box" style="display: flex; flex-direction: column; width: 100%; height: 100%;place-items: center center; place-content: center center;font-style: italic; color: blue; ">
                                     Colonne 3 : Style Italic
                                 </div>
                             </div>
@@ -399,37 +454,49 @@
                         id="demo_slots"
                         class="annotable"
                         data-transition="fade"
-                        data-header="<div  style=&quot;width: 100%; height:100%; display: grid; 
-            grid-template-columns: repeat(2, 1fr); 
-            grid-template-rows: repeat(1, calc(100% - 0px));
-            gap: 10px;
-            box-sizing: border-box;
+                        data-header="<div  style=&quot;width: 100%; height:100%; 
+        display: grid; 
+        grid-template-columns: calc(50% - 5px) calc(50% - 5px); 
+        grid-template-rows: calc(100% - 0px);
+        gap: 10px;
+        width: 100%;
+        height: 100%;
+        max-width: 100%;
+        max-height: 100%;
+        box-sizing: border-box;
+        overflow: hidden;
     height: 100%; width: 100%; 
         place-items: end center;
         place-content: end center;
     &quot;>
-    <div class=&quot;box-wrapper&quot; style=&quot;display: flex; width: 100%; height: 100%; justify-content: center; align-items: center;&quot;>
-        <div class=&quot;text-box&quot; style=&quot;display: flex; flex-direction: column; width: 100%; height: 100%; justify-content: center; align-items: center;font-style: italic; &quot;>
+    <div class=&quot;box-wrapper&quot; style=&quot;display: flex; width: 100%; height: 100%;&quot;>
+        <div class=&quot;text-box&quot; style=&quot;display: flex; flex-direction: column; width: 100%; height: 100%;place-items: center center; place-content: center center;font-style: italic; color: black; &quot;>
             SlideDeckML Framework Demo
         </div>
     </div>
 </div>"
-                        data-footer="<div  style=&quot;width: 100%; height:100%; display: grid; 
-            grid-template-columns: repeat(2, 1fr); 
-            grid-template-rows: repeat(1, calc(100% - 0px));
-            gap: 10px;
-            box-sizing: border-box;
+                        data-footer="<div  style=&quot;width: 100%; height:100%; 
+        display: grid; 
+        grid-template-columns: calc(50% - 5px) calc(50% - 5px); 
+        grid-template-rows: calc(100% - 0px);
+        gap: 10px;
+        width: 100%;
+        height: 100%;
+        max-width: 100%;
+        max-height: 100%;
+        box-sizing: border-box;
+        overflow: hidden;
     height: 100%; width: 100%; 
         place-items: center center;
         place-content: center center;
     &quot;>
-    <div class=&quot;box-wrapper&quot; style=&quot;display: flex; width: 100%; height: 100%; justify-content: center; align-items: center;&quot;>
-        <div class=&quot;text-box&quot; style=&quot;display: flex; flex-direction: column; width: 100%; height: 100%; justify-content: center; align-items: center;&quot;>
+    <div class=&quot;box-wrapper&quot; style=&quot;display: flex; width: 100%; height: 100%;&quot;>
+        <div class=&quot;text-box&quot; style=&quot;display: flex; flex-direction: column; width: 100%; height: 100%;place-items: center center; place-content: center center;color: black; &quot;>
             L. Brunet - MLLS Project
         </div>
     </div>
     <div class=&quot;box-wrapper&quot; style=&quot;display: flex; width: 100%; height: 100%; justify-content: flex-end; align-items: center;&quot;>
-        <div class=&quot;text-box&quot; style=&quot;display: flex; flex-direction: column; width: 100%; height: 100%; justify-content: center; align-items: flex-end;&quot;>
+        <div class=&quot;text-box&quot; style=&quot;display: flex; flex-direction: column; width: 100%; height: 100%; justify-content: center; align-items: flex-end;color: black; &quot;>
             2024
         </div>
     </div>
@@ -437,36 +504,48 @@
                         data-header-styles="background: hit; color: 2c3e5; font-size: 0p"
                         data-footer-styles="background: 2c3e5; color: hit"
                     >
-                        <div  style="height: 100%;display: grid; 
-            grid-template-columns: repeat(2, 1fr); 
-            grid-template-rows: repeat(1, calc(100% - 0px));
-            gap: 10px;
-            box-sizing: border-box;
+                        <div  style="
+        display: grid; 
+        grid-template-columns: calc(50% - 5px) calc(50% - 5px); 
+        grid-template-rows: calc(100% - 0px);
+        gap: 10px;
+        width: 100%;
+        height: 100%;
+        max-width: 100%;
+        max-height: 100%;
+        box-sizing: border-box;
+        overflow: hidden;
     width: 100%; 
         place-items: center center;
         place-content: center center;
     ">
-                            <div class="box-wrapper" style="display: flex; width: 100%; height: 100%; justify-content: center; align-items: center;">
-                                <div class="text-box" style="display: flex; flex-direction: column; width: 100%; height: 100%; justify-content: center; align-items: center;font-weight: bold; color: blue; ">
+                            <div class="box-wrapper" style="display: flex; width: 100%; height: 100%;">
+                                <div class="text-box" style="display: flex; flex-direction: column; width: 100%; height: 100%;place-items: center center; place-content: center center;font-weight: bold; color: blue; ">
                                     Structure du Composant :
                                 </div>
                             </div>
-                            <div  style="width: 100%; height:100%; display: grid; 
-            grid-template-columns: repeat(2, 1fr); 
-            grid-template-rows: repeat(1, calc(100% - 0px));
-            gap: 10px;
-            box-sizing: border-box;
+                            <div  style="width: 100%; height:100%; 
+        display: grid; 
+        grid-template-columns: calc(50% - 5px) calc(50% - 5px); 
+        grid-template-rows: calc(100% - 0px);
+        gap: 10px;
+        width: 100%;
+        height: 100%;
+        max-width: 100%;
+        max-height: 100%;
+        box-sizing: border-box;
+        overflow: hidden;
     height: 100%; width: 100%; 
         place-items: center center;
         place-content: center center;
     ">
-                                <div class="box-wrapper" style="display: flex; width: 100%; height: 100%; justify-content: center; align-items: center;">
-                                    <div class="text-box" style="display: flex; flex-direction: column; width: 100%; height: 100%; justify-content: center; align-items: center;font-weight: bold; ">
+                                <div class="box-wrapper" style="display: flex; width: 100%; height: 100%;">
+                                    <div class="text-box" style="display: flex; flex-direction: column; width: 100%; height: 100%;place-items: center center; place-content: center center;font-weight: bold; color: black; ">
                                         Contenu Injecté dans le Slot !
                                     </div>
                                 </div>
-                                <div class="box-wrapper" style="display: flex; width: 100%; height: 100%; justify-content: center; align-items: center;">
-                                    <div class="box" style="display: flex; flex-direction: column; width: 100%; height: 100%; justify-content: center; align-items: center;">
+                                <div class="box-wrapper" style="display: flex; width: 100%; height: 100%;">
+                                    <div class="box" style="display: flex; flex-direction: column; width: 100%; height: 100%;place-items: center center; place-content: center center;">
                                         <img 
                                             src="https://images4.alphacoders.com/133/thumb-1920-1332281.jpeg" 
                                             alt="Logo Demo" 
@@ -486,40 +565,52 @@
                         </div>
                     </section>
                     <section
-                        id="science_slide"
+                        id="mathematics_slide"
                         class="annotable"
                         data-transition="fade"
-                        data-header="<div  style=&quot;width: 100%; height:100%; display: grid; 
-            grid-template-columns: repeat(2, 1fr); 
-            grid-template-rows: repeat(1, calc(100% - 0px));
-            gap: 10px;
-            box-sizing: border-box;
+                        data-header="<div  style=&quot;width: 100%; height:100%; 
+        display: grid; 
+        grid-template-columns: calc(50% - 5px) calc(50% - 5px); 
+        grid-template-rows: calc(100% - 0px);
+        gap: 10px;
+        width: 100%;
+        height: 100%;
+        max-width: 100%;
+        max-height: 100%;
+        box-sizing: border-box;
+        overflow: hidden;
     height: 100%; width: 100%; 
         place-items: end center;
         place-content: end center;
     &quot;>
-    <div class=&quot;box-wrapper&quot; style=&quot;display: flex; width: 100%; height: 100%; justify-content: center; align-items: center;&quot;>
-        <div class=&quot;text-box&quot; style=&quot;display: flex; flex-direction: column; width: 100%; height: 100%; justify-content: center; align-items: center;font-style: italic; &quot;>
+    <div class=&quot;box-wrapper&quot; style=&quot;display: flex; width: 100%; height: 100%;&quot;>
+        <div class=&quot;text-box&quot; style=&quot;display: flex; flex-direction: column; width: 100%; height: 100%;place-items: center center; place-content: center center;font-style: italic; color: black; &quot;>
             SlideDeckML Framework Demo
         </div>
     </div>
 </div>"
-                        data-footer="<div  style=&quot;width: 100%; height:100%; display: grid; 
-            grid-template-columns: repeat(2, 1fr); 
-            grid-template-rows: repeat(1, calc(100% - 0px));
-            gap: 10px;
-            box-sizing: border-box;
+                        data-footer="<div  style=&quot;width: 100%; height:100%; 
+        display: grid; 
+        grid-template-columns: calc(50% - 5px) calc(50% - 5px); 
+        grid-template-rows: calc(100% - 0px);
+        gap: 10px;
+        width: 100%;
+        height: 100%;
+        max-width: 100%;
+        max-height: 100%;
+        box-sizing: border-box;
+        overflow: hidden;
     height: 100%; width: 100%; 
         place-items: center center;
         place-content: center center;
     &quot;>
-    <div class=&quot;box-wrapper&quot; style=&quot;display: flex; width: 100%; height: 100%; justify-content: center; align-items: center;&quot;>
-        <div class=&quot;text-box&quot; style=&quot;display: flex; flex-direction: column; width: 100%; height: 100%; justify-content: center; align-items: center;&quot;>
+    <div class=&quot;box-wrapper&quot; style=&quot;display: flex; width: 100%; height: 100%;&quot;>
+        <div class=&quot;text-box&quot; style=&quot;display: flex; flex-direction: column; width: 100%; height: 100%;place-items: center center; place-content: center center;color: black; &quot;>
             L. Brunet - MLLS Project
         </div>
     </div>
     <div class=&quot;box-wrapper&quot; style=&quot;display: flex; width: 100%; height: 100%; justify-content: flex-end; align-items: center;&quot;>
-        <div class=&quot;text-box&quot; style=&quot;display: flex; flex-direction: column; width: 100%; height: 100%; justify-content: center; align-items: flex-end;&quot;>
+        <div class=&quot;text-box&quot; style=&quot;display: flex; flex-direction: column; width: 100%; height: 100%; justify-content: center; align-items: flex-end;color: black; &quot;>
             2024
         </div>
     </div>
@@ -527,71 +618,105 @@
                         data-header-styles="background: hit; color: 2c3e5; font-size: 0p"
                         data-footer-styles="background: 2c3e5; color: hit"
                     >
-                        <div  style="width: 100%; height:100%; display: grid; 
-            grid-template-columns: repeat(2, 1fr); 
-            grid-template-rows: repeat(2, calc(50% - 5px));
-            gap: 10px;
-            box-sizing: border-box;
+                        <div  style="width: 100%; height:100%; 
+        display: grid; 
+        grid-template-columns: calc(100% - 0px); 
+        grid-template-rows: calc(10% - 5px) calc(90% - 5px);
+        gap: 10px;
+        width: 100%;
+        height: 100%;
+        max-width: 100%;
+        max-height: 100%;
+        box-sizing: border-box;
+        overflow: hidden;
     height: 100%; width: 100%; 
         place-items: center center;
         place-content: center center;
     ">
-                            <div class="box-wrapper" style="display: flex; width: 100%; height: 100%; justify-content: center; align-items: center;">
-                                <div class="text-box" style="display: flex; flex-direction: column; width: 100%; height: 100%; justify-content: center; align-items: center;font-weight: bold; ">
-                                    Calcul Théorique :
+                            <div class="box-wrapper" style="display: flex; width: 100%; height: 100%; justify-content: flex-start; align-items: flex-start;">
+                                <div class="text-box" style="display: flex; flex-direction: column; width: 100%; height: 100%; justify-content: flex-start; align-items: flex-start;font-size: 1.2em; color: black; ">
+                                    Démonstration d'une formule mathématique
                                 </div>
                             </div>
-                            <div class="fragment fade-in" style="width: 100%; height:100%;"><div class="box-wrapper" style="display: flex; width: 100%; height: 100%; justify-content: center; align-items: center;">
-                                <div class="box" style="display: flex; flex-direction: column; width: 100%; height: 100%; justify-content: center; align-items: center;">
-                                    <div class="math-box" style="color: #2980b9; font-size: 1.5em; ">
-                                        <div class="math-content">
-                                            $\zeta(s) = \sum_{n=1}^{\infty} \frac{1}{n^s} = \prod_{p \in \text{primes}} \frac{1}{1 - p^{-s}}$
+                            <div  style="width: 100%; height:100%; 
+        display: grid; 
+        grid-template-columns: calc(60% - 5px) calc(40% - 5px); 
+        grid-template-rows: calc(100% - 0px);
+        gap: 10px;
+        width: 100%;
+        height: 100%;
+        max-width: 100%;
+        max-height: 100%;
+        box-sizing: border-box;
+        overflow: hidden;
+    height: 100%; width: 100%; 
+        place-items: center center;
+        place-content: center center;
+    ">
+                                <div class="box-wrapper" style="display: flex; width: 100%; height: 100%;">
+                                    <div class="text-box" style="display: flex; flex-direction: column; width: 100%; height: 100%;place-items: center center; place-content: center center;text-decoration: underline; color: black; ">
+                                        Voici un exemple d'une formule mathématique complexe que nous pouvons afficher simplement
+                                    </div>
+                                </div>
+                                <div class="box-wrapper" style="display: flex; width: 100%; height: 100%;">
+                                    <div class="box" style="display: flex; flex-direction: column; width: 100%; height: 100%;place-items: center center; place-content: center center;">
+                                        <div class="math-box" style="color: black; ">
+                                            <div class="math-content">
+                                                $\zeta(s) = \sum_{n=1}^{\infty} \frac{1}{n^s} = \prod_{p \in \text{primes}} \frac{1}{1 - p^{-s}}$
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div></div>
-                            <div class="fragment fade-in" style="width: 100%; height:100%;"><div class="box-wrapper" style="display: flex; width: 100%; height: 100%; justify-content: center; align-items: center;">
-                                <div class="text-box" style="display: flex; flex-direction: column; width: 100%; height: 100%; justify-content: center; align-items: center;">
-                                    Cette formule apparaîtra puis disparaîtra.
-                                </div>
-                            </div></div>
+                            </div>
                         </div>
                     </section>
                     <section
                         id="code_slide"
                         class="annotable"
                         data-transition="fade"
-                        data-header="<div  style=&quot;width: 100%; height:100%; display: grid; 
-            grid-template-columns: repeat(2, 1fr); 
-            grid-template-rows: repeat(1, calc(100% - 0px));
-            gap: 10px;
-            box-sizing: border-box;
+                        data-header="<div  style=&quot;width: 100%; height:100%; 
+        display: grid; 
+        grid-template-columns: calc(50% - 5px) calc(50% - 5px); 
+        grid-template-rows: calc(100% - 0px);
+        gap: 10px;
+        width: 100%;
+        height: 100%;
+        max-width: 100%;
+        max-height: 100%;
+        box-sizing: border-box;
+        overflow: hidden;
     height: 100%; width: 100%; 
         place-items: end center;
         place-content: end center;
     &quot;>
-    <div class=&quot;box-wrapper&quot; style=&quot;display: flex; width: 100%; height: 100%; justify-content: center; align-items: center;&quot;>
-        <div class=&quot;text-box&quot; style=&quot;display: flex; flex-direction: column; width: 100%; height: 100%; justify-content: center; align-items: center;font-style: italic; &quot;>
+    <div class=&quot;box-wrapper&quot; style=&quot;display: flex; width: 100%; height: 100%;&quot;>
+        <div class=&quot;text-box&quot; style=&quot;display: flex; flex-direction: column; width: 100%; height: 100%;place-items: center center; place-content: center center;font-style: italic; color: black; &quot;>
             SlideDeckML Framework Demo
         </div>
     </div>
 </div>"
-                        data-footer="<div  style=&quot;width: 100%; height:100%; display: grid; 
-            grid-template-columns: repeat(2, 1fr); 
-            grid-template-rows: repeat(1, calc(100% - 0px));
-            gap: 10px;
-            box-sizing: border-box;
+                        data-footer="<div  style=&quot;width: 100%; height:100%; 
+        display: grid; 
+        grid-template-columns: calc(50% - 5px) calc(50% - 5px); 
+        grid-template-rows: calc(100% - 0px);
+        gap: 10px;
+        width: 100%;
+        height: 100%;
+        max-width: 100%;
+        max-height: 100%;
+        box-sizing: border-box;
+        overflow: hidden;
     height: 100%; width: 100%; 
         place-items: center center;
         place-content: center center;
     &quot;>
-    <div class=&quot;box-wrapper&quot; style=&quot;display: flex; width: 100%; height: 100%; justify-content: center; align-items: center;&quot;>
-        <div class=&quot;text-box&quot; style=&quot;display: flex; flex-direction: column; width: 100%; height: 100%; justify-content: center; align-items: center;&quot;>
+    <div class=&quot;box-wrapper&quot; style=&quot;display: flex; width: 100%; height: 100%;&quot;>
+        <div class=&quot;text-box&quot; style=&quot;display: flex; flex-direction: column; width: 100%; height: 100%;place-items: center center; place-content: center center;color: black; &quot;>
             L. Brunet - MLLS Project
         </div>
     </div>
     <div class=&quot;box-wrapper&quot; style=&quot;display: flex; width: 100%; height: 100%; justify-content: flex-end; align-items: center;&quot;>
-        <div class=&quot;text-box&quot; style=&quot;display: flex; flex-direction: column; width: 100%; height: 100%; justify-content: center; align-items: flex-end;&quot;>
+        <div class=&quot;text-box&quot; style=&quot;display: flex; flex-direction: column; width: 100%; height: 100%; justify-content: center; align-items: flex-end;color: black; &quot;>
             2024
         </div>
     </div>
@@ -599,22 +724,28 @@
                         data-header-styles="background: hit; color: 2c3e5; font-size: 0p"
                         data-footer-styles="background: 2c3e5; color: hit"
                     >
-                        <div  style="width: 100%; height:100%; display: grid; 
-            grid-template-columns: repeat(2, 1fr); 
-            grid-template-rows: repeat(1, calc(100% - 0px));
-            gap: 10px;
-            box-sizing: border-box;
+                        <div  style="width: 100%; height:100%; 
+        display: grid; 
+        grid-template-columns: calc(50% - 5px) calc(50% - 5px); 
+        grid-template-rows: calc(100% - 0px);
+        gap: 10px;
+        width: 100%;
+        height: 100%;
+        max-width: 100%;
+        max-height: 100%;
+        box-sizing: border-box;
+        overflow: hidden;
     height: 100%; width: 100%; 
         place-items: center center;
         place-content: center center;
     ">
-                            <div class="box-wrapper" style="display: flex; width: 100%; height: 100%; justify-content: center; align-items: center;">
-                                <div class="text-box" style="display: flex; flex-direction: column; width: 100%; height: 100%; justify-content: center; align-items: center;font-weight: bold; ">
+                            <div class="box-wrapper" style="display: flex; width: 100%; height: 100%;">
+                                <div class="text-box" style="display: flex; flex-direction: column; width: 100%; height: 100%;place-items: center center; place-content: center center;font-weight: bold; color: black; ">
                                     Démonstration de Code Source :
                                 </div>
                             </div>
-                            <div class="box-wrapper" style="display: flex; width: 100%; height: 100%; justify-content: center; align-items: center;">
-                                <div class="box" style="display: flex; flex-direction: column; width: 100%; height: 100%; justify-content: center; align-items: center;font-size: 14px; ">
+                            <div class="box-wrapper" style="display: flex; width: 100%; height: 100%;">
+                                <div class="box" style="display: flex; flex-direction: column; width: 100%; height: 100%;place-items: center center; place-content: center center;font-size: 14px; color: black; ">
                                     <div class="code-box-container" style="display: flex; flex-wrap: wrap; gap: 1rem; width: fit-content;">
                                         <div style="flex: 2; min-width: 0;">
                                             <pre style="margin: 0; overflow: auto;"><code data-noescape class="language-java" data-line-numbers="1|2|3|4|5|6">        public class Main {
@@ -627,8 +758,8 @@
                                         <div class="image-stack" style="flex: 1; min-width: 0; display: grid; place-items: center; overflow: hidden;">
                                             <div class="code-step-image" data-start="3" data-end="4"
                                                  style="grid-area: 1 / 1; opacity: 1; transition: opacity 0.3s; width: 100%; display: flex; justify-content: center; align-items: center;">
-                                                <div class="box-wrapper" style="display: flex; width: 100%; height: 100%; justify-content: center; align-items: center;">
-                                                    <div class="box" style="display: flex; flex-direction: column; width: 100%; height: 100%; justify-content: center; align-items: center;">
+                                                <div class="box-wrapper" style="display: flex; width: 100%; height: 100%;">
+                                                    <div class="box" style="display: flex; flex-direction: column; width: 100%; height: 100%;place-items: center center; place-content: center center;">
                                                         <img 
                                                             src="https://logo.png" 
                                                             alt="Explaining line 3" 
@@ -655,37 +786,49 @@
                         id="quiz_slide"
                         class="annotable"
                         data-transition="fade"
-                        data-header="<div  style=&quot;width: 100%; height:100%; display: grid; 
-            grid-template-columns: repeat(2, 1fr); 
-            grid-template-rows: repeat(1, calc(100% - 0px));
-            gap: 10px;
-            box-sizing: border-box;
+                        data-header="<div  style=&quot;width: 100%; height:100%; 
+        display: grid; 
+        grid-template-columns: calc(50% - 5px) calc(50% - 5px); 
+        grid-template-rows: calc(100% - 0px);
+        gap: 10px;
+        width: 100%;
+        height: 100%;
+        max-width: 100%;
+        max-height: 100%;
+        box-sizing: border-box;
+        overflow: hidden;
     height: 100%; width: 100%; 
         place-items: end center;
         place-content: end center;
     &quot;>
-    <div class=&quot;box-wrapper&quot; style=&quot;display: flex; width: 100%; height: 100%; justify-content: center; align-items: center;&quot;>
-        <div class=&quot;text-box&quot; style=&quot;display: flex; flex-direction: column; width: 100%; height: 100%; justify-content: center; align-items: center;font-style: italic; &quot;>
+    <div class=&quot;box-wrapper&quot; style=&quot;display: flex; width: 100%; height: 100%;&quot;>
+        <div class=&quot;text-box&quot; style=&quot;display: flex; flex-direction: column; width: 100%; height: 100%;place-items: center center; place-content: center center;font-style: italic; color: black; &quot;>
             SlideDeckML Framework Demo
         </div>
     </div>
 </div>"
-                        data-footer="<div  style=&quot;width: 100%; height:100%; display: grid; 
-            grid-template-columns: repeat(2, 1fr); 
-            grid-template-rows: repeat(1, calc(100% - 0px));
-            gap: 10px;
-            box-sizing: border-box;
+                        data-footer="<div  style=&quot;width: 100%; height:100%; 
+        display: grid; 
+        grid-template-columns: calc(50% - 5px) calc(50% - 5px); 
+        grid-template-rows: calc(100% - 0px);
+        gap: 10px;
+        width: 100%;
+        height: 100%;
+        max-width: 100%;
+        max-height: 100%;
+        box-sizing: border-box;
+        overflow: hidden;
     height: 100%; width: 100%; 
         place-items: center center;
         place-content: center center;
     &quot;>
-    <div class=&quot;box-wrapper&quot; style=&quot;display: flex; width: 100%; height: 100%; justify-content: center; align-items: center;&quot;>
-        <div class=&quot;text-box&quot; style=&quot;display: flex; flex-direction: column; width: 100%; height: 100%; justify-content: center; align-items: center;&quot;>
+    <div class=&quot;box-wrapper&quot; style=&quot;display: flex; width: 100%; height: 100%;&quot;>
+        <div class=&quot;text-box&quot; style=&quot;display: flex; flex-direction: column; width: 100%; height: 100%;place-items: center center; place-content: center center;color: black; &quot;>
             L. Brunet - MLLS Project
         </div>
     </div>
     <div class=&quot;box-wrapper&quot; style=&quot;display: flex; width: 100%; height: 100%; justify-content: flex-end; align-items: center;&quot;>
-        <div class=&quot;text-box&quot; style=&quot;display: flex; flex-direction: column; width: 100%; height: 100%; justify-content: center; align-items: flex-end;&quot;>
+        <div class=&quot;text-box&quot; style=&quot;display: flex; flex-direction: column; width: 100%; height: 100%; justify-content: center; align-items: flex-end;color: black; &quot;>
             2024
         </div>
     </div>
@@ -693,8 +836,8 @@
                         data-header-styles="background: hit; color: 2c3e5; font-size: 0p"
                         data-footer-styles="background: 2c3e5; color: hit"
                     >
-                        <div class="fragment fade-up" style="width: 100%; height:100%;"><div class="box-wrapper" style="display: flex; width: 100%; height: 100%; justify-content: center; align-items: center;">
-                            <div class="box" style="display: flex; flex-direction: column; width: 100%; height: 100%; justify-content: center; align-items: center;">
+                        <div class="fragment fade-up" style="width: 100%; height:100%;"><div class="box-wrapper" style="display: flex; width: 100%; height: 100%;">
+                            <div class="box" style="display: flex; flex-direction: column; width: 100%; height: 100%;place-items: center center; place-content: center center;">
                                 <div
                                     class="sdml-quiz"
                                     data-quiz-id="q1"
@@ -738,37 +881,49 @@
                         id="live_quiz_slide"
                         class="annotable"
                         data-transition="fade"
-                        data-header="<div  style=&quot;width: 100%; height:100%; display: grid; 
-            grid-template-columns: repeat(2, 1fr); 
-            grid-template-rows: repeat(1, calc(100% - 0px));
-            gap: 10px;
-            box-sizing: border-box;
+                        data-header="<div  style=&quot;width: 100%; height:100%; 
+        display: grid; 
+        grid-template-columns: calc(50% - 5px) calc(50% - 5px); 
+        grid-template-rows: calc(100% - 0px);
+        gap: 10px;
+        width: 100%;
+        height: 100%;
+        max-width: 100%;
+        max-height: 100%;
+        box-sizing: border-box;
+        overflow: hidden;
     height: 100%; width: 100%; 
         place-items: end center;
         place-content: end center;
     &quot;>
-    <div class=&quot;box-wrapper&quot; style=&quot;display: flex; width: 100%; height: 100%; justify-content: center; align-items: center;&quot;>
-        <div class=&quot;text-box&quot; style=&quot;display: flex; flex-direction: column; width: 100%; height: 100%; justify-content: center; align-items: center;font-style: italic; &quot;>
+    <div class=&quot;box-wrapper&quot; style=&quot;display: flex; width: 100%; height: 100%;&quot;>
+        <div class=&quot;text-box&quot; style=&quot;display: flex; flex-direction: column; width: 100%; height: 100%;place-items: center center; place-content: center center;font-style: italic; color: black; &quot;>
             SlideDeckML Framework Demo
         </div>
     </div>
 </div>"
-                        data-footer="<div  style=&quot;width: 100%; height:100%; display: grid; 
-            grid-template-columns: repeat(2, 1fr); 
-            grid-template-rows: repeat(1, calc(100% - 0px));
-            gap: 10px;
-            box-sizing: border-box;
+                        data-footer="<div  style=&quot;width: 100%; height:100%; 
+        display: grid; 
+        grid-template-columns: calc(50% - 5px) calc(50% - 5px); 
+        grid-template-rows: calc(100% - 0px);
+        gap: 10px;
+        width: 100%;
+        height: 100%;
+        max-width: 100%;
+        max-height: 100%;
+        box-sizing: border-box;
+        overflow: hidden;
     height: 100%; width: 100%; 
         place-items: center center;
         place-content: center center;
     &quot;>
-    <div class=&quot;box-wrapper&quot; style=&quot;display: flex; width: 100%; height: 100%; justify-content: center; align-items: center;&quot;>
-        <div class=&quot;text-box&quot; style=&quot;display: flex; flex-direction: column; width: 100%; height: 100%; justify-content: center; align-items: center;&quot;>
+    <div class=&quot;box-wrapper&quot; style=&quot;display: flex; width: 100%; height: 100%;&quot;>
+        <div class=&quot;text-box&quot; style=&quot;display: flex; flex-direction: column; width: 100%; height: 100%;place-items: center center; place-content: center center;color: black; &quot;>
             L. Brunet - MLLS Project
         </div>
     </div>
     <div class=&quot;box-wrapper&quot; style=&quot;display: flex; width: 100%; height: 100%; justify-content: flex-end; align-items: center;&quot;>
-        <div class=&quot;text-box&quot; style=&quot;display: flex; flex-direction: column; width: 100%; height: 100%; justify-content: center; align-items: flex-end;&quot;>
+        <div class=&quot;text-box&quot; style=&quot;display: flex; flex-direction: column; width: 100%; height: 100%; justify-content: center; align-items: flex-end;color: black; &quot;>
             2024
         </div>
     </div>
@@ -776,8 +931,8 @@
                         data-header-styles="background: hit; color: 2c3e5; font-size: 0p"
                         data-footer-styles="background: 2c3e5; color: hit"
                     >
-                            <div class="box-wrapper" style="display: flex; width: 100%; height: 100%; justify-content: center; align-items: center;">
-                                <div class="box" style="display: flex; flex-direction: column; width: 100%; height: 100%; justify-content: center; align-items: center;">
+                            <div class="box-wrapper" style="display: flex; width: 100%; height: 100%;">
+                                <div class="box" style="display: flex; flex-direction: column; width: 100%; height: 100%;place-items: center center; place-content: center center;">
                                     <div class="sdml-quiz live-quiz" id="quiz-lq1" data-correct-answer="yes">
                                         <div class="sdml-quiz__title">Live Quiz</div>
                                         <div class="sdml-quiz__question">Êtes-vous convaincus par le DSL ?</div>
@@ -867,37 +1022,49 @@
                         id="video_demo"
                         class="annotable"
                         data-transition="fade"
-                        data-header="<div  style=&quot;width: 100%; height:100%; display: grid; 
-            grid-template-columns: repeat(2, 1fr); 
-            grid-template-rows: repeat(1, calc(100% - 0px));
-            gap: 10px;
-            box-sizing: border-box;
+                        data-header="<div  style=&quot;width: 100%; height:100%; 
+        display: grid; 
+        grid-template-columns: calc(50% - 5px) calc(50% - 5px); 
+        grid-template-rows: calc(100% - 0px);
+        gap: 10px;
+        width: 100%;
+        height: 100%;
+        max-width: 100%;
+        max-height: 100%;
+        box-sizing: border-box;
+        overflow: hidden;
     height: 100%; width: 100%; 
         place-items: end center;
         place-content: end center;
     &quot;>
-    <div class=&quot;box-wrapper&quot; style=&quot;display: flex; width: 100%; height: 100%; justify-content: center; align-items: center;&quot;>
-        <div class=&quot;text-box&quot; style=&quot;display: flex; flex-direction: column; width: 100%; height: 100%; justify-content: center; align-items: center;font-style: italic; &quot;>
+    <div class=&quot;box-wrapper&quot; style=&quot;display: flex; width: 100%; height: 100%;&quot;>
+        <div class=&quot;text-box&quot; style=&quot;display: flex; flex-direction: column; width: 100%; height: 100%;place-items: center center; place-content: center center;font-style: italic; color: black; &quot;>
             SlideDeckML Framework Demo
         </div>
     </div>
 </div>"
-                        data-footer="<div  style=&quot;width: 100%; height:100%; display: grid; 
-            grid-template-columns: repeat(2, 1fr); 
-            grid-template-rows: repeat(1, calc(100% - 0px));
-            gap: 10px;
-            box-sizing: border-box;
+                        data-footer="<div  style=&quot;width: 100%; height:100%; 
+        display: grid; 
+        grid-template-columns: calc(50% - 5px) calc(50% - 5px); 
+        grid-template-rows: calc(100% - 0px);
+        gap: 10px;
+        width: 100%;
+        height: 100%;
+        max-width: 100%;
+        max-height: 100%;
+        box-sizing: border-box;
+        overflow: hidden;
     height: 100%; width: 100%; 
         place-items: center center;
         place-content: center center;
     &quot;>
-    <div class=&quot;box-wrapper&quot; style=&quot;display: flex; width: 100%; height: 100%; justify-content: center; align-items: center;&quot;>
-        <div class=&quot;text-box&quot; style=&quot;display: flex; flex-direction: column; width: 100%; height: 100%; justify-content: center; align-items: center;&quot;>
+    <div class=&quot;box-wrapper&quot; style=&quot;display: flex; width: 100%; height: 100%;&quot;>
+        <div class=&quot;text-box&quot; style=&quot;display: flex; flex-direction: column; width: 100%; height: 100%;place-items: center center; place-content: center center;color: black; &quot;>
             L. Brunet - MLLS Project
         </div>
     </div>
     <div class=&quot;box-wrapper&quot; style=&quot;display: flex; width: 100%; height: 100%; justify-content: flex-end; align-items: center;&quot;>
-        <div class=&quot;text-box&quot; style=&quot;display: flex; flex-direction: column; width: 100%; height: 100%; justify-content: center; align-items: flex-end;&quot;>
+        <div class=&quot;text-box&quot; style=&quot;display: flex; flex-direction: column; width: 100%; height: 100%; justify-content: center; align-items: flex-end;color: black; &quot;>
             2024
         </div>
     </div>
@@ -905,36 +1072,238 @@
                         data-header-styles="background: hit; color: 2c3e5; font-size: 0p"
                         data-footer-styles="background: 2c3e5; color: hit"
                     >
-                        <div  style="width: 100%; height:100%; display: grid; 
-            grid-template-columns: repeat(2, 1fr); 
-            grid-template-rows: repeat(1, calc(100% - 0px));
-            gap: 10px;
-            box-sizing: border-box;
+                        <div  style="width: 100%; height:100%; 
+        display: grid; 
+        grid-template-columns: calc(100% - 0px); 
+        grid-template-rows: calc(10% - 5px) calc(90% - 5px);
+        gap: 10px;
+        width: 100%;
+        height: 100%;
+        max-width: 100%;
+        max-height: 100%;
+        box-sizing: border-box;
+        overflow: hidden;
     height: 100%; width: 100%; 
         place-items: center center;
         place-content: center center;
     ">
-                            <div class="box-wrapper" style="display: flex; width: 100%; height: 100%; justify-content: center; align-items: center;">
-                                <div class="text-box" style="display: flex; flex-direction: column; width: 100%; height: 100%; justify-content: center; align-items: center;font-weight: bold; ">
-                                    Support Vidéo Direct :
+                            <div class="box-wrapper" style="display: flex; width: 100%; height: 100%; justify-content: flex-start; align-items: flex-start;">
+                                <div class="text-box" style="display: flex; flex-direction: column; width: 100%; height: 100%; justify-content: flex-start; align-items: flex-start;font-size: 1.2em; color: black; ">
+                                    Vidéos dans vos présentations
                                 </div>
                             </div>
-                            <div class="box-wrapper" style="display: flex; width: 100%; height: 100%; justify-content: center; align-items: center;">
-                                <div class="box" style="display: flex; flex-direction: column; width: 100%; height: 100%; justify-content: center; align-items: center;">
-                                    <iframe
-                                        src="https://www.youtube.com/embed/uGSu6mhk3RQ"
-                                        title="Video de démonstration"
-                                        style="
+                            <div  style="width: 100%; height:100%; 
+        display: grid; 
+        grid-template-columns: calc(60% - 5px) calc(40% - 5px); 
+        grid-template-rows: calc(50% - 5px) calc(50% - 5px);
+        gap: 10px;
+        width: 100%;
+        height: 100%;
+        max-width: 100%;
+        max-height: 100%;
+        box-sizing: border-box;
+        overflow: hidden;
+    height: 100%; width: 100%; 
+        place-items: center center;
+        place-content: center center;
+    ">
+                                <div class="box-wrapper" style="display: flex; width: 100%; height: 100%;">
+                                    <div class="text-box" style="display: flex; flex-direction: column; width: 100%; height: 100%;place-items: center center; place-content: center center;font-size: 1em; color: black; ">
+                                        Voici une superbe musique d'un youtubeur assez connu mais qui commence à dater
+                                    </div>
+                                </div>
+                                <div class="box-wrapper" style="display: flex; width: 100%; height: 100%;">
+                                    <div class="box" style="display: flex; flex-direction: column; width: 100%; height: 100%;place-items: center center; place-content: center center;">
+                                        <iframe
+                                            src="https://www.youtube.com/embed/uGSu6mhk3RQ"
+                                            title="Top 1 Squeezie"
+                                            style="
         display: block;
         aspect-ratio: 16 / 9;
         width: auto;
         height: auto;
-        max-width: 80%;
+        max-width: 100%;
         max-height: 100%;
         border: 0;
     "
-                                        allowfullscreen>
-                                    </iframe>
+                                            allowfullscreen>
+                                        </iframe>
+                                    </div>
+                                </div>
+                                <div class="box-wrapper" style="display: flex; width: 100%; height: 100%;">
+                                    <div class="text-box" style="display: flex; flex-direction: column; width: 100%; height: 100%;place-items: center center; place-content: center center;font-size: 1em; color: black; ">
+                                        Voici une autre musique mais que j'aime moins et que j'affiche donc plus petite
+                                    </div>
+                                </div>
+                                <div class="box-wrapper" style="display: flex; width: 100%; height: 100%;">
+                                    <div class="box" style="display: flex; flex-direction: column; width: 100%; height: 100%;place-items: center center; place-content: center center;">
+                                        <iframe
+                                            src="https://www.youtube.com/embed/AMShoQ_qdc0"
+                                            title="Hello World Song"
+                                            style="
+        display: block;
+        aspect-ratio: 16 / 9;
+        width: auto;
+        height: auto;
+        max-width: 50%;
+        max-height: 100%;
+        border: 0;
+    "
+                                            allowfullscreen>
+                                        </iframe>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                    <section
+                        id="image_demo"
+                        class="annotable"
+                        data-transition="fade"
+                        data-header="<div  style=&quot;width: 100%; height:100%; 
+        display: grid; 
+        grid-template-columns: calc(50% - 5px) calc(50% - 5px); 
+        grid-template-rows: calc(100% - 0px);
+        gap: 10px;
+        width: 100%;
+        height: 100%;
+        max-width: 100%;
+        max-height: 100%;
+        box-sizing: border-box;
+        overflow: hidden;
+    height: 100%; width: 100%; 
+        place-items: end center;
+        place-content: end center;
+    &quot;>
+    <div class=&quot;box-wrapper&quot; style=&quot;display: flex; width: 100%; height: 100%;&quot;>
+        <div class=&quot;text-box&quot; style=&quot;display: flex; flex-direction: column; width: 100%; height: 100%;place-items: center center; place-content: center center;font-style: italic; color: black; &quot;>
+            SlideDeckML Framework Demo
+        </div>
+    </div>
+</div>"
+                        data-footer="<div  style=&quot;width: 100%; height:100%; 
+        display: grid; 
+        grid-template-columns: calc(50% - 5px) calc(50% - 5px); 
+        grid-template-rows: calc(100% - 0px);
+        gap: 10px;
+        width: 100%;
+        height: 100%;
+        max-width: 100%;
+        max-height: 100%;
+        box-sizing: border-box;
+        overflow: hidden;
+    height: 100%; width: 100%; 
+        place-items: center center;
+        place-content: center center;
+    &quot;>
+    <div class=&quot;box-wrapper&quot; style=&quot;display: flex; width: 100%; height: 100%;&quot;>
+        <div class=&quot;text-box&quot; style=&quot;display: flex; flex-direction: column; width: 100%; height: 100%;place-items: center center; place-content: center center;color: black; &quot;>
+            L. Brunet - MLLS Project
+        </div>
+    </div>
+    <div class=&quot;box-wrapper&quot; style=&quot;display: flex; width: 100%; height: 100%; justify-content: flex-end; align-items: center;&quot;>
+        <div class=&quot;text-box&quot; style=&quot;display: flex; flex-direction: column; width: 100%; height: 100%; justify-content: center; align-items: flex-end;color: black; &quot;>
+            2024
+        </div>
+    </div>
+</div>"
+                        data-header-styles="background: hit; color: 2c3e5; font-size: 0p"
+                        data-footer-styles="background: 2c3e5; color: hit"
+                    >
+                        <div  style="width: 100%; height:100%; 
+        display: grid; 
+        grid-template-columns: calc(100% - 0px); 
+        grid-template-rows: calc(10% - 6.666666666666667px) calc(45% - 6.666666666666667px) calc(45% - 6.666666666666667px);
+        gap: 10px;
+        width: 100%;
+        height: 100%;
+        max-width: 100%;
+        max-height: 100%;
+        box-sizing: border-box;
+        overflow: hidden;
+    height: 100%; width: 100%; 
+        place-items: center center;
+        place-content: center center;
+    ">
+                            <div class="box-wrapper" style="display: flex; width: 100%; height: 100%; justify-content: flex-start; align-items: flex-start;">
+                                <div class="text-box" style="display: flex; flex-direction: column; width: 100%; height: 100%; justify-content: flex-start; align-items: flex-start;font-size: 1.2em; color: black; ">
+                                    Images dans vos présentations
+                                </div>
+                            </div>
+                            <div  style="width: 100%; height:100%; 
+        display: grid; 
+        grid-template-columns: calc(60% - 5px) calc(40% - 5px); 
+        grid-template-rows: calc(100% - 0px);
+        gap: 10px;
+        width: 100%;
+        height: 100%;
+        max-width: 100%;
+        max-height: 100%;
+        box-sizing: border-box;
+        overflow: hidden;
+    height: 100%; width: 100%; 
+        place-items: center center;
+        place-content: center center;
+    ">
+                                <div class="box-wrapper" style="display: flex; width: 100%; height: 100%;">
+                                    <div class="text-box" style="display: flex; flex-direction: column; width: 100%; height: 100%;place-items: center center; place-content: center center;font-size: 1em; color: black; ">
+                                        Vous pouvez aussi intégrer des images dans vos slides
+                                    </div>
+                                </div>
+                                <div class="box-wrapper" style="display: flex; width: 100%; height: 100%;">
+                                    <div class="box" style="display: flex; flex-direction: column; width: 100%; height: 100%;place-items: center center; place-content: center center;">
+                                        <img 
+                                            src="https://www.recyclivre.com/blog/wp-content/uploads/2025/03/couvsiteluffy.jpeg" 
+                                            alt="Luffy" 
+                                            style="
+        display: block;
+        max-width: 100%;
+        max-height: 100%;
+        object-fit: contain;
+    
+            width: fit-content; 
+            height: auto;
+        " 
+                                        />
+                                    </div>
+                                </div>
+                            </div>
+                            <div  style="width: 100%; height:100%; 
+        display: grid; 
+        grid-template-columns: calc(60% - 5px) calc(40% - 5px); 
+        grid-template-rows: calc(100% - 0px);
+        gap: 10px;
+        width: 100%;
+        height: 100%;
+        max-width: 100%;
+        max-height: 100%;
+        box-sizing: border-box;
+        overflow: hidden;
+    height: 100%; width: 100%; 
+        place-items: center center;
+        place-content: center center;
+    ">
+                                <div class="box-wrapper" style="display: flex; width: 100%; height: 100%;">
+                                    <div class="text-box" style="display: flex; flex-direction: column; width: 100%; height: 100%;place-items: center center; place-content: center center;font-size: 1em; color: black; ">
+                                        Voici une photo plus petite
+                                    </div>
+                                </div>
+                                <div class="box-wrapper" style="display: flex; width: 100%; height: 100%;">
+                                    <div class="box" style="display: flex; flex-direction: column; width: 100%; height: 100%;place-items: center center; place-content: center center;">
+                                        <img 
+                                            src="https://images4.alphacoders.com/133/thumb-1920-1332281.jpeg" 
+                                            alt="Gojo" 
+                                            style="
+        display: block;
+        max-width: 100%;
+        max-height: 100%;
+        object-fit: contain;
+    
+            width: 30%;
+            height: auto;
+        " 
+                                        />
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -943,37 +1312,49 @@
                         id="position_demo"
                         class="annotable"
                         data-transition="fade"
-                        data-header="<div  style=&quot;width: 100%; height:100%; display: grid; 
-            grid-template-columns: repeat(2, 1fr); 
-            grid-template-rows: repeat(1, calc(100% - 0px));
-            gap: 10px;
-            box-sizing: border-box;
+                        data-header="<div  style=&quot;width: 100%; height:100%; 
+        display: grid; 
+        grid-template-columns: calc(50% - 5px) calc(50% - 5px); 
+        grid-template-rows: calc(100% - 0px);
+        gap: 10px;
+        width: 100%;
+        height: 100%;
+        max-width: 100%;
+        max-height: 100%;
+        box-sizing: border-box;
+        overflow: hidden;
     height: 100%; width: 100%; 
         place-items: end center;
         place-content: end center;
     &quot;>
-    <div class=&quot;box-wrapper&quot; style=&quot;display: flex; width: 100%; height: 100%; justify-content: center; align-items: center;&quot;>
-        <div class=&quot;text-box&quot; style=&quot;display: flex; flex-direction: column; width: 100%; height: 100%; justify-content: center; align-items: center;font-style: italic; &quot;>
+    <div class=&quot;box-wrapper&quot; style=&quot;display: flex; width: 100%; height: 100%;&quot;>
+        <div class=&quot;text-box&quot; style=&quot;display: flex; flex-direction: column; width: 100%; height: 100%;place-items: center center; place-content: center center;font-style: italic; color: black; &quot;>
             SlideDeckML Framework Demo
         </div>
     </div>
 </div>"
-                        data-footer="<div  style=&quot;width: 100%; height:100%; display: grid; 
-            grid-template-columns: repeat(2, 1fr); 
-            grid-template-rows: repeat(1, calc(100% - 0px));
-            gap: 10px;
-            box-sizing: border-box;
+                        data-footer="<div  style=&quot;width: 100%; height:100%; 
+        display: grid; 
+        grid-template-columns: calc(50% - 5px) calc(50% - 5px); 
+        grid-template-rows: calc(100% - 0px);
+        gap: 10px;
+        width: 100%;
+        height: 100%;
+        max-width: 100%;
+        max-height: 100%;
+        box-sizing: border-box;
+        overflow: hidden;
     height: 100%; width: 100%; 
         place-items: center center;
         place-content: center center;
     &quot;>
-    <div class=&quot;box-wrapper&quot; style=&quot;display: flex; width: 100%; height: 100%; justify-content: center; align-items: center;&quot;>
-        <div class=&quot;text-box&quot; style=&quot;display: flex; flex-direction: column; width: 100%; height: 100%; justify-content: center; align-items: center;&quot;>
+    <div class=&quot;box-wrapper&quot; style=&quot;display: flex; width: 100%; height: 100%;&quot;>
+        <div class=&quot;text-box&quot; style=&quot;display: flex; flex-direction: column; width: 100%; height: 100%;place-items: center center; place-content: center center;color: black; &quot;>
             L. Brunet - MLLS Project
         </div>
     </div>
     <div class=&quot;box-wrapper&quot; style=&quot;display: flex; width: 100%; height: 100%; justify-content: flex-end; align-items: center;&quot;>
-        <div class=&quot;text-box&quot; style=&quot;display: flex; flex-direction: column; width: 100%; height: 100%; justify-content: center; align-items: flex-end;&quot;>
+        <div class=&quot;text-box&quot; style=&quot;display: flex; flex-direction: column; width: 100%; height: 100%; justify-content: center; align-items: flex-end;color: black; &quot;>
             2024
         </div>
     </div>
@@ -981,23 +1362,29 @@
                         data-header-styles="background: hit; color: 2c3e5; font-size: 0p"
                         data-footer-styles="background: 2c3e5; color: hit"
                     >
-                        <div  style="width: 100%; height:100%; height: 100%;width: 100%;display: grid; 
-            grid-template-columns: repeat(2, 1fr); 
-            grid-template-rows: repeat(1, calc(100% - 0px));
-            gap: 10px;
-            box-sizing: border-box;
+                        <div  style="width: 100%; height:100%; 
+        display: grid; 
+        grid-template-columns: calc(50% - 5px) calc(50% - 5px); 
+        grid-template-rows: calc(100% - 0px);
+        gap: 10px;
+        width: 100%;
+        height: 100%;
+        max-width: 100%;
+        max-height: 100%;
+        box-sizing: border-box;
+        overflow: hidden;
     
         place-items: center center;
         place-content: center center;
     ">
-                            <div class="box-wrapper" style="display: flex; width: 100%; height: 100%; justify-content: flex-end; align-items: flex-end;">
-                                <div class="text-box" style="display: flex; flex-direction: column; width: 50%; height: 100%; justify-content: flex-end; align-items: flex-end;background-color: yellow; color: red; ">
-                                    Ce texte est forcé en bas à droite de la slide.
+                            <div class="box-wrapper" style="display: flex; width: 100%; height: 100%; justify-content: flex-start; align-items: flex-start;">
+                                <div class="text-box" style="display: flex; flex-direction: column; width: 100%; height: 100%; justify-content: flex-start; align-items: flex-start;color: red; ">
+                                    <span style="background-color: yellow; padding: 0 4px; border-radius: 2px;">Ce texte est forcé en haut à gauche</span>
                                 </div>
                             </div>
-                            <div class="box-wrapper" style="display: flex; width: 100%; height: 100%; justify-content: flex-start; align-items: flex-start;">
-                                <div class="text-box" style="display: flex; flex-direction: column; width: 50%; height: 100%; justify-content: flex-start; align-items: flex-start;font-style: italic; ">
-                                    Celui-ci est en haut à gauche.
+                            <div class="box-wrapper" style="display: flex; width: 100%; height: 100%; justify-content: flex-end; align-items: flex-end;">
+                                <div class="text-box" style="display: flex; flex-direction: column; width: 100%; height: 100%; justify-content: flex-end; align-items: flex-end;font-style: italic; color: black; ">
+                                    Celui-ci est en bas à droite
                                 </div>
                             </div>
                         </div>
@@ -1006,37 +1393,49 @@
                         id="nested_demo"
                         class="annotable"
                         data-transition="fade"
-                        data-header="<div  style=&quot;width: 100%; height:100%; display: grid; 
-            grid-template-columns: repeat(2, 1fr); 
-            grid-template-rows: repeat(1, calc(100% - 0px));
-            gap: 10px;
-            box-sizing: border-box;
+                        data-header="<div  style=&quot;width: 100%; height:100%; 
+        display: grid; 
+        grid-template-columns: calc(50% - 5px) calc(50% - 5px); 
+        grid-template-rows: calc(100% - 0px);
+        gap: 10px;
+        width: 100%;
+        height: 100%;
+        max-width: 100%;
+        max-height: 100%;
+        box-sizing: border-box;
+        overflow: hidden;
     height: 100%; width: 100%; 
         place-items: end center;
         place-content: end center;
     &quot;>
-    <div class=&quot;box-wrapper&quot; style=&quot;display: flex; width: 100%; height: 100%; justify-content: center; align-items: center;&quot;>
-        <div class=&quot;text-box&quot; style=&quot;display: flex; flex-direction: column; width: 100%; height: 100%; justify-content: center; align-items: center;font-style: italic; &quot;>
+    <div class=&quot;box-wrapper&quot; style=&quot;display: flex; width: 100%; height: 100%;&quot;>
+        <div class=&quot;text-box&quot; style=&quot;display: flex; flex-direction: column; width: 100%; height: 100%;place-items: center center; place-content: center center;font-style: italic; color: black; &quot;>
             SlideDeckML Framework Demo
         </div>
     </div>
 </div>"
-                        data-footer="<div  style=&quot;width: 100%; height:100%; display: grid; 
-            grid-template-columns: repeat(2, 1fr); 
-            grid-template-rows: repeat(1, calc(100% - 0px));
-            gap: 10px;
-            box-sizing: border-box;
+                        data-footer="<div  style=&quot;width: 100%; height:100%; 
+        display: grid; 
+        grid-template-columns: calc(50% - 5px) calc(50% - 5px); 
+        grid-template-rows: calc(100% - 0px);
+        gap: 10px;
+        width: 100%;
+        height: 100%;
+        max-width: 100%;
+        max-height: 100%;
+        box-sizing: border-box;
+        overflow: hidden;
     height: 100%; width: 100%; 
         place-items: center center;
         place-content: center center;
     &quot;>
-    <div class=&quot;box-wrapper&quot; style=&quot;display: flex; width: 100%; height: 100%; justify-content: center; align-items: center;&quot;>
-        <div class=&quot;text-box&quot; style=&quot;display: flex; flex-direction: column; width: 100%; height: 100%; justify-content: center; align-items: center;&quot;>
+    <div class=&quot;box-wrapper&quot; style=&quot;display: flex; width: 100%; height: 100%;&quot;>
+        <div class=&quot;text-box&quot; style=&quot;display: flex; flex-direction: column; width: 100%; height: 100%;place-items: center center; place-content: center center;color: black; &quot;>
             L. Brunet - MLLS Project
         </div>
     </div>
     <div class=&quot;box-wrapper&quot; style=&quot;display: flex; width: 100%; height: 100%; justify-content: flex-end; align-items: center;&quot;>
-        <div class=&quot;text-box&quot; style=&quot;display: flex; flex-direction: column; width: 100%; height: 100%; justify-content: center; align-items: flex-end;&quot;>
+        <div class=&quot;text-box&quot; style=&quot;display: flex; flex-direction: column; width: 100%; height: 100%; justify-content: center; align-items: flex-end;color: black; &quot;>
             2024
         </div>
     </div>
@@ -1044,41 +1443,59 @@
                         data-header-styles="background: hit; color: 2c3e5; font-size: 0p"
                         data-footer-styles="background: 2c3e5; color: hit"
                     >
-                        <div  style="width: 100%; height:100%; height: 100%;display: grid; 
-            grid-template-columns: repeat(2, 1fr); 
-            grid-template-rows: repeat(1, calc(100% - 0px));
-            gap: 10px;
-            box-sizing: border-box;
+                        <div  style="width: 100%; height:100%; 
+        display: grid; 
+        grid-template-columns: calc(50% - 5px) calc(50% - 5px); 
+        grid-template-rows: calc(100% - 0px);
+        gap: 10px;
+        width: 100%;
+        height: 100%;
+        max-width: 100%;
+        max-height: 100%;
+        box-sizing: border-box;
+        overflow: hidden;
     width: 100%; 
         place-items: center center;
         place-content: center center;
     ">
-                            <div  style="width: 100%; height:100%; display: grid; 
-            grid-template-columns: repeat(2, 1fr); 
-            grid-template-rows: repeat(1, calc(100% - 0px));
-            gap: 10px;
-            box-sizing: border-box;
+                            <div  style="width: 100%; height:100%; 
+        display: grid; 
+        grid-template-columns: calc(50% - 5px) calc(50% - 5px); 
+        grid-template-rows: calc(100% - 0px);
+        gap: 10px;
+        width: 100%;
+        height: 100%;
+        max-width: 100%;
+        max-height: 100%;
+        box-sizing: border-box;
+        overflow: hidden;
     height: 100%; width: 100%; 
         place-items: center center;
         place-content: center center;
     ">
-                                <div class="box-wrapper" style="display: flex; width: 100%; height: 100%; justify-content: center; align-items: center;">
-                                    <div class="text-box" style="display: flex; flex-direction: column; width: 100%; height: 100%; justify-content: center; align-items: center;">
+                                <div class="box-wrapper" style="display: flex; width: 100%; height: 100%;">
+                                    <div class="text-box" style="display: flex; flex-direction: column; width: 100%; height: 100%;place-items: center center; place-content: center center;color: black; ">
                                         Conteneur Interne 1
                                     </div>
                                 </div>
                             </div>
-                            <div  style="width: 100%; height:100%; display: grid; 
-            grid-template-columns: repeat(2, 1fr); 
-            grid-template-rows: repeat(1, calc(100% - 0px));
-            gap: 10px;
-            box-sizing: border-box;
+                            <div  style="width: 100%; height:100%; 
+        display: grid; 
+        grid-template-columns: calc(50% - 5px) calc(50% - 5px); 
+        grid-template-rows: calc(100% - 0px);
+        gap: 10px;
+        width: 100%;
+        height: 100%;
+        max-width: 100%;
+        max-height: 100%;
+        box-sizing: border-box;
+        overflow: hidden;
     height: 100%; width: 100%; 
         place-items: center center;
         place-content: center center;
     ">
-                                <div class="box-wrapper" style="display: flex; width: 100%; height: 100%; justify-content: center; align-items: center;">
-                                    <div class="box" style="display: flex; flex-direction: column; width: 100%; height: 100%; justify-content: center; align-items: center;">
+                                <div class="box-wrapper" style="display: flex; width: 100%; height: 100%;">
+                                    <div class="box" style="display: flex; flex-direction: column; width: 100%; height: 100%;place-items: center center; place-content: center center;">
                                         <img 
                                             src="https://images4.alphacoders.com/133/thumb-1920-1332281.jpeg" 
                                             alt="Img1" 
@@ -1094,8 +1511,8 @@
                                         />
                                     </div>
                                 </div>
-                                <div class="box-wrapper" style="display: flex; width: 100%; height: 100%; justify-content: center; align-items: center;">
-                                    <div class="box" style="display: flex; flex-direction: column; width: 100%; height: 100%; justify-content: center; align-items: center;">
+                                <div class="box-wrapper" style="display: flex; width: 100%; height: 100%;">
+                                    <div class="box" style="display: flex; flex-direction: column; width: 100%; height: 100%;place-items: center center; place-content: center center;">
                                         <img 
                                             src="https://images4.alphacoders.com/133/thumb-1920-1332281.jpeg" 
                                             alt="Img2" 
@@ -1118,37 +1535,49 @@
                         id="conclusion"
                         class="annotable"
                         data-transition="fade"
-                        data-header="<div  style=&quot;width: 100%; height:100%; display: grid; 
-            grid-template-columns: repeat(2, 1fr); 
-            grid-template-rows: repeat(1, calc(100% - 0px));
-            gap: 10px;
-            box-sizing: border-box;
+                        data-header="<div  style=&quot;width: 100%; height:100%; 
+        display: grid; 
+        grid-template-columns: calc(50% - 5px) calc(50% - 5px); 
+        grid-template-rows: calc(100% - 0px);
+        gap: 10px;
+        width: 100%;
+        height: 100%;
+        max-width: 100%;
+        max-height: 100%;
+        box-sizing: border-box;
+        overflow: hidden;
     height: 100%; width: 100%; 
         place-items: end center;
         place-content: end center;
     &quot;>
-    <div class=&quot;box-wrapper&quot; style=&quot;display: flex; width: 100%; height: 100%; justify-content: center; align-items: center;&quot;>
-        <div class=&quot;text-box&quot; style=&quot;display: flex; flex-direction: column; width: 100%; height: 100%; justify-content: center; align-items: center;font-style: italic; &quot;>
+    <div class=&quot;box-wrapper&quot; style=&quot;display: flex; width: 100%; height: 100%;&quot;>
+        <div class=&quot;text-box&quot; style=&quot;display: flex; flex-direction: column; width: 100%; height: 100%;place-items: center center; place-content: center center;font-style: italic; color: black; &quot;>
             SlideDeckML Framework Demo
         </div>
     </div>
 </div>"
-                        data-footer="<div  style=&quot;width: 100%; height:100%; display: grid; 
-            grid-template-columns: repeat(2, 1fr); 
-            grid-template-rows: repeat(1, calc(100% - 0px));
-            gap: 10px;
-            box-sizing: border-box;
+                        data-footer="<div  style=&quot;width: 100%; height:100%; 
+        display: grid; 
+        grid-template-columns: calc(50% - 5px) calc(50% - 5px); 
+        grid-template-rows: calc(100% - 0px);
+        gap: 10px;
+        width: 100%;
+        height: 100%;
+        max-width: 100%;
+        max-height: 100%;
+        box-sizing: border-box;
+        overflow: hidden;
     height: 100%; width: 100%; 
         place-items: center center;
         place-content: center center;
     &quot;>
-    <div class=&quot;box-wrapper&quot; style=&quot;display: flex; width: 100%; height: 100%; justify-content: center; align-items: center;&quot;>
-        <div class=&quot;text-box&quot; style=&quot;display: flex; flex-direction: column; width: 100%; height: 100%; justify-content: center; align-items: center;&quot;>
+    <div class=&quot;box-wrapper&quot; style=&quot;display: flex; width: 100%; height: 100%;&quot;>
+        <div class=&quot;text-box&quot; style=&quot;display: flex; flex-direction: column; width: 100%; height: 100%;place-items: center center; place-content: center center;color: black; &quot;>
             L. Brunet - MLLS Project
         </div>
     </div>
     <div class=&quot;box-wrapper&quot; style=&quot;display: flex; width: 100%; height: 100%; justify-content: flex-end; align-items: center;&quot;>
-        <div class=&quot;text-box&quot; style=&quot;display: flex; flex-direction: column; width: 100%; height: 100%; justify-content: center; align-items: flex-end;&quot;>
+        <div class=&quot;text-box&quot; style=&quot;display: flex; flex-direction: column; width: 100%; height: 100%; justify-content: center; align-items: flex-end;color: black; &quot;>
             2024
         </div>
     </div>
@@ -1156,22 +1585,28 @@
                         data-header-styles="background: hit; color: 2c3e5; font-size: 0p"
                         data-footer-styles="background: 2c3e5; color: hit"
                     >
-                        <div  style="width: 100%; height:100%; display: grid; 
-            grid-template-columns: repeat(2, 1fr); 
-            grid-template-rows: repeat(1, calc(100% - 0px));
-            gap: 10px;
-            box-sizing: border-box;
+                        <div  style="width: 100%; height:100%; 
+        display: grid; 
+        grid-template-columns: calc(50% - 5px) calc(50% - 5px); 
+        grid-template-rows: calc(100% - 0px);
+        gap: 10px;
+        width: 100%;
+        height: 100%;
+        max-width: 100%;
+        max-height: 100%;
+        box-sizing: border-box;
+        overflow: hidden;
     height: 100%; width: 100%; 
         place-items: center center;
         place-content: center center;
     ">
-                            <div class="box-wrapper" style="display: flex; width: 100%; height: 100%; justify-content: center; align-items: center;">
-                                <div class="text-box" style="display: flex; flex-direction: column; width: 100%; height: 100%; justify-content: center; align-items: center;font-weight: bold; font-size: 1.5em; ">
+                            <div class="box-wrapper" style="display: flex; width: 100%; height: 100%;">
+                                <div class="text-box" style="display: flex; flex-direction: column; width: 100%; height: 100%;place-items: center center; place-content: center center;font-weight: bold; font-size: 1.5em; color: black; ">
                                     Merci de votre attention !
                                 </div>
                             </div>
-                                <div class="box-wrapper" style="display: flex; width: 100%; height: 100%; justify-content: center; align-items: center;">
-                                    <div class="box" style="display: flex; flex-direction: column; width: 100%; height: 100%; justify-content: center; align-items: center;">
+                                <div class="box-wrapper" style="display: flex; width: 100%; height: 100%;">
+                                    <div class="box" style="display: flex; flex-direction: column; width: 100%; height: 100%;place-items: center center; place-content: center center;">
                                         <ul class="sdml-list" style="--sdml-list-gap: 0px">
                                             <li>Questions ?</li><li>GitHub : slide-deck-ml</li>
                             </ul>

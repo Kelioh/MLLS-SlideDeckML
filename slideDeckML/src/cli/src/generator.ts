@@ -90,7 +90,8 @@ function generateModel(model: Model): CompositeGeneratorNode {
 
                 /* Reveal.js viewport adjustment for header/footer */
                 .reveal {
-                    height: calc(100% - 80px) !important;
+                    top: 80px !important;
+                    height: calc(100% - 160px) !important;
                 }
 
                 .reveal .slides section {
@@ -652,15 +653,13 @@ function generateSlide(slide: Slide, model: Model): CompositeGeneratorNode {
     const attributes = (slide as unknown as { attributes?: unknown }).attributes;
     const isNonAnnotable = hasAttribute(attributes, 'non-annotable');
 
-    // Determine header and footer (slide-specific or global)
     const header = slide.header || model.header;
     const footer = slide.footer || model.footer;
 
-    // Generate header and footer HTML with styling
     const headerHtml = header ? generateHeaderFooterHtml(header, 'header') : '';
     const footerHtml = footer ? generateHeaderFooterHtml(footer, 'footer') : '';
 
-    // Generate style attributes for header/footer
+
     const headerStyles = header ? generateHeaderFooterStyles(header) : '';
     const footerStyles = footer ? generateHeaderFooterStyles(footer) : '';
 
@@ -722,7 +721,7 @@ function generateBox(box: Box): CompositeGeneratorNode {
 function generateContentBoxWithFragment(box: any): CompositeGeneratorNode {
     const fragmentStyle = getAttributeValue(box.attributes, 'fragment');
     const fragmentClass = fragmentStyle ? `class="fragment ${fragmentStyle}"` : '';
-    const styleAttr = `style="width: 100%; height:100%; ${generateContentBoxAttributes(box.attributes, box.boxes.length)}"`;
+    const styleAttr = `style="width: 100%; height:100%; ${generateContentBoxAttributes(box.attributes, box.boxes)}"`;
 
     return expandToNode`
         <div ${fragmentClass} ${styleAttr}>
@@ -782,7 +781,7 @@ function generateComponentBox(box: ComponentBox, slots: Record<string, Composite
         case 'ComponentContentBox':
             const fragmentStyle = getAttributeValue(box.attributes, 'fragment');
             const fragmentClass = fragmentStyle ? `class="fragment ${fragmentStyle}"` : '';
-            const styleAttr = `style="${generateContentBoxAttributes(box.attributes, box.boxes.length)}"`;
+            const styleAttr = `style="${generateContentBoxAttributes(box.attributes, box.boxes)}"`;
 
             return expandToNode`
                 <div ${fragmentClass} ${styleAttr}>
@@ -794,50 +793,76 @@ function generateComponentBox(box: ComponentBox, slots: Record<string, Composite
     }
 }
 
-function generateContentBoxAttributes(attributes: (CommonAttribute | ContentAttribute)[], boxCount: number): string {
+function generateContentBoxAttributes(attributes: (CommonAttribute | ContentAttribute)[], boxes: any[]): string {
     let style = '';
-    let alignmentValue: string | undefined;
-    let hasHeight = false;
-    let hasWidth = false;
+    const GAP_PX = 10;
 
     const columnAttr = getAttributeValue(attributes, 'column');
+    const alignmentValue = getAttributeValue(attributes, 'alignment') as string | undefined;
     const column = columnAttr ? parseInt(columnAttr as string, 10) : 2;
+    const boxCount = boxes.length;
+    const rowCount = Math.ceil(boxCount / column);
 
-    for (const attribute of attributes) {
-        switch (attribute.key) {
-            case 'height':
-                style += `height: ${attribute.value};`;
-                hasHeight = true;
-                break;
+    const columnWidthsRaw = Array(column).fill('1fr');
+    const rowHeightsRaw = Array(rowCount).fill('1fr');
 
-            case 'width':
-                style += `width: ${attribute.value};`;
-                hasWidth = true;
-                break;
-
-            case 'alignment':
-                alignmentValue = attribute.value;
-                break;
+    for (let j = 0; j < column; j++) {
+        for (let i = 0; i < rowCount; i++) {
+            const idx = i * column + j;
+            if (idx < boxes.length) {
+                const child = boxes[idx];
+                const w = getAttributeValue(child.attributes || [], 'width');
+                if (w) columnWidthsRaw[j] = w as string;
+                const h = getAttributeValue(child.attributes || [], 'height');
+                if (h) rowHeightsRaw[i] = h as string;
+            }
         }
     }
 
-    style += `display: grid; 
-            grid-template-columns: repeat(${column}, 1fr); 
-            grid-template-rows: repeat(${Math.ceil(boxCount / column)}, calc(${100 / Math.ceil(boxCount / column)}% - ${10 * (Math.ceil(boxCount / column) - 1) * 1 / (Math.ceil(boxCount / column))}px));
-            gap: 10px;
-            box-sizing: border-box;
+    const convertToStrictCalc = (units: string[]) => {
+        const N = units.length;
+        if (N === 0) return '';
+
+        const totalGapInTrack = (N - 1) * GAP_PX;
+        const gapReduction = totalGapInTrack / N;
+
+        const fixedSum = units
+            .filter(u => u.endsWith('%'))
+            .reduce((acc, val) => acc + parseFloat(val), 0);
+
+        const frCount = units.filter(u => u === '1fr').length;
+
+        return units.map(u => {
+            if (u.endsWith('%')) {
+                return `calc(${u} - ${gapReduction}px)`;
+            } else if (u === '1fr') {
+                const sharePercent = (100 - fixedSum) / (frCount || 1);
+                return `calc(${sharePercent}% - ${gapReduction}px)`;
+            }
+            return u;
+        }).join(' ');
+    };
+
+    const finalColumns = convertToStrictCalc(columnWidthsRaw);
+    const finalRows = convertToStrictCalc(rowHeightsRaw);
+
+    style += `
+        display: grid; 
+        grid-template-columns: ${finalColumns}; 
+        grid-template-rows: ${finalRows};
+        gap: ${GAP_PX}px;
+        width: ${getAttributeValue(attributes, 'width') || '100%'};
+        height: ${getAttributeValue(attributes, 'height') || '100%'};
+        max-width: 100%;
+        max-height: 100%;
+        box-sizing: border-box;
+        overflow: hidden;
     `;
 
-    if (!hasHeight) {
-        style += 'height: 100%; ';
-    }
-
-    if (!hasWidth) {
-        style += 'width: 100%; ';
-    }
+    if (!attributes.some(attr => attr.key === 'height')) style += 'height: 100%; ';
+    if (!attributes.some(attr => attr.key === 'width')) style += 'width: 100%; ';
 
     const alignment = mapAlignment(alignmentValue);
-
     style += `
         place-items: ${alignment};
         place-content: ${alignment};
@@ -879,10 +904,14 @@ function generateTextBox(textBox: TextBox): CompositeGeneratorNode {
     let { wrapperStyle, boxStyle } = generateCommonStyles(attributes);
     boxStyle += generateTextBoxStyles(attributes);
 
+    const formattedText = hasAttribute(attributes, 'highlight')
+        ? `<span style="background-color: yellow; padding: 0 4px; border-radius: 2px;">${text}</span>`
+        : text;
+
     return expandToNode`
         <div class="box-wrapper" style="${wrapperStyle}">
             <div class="text-box" style="${boxStyle}">
-                ${text}
+                ${formattedText}
             </div>
         </div>
     `;
@@ -906,14 +935,24 @@ function mapFlexAlignment(alignment: string) {
 }
 
 function generateCommonStyles(attributes: any) {
-    const width = getAttributeValue(attributes, 'width') || '100%';
-    const height = getAttributeValue(attributes, 'height') || '100%';
-    const alignment = getAttributeValue(attributes, 'alignment') || 'center center';
-    const { vertical, horizontal } = mapFlexAlignment(alignment as string);
+    const width = '100%';
+    const height = '100%';
 
-    const wrapperStyle = `display: flex; width: 100%; height: 100%; justify-content: ${horizontal}; align-items: ${vertical};`;
+    const alignmentValue = getAttributeValue(attributes, 'alignment');
 
-    const boxStyle = `display: flex; flex-direction: column; width: ${width}; height: ${height}; justify-content: ${vertical}; align-items: ${horizontal};`;
+    let wrapperStyle = `display: flex; width: 100%; height: 100%;`;
+    let boxStyle = `display: flex; flex-direction: column; width: ${width}; height: ${height};`;
+
+    if (alignmentValue) {
+        const { vertical, horizontal } = mapFlexAlignment(alignmentValue as string);
+
+        wrapperStyle += ` justify-content: ${horizontal}; align-items: ${vertical};`;
+
+        boxStyle += ` justify-content: ${vertical}; align-items: ${horizontal};`;
+    }
+    else {
+        boxStyle += `place-items: center center; place-content: center center;`;
+    }
 
     return { wrapperStyle, boxStyle };
 }
@@ -925,12 +964,17 @@ function generateMathBox(mathBox: MathematicalBox): CompositeGeneratorNode {
 
     let { wrapperStyle, boxStyle } = generateCommonStyles(attributes);
 
+    const formattedFormula = hasAttribute(attributes, 'highlight')
+        ? `<span style="background-color: yellow; padding: 0 4px; border-radius: 2px;">${formula}</span>`
+        : formula;
+
+
     return expandToNode`
         <div class="box-wrapper" style="${wrapperStyle}">
             <div class="box" style="${boxStyle}">
                 <div class="math-box" style="${generateTextBoxStyles(attributes)}">
                     <div class="math-content">
-                        $${formula}$
+                        $${formattedFormula}$
                     </div>
                 </div>
             </div>
@@ -943,7 +987,6 @@ function generateTextBoxStyles(attributes: any): string {
     const italic = hasAttribute(attributes, 'italic');
     const underline = hasAttribute(attributes, 'underline');
     const strikethrough = hasAttribute(attributes, 'strikethrough');
-    const highlight = hasAttribute(attributes, 'highlight');
     const color = getAttributeValue(attributes, 'color');
     const font = getAttributeValue(attributes, 'font');
     let textSize = getAttributeValue(attributes, 'text-size');
@@ -962,12 +1005,6 @@ function generateTextBoxStyles(attributes: any): string {
     if (strikethrough) {
         style += 'text-decoration: line-through; ';
     }
-    if (highlight) {
-        style += 'background-color: yellow; ';
-    }
-    if (color) {
-        style += `color: ${color}; `;
-    }
     if (font) {
         style += `font-family: ${font}; `;
     }
@@ -985,6 +1022,8 @@ function generateTextBoxStyles(attributes: any): string {
         }
         style += `font-size: ${textSize}; `;
     }
+
+    style += `color: ${color ? color : 'black'}; `;
 
     return style;
 }
