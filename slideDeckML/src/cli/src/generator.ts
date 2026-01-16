@@ -3,9 +3,12 @@ import * as path from 'node:path';
 import { extractDestinationAndName } from './util.js';
 
 import {
+    CommonAttribute,
     Component,
     ComponentBox,
     ComponentSlot,
+    ContentAttribute,
+    VideoBox,
     type Box,
     type CodeBox,
     type CodeLineBox,
@@ -19,10 +22,7 @@ import {
     type Model,
     type QuizBox,
     type Slide,
-    type TextBox,
-    CommonAttribute,
-    ContentAttribute,
-    VideoBox,
+    type TextBox
 } from 'slide-deck-ml-language';
 
 import {
@@ -1000,27 +1000,33 @@ function generateImageBox(imageBox: ImageBox): CompositeGeneratorNode {
         max-width: 100%;
         max-height: 100%;
         object-fit: contain;
-        margin: auto;
     `;
 
-    if (scaleAttribute) {
+    if (scaleAttribute && scaleAttribute.toString().trim() !== '100%') {
         style += `
             width: ${scaleAttribute};
             height: auto;
         `;
     } else {
         style += `
-            width: 100%; 
-            height: 100%;
+            width: fit-content; 
+            height: auto;
         `;
     }
 
+    let { wrapperStyle, boxStyle } = generateCommonStyles(attributes);
+
     return expandToNode`
-        <img 
-            src="${src}" 
-            alt="${alt}" 
-            style="${style}" 
-        />`;
+        <div class="box-wrapper" style="${wrapperStyle}">
+            <div class="box" style="${boxStyle}">
+                <img 
+                    src="${src}" 
+                    alt="${alt}" 
+                    style="${style}" 
+                />
+            </div>
+        </div>
+    `;
 }
 
 function toYouTubeEmbed(url: string): string {
@@ -1052,13 +1058,19 @@ function generateVideoBox(videoBox: VideoBox): CompositeGeneratorNode {
         border: 0;
     `;
 
+    let { wrapperStyle, boxStyle } = generateCommonStyles(attributes);
+
     return expandToNode`
-        <iframe
-            src="${embed}"
-            title="${alt}"
-            style="${style}"
-            allowfullscreen>
-        </iframe>
+        <div class="box-wrapper" style="${wrapperStyle}">
+            <div class="box" style="${boxStyle}">
+                <iframe
+                    src="${embed}"
+                    title="${alt}"
+                    style="${style}"
+                    allowfullscreen>
+                </iframe>
+            </div>
+        </div>
     `;
 }
 
@@ -1148,10 +1160,10 @@ function generateListBox(listBox: ListBox): CompositeGeneratorNode {
             <div class="box" style="${boxStyle}">
                 <${listTag} class="sdml-list" style="--sdml-list-gap: ${spacing}px">
                     ${joinToNode(items.map((item: string) => expandToNode`<li>${item}</li>`))}
-                </${listTag}>
-            </div>
+    </${listTag}>
         </div>
-    `;
+        </div>
+            `;
 }
 
 
@@ -1189,22 +1201,22 @@ function generateLiveQuizBox(quiz: LiveQuizBox): CompositeGeneratorNode {
             
             <div style="display: flex; gap: 20px; align-items: flex-start;">
                 <div class="sdml-quiz__options" style="flex: 1;">
-                    ${joinToNode(options.map((opt, index) => expandToNode`
+                            ${joinToNode(options.map((opt, index) => expandToNode`
                         <div class="live-option-row" style="margin: 8px 0; display: flex; justify-content: space-between; background: #fff; padding: 10px; border-radius: 4px; border: 1px solid #ddd;">
                             <span>${opt}</span>
                             <span class="vote-count" data-option="${opt}" style="font-weight: bold; color: #007bff;">0</span>
                         </div>
                     `))}
-                </div>
-                
+    </div>
+
                 <div class="sdml-quiz__qr-container" style="display: flex; flex-direction: column; align-items: center; gap: 8px;">
                     <div id="qr-${quizId}" style="border: 2px solid #ddd; border-radius: 8px; padding: 6px; background: #fff;"></div>
                     <div style="font-size: 12px; color: #666;">Scan to vote</div>
-                </div>
-            </div>
+                    </div>
+                    </div>
 
             <div class="sdml-quiz__actions" style="margin-top: 15px;">
-                ${quiz.revealResultsOnDemand
+                        ${quiz.revealResultsOnDemand
             ? expandToNode`
                         <div class="sdml-quiz__reveal-wrap">
                             <button class="sdml-quiz__btn sdml-quiz__reveal" type="button" 
@@ -1223,87 +1235,66 @@ function generateLiveQuizBox(quiz: LiveQuizBox): CompositeGeneratorNode {
                             Correct answer: <strong>${correctAnswer || '—'}</strong>
                         </div>`
         }
-            </div>
+    </div>
 
-            <script>
+        <script>
                 (function() {
-                    const quizId = "${quizId}";
-                    const sessionId = "${sessionId}";
-                    const options = ${optionsJson};
-                    const voteCounts = {};
+            const quizId = "${quizId}";
+            const sessionId = "${sessionId}";
+            const options = ${optionsJson};
+            const voteCounts = {};
 
-                    
-                    options.forEach(opt => { voteCounts[opt] = 0; });
 
-                    const renderQRCode = (url) => {
-                        const qrEl = document.getElementById("qr-" + quizId);
-                        if (!qrEl) return;
+            options.forEach(opt => { voteCounts[opt] = 0; });
 
-                        qrEl.innerHTML = '';
+            const renderQRCode = (url) => {
+                const qrEl = document.getElementById("qr-" + quizId);
+                if (!qrEl) return;
 
-                        if (typeof QRCode === 'function') {
-                            const level = (QRCode.CorrectLevel && QRCode.CorrectLevel.M) ? QRCode.CorrectLevel.M : undefined;
-                            new QRCode(qrEl, {
-                                text: String(url || ''),
-                                width: 150,
-                                height: 150,
-                                ...(level ? { correctLevel: level } : {})
-                            });
-                            return;
-                        }
-                    };
+                qrEl.innerHTML = '';
 
-                    const updateQRCodeFromGlobal = () => {
-                        const url = window["sdmlMobileVoteUrl"] || "http://localhost:3000/vote";
-                        renderQRCode(url);
-                    };
+                if (typeof QRCode === 'function') {
+                    const level = (QRCode.CorrectLevel && QRCode.CorrectLevel.M) ? QRCode.CorrectLevel.M : undefined;
+                    new QRCode(qrEl, {
+                        text: String(url || ''),
+                        width: 150,
+                        height: 150,
+                        ...(level ? { correctLevel: level } : {})
+                    });
+                    return;
+                }
+            };
 
-                    const initQuiz = (socket) => {
-                        
-                        socket.emit("register-quiz", {
-                            sessionId: sessionId,
-                            question: "${questionText}",
-                            options: options
-                        });
+            const updateQRCodeFromGlobal = () => {
+                const url = window["sdmlMobileVoteUrl"] || "http://localhost:3000/vote";
+                renderQRCode(url);
+            };
 
-                        socket.on("qcm-results-update", (v) => {
-                            
-                            voteCounts[v.choice] = (voteCounts[v.choice] || 0) + 1;
-                            
-                            const quizEl = document.getElementById("quiz-" + quizId);
-                            const countEl = quizEl.querySelector('.vote-count[data-option="' + v.choice + '"]');
-                            if (countEl) {
-                                countEl.textContent = voteCounts[v.choice];
-                                countEl.style.transform = "scale(1.2)";
-                                setTimeout(() => { countEl.style.transform = "scale(1)"; }, 200);
-                            }
-                        });
-                    };
+            const initQuiz = (socket) => {
 
-                    const interval = setInterval(() => {
-                        if (window.sdmlSocket) {
-                            clearInterval(interval);
-                            initQuiz(window.sdmlSocket);
-                        }
-                    }, 100);
-                    
-                    const onMobileIp = (ev) => {
-                        const url = (ev && ev.detail && ev.detail.url) ? ev.detail.url : window["sdmlMobileVoteUrl"];
-                        if (url) renderQRCode(url);
-                    };
-                    window.addEventListener('sdml-mobile-ip', onMobileIp);
+                socket.emit("register-quiz", {
+                    sessionId: sessionId,
+                    question: "${questionText}",
+                    options: options
+                });
 
-                    if (document.readyState === 'loading') {
-                        document.addEventListener('DOMContentLoaded', updateQRCodeFromGlobal);
-                    } else {
-                        updateQRCodeFromGlobal();
+                socket.on("qcm-results-update", (v) => {
+
+                    voteCounts[v.choice] = (voteCounts[v.choice] || 0) + 1;
+
+                    const quizEl = document.getElementById("quiz-" + quizId);
+                    const countEl = quizEl.querySelector('.vote-count[data-option="' + v.choice + '"]');
+                    if (countEl) {
+                        countEl.textContent = voteCounts[v.choice];
+                        countEl.style.transform = "scale(1.2)";
+                        setTimeout(() => { countEl.style.transform = "scale(1)"; }, 200);
                     }
                 })();
             </script>
                 </div>
             </div>
         </div>
-    `;
+            `;
 }
 
 function generateCodeBox(codeBox: CodeBox): CompositeGeneratorNode {
@@ -1361,5 +1352,5 @@ function generateCodeBox(codeBox: CodeBox): CompositeGeneratorNode {
                 </div>
             </div>
         </div>
-    `;
+            `;
 }

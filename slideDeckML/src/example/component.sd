@@ -225,3 +225,11 @@ slide slide11 {
         }
     }
 }
+
+
+slide slide12 {
+    image [scale = 50%, alignment = "top right", width = 50%] {
+                src {https://images4.alphacoders.com/133/thumb-1920-1332281.jpeg}
+                alt {Gojo}
+            }
+}
