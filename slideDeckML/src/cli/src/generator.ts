@@ -722,7 +722,7 @@ function generateBox(box: Box): CompositeGeneratorNode {
 function generateContentBoxWithFragment(box: any): CompositeGeneratorNode {
     const fragmentStyle = getAttributeValue(box.attributes, 'fragment');
     const fragmentClass = fragmentStyle ? `class="fragment ${fragmentStyle}"` : '';
-    const styleAttr = `style="${generateContentBoxAttributes(box.attributes, box.boxes.length)}"`;
+    const styleAttr = `style="width: 100%; height:100%; ${generateContentBoxAttributes(box.attributes, box.boxes.length)}"`;
 
     return expandToNode`
         <div ${fragmentClass} ${styleAttr}>
@@ -736,7 +736,7 @@ function generateTerminalBoxWithFragment(box: any, content: CompositeGeneratorNo
     const fragmentStyle = getAttributeValue(attributes, 'fragment');
 
     if (fragmentStyle) {
-        return expandToNode`<div class="fragment ${fragmentStyle}">${content}</div>`;
+        return expandToNode`<div class="fragment ${fragmentStyle}" style="width: 100%; height:100%;">${content}</div>`;
     }
     return content;
 }
@@ -872,46 +872,82 @@ function generateComponentSlot(slot: ComponentSlot, slots: Record<string, Compos
 }
 
 function generateTextBox(textBox: TextBox): CompositeGeneratorNode {
-    const attributes = (textBox as unknown as { attributes?: unknown }).attributes;
-
-    const bold = hasAttribute(attributes, 'bold');
-    const italic = hasAttribute(attributes, 'italic');
-    const underline = hasAttribute(attributes, 'underline');
-    const strikethrough = hasAttribute(attributes, 'strikethrough');
-    const highlight = hasAttribute(attributes, 'highlight');
-    const color = getAttributeValue(attributes, 'color');
-    const font = getAttributeValue(attributes, 'font');
-    const textSize = getAttributeValue(attributes, 'text-size');
+    const attributes = (textBox as unknown as { attributes?: any }).attributes;
 
     const text = textBox.content.slice(1, -1).trim();
 
-    return expandToNode`<p style="${generateTextBoxStyles(bold, italic, underline, strikethrough, highlight, color, font, textSize)}">${text}</p>`;
-}
-
-function generateMathBox(mathBox: MathematicalBox): CompositeGeneratorNode {
-    const attributes = (mathBox as unknown as { attributes?: unknown }).attributes;
-
-    const bold = hasAttribute(attributes, 'bold');
-    const italic = hasAttribute(attributes, 'italic');
-    const underline = hasAttribute(attributes, 'underline');
-    const strikethrough = hasAttribute(attributes, 'strikethrough');
-    const highlight = hasAttribute(attributes, 'highlight');
-    const color = getAttributeValue(attributes, 'color');
-    const font = getAttributeValue(attributes, 'font');
-    const textSize = getAttributeValue(attributes, 'text-size');
-
-    const formula = mathBox.content.slice(2, -2).trim();
+    let { wrapperStyle, boxStyle } = generateCommonStyles(attributes);
+    boxStyle += generateTextBoxStyles(attributes);
 
     return expandToNode`
-        <div class="math-box" style="${generateTextBoxStyles(bold, italic, underline, strikethrough, highlight, color, font, textSize)}">
-            <div class="math-content">
-                $${formula}$
+        <div class="box-wrapper" style="${wrapperStyle}">
+            <div class="text-box" style="${boxStyle}">
+                ${text}
             </div>
         </div>
     `;
 }
 
-function generateTextBoxStyles(bold: boolean, italic: boolean, underline: boolean, strikethrough: boolean, highlight: boolean, color: string | unknown, font: string | unknown, textSize: string | unknown): string {
+function mapFlexAlignment(alignment: string) {
+    const parts = alignment.toLowerCase().split(' ');
+
+    let vertical = 'center';
+    let horizontal = 'center';
+
+    parts.forEach(part => {
+        if (part === 'top') vertical = 'flex-start';
+        if (part === 'bottom') vertical = 'flex-end';
+
+        if (part === 'left') horizontal = 'flex-start';
+        if (part === 'right') horizontal = 'flex-end';
+    });
+
+    return { vertical, horizontal };
+}
+
+function generateCommonStyles(attributes: any) {
+    const width = getAttributeValue(attributes, 'width') || '100%';
+    const height = getAttributeValue(attributes, 'height') || '100%';
+    const alignment = getAttributeValue(attributes, 'alignment') || 'center center';
+    const { vertical, horizontal } = mapFlexAlignment(alignment as string);
+
+    const wrapperStyle = `display: flex; width: 100%; height: 100%; justify-content: ${horizontal}; align-items: ${vertical};`;
+
+    const boxStyle = `display: flex; flex-direction: column; width: ${width}; height: ${height}; justify-content: ${vertical}; align-items: ${horizontal};`;
+
+    return { wrapperStyle, boxStyle };
+}
+
+function generateMathBox(mathBox: MathematicalBox): CompositeGeneratorNode {
+    const attributes = (mathBox as unknown as { attributes?: unknown }).attributes;
+
+    const formula = mathBox.content.slice(2, -2).trim();
+
+    let { wrapperStyle, boxStyle } = generateCommonStyles(attributes);
+
+    return expandToNode`
+        <div class="box-wrapper" style="${wrapperStyle}">
+            <div class="box" style="${boxStyle}">
+                <div class="math-box" style="${generateTextBoxStyles(attributes)}">
+                    <div class="math-content">
+                        $${formula}$
+                    </div>
+                </div>
+            </div>
+        </div>
+    `;
+}
+
+function generateTextBoxStyles(attributes: any): string {
+    const bold = hasAttribute(attributes, 'bold');
+    const italic = hasAttribute(attributes, 'italic');
+    const underline = hasAttribute(attributes, 'underline');
+    const strikethrough = hasAttribute(attributes, 'strikethrough');
+    const highlight = hasAttribute(attributes, 'highlight');
+    const color = getAttributeValue(attributes, 'color');
+    const font = getAttributeValue(attributes, 'font');
+    let textSize = getAttributeValue(attributes, 'text-size');
+
     let style = '';
 
     if (bold) {
@@ -1098,10 +1134,16 @@ function generateListBox(listBox: ListBox): CompositeGeneratorNode {
     const listTag = type === 'ordered' ? 'ol' : 'ul';
     const items = listBox.items.map(textContent);
 
+    let { wrapperStyle, boxStyle } = generateCommonStyles(attributes);
+
     return expandToNode`
-        <${listTag} class="sdml-list" style="--sdml-list-gap: ${spacing}px">
-            ${joinToNode(items.map((item: string) => expandToNode`<li>${item}</li>`))}
-        </${listTag}>
+        <div class="box-wrapper" style="${wrapperStyle}">
+            <div class="box" style="${boxStyle}">
+                <${listTag} class="sdml-list" style="--sdml-list-gap: ${spacing}px">
+                    ${joinToNode(items.map((item: string) => expandToNode`<li>${item}</li>`))}
+                </${listTag}>
+            </div>
+        </div>
     `;
 }
 

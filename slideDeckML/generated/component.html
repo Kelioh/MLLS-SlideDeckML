@@ -208,7 +208,7 @@
                         
                         
                     >
-                        <div  style="height: 100%;display: grid; 
+                        <div  style="width: 100%; height:100%; height: 100%;display: grid; 
             grid-template-columns: repeat(2, 1fr); 
             grid-template-rows: repeat(1, calc(100% - 0px));
             gap: 10px;
@@ -226,7 +226,11 @@
         place-items: center center;
         place-content: center center;
     ">
-                                <p style="">Ceci est le texte du composant</p>
+                                <div class="box-wrapper" style="display: flex; width: 100%; height: 100%; justify-content: center; align-items: center;">
+                                    <div class="text-box" style="display: flex; flex-direction: column; width: 100%; height: 100%; justify-content: center; align-items: center;">
+                                        Ceci est le texte du composant
+                                    </div>
+                                </div>
                                 <iframe
                                     src="https://www.youtube.com/embed/uGSu6mhk3RQ"
                                     title="Hello World Song"
@@ -241,7 +245,11 @@
     "
                                     allowfullscreen>
                                 </iframe>
-                                <p style="font-weight: bold; ">Composant sans slot</p>
+                                <div class="box-wrapper" style="display: flex; width: 100%; height: 100%; justify-content: center; align-items: center;">
+                                    <div class="text-box" style="display: flex; flex-direction: column; width: 100%; height: 100%; justify-content: center; align-items: center;font-weight: bold; ">
+                                        Composant sans slot
+                                    </div>
+                                </div>
                                 <img 
                                     src="https://images4.alphacoders.com/133/thumb-1920-1332281.jpeg" 
                                     alt="Gojo" 
@@ -268,7 +276,7 @@
                         
                         
                     >
-                        <div  style="display: grid; 
+                        <div  style="width: 100%; height:100%; display: grid; 
             grid-template-columns: repeat(2, 1fr); 
             grid-template-rows: repeat(1, calc(100% - 0px));
             gap: 10px;
@@ -277,8 +285,16 @@
         place-items: center center;
         place-content: center center;
     ">
-                            <p style="font-weight: bold; ">Composant sans slot</p>
-                            <p style="font-weight: bold; ">Composant sans slot</p>
+                            <div class="box-wrapper" style="display: flex; width: 100%; height: 100%; justify-content: center; align-items: center;">
+                                <div class="text-box" style="display: flex; flex-direction: column; width: 100%; height: 100%; justify-content: center; align-items: center;font-weight: bold; ">
+                                    Composant sans slot
+                                </div>
+                            </div>
+                            <div class="box-wrapper" style="display: flex; width: 100%; height: 100%; justify-content: center; align-items: center;">
+                                <div class="text-box" style="display: flex; flex-direction: column; width: 100%; height: 100%; justify-content: center; align-items: center;font-weight: bold; ">
+                                    Composant sans slot
+                                </div>
+                            </div>
                         </div>
                     </section>
                     <section
@@ -299,8 +315,12 @@
         place-items: center center;
         place-content: center center;
     ">
-                            <p style="">Ceci est le texte du composant</p>
-                            <div  style="display: grid; 
+                            <div class="box-wrapper" style="display: flex; width: 100%; height: 100%; justify-content: center; align-items: center;">
+                                <div class="text-box" style="display: flex; flex-direction: column; width: 100%; height: 100%; justify-content: center; align-items: center;">
+                                    Ceci est le texte du composant
+                                </div>
+                            </div>
+                            <div  style="width: 100%; height:100%; display: grid; 
             grid-template-columns: repeat(2, 1fr); 
             grid-template-rows: repeat(1, calc(100% - 0px));
             gap: 10px;
@@ -309,12 +329,28 @@
         place-items: center center;
         place-content: center center;
     ">
-                                <p style="">Ceci est le texte par defaut du slot 1 !
-                    Il est suivit du composant sans slot !</p>
-                                <p style="font-weight: bold; ">Composant sans slot</p>
+                                <div class="box-wrapper" style="display: flex; width: 100%; height: 100%; justify-content: center; align-items: center;">
+                                    <div class="text-box" style="display: flex; flex-direction: column; width: 100%; height: 100%; justify-content: center; align-items: center;">
+                                        Ceci est le texte par defaut du slot 1 !
+                    Il est suivit du composant sans slot !
+                                    </div>
+                                </div>
+                                <div class="box-wrapper" style="display: flex; width: 100%; height: 100%; justify-content: center; align-items: center;">
+                                    <div class="text-box" style="display: flex; flex-direction: column; width: 100%; height: 100%; justify-content: center; align-items: center;font-weight: bold; ">
+                                        Composant sans slot
+                                    </div>
+                                </div>
                             </div>
-                            <p style="font-weight: bold; ">Composant sans slot</p>
-                            <p style="">ceci est le texte du slot 2</p>
+                            <div class="box-wrapper" style="display: flex; width: 100%; height: 100%; justify-content: center; align-items: center;">
+                                <div class="text-box" style="display: flex; flex-direction: column; width: 100%; height: 100%; justify-content: center; align-items: center;font-weight: bold; ">
+                                    Composant sans slot
+                                </div>
+                            </div>
+                            <div class="box-wrapper" style="display: flex; width: 100%; height: 100%; justify-content: center; align-items: center;">
+                                <div class="text-box" style="display: flex; flex-direction: column; width: 100%; height: 100%; justify-content: center; align-items: center;">
+                                    ceci est le texte du slot 2
+                                </div>
+                            </div>
                         </div>
                     </section>
                     <section
@@ -326,9 +362,13 @@
                         
                         
                     >
-                        <ol class="sdml-list" style="--sdml-list-gap: 50px">
-                            <li>First</li><li>Second</li><li>Third</li>
-                        </ol>
+                        <div class="box-wrapper" style="display: flex; width: 100%; height: 100%; justify-content: center; align-items: center;">
+                            <div class="box" style="display: flex; flex-direction: column; width: 100%; height: 100%; justify-content: center; align-items: center;">
+                                <ol class="sdml-list" style="--sdml-list-gap: 50px">
+                                    <li>First</li><li>Second</li><li>Third</li>
+                                </ol>
+                            </div>
+                        </div>
                     </section>
                     <section
                         id="slide5"
@@ -385,7 +425,11 @@
                         
                         
                     >
-                        <p style="font-weight: bold; text-decoration: underline; ">Composant sans slot</p>
+                        <div class="box-wrapper" style="display: flex; width: 100%; height: 100%; justify-content: center; align-items: center;">
+                            <div class="text-box" style="display: flex; flex-direction: column; width: 100%; height: 100%; justify-content: center; align-items: center;font-weight: bold; text-decoration: underline; ">
+                                Composant sans slot
+                            </div>
+                        </div>
                     </section>
                     <section
                         id="slide7"
@@ -396,7 +440,7 @@
                         
                         
                     >
-                        <div  style="display: grid; 
+                        <div  style="width: 100%; height:100%; display: grid; 
             grid-template-columns: repeat(2, 1fr); 
             grid-template-rows: repeat(2, calc(50% - 5px));
             gap: 10px;
@@ -405,13 +449,21 @@
         place-items: center center;
         place-content: center center;
     ">
-                            <p style="font-weight: bold; font-style: italic; text-decoration: underline; color: red; font-family: arial; font-size: 1em; ">Colonne de gauche mais un texte un peu plus long</p>
-                            <div class="fragment fade-in"><div class="math-box" style="color: #2980b9; font-size: 1.5em; ">
-                                <div class="math-content">
-                                    $\zeta(s) = \sum_{n=1}^{\infty} \frac{1}{n^s} = \prod_{p \in \text{primes}} \frac{1}{1 - p^{-s}}$
+                            <div class="box-wrapper" style="display: flex; width: 100%; height: 100%; justify-content: flex-end; align-items: flex-end;">
+                                <div class="text-box" style="display: flex; flex-direction: column; width: 100%; height: 100%; justify-content: flex-end; align-items: flex-end;">
+                                    Colonne de gauche mais un texte un peu plus long
+                                </div>
+                            </div>
+                            <div class="fragment fade-in" style="width: 100%; height:100%;"><div class="box-wrapper" style="display: flex; width: 100%; height: 100%; justify-content: center; align-items: center;">
+                                <div class="box" style="display: flex; flex-direction: column; width: 100%; height: 100%; justify-content: center; align-items: center;">
+                                    <div class="math-box" style="color: #2980b9; font-size: 1.5em; ">
+                                        <div class="math-content">
+                                            $\zeta(s) = \sum_{n=1}^{\infty} \frac{1}{n^s} = \prod_{p \in \text{primes}} \frac{1}{1 - p^{-s}}$
+                                        </div>
+                                    </div>
                                 </div>
                             </div></div>
-                            <div  style="width: 50%;display: grid; 
+                            <div  style="width: 100%; height:100%; width: 50%;display: grid; 
             grid-template-columns: repeat(2, 1fr); 
             grid-template-rows: repeat(2, calc(50% - 5px));
             gap: 10px;
@@ -477,7 +529,7 @@
         " 
                                 />
                             </div>
-                            <div class="fragment fade-in" style="display: grid; 
+                            <div class="fragment fade-in" style="width: 100%; height:100%; display: grid; 
             grid-template-columns: repeat(2, 1fr); 
             grid-template-rows: repeat(2, calc(50% - 5px));
             gap: 10px;
@@ -554,9 +606,153 @@
                         
                         
                     >
-                        <div class="math-box" style="color: #2980b9; font-size: 1.5em; ">
-                            <div class="math-content">
-                                $\zeta(s) = \sum_{n=1}^{\infty} \frac{1}{n^s} = \prod_{p \in \text{primes}} \frac{1}{1 - p^{-s}}$
+                        <div class="box-wrapper" style="display: flex; width: 100%; height: 100%; justify-content: flex-start; align-items: flex-start;">
+                            <div class="text-box" style="display: flex; flex-direction: column; width: 100%; height: 100%; justify-content: flex-start; align-items: flex-start;font-weight: bold; font-style: italic; text-decoration: underline; color: red; font-family: arial; font-size: 1em; ">
+                                Colonne de gauche mais un texte un peu plus long
+                            </div>
+                        </div>
+                    </section>
+                    <section
+                        id="slide9"
+                        class="annotable"
+                        data-transition="fade"
+                        
+                        
+                        
+                        
+                    >
+                        <div  style="width: 100%; height:100%; display: grid; 
+            grid-template-columns: repeat(2, 1fr); 
+            grid-template-rows: repeat(2, calc(50% - 5px));
+            gap: 10px;
+            box-sizing: border-box;
+    height: 100%; width: 100%; 
+        place-items: center center;
+        place-content: center center;
+    ">
+                            <div class="box-wrapper" style="display: flex; width: 100%; height: 100%; justify-content: center; align-items: flex-end;">
+                                <div class="text-box" style="display: flex; flex-direction: column; width: 100%; height: 100%; justify-content: flex-end; align-items: center;font-weight: bold; font-style: italic; text-decoration: underline; color: red; font-family: arial; font-size: 1em; ">
+                                    Colonne de gauche mais un texte un peu plus long
+                                </div>
+                            </div>
+                            <div class="box-wrapper" style="display: flex; width: 100%; height: 100%; justify-content: flex-start; align-items: flex-end;">
+                                <div class="text-box" style="display: flex; flex-direction: column; width: 50%; height: 50%; justify-content: flex-end; align-items: flex-start;">
+                                    Colonne de gauche mais un texte un peu plus long
+                                </div>
+                            </div>
+                            <div class="box-wrapper" style="display: flex; width: 100%; height: 100%; justify-content: flex-end; align-items: center;">
+                                <div class="text-box" style="display: flex; flex-direction: column; width: 50%; height: 100%; justify-content: center; align-items: flex-end;">
+                                    Colonne de gauche mais un texte un peu plus long
+                                </div>
+                            </div>
+                            <div class="box-wrapper" style="display: flex; width: 100%; height: 100%; justify-content: flex-start; align-items: flex-start;">
+                                <div class="text-box" style="display: flex; flex-direction: column; width: 100%; height: 50%; justify-content: flex-start; align-items: flex-start;">
+                                    Colonne de gauche mais un texte un peu plus long
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                    <section
+                        id="slide10"
+                        class="annotable"
+                        data-transition="fade"
+                        
+                        
+                        
+                        
+                    >
+                        <div  style="width: 100%; height:100%; display: grid; 
+            grid-template-columns: repeat(2, 1fr); 
+            grid-template-rows: repeat(2, calc(50% - 5px));
+            gap: 10px;
+            box-sizing: border-box;
+    height: 100%; width: 100%; 
+        place-items: center center;
+        place-content: center center;
+    ">
+                            <div class="fragment fade-in" style="width: 100%; height:100%;"><div class="box-wrapper" style="display: flex; width: 100%; height: 100%; justify-content: center; align-items: center;">
+                                <div class="box" style="display: flex; flex-direction: column; width: 100%; height: 100%; justify-content: center; align-items: center;">
+                                    <div class="math-box" style="color: #2980b9; font-size: 1.5em; ">
+                                        <div class="math-content">
+                                            $\zeta(s) = \sum_{n=1}^{\infty} \frac{1}{n^s} = \prod_{p \in \text{primes}} \frac{1}{1 - p^{-s}}$
+                                        </div>
+                                    </div>
+                                </div>
+                            </div></div>
+                            <div class="fragment fade-in" style="width: 100%; height:100%;"><div class="box-wrapper" style="display: flex; width: 100%; height: 100%; justify-content: center; align-items: center;">
+                                <div class="box" style="display: flex; flex-direction: column; width: 100%; height: 100%; justify-content: center; align-items: center;">
+                                    <div class="math-box" style="color: #2980b9; font-size: 1.5em; ">
+                                        <div class="math-content">
+                                            $\zeta(s) = \sum_{n=1}^{\infty} \frac{1}{n^s} = \prod_{p \in \text{primes}} \frac{1}{1 - p^{-s}}$
+                                        </div>
+                                    </div>
+                                </div>
+                            </div></div>
+                            <div class="fragment fade-in" style="width: 100%; height:100%;"><div class="box-wrapper" style="display: flex; width: 100%; height: 100%; justify-content: center; align-items: center;">
+                                <div class="box" style="display: flex; flex-direction: column; width: 100%; height: 100%; justify-content: center; align-items: center;">
+                                    <div class="math-box" style="color: #2980b9; font-size: 1.5em; ">
+                                        <div class="math-content">
+                                            $\zeta(s) = \sum_{n=1}^{\infty} \frac{1}{n^s} = \prod_{p \in \text{primes}} \frac{1}{1 - p^{-s}}$
+                                        </div>
+                                    </div>
+                                </div>
+                            </div></div>
+                            <div class="fragment fade-in" style="width: 100%; height:100%;"><div class="box-wrapper" style="display: flex; width: 100%; height: 100%; justify-content: flex-start; align-items: flex-start;">
+                                <div class="box" style="display: flex; flex-direction: column; width: 100%; height: 100%; justify-content: flex-start; align-items: flex-start;">
+                                    <div class="math-box" style="color: #2980b9; font-size: 1.5em; ">
+                                        <div class="math-content">
+                                            $\zeta(s) = \sum_{n=1}^{\infty} \frac{1}{n^s} = \prod_{p \in \text{primes}} \frac{1}{1 - p^{-s}}$
+                                        </div>
+                                    </div>
+                                </div>
+                            </div></div>
+                        </div>
+                    </section>
+                    <section
+                        id="slide11"
+                        class="annotable"
+                        data-transition="fade"
+                        
+                        
+                        
+                        
+                    >
+                        <div  style="width: 100%; height:100%; display: grid; 
+            grid-template-columns: repeat(2, 1fr); 
+            grid-template-rows: repeat(2, calc(50% - 5px));
+            gap: 10px;
+            box-sizing: border-box;
+    height: 100%; width: 100%; 
+        place-items: center center;
+        place-content: center center;
+    ">
+                            <div class="box-wrapper" style="display: flex; width: 100%; height: 100%; justify-content: center; align-items: center;">
+                                <div class="box" style="display: flex; flex-direction: column; width: 100%; height: 100%; justify-content: center; align-items: center;">
+                                    <ul class="sdml-list" style="--sdml-list-gap: 50px">
+                                        <li>First</li><li>Second</li><li>Third</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="box-wrapper" style="display: flex; width: 100%; height: 100%; justify-content: flex-start; align-items: flex-end;">
+                                <div class="box" style="display: flex; flex-direction: column; width: 100%; height: 100%; justify-content: flex-end; align-items: flex-start;">
+                                    <ul class="sdml-list" style="--sdml-list-gap: 50px">
+                                        <li>First</li><li>Second</li><li>Third</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="box-wrapper" style="display: flex; width: 100%; height: 100%; justify-content: center; align-items: center;">
+                                <div class="box" style="display: flex; flex-direction: column; width: 100%; height: 100%; justify-content: center; align-items: center;">
+                                    <ul class="sdml-list" style="--sdml-list-gap: 50px">
+                                        <li>First</li><li>Second</li><li>Third</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="box-wrapper" style="display: flex; width: 100%; height: 100%; justify-content: flex-start; align-items: flex-start;">
+                                <div class="box" style="display: flex; flex-direction: column; width: 100%; height: 100%; justify-content: flex-start; align-items: flex-start;">
+                                    <ul class="sdml-list" style="--sdml-list-gap: 50px">
+                                        <li>First</li><li>Second</li><li>Third</li>
+                                    </ul>
+                                </div>
                             </div>
                         </div>
                     </section>

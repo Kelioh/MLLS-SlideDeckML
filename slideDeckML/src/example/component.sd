@@ -108,7 +108,7 @@ slide slide6 {
 
 slide slide7 {
     box [column = 2] {
-        text [bold, italic, underline, font = "arial", color = "red", text-size = "m", height = 50%] {
+        text [width = 100%, height = 100%, alignment = "bottom right"] {
             Colonne de gauche mais un texte un peu plus long
         }
         mathematics [color = "#2980b9", text-size = "xl", fragment = fade-in]
@@ -155,8 +155,77 @@ slide slide7 {
 }
 
 slide slide8 {
-    mathematics [color = "#2980b9", text-size = "xl"]
-    $$ 
-    \zeta(s) = \sum_{n=1}^{\infty} \frac{1}{n^s} = \prod_{p \in \text{primes}} \frac{1}{1 - p^{-s}} 
-    $$
+    text [bold, italic, underline, font = "arial", color = "red", text-size = "m", width = 100%, height = 100%, alignment = "top left"] {
+            Colonne de gauche mais un texte un peu plus long
+    }
+}
+
+slide slide9 {
+    box [column = 2] {
+        text [bold, italic, underline, font = "arial", color = "red", text-size = "m", alignment = "bottom"] {
+            Colonne de gauche mais un texte un peu plus long
+        }
+
+        text [width = 50%, height = 50%, alignment = "bottom left"] {
+            Colonne de gauche mais un texte un peu plus long
+        }
+
+        text [width = 50%, height = 100%, alignment = "right"] {
+            Colonne de gauche mais un texte un peu plus long
+        }
+
+        text [width = 100%, height = 50%, alignment = "top left"] {
+            Colonne de gauche mais un texte un peu plus long
+        }
+    }
+}
+
+slide slide10 {
+    box [column = 2] {
+        mathematics [color = "#2980b9", text-size = "xl", fragment = fade-in]
+        $$ 
+        \zeta(s) = \sum_{n=1}^{\infty} \frac{1}{n^s} = \prod_{p \in \text{primes}} \frac{1}{1 - p^{-s}} 
+        $$
+        mathematics [color = "#2980b9", text-size = "xl", fragment = fade-in]
+        $$ 
+        \zeta(s) = \sum_{n=1}^{\infty} \frac{1}{n^s} = \prod_{p \in \text{primes}} \frac{1}{1 - p^{-s}} 
+        $$
+        mathematics [color = "#2980b9", text-size = "xl", fragment = fade-in]
+        $$ 
+        \zeta(s) = \sum_{n=1}^{\infty} \frac{1}{n^s} = \prod_{p \in \text{primes}} \frac{1}{1 - p^{-s}} 
+        $$
+        mathematics [color = "#2980b9", text-size = "xl", fragment = fade-in, alignment = "top left"]
+        $$ 
+        \zeta(s) = \sum_{n=1}^{\infty} \frac{1}{n^s} = \prod_{p \in \text{primes}} \frac{1}{1 - p^{-s}} 
+        $$
+    }
+}
+
+slide slide11 {
+    box [column = 2] {
+        list [type = unordered, spaceBetweenItems = 50] {
+            {First}
+            {Second}
+            {Third}
+        }
+        list [type = unordered, spaceBetweenItems = 50, alignment = "bottom left"] {
+        {First}
+        {Second}
+        {Third}
+        }
+        list [type = unordered, spaceBetweenItems = 50] {
+            {First}
+            {Second}
+            {Third}
+        }
+        list [type = unordered, spaceBetweenItems = 50, alignment = "top left"] {
+            {First}
+            {Second}
+            {Third}
+        }
+    }
+}
+
+slide slide12 {
+    quiz_component [alignment = "bottom right"] {}
 }
