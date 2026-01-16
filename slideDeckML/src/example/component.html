@@ -31,7 +31,8 @@
 
                 /* Reveal.js viewport adjustment for header/footer */
                 .reveal {
-                    height: calc(100% - 80px) !important;
+                    top: 80px !important;
+                    height: calc(100% - 160px) !important;
                 }
 
                 .reveal .slides section {
@@ -208,29 +209,47 @@
                         
                         
                     >
-                        <div  style="height: 100%;display: grid; 
-            grid-template-columns: repeat(2, 1fr); 
-            grid-template-rows: repeat(1, calc(100% - 0px));
-            gap: 10px;
-            box-sizing: border-box;
+                        <div  style="width: 100%; height:100%; 
+        display: grid; 
+        grid-template-columns: calc(50% - 5px) calc(50% - 5px); 
+        grid-template-rows: calc(100% - 0px);
+        gap: 10px;
+        width: 100%;
+        height: 100%;
+        max-width: 100%;
+        max-height: 100%;
+        box-sizing: border-box;
+        overflow: hidden;
     width: 100%; 
         place-items: center center;
         place-content: center center;
     ">
-                            <div  style="height: 100%;display: grid; 
-            grid-template-columns: repeat(3, 1fr); 
-            grid-template-rows: repeat(2, calc(50% - 5px));
-            gap: 10px;
-            box-sizing: border-box;
+                            <div  style="
+        display: grid; 
+        grid-template-columns: calc(33.333333333333336% - 6.666666666666667px) calc(33.333333333333336% - 6.666666666666667px) calc(33.333333333333336% - 6.666666666666667px); 
+        grid-template-rows: calc(50% - 5px) calc(50% - 5px);
+        gap: 10px;
+        width: 100%;
+        height: 100%;
+        max-width: 100%;
+        max-height: 100%;
+        box-sizing: border-box;
+        overflow: hidden;
     width: 100%; 
         place-items: center center;
         place-content: center center;
     ">
-                                <p style="">Ceci est le texte du composant</p>
-                                <iframe
-                                    src="https://www.youtube.com/embed/uGSu6mhk3RQ"
-                                    title="Hello World Song"
-                                    style="
+                                <div class="box-wrapper" style="display: flex; width: 100%; height: 100%;">
+                                    <div class="text-box" style="display: flex; flex-direction: column; width: 100%; height: 100%;place-items: center center; place-content: center center;color: black; ">
+                                        Ceci est le texte du composant
+                                    </div>
+                                </div>
+                                <div class="box-wrapper" style="display: flex; width: 100%; height: 100%;">
+                                    <div class="box" style="display: flex; flex-direction: column; width: 100%; height: 100%;place-items: center center; place-content: center center;">
+                                        <iframe
+                                            src="https://www.youtube.com/embed/uGSu6mhk3RQ"
+                                            title="Hello World Song"
+                                            style="
         display: block;
         aspect-ratio: 16 / 9;
         width: auto;
@@ -239,23 +258,32 @@
         max-height: 100%;
         border: 0;
     "
-                                    allowfullscreen>
-                                </iframe>
-                                <div class="fragment fade-in"><p style="font-weight: bold; ">Composant sans slot</p></div>
-                                <img 
-                                    src="https://images4.alphacoders.com/133/thumb-1920-1332281.jpeg" 
-                                    alt="Gojo" 
-                                    style="
+                                            allowfullscreen>
+                                        </iframe>
+                                    </div>
+                                </div>
+                                <div class="fragment fade-in" style="width: 100%; height:100%;"><div class="box-wrapper" style="display: flex; width: 100%; height: 100%;">
+                                    <div class="text-box" style="display: flex; flex-direction: column; width: 100%; height: 100%;place-items: center center; place-content: center center;font-weight: bold; color: black; ">
+                                        Composant sans slot
+                                    </div>
+                                </div></div>
+                                <div class="box-wrapper" style="display: flex; width: 100%; height: 100%;">
+                                    <div class="box" style="display: flex; flex-direction: column; width: 100%; height: 100%;place-items: center center; place-content: center center;">
+                                        <img 
+                                            src="https://images4.alphacoders.com/133/thumb-1920-1332281.jpeg" 
+                                            alt="Gojo" 
+                                            style="
         display: block;
         max-width: 100%;
         max-height: 100%;
         object-fit: contain;
-        margin: auto;
     
-            width: 100%;
+            width: fit-content; 
             height: auto;
         " 
-                                />
+                                        />
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </section>
@@ -268,17 +296,31 @@
                         
                         
                     >
-                        <div  style="display: grid; 
-            grid-template-columns: repeat(2, 1fr); 
-            grid-template-rows: repeat(1, calc(100% - 0px));
-            gap: 10px;
-            box-sizing: border-box;
+                        <div  style="width: 100%; height:100%; 
+        display: grid; 
+        grid-template-columns: calc(50% - 5px) calc(50% - 5px); 
+        grid-template-rows: calc(100% - 0px);
+        gap: 10px;
+        width: 100%;
+        height: 100%;
+        max-width: 100%;
+        max-height: 100%;
+        box-sizing: border-box;
+        overflow: hidden;
     height: 100%; width: 100%; 
         place-items: center center;
         place-content: center center;
     ">
-                            <div class="fragment shrink"><div class="fragment shrink"><p style="font-weight: bold; ">Composant sans slot</p></div></div>
-                            <div class="fragment fade-in"><p style="font-weight: bold; ">Composant sans slot</p></div>
+                            <div class="fragment shrink" style="width: 100%; height:100%;"><div class="fragment shrink" style="width: 100%; height:100%;"><div class="box-wrapper" style="display: flex; width: 100%; height: 100%;">
+                                <div class="text-box" style="display: flex; flex-direction: column; width: 100%; height: 100%;place-items: center center; place-content: center center;font-weight: bold; color: black; ">
+                                    Composant sans slot
+                                </div>
+                            </div></div></div>
+                            <div class="fragment fade-in" style="width: 100%; height:100%;"><div class="box-wrapper" style="display: flex; width: 100%; height: 100%;">
+                                <div class="text-box" style="display: flex; flex-direction: column; width: 100%; height: 100%;place-items: center center; place-content: center center;font-weight: bold; color: black; ">
+                                    Composant sans slot
+                                </div>
+                            </div></div>
                         </div>
                     </section>
                     <section
@@ -290,31 +332,63 @@
                         
                         
                     >
-                        <div  style="height: 100%;display: grid; 
-            grid-template-columns: repeat(2, 1fr); 
-            grid-template-rows: repeat(2, calc(50% - 5px));
-            gap: 10px;
-            box-sizing: border-box;
+                        <div  style="
+        display: grid; 
+        grid-template-columns: calc(50% - 5px) calc(50% - 5px); 
+        grid-template-rows: calc(50% - 5px) calc(50% - 5px);
+        gap: 10px;
+        width: 100%;
+        height: 100%;
+        max-width: 100%;
+        max-height: 100%;
+        box-sizing: border-box;
+        overflow: hidden;
     width: 100%; 
         place-items: center center;
         place-content: center center;
     ">
-                            <p style="">Ceci est le texte du composant</p>
-                            <div  style="display: grid; 
-            grid-template-columns: repeat(2, 1fr); 
-            grid-template-rows: repeat(1, calc(100% - 0px));
-            gap: 10px;
-            box-sizing: border-box;
+                            <div class="box-wrapper" style="display: flex; width: 100%; height: 100%;">
+                                <div class="text-box" style="display: flex; flex-direction: column; width: 100%; height: 100%;place-items: center center; place-content: center center;color: black; ">
+                                    Ceci est le texte du composant
+                                </div>
+                            </div>
+                            <div  style="width: 100%; height:100%; 
+        display: grid; 
+        grid-template-columns: calc(50% - 5px) calc(50% - 5px); 
+        grid-template-rows: calc(100% - 0px);
+        gap: 10px;
+        width: 100%;
+        height: 100%;
+        max-width: 100%;
+        max-height: 100%;
+        box-sizing: border-box;
+        overflow: hidden;
     height: 100%; width: 100%; 
         place-items: center center;
         place-content: center center;
     ">
-                                <p style="">Ceci est le texte par defaut du slot 1 !
-                    Il est suivit du composant sans slot !</p>
-                                <div class="fragment fade-in"><p style="font-weight: bold; ">Composant sans slot</p></div>
+                                <div class="box-wrapper" style="display: flex; width: 100%; height: 100%;">
+                                    <div class="text-box" style="display: flex; flex-direction: column; width: 100%; height: 100%;place-items: center center; place-content: center center;color: black; ">
+                                        Ceci est le texte par defaut du slot 1 !
+                    Il est suivit du composant sans slot !
+                                    </div>
+                                </div>
+                                <div class="fragment fade-in" style="width: 100%; height:100%;"><div class="box-wrapper" style="display: flex; width: 100%; height: 100%;">
+                                    <div class="text-box" style="display: flex; flex-direction: column; width: 100%; height: 100%;place-items: center center; place-content: center center;font-weight: bold; color: black; ">
+                                        Composant sans slot
+                                    </div>
+                                </div></div>
                             </div>
-                            <div class="fragment fade-in"><p style="font-weight: bold; ">Composant sans slot</p></div>
-                            <p style="">ceci est le texte du slot 2</p>
+                            <div class="fragment fade-in" style="width: 100%; height:100%;"><div class="box-wrapper" style="display: flex; width: 100%; height: 100%;">
+                                <div class="text-box" style="display: flex; flex-direction: column; width: 100%; height: 100%;place-items: center center; place-content: center center;font-weight: bold; color: black; ">
+                                    Composant sans slot
+                                </div>
+                            </div></div>
+                            <div class="box-wrapper" style="display: flex; width: 100%; height: 100%;">
+                                <div class="text-box" style="display: flex; flex-direction: column; width: 100%; height: 100%;place-items: center center; place-content: center center;color: black; ">
+                                    ceci est le texte du slot 2
+                                </div>
+                            </div>
                         </div>
                     </section>
                     <section
@@ -326,9 +400,13 @@
                         
                         
                     >
-                        <ol class="sdml-list" style="--sdml-list-gap: 50px">
-                            <li>First</li><li>Second</li><li>Third</li>
+                            <div class="box-wrapper" style="display: flex; width: 100%; height: 100%;">
+                                <div class="box" style="display: flex; flex-direction: column; width: 100%; height: 100%;place-items: center center; place-content: center center;">
+                                    <ol class="sdml-list" style="--sdml-list-gap: 50px">
+                                        <li>First</li><li>Second</li><li>Third</li>
                         </ol>
+                            </div>
+                            </div>
                     </section>
                     <section
                         id="slide5"
@@ -339,15 +417,17 @@
                         
                         
                     >
-                        <div
-                            class="sdml-quiz"
-                            data-quiz-id="sort"
-                            data-quiz-type="mcq"
-                            data-correct-answer="c"
-                            data-reveal-on-demand="true"
-                        >
-                            <div class="sdml-quiz__title">Quiz</div>
-                            <div class="sdml-quiz__question">Which sorting algorithm has average-case O(n log n)?</div>
+                        <div class="box-wrapper" style="display: flex; width: 100%; height: 100%;">
+                            <div class="box" style="display: flex; flex-direction: column; width: 100%; height: 100%;place-items: center center; place-content: center center;">
+                                <div
+                                    class="sdml-quiz"
+                                    data-quiz-id="sort"
+                                    data-quiz-type="mcq"
+                                    data-correct-answer="c"
+                                    data-reveal-on-demand="true"
+                                >
+                                    <div class="sdml-quiz__title">Quiz</div>
+                                    <div class="sdml-quiz__question">Which sorting algorithm has average-case O(n log n)?</div>
 
                             <div class="sdml-quiz__options">
                                 <label>
@@ -374,6 +454,8 @@
                                         <button class="sdml-quiz__btn sdml-quiz__reveal" type="button" onclick="(function(btn){const r=btn.closest('.sdml-quiz');if(!r)return;const res=r.querySelector('.sdml-quiz__results');if(res){res.style.display='block';}btn.style.display='none';})(this)">Reveal answer</button>
                                         <div class="sdml-quiz__results" style="display:none">Correct answer: <strong>c</strong></div>
                                     </div>
+                                </div>
+                            </div>
                         </div>
                     </section>
                     <section
@@ -385,30 +467,43 @@
                         
                         
                     >
-                        <div  style="height: 50%;display: grid; 
-            grid-template-columns: repeat(2, 1fr); 
-            grid-template-rows: repeat(1, calc(100% - 0px));
-            gap: 10px;
-            box-sizing: border-box;
+                        <div  style="width: 100%; height:100%; 
+        display: grid; 
+        grid-template-columns: calc(50% - 5px) calc(50% - 5px); 
+        grid-template-rows: calc(100% - 0px);
+        gap: 10px;
+        width: 100%;
+        height: 50%;
+        max-width: 100%;
+        max-height: 100%;
+        box-sizing: border-box;
+        overflow: hidden;
     width: 100%; 
         place-items: center center;
         place-content: center center;
     ">
-                            <div class="fragment shrink"><div class="fragment shrink"><div class="fragment shrink"><p style="font-weight: bold; text-decoration: underline; ">Composant sans slot</p></div></div></div>
-                            <img 
-                                src="https://images4.alphacoders.com/133/thumb-1920-1332281.jpeg" 
-                                alt="Gojo" 
-                                style="
+                            <div class="fragment shrink" style="width: 100%; height:100%;"><div class="fragment shrink" style="width: 100%; height:100%;"><div class="fragment shrink" style="width: 100%; height:100%;"><div class="box-wrapper" style="display: flex; width: 100%; height: 100%;">
+                                <div class="text-box" style="display: flex; flex-direction: column; width: 100%; height: 100%;place-items: center center; place-content: center center;font-weight: bold; text-decoration: underline; color: black; ">
+                                    Composant sans slot
+                                </div>
+                            </div></div></div></div>
+                            <div class="box-wrapper" style="display: flex; width: 100%; height: 100%;">
+                                <div class="box" style="display: flex; flex-direction: column; width: 100%; height: 100%;place-items: center center; place-content: center center;">
+                                    <img 
+                                        src="https://images4.alphacoders.com/133/thumb-1920-1332281.jpeg" 
+                                        alt="Gojo" 
+                                        style="
         display: block;
         max-width: 100%;
         max-height: 100%;
         object-fit: contain;
-        margin: auto;
     
             width: 50%;
             height: auto;
         " 
-                            />
+                                    />
+                                </div>
+                            </div>
                         </div>
                     </section>
                     <section
@@ -420,152 +515,202 @@
                         
                         
                     >
-                        <div  style="display: grid; 
-            grid-template-columns: repeat(2, 1fr); 
-            grid-template-rows: repeat(2, calc(50% - 5px));
-            gap: 10px;
-            box-sizing: border-box;
+                        <div  style="width: 100%; height:100%; 
+        display: grid; 
+        grid-template-columns: calc(50% - 5px) calc(50% - 5px); 
+        grid-template-rows: calc(50% - 5px) calc(50% - 5px);
+        gap: 10px;
+        width: 100%;
+        height: 100%;
+        max-width: 100%;
+        max-height: 100%;
+        box-sizing: border-box;
+        overflow: hidden;
     height: 100%; width: 100%; 
         place-items: center center;
         place-content: center center;
     ">
-                            <p style="font-weight: bold; font-style: italic; text-decoration: underline; color: red; font-family: arial; font-size: 1em; ">Colonne de gauche mais un texte un peu plus long</p>
-                            <div class="fragment fade-in"><div class="math-box" style="color: #2980b9; font-size: 1.5em; ">
-                                <div class="math-content">
-                                    $\zeta(s) = \sum_{n=1}^{\infty} \frac{1}{n^s} = \prod_{p \in \text{primes}} \frac{1}{1 - p^{-s}}$
+                            <div class="box-wrapper" style="display: flex; width: 100%; height: 100%;">
+                                <div class="text-box" style="display: flex; flex-direction: column; width: 100%; height: 100%;place-items: center center; place-content: center center;font-weight: bold; font-style: italic; text-decoration: underline; font-family: arial; font-size: 1em; color: red; ">
+                                    Colonne de gauche mais un texte un peu plus long
+                                </div>
+                            </div>
+                            <div class="fragment fade-in" style="width: 100%; height:100%;"><div class="box-wrapper" style="display: flex; width: 100%; height: 100%;">
+                                <div class="box" style="display: flex; flex-direction: column; width: 100%; height: 100%;place-items: center center; place-content: center center;">
+                                    <div class="math-box" style="font-size: 1.5em; color: #2980b9; ">
+                                        <div class="math-content">
+                                            $\zeta(s) = \sum_{n=1}^{\infty} \frac{1}{n^s} = \prod_{p \in \text{primes}} \frac{1}{1 - p^{-s}}$
+                                        </div>
+                                    </div>
                                 </div>
                             </div></div>
-                            <div  style="width: 50%;display: grid; 
-            grid-template-columns: repeat(2, 1fr); 
-            grid-template-rows: repeat(2, calc(50% - 5px));
-            gap: 10px;
-            box-sizing: border-box;
+                            <div  style="width: 100%; height:100%; 
+        display: grid; 
+        grid-template-columns: calc(50% - 5px) calc(50% - 5px); 
+        grid-template-rows: calc(50% - 5px) calc(50% - 5px);
+        gap: 10px;
+        width: 50%;
+        height: 100%;
+        max-width: 100%;
+        max-height: 100%;
+        box-sizing: border-box;
+        overflow: hidden;
     height: 100%; 
         place-items: center center;
         place-content: center center;
     ">
-                                <div class="fragment shrink"><img 
-                                    src="https://images4.alphacoders.com/133/thumb-1920-1332281.jpeg" 
-                                    alt="Gojo" 
-                                    style="
+                                <div class="fragment shrink" style="width: 100%; height:100%;"><div class="box-wrapper" style="display: flex; width: 100%; height: 100%;">
+                                    <div class="box" style="display: flex; flex-direction: column; width: 100%; height: 100%;place-items: center center; place-content: center center;">
+                                        <img 
+                                            src="https://images4.alphacoders.com/133/thumb-1920-1332281.jpeg" 
+                                            alt="Gojo" 
+                                            style="
         display: block;
         max-width: 100%;
         max-height: 100%;
         object-fit: contain;
-        margin: auto;
     
-            width: 100%;
+            width: fit-content; 
             height: auto;
         " 
-                                /></div>
-                                <img 
-                                    src="https://images4.alphacoders.com/133/thumb-1920-1332281.jpeg" 
-                                    alt="Gojo" 
-                                    style="
+                                        />
+                                    </div>
+                                </div></div>
+                                <div class="box-wrapper" style="display: flex; width: 100%; height: 100%;">
+                                    <div class="box" style="display: flex; flex-direction: column; width: 100%; height: 100%;place-items: center center; place-content: center center;">
+                                        <img 
+                                            src="https://images4.alphacoders.com/133/thumb-1920-1332281.jpeg" 
+                                            alt="Gojo" 
+                                            style="
         display: block;
         max-width: 100%;
         max-height: 100%;
         object-fit: contain;
-        margin: auto;
     
-            width: 100%;
+            width: fit-content; 
             height: auto;
         " 
-                                />
-                                <img 
-                                    src="https://images4.alphacoders.com/133/thumb-1920-1332281.jpeg" 
-                                    alt="Gojo" 
-                                    style="
+                                        />
+                                    </div>
+                                </div>
+                                <div class="box-wrapper" style="display: flex; width: 100%; height: 100%;">
+                                    <div class="box" style="display: flex; flex-direction: column; width: 100%; height: 100%;place-items: center center; place-content: center center;">
+                                        <img 
+                                            src="https://images4.alphacoders.com/133/thumb-1920-1332281.jpeg" 
+                                            alt="Gojo" 
+                                            style="
         display: block;
         max-width: 100%;
         max-height: 100%;
         object-fit: contain;
-        margin: auto;
     
-            width: 100%;
+            width: fit-content; 
             height: auto;
         " 
-                                />
-                                <img 
-                                    src="https://images4.alphacoders.com/133/thumb-1920-1332281.jpeg" 
-                                    alt="Gojo" 
-                                    style="
+                                        />
+                                    </div>
+                                </div>
+                                <div class="box-wrapper" style="display: flex; width: 100%; height: 100%;">
+                                    <div class="box" style="display: flex; flex-direction: column; width: 100%; height: 100%;place-items: center center; place-content: center center;">
+                                        <img 
+                                            src="https://images4.alphacoders.com/133/thumb-1920-1332281.jpeg" 
+                                            alt="Gojo" 
+                                            style="
         display: block;
         max-width: 100%;
         max-height: 100%;
         object-fit: contain;
-        margin: auto;
     
-            width: 100%;
+            width: fit-content; 
             height: auto;
         " 
-                                />
+                                        />
+                                    </div>
+                                </div>
                             </div>
-                            <div class="fragment fade-in" style="display: grid; 
-            grid-template-columns: repeat(2, 1fr); 
-            grid-template-rows: repeat(2, calc(50% - 5px));
-            gap: 10px;
-            box-sizing: border-box;
+                            <div class="fragment fade-in" style="width: 100%; height:100%; 
+        display: grid; 
+        grid-template-columns: calc(50% - 5px) calc(50% - 5px); 
+        grid-template-rows: calc(50% - 5px) calc(50% - 5px);
+        gap: 10px;
+        width: 100%;
+        height: 100%;
+        max-width: 100%;
+        max-height: 100%;
+        box-sizing: border-box;
+        overflow: hidden;
     height: 100%; width: 100%; 
         place-items: center center;
         place-content: center center;
     ">
-                                <img 
-                                    src="https://images4.alphacoders.com/133/thumb-1920-1332281.jpeg" 
-                                    alt="Gojo" 
-                                    style="
+                                <div class="box-wrapper" style="display: flex; width: 100%; height: 100%;">
+                                    <div class="box" style="display: flex; flex-direction: column; width: 100%; height: 100%;place-items: center center; place-content: center center;">
+                                        <img 
+                                            src="https://images4.alphacoders.com/133/thumb-1920-1332281.jpeg" 
+                                            alt="Gojo" 
+                                            style="
         display: block;
         max-width: 100%;
         max-height: 100%;
         object-fit: contain;
-        margin: auto;
     
-            width: 100%;
+            width: fit-content; 
             height: auto;
         " 
-                                />
-                                <img 
-                                    src="https://images4.alphacoders.com/133/thumb-1920-1332281.jpeg" 
-                                    alt="Gojo" 
-                                    style="
+                                        />
+                                    </div>
+                                </div>
+                                <div class="box-wrapper" style="display: flex; width: 100%; height: 100%;">
+                                    <div class="box" style="display: flex; flex-direction: column; width: 100%; height: 100%;place-items: center center; place-content: center center;">
+                                        <img 
+                                            src="https://images4.alphacoders.com/133/thumb-1920-1332281.jpeg" 
+                                            alt="Gojo" 
+                                            style="
         display: block;
         max-width: 100%;
         max-height: 100%;
         object-fit: contain;
-        margin: auto;
     
-            width: 100%;
+            width: fit-content; 
             height: auto;
         " 
-                                />
-                                <img 
-                                    src="https://images4.alphacoders.com/133/thumb-1920-1332281.jpeg" 
-                                    alt="Gojo" 
-                                    style="
+                                        />
+                                    </div>
+                                </div>
+                                <div class="box-wrapper" style="display: flex; width: 100%; height: 100%;">
+                                    <div class="box" style="display: flex; flex-direction: column; width: 100%; height: 100%;place-items: center center; place-content: center center;">
+                                        <img 
+                                            src="https://images4.alphacoders.com/133/thumb-1920-1332281.jpeg" 
+                                            alt="Gojo" 
+                                            style="
         display: block;
         max-width: 100%;
         max-height: 100%;
         object-fit: contain;
-        margin: auto;
     
-            width: 100%;
+            width: fit-content; 
             height: auto;
         " 
-                                />
-                                <img 
-                                    src="https://images4.alphacoders.com/133/thumb-1920-1332281.jpeg" 
-                                    alt="Gojo" 
-                                    style="
+                                        />
+                                    </div>
+                                </div>
+                                <div class="box-wrapper" style="display: flex; width: 100%; height: 100%;">
+                                    <div class="box" style="display: flex; flex-direction: column; width: 100%; height: 100%;place-items: center center; place-content: center center;">
+                                        <img 
+                                            src="https://images4.alphacoders.com/133/thumb-1920-1332281.jpeg" 
+                                            alt="Gojo" 
+                                            style="
         display: block;
         max-width: 100%;
         max-height: 100%;
         object-fit: contain;
-        margin: auto;
     
-            width: 100%;
+            width: fit-content; 
             height: auto;
         " 
-                                />
+                                        />
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </section>
@@ -578,9 +723,13 @@
                         
                         
                     >
-                        <div class="math-box" style="color: #2980b9; font-size: 1.5em; ">
-                            <div class="math-content">
-                                $\zeta(s) = \sum_{n=1}^{\infty} \frac{1}{n^s} = \prod_{p \in \text{primes}} \frac{1}{1 - p^{-s}}$
+                        <div class="box-wrapper" style="display: flex; width: 100%; height: 100%;">
+                            <div class="box" style="display: flex; flex-direction: column; width: 100%; height: 100%;place-items: center center; place-content: center center;">
+                                <div class="math-box" style="font-size: 1.5em; color: #2980b9; ">
+                                    <div class="math-content">
+                                        $\zeta(s) = \sum_{n=1}^{\infty} \frac{1}{n^s} = \prod_{p \in \text{primes}} \frac{1}{1 - p^{-s}}$
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </section>

@@ -23,6 +23,7 @@ import {
     isListAttribute,
     isMediaAttribute,
     isTextAttribute,
+    ComponentSlot,
 } from './generated/ast.js';
 
 /**
@@ -54,7 +55,7 @@ export function registerValidationChecks(services: SlideDeckMlServices) {
  */
 
 export type ComponentInformation = {
-    slots: Set<string>;
+    slots: ComponentSlot[];
     references: Set<ComponentBoxReference>;
 };
 
@@ -73,8 +74,9 @@ export class SlideDeckMlValidator {
             componentsSymbolTable.set(component.name, this.collectComponentInformations(component.content)); // Only the last declaration is considered
         }
 
-        /* Check component references within component declarations */
+        /* Check component definitions */
         for (const [name, informations] of componentsSymbolTable) {
+            /* Check references */
             for (const reference of informations.references) {
                 if (!reference.reference.ref || !componentsSymbolTable.get(reference.reference.ref.name)) {
                     validator('error', 'Unknown component', { node: reference });
@@ -82,6 +84,15 @@ export class SlideDeckMlValidator {
                 else if (name === reference.reference.ref.name) {
                     validator('error', `Component '${name}' cannot reference itself`, { node: reference });
                 }
+            }
+
+            /* Check slots */
+            const definedSlots: Set<string> = new Set();
+            for (const slot of informations.slots) {
+                if (definedSlots.has(slot.name)) {
+                    validator('error', `Slot '${slot.name}' is defined more than once`, { node: slot });
+                }
+                definedSlots.add(slot.name);
             }
         }
 
@@ -106,14 +117,14 @@ export class SlideDeckMlValidator {
                 usedSlots.add(slot.name);
 
                 /* Unkown slots */
-                if (!informations.slots.has(slot.name)) {
+                if (!informations.slots.find(s => s.name === slot.name)) {
                     validator('error', `Unknown slot '${slot.name}' for component '${component.name}'`, { node: slot });
                 }
             }
 
             /* Unused slots */
             for (const slot of informations.slots) {
-                if (!usedSlots.has(slot)) {
+                if (!usedSlots.has(slot.name) && !slot.content) {
                     validator('warning', `Slot '${slot}' of component '${component.name}' is never used`, { node: reference });
                 }
             }
@@ -121,11 +132,11 @@ export class SlideDeckMlValidator {
     }
 
     private collectComponentInformations(componentBox: ComponentBox): ComponentInformation {
-        const informations: ComponentInformation = { slots: new Set(), references: new Set() };
+        const informations: ComponentInformation = { slots: [], references: new Set() };
 
         switch (componentBox.$type) {
             case 'ComponentSlot':
-                informations.slots.add(componentBox.name);
+                informations.slots.push(componentBox);
                 if (componentBox.content) { // Collect references from slot default implementation
                     this.collectComponentBoxReferences(componentBox.content).forEach(reference => informations.references.add(reference));
                 }
@@ -138,8 +149,8 @@ export class SlideDeckMlValidator {
             case 'ComponentContentBox':
                 for (const box of componentBox.boxes) {
                     const childInformations: ComponentInformation = this.collectComponentInformations(box);
-                    childInformations.slots.forEach(slot => informations.slots.add(slot)); // set.union seems to not exists
-                    childInformations.references.forEach(reference => informations.references.add(reference));
+                    childInformations.slots.forEach(slot => informations.slots.push(slot));
+                    childInformations.references.forEach(reference => informations.references.add(reference)); // set.union seems to not exists
                 }
                 break;
         }
