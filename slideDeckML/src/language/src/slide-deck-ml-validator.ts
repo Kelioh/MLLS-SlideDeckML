@@ -38,8 +38,8 @@ export function registerValidationChecks(services: SlideDeckMlServices) {
         ContentBox: [validator.checkBoxAttributesUsages, validator.checkContentBoxAttributeValues],
         TextBox: validator.checkBoxAttributesUsages,
         ListBox: [validator.checkBoxAttributesUsages, validator.checkListBox],
-        QuizBox: validator.checkQuizBox,
-        LiveQuizBox: validator.checkLiveQuizBox,
+        QuizBox: [validator.checkBoxAttributesUsages, validator.checkQuizBox],
+        LiveQuizBox: [validator.checkBoxAttributesUsages, validator.checkLiveQuizBox],
         ImageBox: validator.checkImageBox,
         VideoBox: validator.checkVideoBox,
         CodeBox: validator.checkCodeBox,
@@ -185,6 +185,10 @@ export class SlideDeckMlValidator {
                 
                 case 'ListBox': return item => isCommonAttribute(item) || isListAttribute(item);
 
+                case 'QuizBox':
+                case 'LiveQuizBox':
+                    return item => isCommonAttribute(item);
+
                 case 'ImageBox':
                 case 'VideoBox': return item => isCommonAttribute(item) || isMediaAttribute(item);
 
@@ -200,9 +204,9 @@ export class SlideDeckMlValidator {
     }
 
 
-    checkBoxAttributesUsages(box: ComponentContentBox | ContentBox | TextBox | ListBox, validator: ValidationAcceptor): void {
+    checkBoxAttributesUsages(box: ComponentContentBox | ContentBox | TextBox | ListBox | QuizBox | LiveQuizBox, validator: ValidationAcceptor): void {
         const usedAttributes: Set<string> = new Set();
-        for (const attribute of box.attributes) {
+        for (const attribute of (box.attributes ?? [])) {
             if (usedAttributes.has(attribute.key)) {
                 validator('warning', `Attribute '${attribute.key}' is declared multiple times`, { node: box });
                 continue;

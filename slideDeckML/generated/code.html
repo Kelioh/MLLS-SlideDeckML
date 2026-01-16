@@ -5,9 +5,20 @@
             <script src="https://cdn.socket.io/4.7.5/socket.io.min.js" crossorigin="anonymous"></script>
             <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
+            <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+
+            <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" 
+                    onload="renderMathInElement(document.body, {
+                    delimiters: [
+                        {left: '$$', right: '$$', display: true},
+                        {left: '$', right: '$', display: false}
+                    ]
+                    });"></script>
+
             <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5/dist/reveal.css">
             <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5/dist/theme/solarized.css">
             <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5/plugin/highlight/monokai.css">
+            <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
 
             <style>
                 /* Reset body margins/padding */
@@ -197,22 +208,24 @@
                         
                         
                     >
-                        <div class="code-box-container" style="display: flex; gap: 2rem; align-items: center; width: 100%; height: 500px;">
-                            <div style="flex: 2;">
-                                <pre><code data-noescape class="language-python" data-line-numbers="1|2|3|4|5|6">      def quicksort(arr):
+                        <div class="box-wrapper" style="display: flex; width: 100%; height: 100%; justify-content: center; align-items: center;">
+                            <div class="box" style="display: flex; flex-direction: column; width: 100%; height: 100%; justify-content: center; align-items: center;">
+                                <div class="code-box-container" style="display: flex; flex-wrap: wrap; gap: 1rem; width: fit-content;">
+                                    <div style="flex: 2; min-width: 0;">
+                                        <pre style="margin: 0; overflow: auto;"><code data-noescape class="language-python" data-line-numbers="1|2|3|4|5|6">      def quicksort(arr):
           if len(arr) <= 1:
               return arr
           pivot = arr[len(arr) // 2]
           left = [x for x in arr if x < pivot]
     </code></pre>
-                            </div>
-                            <div class="image-stack" style="flex: 1; position: relative; height: 100%;">
-                                <div class="code-step-image" data-start="1" data-end="3"
-                                     style="position: absolute; opacity: 1; transition: opacity 0.3s; width: 100%; height: 100%;">
-                                    <img 
-                                        src="https://images4.alphacoders.com/133/thumb-1920-1332281.jpeg" 
-                                        alt="Gojo" 
-                                        style="
+                                    </div>
+                                    <div class="image-stack" style="flex: 1; min-width: 0; display: grid; place-items: center; overflow: hidden;">
+                                        <div class="code-step-image" data-start="1" data-end="3"
+                                             style="grid-area: 1 / 1; opacity: 1; transition: opacity 0.3s; width: 100%; display: flex; justify-content: center; align-items: center;">
+                                            <img 
+                                                src="https://images4.alphacoders.com/133/thumb-1920-1332281.jpeg" 
+                                                alt="Gojo" 
+                                                style="
         display: block;
         max-width: 100%;
         max-height: 100%;
@@ -222,13 +235,13 @@
             width: 100%; 
             height: 100%;
         " 
-                                    />
-                                </div><div class="code-step-image" data-start="4" data-end="5"
-                                     style="position: absolute; opacity: 0; transition: opacity 0.3s; width: 100%; height: 100%;">
-                                    <img 
-                                        src="https://images4.alphacoders.com/133/thumb-1920-1332282.jpeg" 
-                                        alt="Gojo" 
-                                        style="
+                                            />
+                                        </div><div class="code-step-image" data-start="4" data-end="5"
+                                             style="grid-area: 1 / 1; opacity: 0; transition: opacity 0.3s; width: 100%; display: flex; justify-content: center; align-items: center;">
+                                            <img 
+                                                src="https://images4.alphacoders.com/133/thumb-1920-1332282.jpeg" 
+                                                alt="Gojo" 
+                                                style="
         display: block;
         max-width: 100%;
         max-height: 100%;
@@ -238,7 +251,9 @@
             width: 100%; 
             height: 100%;
         " 
-                                    />
+                                            />
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -252,9 +267,25 @@
                         
                         
                     >
-                        <div class="code-box-container" style="display: flex; gap: 2rem; align-items: center; width: 100%; height: 500px;">
-                            <div style="flex: 2;">
-                                <pre><code data-noescape class="language-c" data-line-numbers="1|2|3|4|5|6|7|8">      void function(int* arr) {
+                        <div  style="width: 100%; height:100%; display: grid; 
+            grid-template-columns: repeat(2, 1fr); 
+            grid-template-rows: repeat(1, calc(100% - 0px));
+            gap: 10px;
+            box-sizing: border-box;
+    height: 100%; width: 100%; 
+        place-items: center center;
+        place-content: center center;
+    ">
+                            <div class="box-wrapper" style="display: flex; width: 100%; height: 100%; justify-content: flex-start; align-items: flex-start;">
+                                <div class="text-box" style="display: flex; flex-direction: column; width: 100%; height: 100%; justify-content: flex-start; align-items: flex-start;">
+                                    Colonne de gauche mais un texte un peu plus long
+                                </div>
+                            </div>
+                            <div class="box-wrapper" style="display: flex; width: 100%; height: 100%; justify-content: flex-end; align-items: flex-start;">
+                                <div class="box" style="display: flex; flex-direction: column; width: 100%; height: 100%; justify-content: flex-start; align-items: flex-end;">
+                                    <div class="code-box-container" style="display: flex; flex-wrap: wrap; gap: 1rem; width: fit-content;">
+                                        <div style="flex: 2; min-width: 0;">
+                                            <pre style="margin: 0; overflow: auto;"><code data-noescape class="language-c" data-line-numbers="1|2|3|4|5|6|7|8">      void function(int* arr) {
           if (len(arr) <= 1) {
               return;
           }
@@ -262,14 +293,14 @@
           left = /* ... */;
       }
     </code></pre>
-                            </div>
-                            <div class="image-stack" style="flex: 1; position: relative; height: 100%;">
-                                <div class="code-step-image" data-start="1" data-end="2"
-                                     style="position: absolute; opacity: 1; transition: opacity 0.3s; width: 100%; height: 100%;">
-                                    <img 
-                                        src="https://images4.alphacoders.com/133/thumb-1920-1332281.jpeg" 
-                                        alt="Gojo" 
-                                        style="
+                                        </div>
+                                        <div class="image-stack" style="flex: 1; min-width: 0; display: grid; place-items: center; overflow: hidden;">
+                                            <div class="code-step-image" data-start="1" data-end="2"
+                                                 style="grid-area: 1 / 1; opacity: 1; transition: opacity 0.3s; width: 100%; display: flex; justify-content: center; align-items: center;">
+                                                <img 
+                                                    src="https://images4.alphacoders.com/133/thumb-1920-1332281.jpeg" 
+                                                    alt="Gojo" 
+                                                    style="
         display: block;
         max-width: 100%;
         max-height: 100%;
@@ -279,13 +310,13 @@
             width: 100%; 
             height: 100%;
         " 
-                                    />
-                                </div><div class="code-step-image" data-start="4" data-end="5"
-                                     style="position: absolute; opacity: 0; transition: opacity 0.3s; width: 100%; height: 100%;">
-                                    <img 
-                                        src="https://images4.alphacoders.com/133/thumb-1920-1332282.jpeg" 
-                                        alt="Gojo" 
-                                        style="
+                                                />
+                                            </div><div class="code-step-image" data-start="4" data-end="5"
+                                                 style="grid-area: 1 / 1; opacity: 0; transition: opacity 0.3s; width: 100%; display: flex; justify-content: center; align-items: center;">
+                                                <img 
+                                                    src="https://images4.alphacoders.com/133/thumb-1920-1332282.jpeg" 
+                                                    alt="Gojo" 
+                                                    style="
         display: block;
         max-width: 100%;
         max-height: 100%;
@@ -295,7 +326,10 @@
             width: 100%; 
             height: 100%;
         " 
-                                    />
+                                                />
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>

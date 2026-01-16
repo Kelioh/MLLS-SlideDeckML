@@ -1067,20 +1067,25 @@ function textContent(text: string): string {
 }
 
 function generateQuizBox(quiz: QuizBox): CompositeGeneratorNode {
+    const attributes = (quiz as unknown as { attributes?: unknown }).attributes;
+    const { wrapperStyle, boxStyle } = generateCommonStyles(attributes);
+
     const question = textContent(quiz.question);
     const correctAnswer = quiz.correctAnswer ? textContent(quiz.correctAnswer) : '';
     const options = quiz.options.map(opt => ({ id: opt.id, label: textContent(opt.content) }));
 
     return expandToNode`
-        <div
-            class="sdml-quiz"
-            data-quiz-id="${quiz.id}"
-            data-quiz-type="${quiz.type}"
-            data-correct-answer="${correctAnswer}"
-            data-reveal-on-demand="${quiz.revealResultsOnDemand ? 'true' : 'false'}"
-        >
-            <div class="sdml-quiz__title">Quiz</div>
-            <div class="sdml-quiz__question">${question}</div>
+        <div class="box-wrapper" style="${wrapperStyle}">
+            <div class="box" style="${boxStyle}">
+                <div
+                    class="sdml-quiz"
+                    data-quiz-id="${quiz.id}"
+                    data-quiz-type="${quiz.type}"
+                    data-correct-answer="${correctAnswer}"
+                    data-reveal-on-demand="${quiz.revealResultsOnDemand ? 'true' : 'false'}"
+                >
+                    <div class="sdml-quiz__title">Quiz</div>
+                    <div class="sdml-quiz__question">${question}</div>
 
             ${quiz.type === 'short'
             ? expandToNode`
@@ -1122,6 +1127,8 @@ function generateQuizBox(quiz: QuizBox): CompositeGeneratorNode {
                         `
             : expandToNode`<div class="sdml-quiz__results">Correct answer: <strong>${correctAnswer || '—'}</strong></div>`
         }
+                </div>
+            </div>
         </div>
     `;
 }
@@ -1162,6 +1169,9 @@ function hasAttribute(attributes: unknown, key: string): boolean {
 }
 
 function generateLiveQuizBox(quiz: LiveQuizBox): CompositeGeneratorNode {
+    const attributes = (quiz as unknown as { attributes?: unknown }).attributes;
+    const { wrapperStyle, boxStyle } = generateCommonStyles(attributes);
+
     const quizId = quiz.id;
     const questionText = textContent(quiz.question);
     const correctAnswer = quiz.correctAnswer ? textContent(quiz.correctAnswer) : '';
@@ -1171,9 +1181,11 @@ function generateLiveQuizBox(quiz: LiveQuizBox): CompositeGeneratorNode {
     const optionsJson = JSON.stringify(options);
 
     return expandToNode`
-        <div class="sdml-quiz live-quiz" id="quiz-${quizId}" data-correct-answer="${correctAnswer}">
-            <div class="sdml-quiz__title">Live Quiz</div>
-            <div class="sdml-quiz__question">${questionText}</div>
+        <div class="box-wrapper" style="${wrapperStyle}">
+            <div class="box" style="${boxStyle}">
+                <div class="sdml-quiz live-quiz" id="quiz-${quizId}" data-correct-answer="${correctAnswer}">
+                    <div class="sdml-quiz__title">Live Quiz</div>
+                    <div class="sdml-quiz__question">${questionText}</div>
             
             <div style="display: flex; gap: 20px; align-items: flex-start;">
                 <div class="sdml-quiz__options" style="flex: 1;">
@@ -1288,12 +1300,16 @@ function generateLiveQuizBox(quiz: LiveQuizBox): CompositeGeneratorNode {
                     }
                 })();
             </script>
+                </div>
+            </div>
         </div>
     `;
 }
 
 function generateCodeBox(codeBox: CodeBox): CompositeGeneratorNode {
     const mappings: CodeLineBox[] = Array.isArray(codeBox.lines) ? codeBox.lines : [];
+    const attributes = (codeBox as unknown as { attributes?: any }).attributes;
+
 
     let fullCode = '';
     if (codeBox.code) {
@@ -1313,6 +1329,9 @@ function generateCodeBox(codeBox: CodeBox): CompositeGeneratorNode {
         ? Array.from({ length: codeLines.length }, (_, idx) => String(idx + 1)).join('|')
         : '';
 
+    let { wrapperStyle, boxStyle } = generateCommonStyles(attributes);
+    boxStyle += generateTextBoxStyles(attributes);
+
     const imageStack = mappings.map((mapping, idx) => {
         const startRaw = Number(mapping.start);
         const endRaw = mapping.end !== undefined ? Number(mapping.end) : startRaw;
@@ -1321,7 +1340,7 @@ function generateCodeBox(codeBox: CodeBox): CompositeGeneratorNode {
 
         return expandToNode`
             <div class="code-step-image" data-start="${start}" data-end="${end}"
-                 style="position: absolute; opacity: ${idx === 0 ? '1' : '0'}; transition: opacity 0.3s; width: 100%; height: 100%;">
+                 style="grid-area: 1 / 1; opacity: ${idx === 0 ? '1' : '0'}; transition: opacity 0.3s; width: 100%; display: flex; justify-content: center; align-items: center;">
                 ${generateImageBox(mapping.image)}
             </div>
         `;
@@ -1330,12 +1349,16 @@ function generateCodeBox(codeBox: CodeBox): CompositeGeneratorNode {
     const dataLineNumbersAttr = lineHighlightSteps.length > 0 ? `data-line-numbers="${lineHighlightSteps}"` : '';
 
     return expandToNode`
-        <div class="code-box-container" style="display: flex; gap: 2rem; align-items: center; width: 100%; height: 500px;">
-            <div style="flex: 2;">
-                <pre><code data-noescape class="language-${codeBox.language}" ${dataLineNumbersAttr}>${fullCode}</code></pre>
-            </div>
-            <div class="image-stack" style="flex: 1; position: relative; height: 100%;">
-                ${joinToNode(imageStack)}
+        <div class="box-wrapper" style="${wrapperStyle}">
+            <div class="box" style="${boxStyle}">
+                <div class="code-box-container" style="display: flex; flex-wrap: wrap; gap: 1rem; width: fit-content;">
+                    <div style="flex: 2; min-width: 0;">
+                        <pre style="margin: 0; overflow: auto;"><code data-noescape class="language-${codeBox.language}" ${dataLineNumbersAttr}>${fullCode}</code></pre>
+                    </div>
+                    <div class="image-stack" style="flex: 1; min-width: 0; display: grid; place-items: center; overflow: hidden;">
+                        ${joinToNode(imageStack)}
+                    </div>
+                </div>
             </div>
         </div>
     `;

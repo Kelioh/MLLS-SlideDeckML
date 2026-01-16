@@ -97,7 +97,7 @@ VideoBox:
 
 
 QuizBox:
-    'quiz' id=ID '{'
+    'quiz' ('[' attributes+=(CommonAttribute) (',' attributes+=(CommonAttribute))* ']')? id=ID '{'
         question=TEXT
         type=QUIZ_TYPE
         options+=QuizOption*
@@ -106,7 +106,7 @@ QuizBox:
     '}';
 
 LiveQuizBox:
-    'livequiz' id=ID '{'
+    'livequiz' ('[' attributes+=(CommonAttribute) (',' attributes+=(CommonAttribute))* ']')? id=ID '{'
         question=TEXT
         options+=QuizOption*
         correctAnswer=TEXT?

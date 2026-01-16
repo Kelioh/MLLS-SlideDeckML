@@ -1,9 +1,9 @@
 presentation Quiz
 
 slide Question1 {
-  box {
+  box[column=3] {
     text {Question}
-
+    text {Choose the correct answer below:}
     quiz performance {
       {What’s the typical performance complexity target for sorting large arrays?}
       short
@@ -40,7 +40,7 @@ slide Question3 {
 
 slide Question4 {
   box {
-    livequiz sort3 {
+    livequiz[alignment="top left"] sort3 {
       {What’s the typical performance complexity target for sorting large arrays?}
       option a {O(n^2)}
       option b {O(n log n)}
@@ -49,6 +49,8 @@ slide Question4 {
       revealResultsOnDemand
       {session123}
     }
+    text [width = 100%, height = 100%, alignment = "bottom right"] {Live Quiz Example}
+
   }
 }
 
