@@ -1146,6 +1146,7 @@ function generateVideoBox(videoBox: VideoBox): CompositeGeneratorNode {
                     src="${embed}"
                     title="${alt}"
                     style="${style}"
+                    referrerpolicy="strict-origin-when-cross-origin"
                     allowfullscreen>
                 </iframe>
             </div>
