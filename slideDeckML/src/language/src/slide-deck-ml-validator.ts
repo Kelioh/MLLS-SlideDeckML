@@ -217,7 +217,8 @@ export class SlideDeckMlValidator {
 
     checkBoxAttributesUsages(box: ComponentContentBox | ContentBox | TextBox | ListBox | QuizBox | LiveQuizBox, validator: ValidationAcceptor): void {
         const usedAttributes: Set<string> = new Set();
-        for (const attribute of (box.attributes ?? [])) {
+        const attributes = (box as ContentBox).attributes ?? [];
+        for (const attribute of attributes) {
             if (usedAttributes.has(attribute.key)) {
                 validator('warning', `Attribute '${attribute.key}' is declared multiple times`, { node: box });
                 continue;
