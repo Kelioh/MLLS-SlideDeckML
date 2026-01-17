@@ -144,7 +144,7 @@ slide video_demo {
                 Voici une superbe musique d'un youtubeur assez connu mais qui commence à dater
             }
             video [scale = 100%] {
-                src {https://youtu.be/uGSu6mhk3RQ?si=7k--2FqMo6HaFlEz}
+                src {https://youtu.be/uGSu6mhk3RQ}
                 alt {Top 1 Squeezie}
             }
             text [width = 60%, text-size = "m"] {

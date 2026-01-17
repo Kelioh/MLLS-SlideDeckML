@@ -200,16 +200,35 @@ function generateModel(model: Model): CompositeGeneratorNode {
                 /* Style of the toolbar */
                 #toolbar {
                     position: fixed;
-                    bottom: 20px;
-                    left: 20px;
-                    z-index: 100;
-                    background: rgba(255, 255, 255, 0.9);
+                    bottom: 100px;
+                    left: 100px;
+                    z-index: 110;
+                    background: rgba(255, 255, 255, 0.95);
                     padding: 12px;
                     border-radius: 8px;
-                    display: flex;
+                    display: none;
                     gap: 10px;
                     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-                    font-family: sans-serif;
+                    transition: transform 0.3s ease, opacity 0.3s ease;
+                }
+
+                /* Bouton pour afficher/cacher la toolbar */
+                #toolbar-toggle {
+                    position: fixed;
+                    bottom: 100px;
+                    left: 20px;
+                    z-index: 120;
+                    background: #2196F3;
+                    color: white;
+                    border: none;
+                    width: 50px;
+                    height: 50px;
+                    border-radius: 50%;
+                    font-size: 20px;
+                    box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+                    display: none;
+                    align-items: center;
+                    justify-content: center;
                 }
 
                 button {
@@ -246,6 +265,8 @@ function generateModel(model: Model): CompositeGeneratorNode {
         </head>
         
         <body>
+            <button id="toolbar-toggle" onclick="toggleToolbar()">🛠️</button>
+
             <div id="toolbar">
                 <button id="btn-pen" onclick="setTool('pen')">✏️ Stylo (D)</button>
                 <button id="btn-highlighter" onclick="setTool('highlighter')">🖍️ Surligneur (H)</button>
@@ -484,16 +505,6 @@ function generateModel(model: Model): CompositeGeneratorNode {
                     section.querySelectorAll('.floating-text').forEach(txt => makeDraggable(txt, section));
                 });
 
-                function updateToolbarVisibility(currentSlide) {
-                    const toolbar = document.getElementById('toolbar');
-                    if (currentSlide.classList.contains('annotable')) {
-                        toolbar.style.display = 'flex';
-                    } else {
-                        toolbar.style.display = 'none';
-                        setTool(null);
-                    }
-                }
-
                 function setTool(tool) {
                     currentTool = (currentTool === tool) ? null : tool;
                     document.querySelectorAll('#toolbar button').forEach(btn => btn.classList.remove('active'));
@@ -502,6 +513,35 @@ function generateModel(model: Model): CompositeGeneratorNode {
                     document.querySelectorAll('.canvas-container').forEach(c => {
                         c.className = \`canvas-container \${ currentTool ? 'active tool-' + currentTool : '' } \`;
                     });
+                }
+
+                function toggleToolbar() {
+                    const toolbar = document.getElementById('toolbar');
+                    const isHidden = toolbar.style.display === 'none';
+                    
+                    if (isHidden) {
+                        toolbar.style.display = 'flex';
+                        toolbar.style.transform = 'translateY(0)';
+                        toolbar.style.pointerEvents = 'all';
+                    } else {
+                        toolbar.style.display = 'none';
+                        toolbar.style.transform = 'translateY(20px)';
+                        toolbar.style.pointerEvents = 'none';
+                    }
+                }
+
+                function updateToolbarVisibility(currentSlide) {
+                    const toolbar = document.getElementById('toolbar');
+                    const toggle = document.getElementById('toolbar-toggle');
+
+                    toolbar.style.display = 'none';
+
+                    if (currentSlide.classList.contains('annotable')) {
+                        toggle.style.display = 'flex';
+                    } else {
+                        toggle.style.display = 'none';
+                        setTool(null);
+                    }
                 }
 
                 function setupEvents(canvas, section) {
