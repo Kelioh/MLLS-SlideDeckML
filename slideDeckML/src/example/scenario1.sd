@@ -1,0 +1,95 @@
+presentation Scenario1
+
+theme font "Arial, Helvetica, sans-serif" primary "#0055A4"
+
+header bg "#0055A4" color "#FFFFFF" size "1.6rem" {
+    box {
+        text {Université Côte d'Azur - SI5/M2 INFO}
+        image [scale = 50%] {
+            src {../src/example/assets/logo.jpg}
+            alt {UCA Logo}
+        }
+    }
+}
+
+footer bg "#F5F5F5" color "#333333" size "1rem" {
+    box {
+        text {© 2026 - Université Côte d'Azur}
+    }
+}
+
+slide title_slide {
+    box [column = 2, height = 100%] {
+        box {
+            text [bold, text-size = "xl", alignment = "center"] {Project: DSL}
+            text {Status: in progress (apprenticeship phase)}
+            text {Student: (name)}
+            text {Company: Polytech}
+        }
+        image [scale = 90%] {
+            src {../src/example/assets/sites.png}
+            alt {Work site picture}
+        }
+    }
+}
+
+slide outline_slide {
+    box [alignment = "top left"] {
+        text [bold, underline] {Outline}
+        list [type = ordered, spaceBetweenItems = 18] {
+            {Company template}
+            {Project overview}
+            {Key results}
+            {Animations demo}
+            {Video}
+            {Conclusion}
+        }
+    }
+}
+
+slide animations_text {
+    box {
+        text [bold] {Animations: text appearance}
+        text [fragment=fade-in, italic] {Step 1: context and constraints}
+        text [fragment=fade-up, color = "red"] {Step 2: solution design}
+        text [fragment=fade-up, color = "green"] {Step 3: implementation}
+        text [fragment=fade-in, bold, color = "blue"] {Step 4: validated}
+    }
+}
+
+slide animations_media {
+    box [column = 2, height = 100%] {
+        box {
+            text [bold] {Animations: pictures + captions}
+            text [fragment=fade-in] {The site picture appears}
+            text [fragment=fade-up] {Then the key takeaway appears}
+            text [fragment=highlight-blue] {Reusable for weekly updates}
+        }
+        image [fragment=fade-in, scale = 80%] {
+            src {../src/example/assets/sites.png}
+            alt {Animated work site picture}
+        }
+    }
+}
+
+slide video_demo {
+    box[column = 2, height = 100%] {
+        text [bold] {Video}
+        video [scale = 100%] {
+            src {https://www.youtube.com/watch?v=sY97ZQSvKLk}
+            alt {Polytech apprenticeship video}
+        }
+    }
+}
+
+slide conclusion_slide {
+    box {
+        text [bold] {Conclusion}
+        list [type = unordered, spaceBetweenItems = 18] {
+            {What was delivered}
+            {Current status}
+            {Next steps}
+            {Q&A}
+        }
+    }
+}
