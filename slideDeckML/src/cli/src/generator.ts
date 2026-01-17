@@ -90,8 +90,8 @@ function generateModel(model: Model): CompositeGeneratorNode {
 
                 /* Reveal.js viewport adjustment for header/footer */
                 .reveal {
-                    top: 80px !important;
-                    height: calc(100% - 160px) !important;
+                    ${model.header ? 'top: 80px !important;' : ''}
+                    height: calc(100% - ${model.header && model.footer ? '160px' : model.header || model.footer ? '80px' : '0px'}) !important;
                 }
 
                 .reveal .slides section {
