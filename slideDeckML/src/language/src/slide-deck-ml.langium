@@ -9,6 +9,29 @@ entry Model:
     slides+=Slide*;
 
 
+/*********/
+/* Theme */
+/*********/
+
+Theme:
+    'theme' ('font' fontName=STRING)? ('primary' primaryColor=STRING)? ('logo' logo=STRING)?;
+
+
+/*******************/
+/* Header & Footer */
+/*******************/
+
+Header:
+    'header' ('bg' background=STRING)? ('color' color=STRING)? ('size' fontSize=STRING)? '{'
+        content=Box
+    '}';
+
+Footer:
+    'footer' ('bg' background=STRING)? ('color' color=STRING)? ('size' fontSize=STRING)? '{'
+        content=Box
+    '}';
+
+
 /**************************/
 /* Component declarations */
 /**************************/
@@ -136,7 +159,9 @@ MathematicalBox:
     'mathematics' ('[' attributes+=(CommonAttribute | TextAttribute) (',' attributes+=(CommonAttribute | TextAttribute))* ']')? content=MATH_EXPR;
 
 
+/**************/
 /* Attributes */
+/**************/
 
 SlideAttribute:
     key='non-annotable';
@@ -154,8 +179,7 @@ CommonAttribute:
 
 
 ContentAttribute:
-    key='column' '=' value=INTEGER |
-    key='alignment' '=' value=STRING;
+    key='column' '=' value=INTEGER;
 
 
 TextAttribute:
@@ -176,29 +200,6 @@ ListAttribute:
 
 MediaAttribute:
     key='scale' '=' value=PERCENTAGE;
-
-
-/*******************/
-/* Header & Footer */
-/*******************/
-
-Header:
-    'header' ('bg' background=STRING)? ('color' color=STRING)? ('size' fontSize=STRING)? '{'
-        content=Box
-    '}';
-
-Footer:
-    'footer' ('bg' background=STRING)? ('color' color=STRING)? ('size' fontSize=STRING)? '{'
-        content=Box
-    '}';
-
-
-/*********/
-/* Theme */
-/*********/
-
-Theme:
-    'theme' ('font' fontName=STRING)? ('primary' primaryColor=STRING)? ('logo' logo=STRING)?;
 
 
 /*************/

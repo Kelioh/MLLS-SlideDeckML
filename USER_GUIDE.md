@@ -40,12 +40,12 @@ La slide est l'unité fondamentale de votre présentation. Pour chaque nouvelle 
 
 - Insérer une Box classique : C'est l'option idéale pour structurer votre slide. En créant une boîte, vous pouvez diviser votre écran en colonnes et gérer précisément la disposition de vos éléments.
 
-👉 Pour en savoir plus sur l'organisation des grilles, consultez la 
+Pour en savoir plus sur l'organisation des grilles, consultez la 
 [Partie 3 : Système de Mise en Page : Les Boxes](#3-système-de-mise-en-page--les-boxes).
 
 - Utiliser directement des Terminal Boxes : Si vous n'avez besoin que d'un seul élément sur votre slide (par exemple, une image en plein écran ou un titre centré), vous pouvez placer directement un bloc de contenu sans passer par une boîte intermédiaire.
 
-👉 Découvrez tous les éléments disponibles dans la Partie 5 : Blocs de Contenu.
+Découvrez tous les éléments disponibles dans la Partie 5 : Blocs de Contenu.
 [Partie 5 : Blocs de Contenu](#5-blocs-de-contenu-terminal-boxes).
 
 ### Option de configuration
@@ -77,7 +77,7 @@ box [column = 2, width = 100%, height = 100%] {
 ```
 
 ## 4. Composants et Slots (Réutilisation)
-Les components permettent de définir des structures réutilisables. Les slots sont des zones réservées que vous remplirez lors de l'appel du composant.
+Les composants permettent de définir des structures réutilisables. Ils doivent être définis avant les slides. Les slots sont des zones réservées que vous remplirez lors de l'appel du composant.
 
 Définition d'un composant :
 
@@ -103,9 +103,19 @@ slide ma_slide {
 }
 ```
 
+Il est aussi possible de surcharger les attributs de la box définie par le composant : 
+
+```
+slide ma_slide {
+    mon_composant [width = 50%, height = 75%] {
+        @zone_variable image { src {./img.png} alt {Ma photo} }
+    }
+}
+```
+
 ## 5. Blocs de Contenu (Terminal Boxes)
 
-C'est bien beau de gérer les box pour manier l'ordonnancement des éléments mais parlons ainsi des éléments que vous placer dans ces box, dans les composants réutilisables ou dans les slides directement.
+Gérer les box est utile pour organiser les éléments, mais voyons maintenant quels sont les éléments que vous pouvez placer dans ces box, que ce soit dans des composants réutilisables ou directement dans les slides.
 
 ### Texte (text)
 Affiche du contenu textuel stylisé.
@@ -142,7 +152,7 @@ video [scale = 100%] {
 ### Mathématiques (mathematics)
 Ce bloc permet d'intégrer des équations scientifiques complexes avec un rendu professionnel. Pour assurer une cohérence visuelle parfaite, il hérite des mêmes attributs de style que le texte standard (couleur, taille, etc.).
 
-Syntaxe : les formules doivent être rédigées en utilisant la syntaxe LaTeX entre les balises dédiées "$$" car on ne peut utiliser notre syntaxe classique avec des "{}" car Katex les utilisent dans ses expressions mathématiques.
+Syntaxe : les formules doivent être rédigées en utilisant la syntaxe LaTeX entre les balises dédiées "$$" car on ne peut utiliser notre syntaxe classique avec des "{}" car KaTeX les utilisent dans ses expressions mathématiques.
 
 Rendu : le système utilise la bibliothèque KaTeX pour transformer vos expressions en formules propres et parfaitement alignées.
 

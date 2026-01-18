@@ -58,7 +58,7 @@ slide slide1 [non-annotable] {
 
 slide sommaire {
     box [alignment = "top left"] {
-        text [bold, underline] {Sommaire :}
+        text [bold, underline, alignment = "top left"] {Sommaire :}
         list [type = ordered, spaceBetweenItems = 30] {
             {Mise en page & Boîtes}
             {Composants & Slots}
