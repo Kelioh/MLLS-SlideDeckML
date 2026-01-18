@@ -170,6 +170,28 @@ function generateModel(model: Model): CompositeGeneratorNode {
                     align-items: center;
                     justify-content: center;
                     text-align: center;
+                    overflow: hidden;
+                    min-height: 0;
+                    font-size: 1rem;
+                    line-height: 1.2;
+                }
+
+                .slide-header__content .box-wrapper {
+                    height: auto !important;
+                    max-height: 100% !important;
+                }
+
+                .slide-header__content .text-box {
+                    height: auto !important;
+                    max-height: 100% !important;
+                    white-space: normal;
+                    word-wrap: break-word;
+                }
+
+                .slide-header__content img {
+                    height: auto !important;
+                    max-height: 60px !important;
+                    max-width: 80px !important;
                 }
 
                 .slide-header__spacer {
@@ -778,7 +800,37 @@ function generateSlide(slide: Slide, model: Model): CompositeGeneratorNode {
 
 
 function generateHeaderFooterHtml(headerOrFooter: Header | Footer, type: 'header' | 'footer'): string {
-    const boxHtml = toString(generateBox(headerOrFooter.content));
+    // For headers/footers, extract just the content without complex grid layouts
+    const content = headerOrFooter.content;
+    
+    if (content.$type === 'ContentBox') {
+        // Generate minimal layout for header/footer boxes
+        const box = content as any;
+        const items: string[] = [];
+        
+        if (box.boxes && box.boxes.length > 0) {
+            for (const item of box.boxes) {
+                if (item.$type === 'TextBox') {
+                    // Extract just the text content without wrapper divs
+                    const text = item.content.slice(1, -1).trim();
+                    items.push(`<span style="display: inline-block; line-height: 1.2;">${text}</span>`);
+                } else if (item.$type === 'ImageBox') {
+                    // Use minimal image rendering
+                    const src = item.src.slice(1, -1);
+                    const alt = item.alt ? item.alt.slice(1, -1) : 'Image';
+                    items.push(`<img src="${src}" alt="${alt}" style="height: auto; max-height: 60px; max-width: 80px; object-fit: contain;" />`);
+                } else {
+                    items.push(toString(generateBox(item)));
+                }
+            }
+        }
+        
+        // Return items wrapped in a simple flex container without height restrictions
+        return `<div style="display: flex; align-items: center; justify-content: center; gap: 8px; flex-wrap: wrap;">${items.join('')}</div>`;
+    }
+    
+    // For other box types, use the standard generation
+    const boxHtml = toString(generateBox(content));
     return boxHtml;
 }
 
