@@ -119,9 +119,8 @@ slide mathematics_slide {
 
 slide code_slide {
     box[column=1] {
-        text [width = 30%, bold] {Démonstration du bloc de code et des images associées aux lignes :}
-        text [width = 30%, bold] {Démonstration de Code Source :}
-        code_example {}
+        text [bold, alignment = "bottom"] {Démonstration du bloc de code avec la possibilité d'afficher certaines images en fonction de la ligne de code actuelle :}
+        code_example [width = 50%, alignment = "top"] {}
     }
 }
 
@@ -142,7 +141,7 @@ slide quiz_slide {
 
 slide live_quiz_slide {
     box [column=2] {
-        text [width = 30%, bold] {Démonstration de Quiz Live nécessitant que le server soit actif :}
+        text [width = 30%, bold] {Démonstration de Quiz Live nécessitant que le serveur soit actif :}
         livequiz lq1 {
         {Êtes-vous convaincus par le DSL ?}
         option yes {Oui}
@@ -177,7 +176,7 @@ slide video_demo {
 }
 
 slide image_demo {
-    box [alignment = "center", column = 1] {
+    box [column = 1] {
         text [height = 10%, text-size = "l", alignment = "top left"] {Images dans vos présentations}
 
         box [column = 2] {
@@ -213,19 +212,24 @@ slide position_demo {
 }
 
 slide nested_demo {
-    box [column = 2, height = 100%] {
-        box [alignment = "center"] {
-            text {Conteneur Interne 1}
+    box [column = 1] {
+        text [height = 20%, alignment = "bottom"] {
+            Démonstration de box imbriquées
         }
-        box [column = 2] {
-            image [scale = 90%] { src {https://images4.alphacoders.com/133/thumb-1920-1332281.jpeg} alt {Img1} }
-            image [scale = 90%] { src {https://images4.alphacoders.com/133/thumb-1920-1332281.jpeg} alt {Img2} }
+        box [column = 2, height = 100%] {
+            box {
+                text {Conteneur Interne 1}
+            }
+            box [column = 2] {
+                image [scale = 90%] { src {https://images4.alphacoders.com/133/thumb-1920-1332281.jpeg} alt {Img1} }
+                image [scale = 90%] { src {https://images4.alphacoders.com/133/thumb-1920-1332281.jpeg} alt {Img2} }
+            }
         }
     }
 }
 
 slide conclusion {
-    box [alignment = "center"] {
+    box {
         text [text-size = "xl", bold] {Merci de votre attention !}
         list [type = unordered] {
             {Questions ?}
