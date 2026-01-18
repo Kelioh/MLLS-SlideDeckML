@@ -88,6 +88,38 @@ function generateModel(model: Model): CompositeGeneratorNode {
                     overflow: hidden;
                 }
 
+                .code-box-container {
+                    display: flex;
+                    flex-direction: column;
+                    gap: 0.75rem;
+                    width: 100%;
+                    align-items: stretch;
+                }
+
+                .code-box-container .code-pane {
+                    flex: 0 0 auto;
+                    width: 100%;
+                }
+
+                .code-box-container .code-pane pre {
+                    margin: 0;
+                    width: 100%;
+                    height: auto;
+                    max-height: 55vh;
+                    overflow: auto;
+                }
+
+                .code-box-container .code-pane pre code {
+                    white-space: pre-wrap;
+                    word-break: break-word;
+                }
+
+                .code-box-container .image-stack {
+                    flex: 0 0 auto;
+                    width: 100%;
+                    max-height: 30vh;
+                }
+
                 /* Reveal.js viewport adjustment for header/footer */
                 .reveal {
                     ${model.header ? 'top: 80px !important;' : ''}
@@ -1447,11 +1479,11 @@ function generateCodeBox(codeBox: CodeBox): CompositeGeneratorNode {
     return expandToNode`
         <div class="box-wrapper" style="${wrapperStyle}">
             <div class="box" style="${boxStyle}">
-                <div class="code-box-container" style="display: flex; flex-wrap: wrap; gap: 1rem; width: fit-content;">
-                    <div style="flex: 2; min-width: 0;">
-                        <pre style="margin: 0; overflow: auto;"><code data-noescape class="language-${codeBox.language}" ${dataLineNumbersAttr}>${fullCode}</code></pre>
+                <div class="code-box-container">
+                    <div class="code-pane">
+                        <pre><code data-noescape class="language-${codeBox.language}" ${dataLineNumbersAttr}>${fullCode}</code></pre>
                     </div>
-                    <div class="image-stack" style="flex: 1; min-width: 0; display: grid; place-items: center; overflow: hidden;">
+                    <div class="image-stack" style="display: grid; place-items: center; overflow: hidden;">
                         ${joinToNode(imageStack)}
                     </div>
                 </div>
