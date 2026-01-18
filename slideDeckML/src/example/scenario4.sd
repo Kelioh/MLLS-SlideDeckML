@@ -1,0 +1,88 @@
+presentation Scenario4_RenaissanceArt_Analysis
+
+theme font "Georgia, serif" primary "#8B4513" logo "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6a/Mona_Lisa.jpg/1354px-Mona_Lisa.jpg"
+
+header bg "#8B4513" color "#FFD700" size "1.6rem" {
+    box [alignment = "center"] {
+        text {L'Art de la Renaissance : Science, Géométrie et Humanisme}
+    }
+}
+
+footer bg "#FDF5E6" color "#5D4037" size "1rem" {
+    box [column = 2] {
+        text {Cours d'Histoire de l'Art - Masterclass}
+        text [alignment = "right"] {Module 2 : L'École de Florence}
+    }
+}
+
+slide title [non-annotable] {
+    box [column = 1, height = 100%] {
+        text [bold, text-size = "xl", color = "#8B4513", alignment = "bottom"] {L'Éveil de la Renaissance Italienne}
+        text [italic, color = "#5D4037", alignment = "top"] {De la symbolique sacrée à la conquête de l'espace pictural}
+    }
+}
+
+slide overview {
+    box {
+        text [bold, underline, text-size = "l"] {Itinéraire de la séance :}
+        list [type = ordered, spaceBetweenItems = 25] {
+            {L'Humanisme : L'Homme au centre de l'Univers}
+            {L'invention de la perspective à Florence (Daniel Arasse)}
+            {La Divine Proportion : Mathématiques de la beauté}
+            {Atelier d'analyse : Tracer l'invisible}
+        }
+    }
+}
+
+slide history_context {
+    box [column = 2, height = 100%] {
+        box [column = 1] {
+            text [bold, highlight, alignment = "bottom"] {L'Humanisme florentin :}
+            text [alignment = "top"] {Une redécouverte de l'Antiquité plaçant l'Homme et sa perception au cœur de la création artistique.}
+        }
+        image [scale = 90%] {
+            src {https://upload.wikimedia.org/wikipedia/commons/thumb/2/22/Da_Vinci_Vitruve_Luc_Viatour.jpg/800px-Da_Vinci_Vitruve_Luc_Viatour.jpg}
+            alt {L'Homme de Vitruve : Proportions idéales}
+        }
+    }
+}
+
+slide documentary_video {
+    box [column = 1, height = 100%] {
+        text [bold, height = 10%] {Analyse : La révolution géométrique de 1420}
+        video [scale = 95%] {
+            src {https://youtu.be/6XTaxcQdTVM}
+            alt {Histoires de peintures : L'invention de la perspective}
+        }
+    }
+}
+
+slide golden_ratio_math {
+    box [column = 1, alignment = "center"] {
+        text [height = 15%, bold, text-size = "l"] {Le Nombre d'Or : Structure de l'Harmonie}
+        
+        box [column = 2] {
+            text [width = 45%] {
+                La règle géométrique utilisée par les maîtres pour équilibrer les compositions et guider naturellement le regard du spectateur.
+            }
+            mathematics [color = "#8B4513", text-size = "xl"]
+            $$ \phi = \frac{1 + \sqrt{5}}{2} \approx 1,618 $$
+        }
+    }
+}
+
+slide draw_slide {
+    box [alignment = "top left", height = 100%] {
+        text [bold, color = "#8B4513", height = 8%] {Atelier Pratique : Analyse des lignes de force}
+        box [height = 92%] {
+             text [alignment = "center", color = "gray", italic] {Utilisez vos outils d'annotation pour tracer les points de fuite et les axes de composition.}
+        }
+    }
+}
+
+slide conclusion {
+    box [alignment = "center"] {
+        text [text-size = "xl", bold, color = "#8B4513"] {Merci de votre attention !}
+        text {La semaine prochaine : La Lumière et le Sfumato chez Léonard.}
+    }
+}

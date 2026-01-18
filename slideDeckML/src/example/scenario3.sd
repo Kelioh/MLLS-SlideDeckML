@@ -1,0 +1,117 @@
+presentation Scenario3_IntroMachineLearning
+
+theme font "Arial, Helvetica, sans-serif" primary "#0055A4" logo "https://upload.wikimedia.org/wikipedia/commons/thumb/0/05/Scikit_learn_logo_small.svg/1200px-Scikit_learn_logo_small.svg.png"
+
+header bg "#0055A4" color "#FFFFFF" size "1.6rem" {
+    box [alignment = "center"] {
+        text {Introduction to Machine Learning}
+    }
+}
+
+footer bg "#F5F5F5" color "#333333" size "1rem" {
+    box [column = 2] {
+        text {© 2026 - Basics of Supervised Learning}
+        text [alignment = "right"] {Lecture 1}
+    }
+}
+
+slide title [non-annotable] {
+    box [column = 1, height = 100%] {
+        text [bold, text-size = "l", color = "#0055A4", alignment = "bottom"] {Introduction to Machine Learning}
+        text [italic, color = "gray", alignment = "top"] {Comprendre les bases de l'apprentissage supervisé}
+    }
+}
+
+slide overview {
+    box {
+        text [bold, underline, text-size = "l"] {Au programme aujourd'hui :}
+        list [type = ordered, spaceBetweenItems = 25] {
+            {Qu'est-ce que le Machine Learning ?}
+            {La Régression Linéaire : Fondamentaux}
+            {Implémentation avec Scikit-Learn}
+            {Quiz interactif}
+        }
+    }
+}
+
+slide definition {
+    box [column = 2, height = 100%] {
+        box [column = 1] {
+            text [bold, highlight, alignment = "bottom"] {Définition :}
+            text [alignment = "top"] {Le Machine Learning permet aux ordinateurs d'apprendre sans être explicitement programmés.}
+        }
+        image [scale = 80%] {
+            src {https://ml-ops.org/img/ml-engineering.jpg}
+            alt {ML Workflow Diagram}
+        }
+    }
+}
+
+slide regression_math {
+    box [column = 1, alignment = "center"] {
+        text [height = 15%, bold, text-size = "l"] {Le modèle de Régression Linéaire}
+        
+        box [column = 2] {
+            text [width = 45%] {
+                Nous cherchons à prédire une valeur $y$ à partir d'une variable $x$ en trouvant la meilleure droite d'ajustement.
+            }
+            mathematics [color = "#0055A4", text-size = "xl"]
+            $$ h_\theta(x) = \theta_0 + \theta_1x $$
+        }
+        
+        text [height = 20%, italic, alignment = "bottom"] {L'objectif est de minimiser la fonction de coût (MSE) :}
+        mathematics [text-size = "m", alignment = "top"]
+        $$ J(\theta) = \frac{1}{2m} \sum_{i=1}^{m} (h_\theta(x^{(i)}) - y^{(i)})^2 $$
+    }
+}
+
+slide code_implementation {
+    box [column = 1] {
+        text [bold, color = "#0055A4"] {Exemple d'implémentation en Python :}
+        code [text-size = "m", alignment = "top", height = 70%] {
+            "python"
+            ```python
+            from sklearn.linear_model import LinearRegression
+            import numpy as np
+
+            model = LinearRegression()
+            model.fit(X_train, y_train)
+
+            predictions = model.predict(X_test)
+            ```
+            line { 5 image [alignment = "top", height = 100%] { src {https://contenthub-static.grammarly.com/blog/wp-content/uploads/2024/09/156443-61046105blogvisuals-Linear-regression1.png} alt {Fit method} } }
+        }
+    }
+}
+
+slide check_knowledge {
+    quiz q_ml_1 {
+        {Dans la formule $h_\theta(x) = \theta_0 + \theta_1x$, que représente $\theta_1$ ?}
+        mcq
+        option a {L'ordonnée à l'origine (Bias)}
+        option b {La pente (Slope/Weight)}
+        option c {La variable prédite}
+        {b}
+        revealResultsOnDemand
+    }
+}
+
+slide live_session {
+    box [column = 1] {
+        text [bold, height = 20%] {Session de questions en direct}
+        livequiz [alignment = "top"] lq_ml {
+            {Avez-vous compris la notion de descente de gradient ?}
+            option yes {Oui, parfaitement}
+            option no {Besoin de revoir}
+            {yes}
+            {session_mlls_2026}
+        }
+    }
+}
+
+slide conclusion {
+    box [alignment = "center"] {
+        text [text-size = "xl", bold, color = "#0055A4"] {Merci de votre attention !}
+        text {La semaine prochaine : Les Réseaux de Neurones}
+    }
+}
