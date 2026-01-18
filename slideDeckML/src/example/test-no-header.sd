@@ -1,7 +1,0 @@
-presentation TestNoHeader
-
-slide intro {
-    box {
-        text {Slide sans header}
-    }
-}
