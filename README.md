@@ -48,3 +48,5 @@ npm install
 npm run langium:generate
 npm run build
 node src/cli/bin/cli.js generate src/example/scenario2.sd generated/scenario2
+
+Pour une explication détaillée de la syntaxe du DSL, des fonctionnalités disponibles et des bonnes pratiques d’utilisation, consultez le guide utilisateur : [USER_GUIDE.md](USER_GUIDE.md)
