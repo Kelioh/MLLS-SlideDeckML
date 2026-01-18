@@ -156,7 +156,7 @@ Image : Requiert une source (src) et un texte alternatif (alt).
 
 Video : Supporte les liens YouTube et les fichiers locaux.
 
-[!WARNING] Attention pour les vidéos YouTube : Pour que les lecteurs YouTube s'affichent correctement, vous devez impérativement exposer votre site via un serveur local (ex: http://localhost:3000). Si vous tentez d'ouvrir directement le fichier HTML dans votre navigateur (protocole file://), les vidéos risquent de ne pas charger en raison des restrictions de sécurité de YouTube (Erreur 150/153).
+> ⚠️ Attention pour les vidéos YouTube : Pour que les lecteurs YouTube s'affichent correctement, vous devez impérativement exposer votre site via un serveur local (ex: http://localhost:3000). Si vous tentez d'ouvrir directement le fichier HTML dans votre navigateur (protocole file://), les vidéos risquent de ne pas charger en raison des restrictions de sécurité de YouTube (Erreur 150/153).
 
 Attribut : scale permet de définir la taille (ex: scale = 50%).
 
