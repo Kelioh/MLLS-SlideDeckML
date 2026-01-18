@@ -1,0 +1,50 @@
+presentation Components
+
+component reusable_text {
+	text [bold, color = "blue"] {
+		Ceci est un texte réutilisable !
+	}
+}
+
+component reusable_layout {
+	box [column = 2, height = 100%] {
+		slot @left_column {
+			text {
+                Ceci est un texte mis par défaut si le slot n'est pas renseigné.
+            }
+		}
+		slot @right_column {}
+	}
+}
+
+
+slide slide1 {
+	reusable_text {}
+}
+
+slide slide2 {
+	reusable_text [italic, color = "red"] {}
+}
+
+slide slide3 {
+	reusable_layout {
+		@right_column
+		text {
+			Ce texte est inséré dans la colonne de droite.
+		}
+		@left_column
+		image [scale = 100%] {
+			src {../src/example/assets/sites.png}
+			alt {Polytech Nice Sophia}
+		}
+	}
+}
+
+slide slide4 {
+	reusable_layout {
+        @right_column
+        text {
+            Ce texte est inséré dans la colonne de droite.
+        }
+	}
+}
