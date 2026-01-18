@@ -303,11 +303,14 @@ export class SlideDeckMlValidator {
         // Check scale attribute if present
         for (const attr of image.attributes) {
             if (attr.key === 'scale') {
-                const scaleValue = parseFloat(attr.value);
-                if (isNaN(scaleValue) || scaleValue <= 0) {
-                    validator('error', `Scale value '${attr.value}' is invalid. Must be a positive number.`, { node: image });
-                } else if (scaleValue > 5) {
-                    validator('warning', `Scale value '${attr.value}' is very large. Consider using a value between 0.1 and 2.0.`, { node: image });
+                // Handle percentage values (e.g., "90%") and decimal values (e.g., "0.9")
+                const isPercentage = attr.value.endsWith('%');
+                const numericValue = parseFloat(attr.value);
+                if (isNaN(numericValue) || numericValue <= 0) {
+                    validator('error', `Scale value '${attr.value}' is invalid. Must be a positive number or percentage.`, { node: image });
+                } else if (!isPercentage && numericValue > 5) {
+                    // Only warn for non-percentage values > 5
+                    validator('warning', `Scale value '${attr.value}' is very large. Consider using a percentage (e.g., '90%') or a value between 0.1 and 2.0.`, { node: image });
                 }
             }
         }
@@ -335,11 +338,14 @@ export class SlideDeckMlValidator {
         // Check scale attribute if present
         for (const attr of video.attributes) {
             if (attr.key === 'scale') {
-                const scaleValue = parseFloat(attr.value);
-                if (isNaN(scaleValue) || scaleValue <= 0) {
-                    validator('error', `Scale value '${attr.value}' is invalid. Must be a positive number.`, { node: video });
-                } else if (scaleValue > 5) {
-                    validator('warning', `Scale value '${attr.value}' is very large. Consider using a value between 0.1 and 2.0.`, { node: video });
+                // Handle percentage values (e.g., "90%") and decimal values (e.g., "0.9")
+                const isPercentage = attr.value.endsWith('%');
+                const numericValue = parseFloat(attr.value);
+                if (isNaN(numericValue) || numericValue <= 0) {
+                    validator('error', `Scale value '${attr.value}' is invalid. Must be a positive number or percentage.`, { node: video });
+                } else if (!isPercentage && numericValue > 5) {
+                    // Only warn for non-percentage values > 5
+                    validator('warning', `Scale value '${attr.value}' is very large. Consider using a percentage (e.g., '90%') or a value between 0.1 and 2.0.`, { node: video });
                 }
             }
         }
@@ -422,9 +428,11 @@ export class SlideDeckMlValidator {
                     break;
 
                 case 'alignment':
+                    // Support both "top left" (space) and "top-left" (dash) formats
+                    const normalizedAlignment = attr.value.replace(/\s+/g, '-').toLowerCase();
                     const validAlignments = ['top', 'center', 'bottom', 'left', 'right', 'top-left', 'top-center', 'top-right', 'center-left', 'center-center', 'center-right', 'bottom-left', 'bottom-center', 'bottom-right'];
-                    if (!validAlignments.includes(attr.value)) {
-                        validator('warning', `Alignment value '${attr.value}' may not be recognized. Common values are: ${validAlignments.join(', ')}.`, { node: contentBox });
+                    if (!validAlignments.includes(normalizedAlignment)) {
+                        validator('warning', `Alignment value '${attr.value}' may not be recognized. Common values are: top, center, bottom, left, right, top left, bottom right, etc.`, { node: contentBox });
                     }
                     break;
 
