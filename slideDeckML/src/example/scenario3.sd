@@ -48,7 +48,7 @@ slide definition {
 }
 
 slide regression_math {
-    box [column = 1, alignment = "center"] {
+    box [column = 1] {
         text [height = 15%, bold, text-size = "l"] {Le modèle de Régression Linéaire}
         
         box [column = 2] {
@@ -110,7 +110,7 @@ slide live_session {
 }
 
 slide conclusion {
-    box [alignment = "center"] {
+    box {
         text [text-size = "xl", bold, color = "#0055A4"] {Merci de votre attention !}
         text {La semaine prochaine : Les Réseaux de Neurones}
     }

@@ -34,7 +34,7 @@ slide title_slide {
 }
 
 slide outline_slide {
-    box [alignment = "top left"] {
+    box {
         text [bold, underline] {Outline}
         list [type = ordered, spaceBetweenItems = 18] {
             {Company template}

@@ -15,14 +15,14 @@ footer bg "#F5F5F5" color "#333333" size "1rem" {
 }
 
 slide title {
-    box [alignment = "center"] {
+    box {
         text [bold, text-size = "xl"] {Introduction to Python}
         text {Variables • Conditions • Loops • Functions}
     }
 }
 
 slide outline {
-    box [alignment = "top left"] {
+    box {
         text [bold, underline] {Outline}
         list [type = ordered, spaceBetweenItems = 18] {
             {What is a program?}

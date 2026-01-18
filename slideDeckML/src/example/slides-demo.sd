@@ -3,7 +3,7 @@ presentation SlideDeckMl_MLLS_Demo
 theme font "Roboto" primary "#2c3e50" logo "../src/example/assets/logo.jpg"
 
 header bg "white" color "#2c3e50" size "20px" {
-    box [alignment = "right"] {
+    box {
         text [italic] {SlideDeckML Framework Demo}
     }
 }
@@ -153,7 +153,7 @@ slide live_quiz_slide {
 }
 
 slide video_demo {
-    box [alignment = "center", column = 1] {
+    box [column = 1] {
         text [height = 10%, text-size = "l", alignment = "top left"] {Vidéos dans vos présentations}
 
         box [column = 2] {

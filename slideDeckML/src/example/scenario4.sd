@@ -3,7 +3,7 @@ presentation Scenario4_RenaissanceArt_Analysis
 theme font "Georgia, serif" primary "#8B4513" logo "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6a/Mona_Lisa.jpg/1354px-Mona_Lisa.jpg"
 
 header bg "#8B4513" color "#FFD700" size "1.6rem" {
-    box [alignment = "center"] {
+    box {
         text {L'Art de la Renaissance : Science, Géométrie et Humanisme}
     }
 }
@@ -58,7 +58,7 @@ slide documentary_video {
 }
 
 slide golden_ratio_math {
-    box [column = 1, alignment = "center"] {
+    box [column = 1] {
         text [height = 15%, bold, text-size = "l"] {Le Nombre d'Or : Structure de l'Harmonie}
         
         box [column = 2] {
@@ -76,7 +76,7 @@ slide draw_slide {
 }
 
 slide conclusion {
-    box [alignment = "center"] {
+    box {
         text [text-size = "xl", bold, color = "#8B4513"] {Merci de votre attention !}
         text {La semaine prochaine : La Lumière et le Sfumato chez Léonard.}
     }
