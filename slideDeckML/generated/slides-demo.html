@@ -796,7 +796,7 @@
                         <div  style="width: 100%; height:100%; 
         display: grid; 
         grid-template-columns: calc(30% - 0px); 
-        grid-template-rows: calc(50% - 5px) calc(50% - 5px);
+        grid-template-rows: calc(33.333333333333336% - 6.666666666666667px) calc(33.333333333333336% - 6.666666666666667px) calc(33.333333333333336% - 6.666666666666667px);
         gap: 10px;
         width: 100%;
         height: 100%;
@@ -808,6 +808,11 @@
         place-items: center center;
         place-content: center center;
     ">
+                            <div class="box-wrapper" style="display: flex; width: 100%; height: 100%;">
+                                <div class="text-box" style="display: flex; flex-direction: column; width: 100%; height: 100%;place-items: center center; place-content: center center;font-weight: bold; color: black; ">
+                                    Démonstration du bloc de code et des images associées aux lignes :
+                                </div>
+                            </div>
                             <div class="box-wrapper" style="display: flex; width: 100%; height: 100%;">
                                 <div class="text-box" style="display: flex; flex-direction: column; width: 100%; height: 100%;place-items: center center; place-content: center center;font-weight: bold; color: black; ">
                                     Démonstration de Code Source :
@@ -905,46 +910,67 @@
                         data-header-styles="background: hit; color: 2c3e5; font-size: 0p"
                         data-footer-styles="background: 2c3e5; color: hit"
                     >
-                        <div class="fragment fade-up" style="width: 100%; height:100%;"><div class="box-wrapper" style="display: flex; width: 100%; height: 100%;">
-                            <div class="box" style="display: flex; flex-direction: column; width: 100%; height: 100%;place-items: center center; place-content: center center;">
-                                <div
-                                    class="sdml-quiz"
-                                    data-quiz-id="q1"
-                                    data-quiz-type="mcq"
-                                    data-correct-answer="c"
-                                    data-reveal-on-demand="true"
-                                >
-                                    <div class="sdml-quiz__title">Quiz</div>
-                                    <div class="sdml-quiz__question">Quel terminal définit une expression LaTeX dans notre BNF ?</div>
-
-                            <div class="sdml-quiz__options">
-                                <label>
-                                    <input type="radio" name="quiz-q1" value="a" />
-                                    <span>TEXT</span>
-                                </label><label>
-                                    <input type="radio" name="quiz-q1" value="b" />
-                                    <span>STRING</span>
-                                </label><label>
-                                    <input type="radio" name="quiz-q1" value="c" />
-                                    <span>MATH_EXPR</span>
-                                </label>
-                            </div>
-                            <div class="sdml-quiz__actions">
-                                <button
-                                    class="sdml-quiz__btn sdml-quiz__submit"
-                                    type="button"
-                                            onclick="(function(btn){const r=btn.closest('.sdml-quiz');if(!r)return;const c=(r.getAttribute('data-correct-answer')||'').trim();const f=r.querySelector('.sdml-quiz__feedback');if(!f)return;const ch=r.querySelector('input[type=radio]:checked');if(!ch)return;const v=(ch.value||'').trim();const ok=v.toLowerCase()===c.toLowerCase();f.textContent=ok?'Correct.':'Not quite.';f.style.color=ok?'#2aa198':'#dc322f';if(!ok){const res=r.querySelector('.sdml-quiz__results');if(res){res.style.display='block';}const rb=r.querySelector('.sdml-quiz__reveal');if(rb)rb.style.display='none';} })(this)"
-                                >Submit</button>
-                            </div>
-
-                                    <div class="sdml-quiz__feedback" aria-live="polite"></div>
-                                    <div class="sdml-quiz__reveal-wrap">
-                                        <button class="sdml-quiz__btn sdml-quiz__reveal" type="button" onclick="(function(btn){const r=btn.closest('.sdml-quiz');if(!r)return;const res=r.querySelector('.sdml-quiz__results');if(res){res.style.display='block';}btn.style.display='none';})(this)">Reveal answer</button>
-                                        <div class="sdml-quiz__results" style="display:none">Correct answer: <strong>c</strong></div>
-                                    </div>
+                        <div  style="width: 100%; height:100%; 
+        display: grid; 
+        grid-template-columns: calc(30% - 5px) calc(70% - 5px); 
+        grid-template-rows: calc(100% - 0px);
+        gap: 10px;
+        width: 100%;
+        height: 100%;
+        max-width: 100%;
+        max-height: 100%;
+        box-sizing: border-box;
+        overflow: hidden;
+    height: 100%; width: 100%; 
+        place-items: center center;
+        place-content: center center;
+    ">
+                            <div class="box-wrapper" style="display: flex; width: 100%; height: 100%;">
+                                <div class="text-box" style="display: flex; flex-direction: column; width: 100%; height: 100%;place-items: center center; place-content: center center;font-weight: bold; color: black; ">
+                                    Démonstration de Quiz Local Interactif :
                                 </div>
                             </div>
-                        </div></div>
+                            <div class="fragment fade-up" style="width: 100%; height:100%;"><div class="box-wrapper" style="display: flex; width: 100%; height: 100%;">
+                                <div class="box" style="display: flex; flex-direction: column; width: 100%; height: 100%;place-items: center center; place-content: center center;">
+                                    <div
+                                        class="sdml-quiz"
+                                        data-quiz-id="q1"
+                                        data-quiz-type="mcq"
+                                        data-correct-answer="c"
+                                        data-reveal-on-demand="true"
+                                    >
+                                        <div class="sdml-quiz__title">Quiz</div>
+                                        <div class="sdml-quiz__question">Quel terminal définit une expression LaTeX dans notre BNF ?</div>
+
+                                <div class="sdml-quiz__options">
+                                    <label>
+                                        <input type="radio" name="quiz-q1" value="a" />
+                                        <span>TEXT</span>
+                                    </label><label>
+                                        <input type="radio" name="quiz-q1" value="b" />
+                                        <span>STRING</span>
+                                    </label><label>
+                                        <input type="radio" name="quiz-q1" value="c" />
+                                        <span>MATH_EXPR</span>
+                                    </label>
+                                </div>
+                                <div class="sdml-quiz__actions">
+                                    <button
+                                        class="sdml-quiz__btn sdml-quiz__submit"
+                                        type="button"
+                                                onclick="(function(btn){const r=btn.closest('.sdml-quiz');if(!r)return;const c=(r.getAttribute('data-correct-answer')||'').trim();const f=r.querySelector('.sdml-quiz__feedback');if(!f)return;const ch=r.querySelector('input[type=radio]:checked');if(!ch)return;const v=(ch.value||'').trim();const ok=v.toLowerCase()===c.toLowerCase();f.textContent=ok?'Correct.':'Not quite.';f.style.color=ok?'#2aa198':'#dc322f';if(!ok){const res=r.querySelector('.sdml-quiz__results');if(res){res.style.display='block';}const rb=r.querySelector('.sdml-quiz__reveal');if(rb)rb.style.display='none';} })(this)"
+                                    >Submit</button>
+                                </div>
+
+                                        <div class="sdml-quiz__feedback" aria-live="polite"></div>
+                                        <div class="sdml-quiz__reveal-wrap">
+                                            <button class="sdml-quiz__btn sdml-quiz__reveal" type="button" onclick="(function(btn){const r=btn.closest('.sdml-quiz');if(!r)return;const res=r.querySelector('.sdml-quiz__results');if(res){res.style.display='block';}btn.style.display='none';})(this)">Reveal answer</button>
+                                            <div class="sdml-quiz__results" style="display:none">Correct answer: <strong>c</strong></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div></div>
+                        </div>
                     </section>
                     <section
                         id="live_quiz_slide"
@@ -1000,92 +1026,140 @@
                         data-header-styles="background: hit; color: 2c3e5; font-size: 0p"
                         data-footer-styles="background: 2c3e5; color: hit"
                     >
+                        <div  style="width: 100%; height:100%; 
+        display: grid; 
+        grid-template-columns: calc(30% - 5px) calc(70% - 5px); 
+        grid-template-rows: calc(100% - 0px);
+        gap: 10px;
+        width: 100%;
+        height: 100%;
+        max-width: 100%;
+        max-height: 100%;
+        box-sizing: border-box;
+        overflow: hidden;
+    height: 100%; width: 100%; 
+        place-items: center center;
+        place-content: center center;
+    ">
                             <div class="box-wrapper" style="display: flex; width: 100%; height: 100%;">
-                                <div class="box" style="display: flex; flex-direction: column; width: 100%; height: 100%;place-items: center center; place-content: center center;">
-                                    <div class="sdml-quiz live-quiz" id="quiz-lq1" data-correct-answer="yes">
-                                        <div class="sdml-quiz__title">Live Quiz</div>
-                                        <div class="sdml-quiz__question">Êtes-vous convaincus par le DSL ?</div>
-                                
-                                <div style="display: flex; gap: 20px; align-items: flex-start;">
-                                    <div class="sdml-quiz__options" style="flex: 1;">
-                                                <div class="live-option-row" style="margin: 8px 0; display: flex; justify-content: space-between; background: #fff; padding: 10px; border-radius: 4px; border: 1px solid #ddd;">
-                                                    <span>Oui</span>
-                                                    <span class="vote-count" data-option="Oui" style="font-weight: bold; color: #007bff;">0</span>
-                                                </div><div class="live-option-row" style="margin: 8px 0; display: flex; justify-content: space-between; background: #fff; padding: 10px; border-radius: 4px; border: 1px solid #ddd;">
-                                                    <span>Absolument</span>
-                                                    <span class="vote-count" data-option="Absolument" style="font-weight: bold; color: #007bff;">0</span>
-                                                </div>
-                        </div>
-
-                                    <div class="sdml-quiz__qr-container" style="display: flex; flex-direction: column; align-items: center; gap: 8px;">
-                                        <div id="qr-lq1" style="border: 2px solid #ddd; border-radius: 8px; padding: 6px; background: #fff;"></div>
-                                        <div style="font-size: 12px; color: #666;">Scan to vote</div>
-                                        </div>
-                                        </div>
-
-                                <div class="sdml-quiz__actions" style="margin-top: 15px;">
-                                            <div class="sdml-quiz__results" style="margin-top: 10px; padding: 10px; background: #e0f2f1; border-radius: 4px;">
-                                                Correct answer: <strong>yes</strong>
-                                            </div>
-                        </div>
-
-                            <script>
-                                    (function() {
-                                const quizId = "lq1";
-                                const sessionId = "SESSION123";
-                                const options = ["Oui","Absolument"];
-                                const voteCounts = {};
-
-
-                                options.forEach(opt => { voteCounts[opt] = 0; });
-
-                                const renderQRCode = (url) => {
-                                    const qrEl = document.getElementById("qr-" + quizId);
-                                    if (!qrEl) return;
-
-                                    qrEl.innerHTML = '';
-
-                                    if (typeof QRCode === 'function') {
-                                        const level = (QRCode.CorrectLevel && QRCode.CorrectLevel.M) ? QRCode.CorrectLevel.M : undefined;
-                                        new QRCode(qrEl, {
-                                            text: String(url || ''),
-                                            width: 150,
-                                            height: 150,
-                                            ...(level ? { correctLevel: level } : {})
-                                        });
-                                        return;
-                                    }
-                                };
-
-                                const updateQRCodeFromGlobal = () => {
-                                    const url = window["sdmlMobileVoteUrl"] || "http://localhost:3000/vote";
-                                    renderQRCode(url);
-                                };
-
-                                const initQuiz = (socket) => {
-
-                                    socket.emit("register-quiz", {
-                                        sessionId: sessionId,
-                                        question: "Êtes-vous convaincus par le DSL ?",
-                                        options: options
-                                    });
-
-                                    socket.on("qcm-results-update", (v) => {
-
-                                        voteCounts[v.choice] = (voteCounts[v.choice] || 0) + 1;
-
-                                        const quizEl = document.getElementById("quiz-" + quizId);
-                                        const countEl = quizEl.querySelector('.vote-count[data-option="' + v.choice + '"]');
-                                        if (countEl) {
-                                            countEl.textContent = voteCounts[v.choice];
-                                            countEl.style.transform = "scale(1.2)";
-                                            setTimeout(() => { countEl.style.transform = "scale(1)"; }, 200);
-                                        }
-                                    })();
-                                </script>
-                                    </div>
+                                <div class="text-box" style="display: flex; flex-direction: column; width: 100%; height: 100%;place-items: center center; place-content: center center;font-weight: bold; color: black; ">
+                                    Démonstration de Quiz Live nécessitant que le server soit actif :
                                 </div>
                             </div>
+                                <div class="box-wrapper" style="display: flex; width: 100%; height: 100%;">
+                                    <div class="box" style="display: flex; flex-direction: column; width: 100%; height: 100%;place-items: center center; place-content: center center;">
+                                        <div class="sdml-quiz live-quiz" id="quiz-lq1" data-correct-answer="yes">
+                                            <div class="sdml-quiz__title">Live Quiz</div>
+                                            <div class="sdml-quiz__question">Êtes-vous convaincus par le DSL ?</div>
+                                    
+                                    <div style="display: flex; gap: 20px; align-items: flex-start;">
+                                        <div class="sdml-quiz__options" style="flex: 1;">
+                                                    <div class="live-option-row" style="margin: 8px 0; display: flex; justify-content: space-between; background: #fff; padding: 10px; border-radius: 4px; border: 1px solid #ddd;">
+                                                        <span>Oui</span>
+                                                        <span class="vote-count" data-option="Oui" style="font-weight: bold; color: #007bff;">0</span>
+                                                    </div><div class="live-option-row" style="margin: 8px 0; display: flex; justify-content: space-between; background: #fff; padding: 10px; border-radius: 4px; border: 1px solid #ddd;">
+                                                        <span>Absolument</span>
+                                                        <span class="vote-count" data-option="Absolument" style="font-weight: bold; color: #007bff;">0</span>
+                                                    </div>
+                            </div>
+
+                                        <div class="sdml-quiz__qr-container" style="display: flex; flex-direction: column; align-items: center; gap: 8px;">
+                                            <div id="qr-lq1" style="border: 2px solid #ddd; border-radius: 8px; padding: 6px; background: #fff;"></div>
+                                            <div style="font-size: 12px; color: #666;">Scan to vote</div>
+                                            </div>
+                                            </div>
+
+                                    <div class="sdml-quiz__actions" style="margin-top: 15px;">
+                                                <div class="sdml-quiz__results" style="margin-top: 10px; padding: 10px; background: #e0f2f1; border-radius: 4px;">
+                                                    Correct answer: <strong>yes</strong>
+                                                </div>
+                            </div>
+
+                                <script>
+                                        (function() {
+                                    const quizId = "lq1";
+                                    const sessionId = "SESSION123";
+                                    const options = ["Oui","Absolument"];
+                                    const voteCounts = {};
+
+
+                                    options.forEach(opt => { voteCounts[opt] = 0; });
+
+                                    const renderQRCode = (url) => {
+                                        const qrEl = document.getElementById("qr-" + quizId);
+                                        if (!qrEl) return;
+
+                                        qrEl.innerHTML = '';
+
+                                        if (typeof QRCode === 'function') {
+                                            const level = (QRCode.CorrectLevel && QRCode.CorrectLevel.M) ? QRCode.CorrectLevel.M : undefined;
+                                            new QRCode(qrEl, {
+                                                text: String(url || ''),
+                                                width: 150,
+                                                height: 150,
+                                                ...(level ? { correctLevel: level } : {})
+                                            });
+                                            return;
+                                        }
+                                    };
+
+                                    const updateQRCodeFromGlobal = () => {
+                                        const url = window["sdmlMobileVoteUrl"] || "http://localhost:3000/vote";
+                                        renderQRCode(url);
+                                    };
+
+                                    const initQuiz = (socket) => {
+
+                                        if (!socket) return;
+
+                                        try {
+                                            socket.emit("register-quiz", {
+                                                sessionId: sessionId,
+                                                question: "Êtes-vous convaincus par le DSL ?",
+                                                options: options
+                                            });
+                                        } catch {}
+
+                                        socket.on("qcm-results-update", (v) => {
+                                            if (!v || typeof v.choice !== 'string') return;
+
+                                            voteCounts[v.choice] = (voteCounts[v.choice] || 0) + 1;
+
+                                            const quizEl = document.getElementById("quiz-" + quizId);
+                                            if (!quizEl) return;
+
+                                            const countEl = quizEl.querySelector('.vote-count[data-option="' + v.choice + '"]');
+                                            if (!countEl) return;
+
+                                            countEl.textContent = String(voteCounts[v.choice]);
+                                            countEl.style.transform = "scale(1.2)";
+                                            setTimeout(() => { countEl.style.transform = "scale(1)"; }, 200);
+                                        });
+                                    };
+
+                                    // Render a QR even if the socket server is offline.
+                                    updateQRCodeFromGlobal();
+                                    window.addEventListener('sdml-mobile-ip', updateQRCodeFromGlobal);
+
+                                    const tryInit = () => {
+                                        const s = window["sdmlSocket"];
+                                        const key = "__sdmlLiveQuizInited_" + quizId;
+                                        if (s && !window[key]) {
+                                            window[key] = true;
+                                            initQuiz(s);
+                                        }
+                                    };
+
+                                    tryInit();
+                                    setTimeout(tryInit, 250);
+                                    setTimeout(tryInit, 1000);
+                                })();
+                                </script>
+
+                                        </div>
+                                    </div>
+                                </div>
+                        </div>
                     </section>
                     <section
                         id="video_demo"

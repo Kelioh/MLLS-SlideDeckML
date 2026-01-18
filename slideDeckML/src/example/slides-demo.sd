@@ -103,13 +103,16 @@ slide mathematics_slide {
 
 slide code_slide {
     box[column=1] {
+        text [width = 30%, bold] {Démonstration du bloc de code et des images associées aux lignes :}
         text [width = 30%, bold] {Démonstration de Code Source :}
         code_example {}
     }
 }
 
 slide quiz_slide {
-    quiz [fragment = fade-up] q1 {
+    box [column=2] {
+        text [width = 30%, bold] {Démonstration de Quiz Local Interactif :}
+        quiz [fragment = fade-up] q1 {
         {Quel terminal définit une expression LaTeX dans notre BNF ?}
         mcq
         option a {TEXT}
@@ -118,15 +121,19 @@ slide quiz_slide {
         {c}
         revealResultsOnDemand
     }
+    }
 }
 
 slide live_quiz_slide {
-    livequiz lq1 {
+    box [column=2] {
+        text [width = 30%, bold] {Démonstration de Quiz Live nécessitant que le server soit actif :}
+        livequiz lq1 {
         {Êtes-vous convaincus par le DSL ?}
         option yes {Oui}
         option no {Absolument}
         {yes}
         {session_mlls_2024}
+        }
     }
 }
 

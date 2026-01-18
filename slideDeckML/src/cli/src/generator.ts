@@ -1409,29 +1409,56 @@ function generateLiveQuizBox(quiz: LiveQuizBox): CompositeGeneratorNode {
 
             const initQuiz = (socket) => {
 
-                socket.emit("register-quiz", {
-                    sessionId: sessionId,
-                    question: "${questionText}",
-                    options: options
-                });
+                if (!socket) return;
+
+                try {
+                    socket.emit("register-quiz", {
+                        sessionId: sessionId,
+                        question: "${questionText}",
+                        options: options
+                    });
+                } catch {}
 
                 socket.on("qcm-results-update", (v) => {
+                    if (!v || typeof v.choice !== 'string') return;
 
                     voteCounts[v.choice] = (voteCounts[v.choice] || 0) + 1;
 
                     const quizEl = document.getElementById("quiz-" + quizId);
+                    if (!quizEl) return;
+
                     const countEl = quizEl.querySelector('.vote-count[data-option="' + v.choice + '"]');
-                    if (countEl) {
-                        countEl.textContent = voteCounts[v.choice];
-                        countEl.style.transform = "scale(1.2)";
-                        setTimeout(() => { countEl.style.transform = "scale(1)"; }, 200);
-                    }
-                })();
-            </script>
+                    if (!countEl) return;
+
+                    countEl.textContent = String(voteCounts[v.choice]);
+                    countEl.style.transform = "scale(1.2)";
+                    setTimeout(() => { countEl.style.transform = "scale(1)"; }, 200);
+                });
+            };
+
+            // Render a QR even if the socket server is offline.
+            updateQRCodeFromGlobal();
+            window.addEventListener('sdml-mobile-ip', updateQRCodeFromGlobal);
+
+            const tryInit = () => {
+                const s = window["sdmlSocket"];
+                const key = "__sdmlLiveQuizInited_" + quizId;
+                if (s && !window[key]) {
+                    window[key] = true;
+                    initQuiz(s);
+                }
+            };
+
+            tryInit();
+            setTimeout(tryInit, 250);
+            setTimeout(tryInit, 1000);
+        })();
+        </script>
+
                 </div>
             </div>
         </div>
-            `;
+    `;
 }
 
 function generateCodeBox(codeBox: CodeBox): CompositeGeneratorNode {
