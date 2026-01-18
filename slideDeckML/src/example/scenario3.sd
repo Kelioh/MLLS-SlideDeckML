@@ -79,7 +79,7 @@ slide code_implementation {
 
             predictions = model.predict(X_test)
             ```
-            line { 5 image [alignment = "top", scale = 50%] { src {https://contenthub-static.grammarly.com/blog/wp-content/uploads/2024/09/156443-61046105blogvisuals-Linear-regression1.png} alt {Fit method} } }
+            line { 5 image [alignment = "top", scale = 40%] { src {https://contenthub-static.grammarly.com/blog/wp-content/uploads/2024/09/156443-61046105blogvisuals-Linear-regression1.png} alt {Fit method} } }
         }
     }
 }
