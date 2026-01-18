@@ -70,7 +70,7 @@ slide code_implementation {
         text [bold, color = "#0055A4", height = 20%] {Exemple d'implémentation en Python :}
         code [text-size = "m", alignment = "top"] {
             "python"
-            ```python
+            ```
             from sklearn.linear_model import LinearRegression
             import numpy as np
 
