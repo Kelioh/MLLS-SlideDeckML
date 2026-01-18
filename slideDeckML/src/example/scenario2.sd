@@ -77,9 +77,9 @@ def area(width, height):
 print(area(3, 4))
             ```
 
-            line {1 image { src {./assets/logo.jpg} alt {Function definition} } }
-            line {2 image { src {./assets/sites.png} alt {Return statement} } }
-            line {4 image { src {./assets/sites.png} alt {Call the function} } }
+            line {1 image { src {../src/example/assets/logo.jpg} alt {Function definition} } }
+            line {2 image { src {../src/example/assets/sites.png} alt {Return statement} } }
+            line {4 image { src {../src/example/assets/sites.png} alt {Call the function} } }
         }
     }
 }
@@ -92,7 +92,7 @@ slide mix_text_image_left {
             text {Keep it consistent (4 spaces is typical).}
         }
         image {
-            src {./assets/sites.png}
+            src {../src/example/assets/sites.png}
             alt {Illustration}
         }
     }
@@ -103,7 +103,7 @@ slide mix_text_image_positions {
         text [alignment = "top left", bold] {Top-left: explanation}
         text [alignment = "bottom right"] {Bottom-right: caption}
         image [alignment = "center"] {
-            src {./assets/logo.jpg}
+            src {../src/example/assets/logo.jpg}
             alt {Centered picture}
         }
     }
