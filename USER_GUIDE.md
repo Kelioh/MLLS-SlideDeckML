@@ -65,7 +65,7 @@ Le concept fondamental de SlideDeckMl est la Box. Elle permet de transformer vot
 
 Vous avez accès à plusieurs paramètres pour personnaliser cette grille :
 
-- Colonnes : Précisez column = 2 pour diviser l'espace horizontalement. Le nombre de lignes est calculé automatiquement en fonction du nombre d'éléments que vous insérez.
+- Colonnes : Précisez column = 3 pour diviser l'espace en 3 colonnes (si aucun paramètre, par default à 2). Le nombre de lignes est calculé automatiquement en fonction du nombre d'éléments que vous insérez.
 
 - Dimensions : Vous pouvez définir la largeur (width) et la hauteur (height) en pourcentage pour que la boîte occupe une place précise sur la slide.
 

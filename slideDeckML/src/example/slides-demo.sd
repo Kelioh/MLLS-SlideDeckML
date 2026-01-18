@@ -10,7 +10,7 @@ header bg "white" color "#2c3e50" size "20px" {
 
 footer bg "#2c3e50" color "white" {
     box [column = 2] {
-        text {L. Brunet - MLLS Project}
+        text {Logan Brunet - Sacha Chantoiseau - Mathis Magnin - Léo Quelis - MLLS Project}
         text [alignment = "right"] {2024}
     }
 }
@@ -18,7 +18,7 @@ footer bg "#2c3e50" color "white" {
 component slot_component {
     box [column = 2, height = 100%] {
         text [bold, color = "blue"] {
-            Structure du Composant :
+            Texte présent en permanence dans le composant
         }
         slot @slot1 {
             text {Ceci est le texte par défaut du slot disponible !}
@@ -52,41 +52,57 @@ slide slide1 [non-annotable] {
 }
 
 slide sommaire {
-    box[column=1] {
-        text [bold, underline, alignment = "bottom left", height=30%] {Sommaire :}
-        list [type = ordered, spaceBetweenItems = 30, alignment = "top left"] {
-            {Mise en page & Boîtes}
-            {Composants & Slots}
-            {Équations Mathématiques}
-            {Code & Interactivité}
-            {Multimédia & Vidéos}
+    box [column = 1, height = 100%] {
+        text [bold, underline, alignment = "bottom left", height = 20%, text-size = "l"] {
+            Sommaire de la présentation :
+        }
+        
+        list [type = ordered, spaceBetweenItems = 15, alignment = "top left"] {
+            {Système de Grilles & Mise en page (Boxes)}
+            {Composants réutilisables & Gestion des Slots}
+            {Équations Mathématiques & Démonstration de Code}
+            {Quiz locaux & Interactivité Live (QR Code)}
+            {Intégration Multimédia (Vidéos & Images)}
+            {Positionnement précis & Imbrications complexes}
+            {Scénario d'usage : Machine Learning (Maths & Code)}
+            {Scénario d'usage : Art & Renaissance (Vidéo & Dessin)}
         }
     }
 }
 
 slide colonnes_demo {
-    box [column = 3, height = 80%] {
-        text [highlight, color = "red"] {Colonne 1 : Style Highlight}
-        text [bold, color = "green"] {Colonne 2 : Style Bold}
-        text [italic, color = "blue"] {Colonne 3 : Style Italic}
+    box [column = 1] {
+        text [height = 20%, alignment = "bottom"] {
+            Voici une illustration de notre système de box sous la forme de grid avec 3 colonnes différentes :
+        }
+        box [column = 3, height = 80%] {
+            text [highlight, color = "red"] {Colonne 1 : Style Highlight}
+            text [bold, color = "green"] {Colonne 2 : Style Bold}
+            text [italic, color = "blue"] {Colonne 3 : Style Italic}
+        }
     }
 }
 
 slide demo_slots {
-    slot_component {
-        @slot1
-        box [alignment = "center"] {
-            text [bold] {Contenu Injecté dans le Slot !}
-            image [scale = 40%] {
-                src {https://images4.alphacoders.com/133/thumb-1920-1332281.jpeg}
-                alt {Logo Demo}
+    box [column = 1] {
+        text [height = 40%, alignment = "bottom"] {
+            Voici un composant auquel on met un slot particulier directement dedans
+        }
+        slot_component {
+            @slot1
+            box {
+                text [bold] {Ce texte et l'image ont été injecté directement dans le Slot !}
+                image [scale = 40%] {
+                    src {https://images4.alphacoders.com/133/thumb-1920-1332281.jpeg}
+                    alt {Logo Demo}
+                }
             }
         }
     }
 }
 
 slide mathematics_slide {
-    box [alignment = "center", column = 1] {
+    box [column = 1] {
         text [height = 10%, text-size = "l", alignment = "top left"] {Démonstration d'une formule mathématique}
 
         box [column = 2] {
