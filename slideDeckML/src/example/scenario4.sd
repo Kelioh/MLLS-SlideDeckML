@@ -72,12 +72,7 @@ slide golden_ratio_math {
 }
 
 slide draw_slide {
-    box [alignment = "top left", height = 100%] {
-        text [bold, color = "#8B4513", height = 8%] {Atelier Pratique : Analyse des lignes de force}
-        box [height = 92%] {
-             text [alignment = "center", color = "gray", italic] {Utilisez vos outils d'annotation pour tracer les points de fuite et les axes de composition.}
-        }
-    }
+        text [bold, color = "#8B4513", height = 8%, alignment = "top"] {Atelier Pratique : Analyse des lignes de force}
 }
 
 slide conclusion {

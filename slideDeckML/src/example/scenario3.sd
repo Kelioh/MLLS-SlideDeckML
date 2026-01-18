@@ -67,8 +67,8 @@ slide regression_math {
 
 slide code_implementation {
     box [column = 1] {
-        text [bold, color = "#0055A4"] {Exemple d'implémentation en Python :}
-        code [text-size = "m", alignment = "top", height = 70%] {
+        text [bold, color = "#0055A4", height = 20%] {Exemple d'implémentation en Python :}
+        code [text-size = "m", alignment = "top"] {
             "python"
             ```python
             from sklearn.linear_model import LinearRegression
@@ -79,7 +79,7 @@ slide code_implementation {
 
             predictions = model.predict(X_test)
             ```
-            line { 5 image [alignment = "top", height = 100%] { src {https://contenthub-static.grammarly.com/blog/wp-content/uploads/2024/09/156443-61046105blogvisuals-Linear-regression1.png} alt {Fit method} } }
+            line { 5 image [alignment = "top", scale = 50%] { src {https://contenthub-static.grammarly.com/blog/wp-content/uploads/2024/09/156443-61046105blogvisuals-Linear-regression1.png} alt {Fit method} } }
         }
     }
 }
