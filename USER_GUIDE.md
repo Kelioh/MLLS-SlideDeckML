@@ -118,7 +118,7 @@ slide ma_slide {
 Gérer les box est utile pour organiser les éléments, mais voyons maintenant quels sont les éléments que vous pouvez placer dans ces box, que ce soit dans des composants réutilisables ou directement dans les slides.
 
 ### Texte (text)
-Affiche du contenu textuel stylisé.
+Cette première box permet d'afficher du contenu textuel stylisé.
 
 Attributs de style possible en ne mettant juste le mot-clé pour l'activer : bold, italic, underline, strikethrough, highlight.
 
@@ -128,12 +128,35 @@ Autres attributs de style pour lesquels vous pouvez définir des valeurs précis
 text [bold, color = "red", highlight] {Ceci est un texte important}
 ```
 
+### Liste (list)
+Ce bloc permet d'afficher des énumérations de manière structurée. Contrairement à une succession de blocs de texte, la list gère automatiquement l'alignement des puces et l'espacement entre vos points.
+
+Type de liste : vous pouvez choisir le format via l'attribut type :
+
+- unordered : affiche des puces classiques (par défaut).
+
+- ordered : affiche une liste numérotée (1, 2, 3...).
+
+Espacement : l'attribut spaceBetweenItems permet de définir précisément l'écart vertical (en pixels) entre chaque élément de la liste pour aérer votre contenu.
+
+Contenu : chaque élément de la liste doit être entouré d'accolades {}.
+
+```
+list [type = ordered, spaceBetweenItems = 30] {
+    {Premier point important}
+    {Deuxième étape de la démonstration}
+    {Conclusion de la liste}
+}
+```
+
 ### Multimédia (image & video)
 Les boxes d'image et de vidéos fonctionnent globalement de la même manière, c'est juste le type de src qui différera (.png par exemple pour une image et .mp4 par exemple pour une vidéo)
 
 Image : Requiert une source (src) et un texte alternatif (alt).
 
 Video : Supporte les liens YouTube et les fichiers locaux.
+
+[!WARNING] Attention pour les vidéos YouTube : Pour que les lecteurs YouTube s'affichent correctement, vous devez impérativement exposer votre site via un serveur local (ex: http://localhost:3000). Si vous tentez d'ouvrir directement le fichier HTML dans votre navigateur (protocole file://), les vidéos risquent de ne pas charger en raison des restrictions de sécurité de YouTube (Erreur 150/153).
 
 Attribut : scale permet de définir la taille (ex: scale = 50%).
 
