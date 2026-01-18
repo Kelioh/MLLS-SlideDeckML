@@ -1,6 +1,6 @@
 presentation SlideDeckMl_MLLS_Demo
 
-theme font "Roboto" primary "#2c3e50" logo "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3a/Logo_Universit%C3%A9_C%C3%B4te_d%27Azur.svg/320px-Logo_Universit%C3%A9_C%C3%B4te_d%27Azur.svg.png"
+theme font "Roboto" primary "#2c3e50" logo "../src/example/assets/logo.jpg"
 
 header bg "white" color "#2c3e50" size "20px" {
     box [alignment = "right"] {
@@ -27,16 +27,16 @@ component slot_component {
 }
 
 component code_example {
-    code [text-size = "14px"] {
+    code [text-size = "25px"] {
         "java"
         ```
-        public class Main {
-            public static void main(String[] args) {
-                System.out.println("Hello SlideDeckML");
-            }
-        }
+public class Main {
+  public static void main(String[] args) {
+    System.out.println("Hello SlideDeckML");
+  }
+}
         ```
-        line { 3..4 image [scale = 50%] { src {https://logo.png} alt {Explaining line 3} } }
+        line { 3..3 image [scale = 50%] { src {https://logo.png} alt {Explaining line 3} } }
     }
 }
 
@@ -52,9 +52,9 @@ slide slide1 [non-annotable] {
 }
 
 slide sommaire {
-    box [alignment = "top left"] {
-        text [bold, underline, alignment = "top left"] {Sommaire :}
-        list [type = ordered, spaceBetweenItems = 30] {
+    box[column=1] {
+        text [bold, underline, alignment = "bottom left", height=30%] {Sommaire :}
+        list [type = ordered, spaceBetweenItems = 30, alignment = "top left"] {
             {Mise en page & Boîtes}
             {Composants & Slots}
             {Équations Mathématiques}
@@ -102,8 +102,8 @@ slide mathematics_slide {
 }
 
 slide code_slide {
-    box {
-        text [bold] {Démonstration de Code Source :}
+    box[column=1] {
+        text [width = 30%, bold] {Démonstration de Code Source :}
         code_example {}
     }
 }

@@ -29,6 +29,38 @@
                     overflow: hidden;
                 }
 
+                .code-box-container {
+                    display: flex;
+                    flex-direction: column;
+                    gap: 0.75rem;
+                    width: 100%;
+                    align-items: stretch;
+                }
+
+                .code-box-container .code-pane {
+                    flex: 0 0 auto;
+                    width: 100%;
+                }
+
+                .code-box-container .code-pane pre {
+                    margin: 0;
+                    width: 100%;
+                    height: auto;
+                    max-height: 55vh;
+                    overflow: auto;
+                }
+
+                .code-box-container .code-pane pre code {
+                    white-space: pre-wrap;
+                    word-break: break-word;
+                }
+
+                .code-box-container .image-stack {
+                    flex: 0 0 auto;
+                    width: 100%;
+                    max-height: 30vh;
+                }
+
                 /* Reveal.js viewport adjustment for header/footer */
                 .reveal {
                     top: 80px !important;
@@ -48,25 +80,41 @@
                     top: 0;
                     left: 0;
                     right: 0;
-                    text-align: center;
                     font-size: 1.5rem;
                     opacity: 0.8;
                     border-bottom: 2px solid rgba(0,0,0,0.2);
-                    padding: 1.5rem 2rem;
+                    padding: 1rem 2rem;
                     background: rgba(255,255,255,0.95);
                     z-index: 1000;
                     height: 80px;
                     box-sizing: border-box;
-                    display: flex;
+                    display: grid;
+                    grid-template-columns: auto 1fr auto;
                     align-items: center;
-                    justify-content: center;
                     gap: 1rem;
                 }
 
-                .slide-header img.theme-logo {
+                .slide-header__logo {
+                    display: flex;
+                    align-items: center;
+                    justify-content: flex-start;
+                }
+
+                .slide-header__logo img.theme-logo {
                     height: 50px;
                     max-width: 100px;
                     object-fit: contain;
+                }
+
+                .slide-header__content {
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    text-align: center;
+                }
+
+                .slide-header__spacer {
+                    min-width: 100px;
                 }
 
                 .slide-footer {
@@ -358,8 +406,8 @@
                     >
                         <div  style="width: 100%; height:100%; 
         display: grid; 
-        grid-template-columns: calc(50% - 5px) calc(50% - 5px); 
-        grid-template-rows: calc(100% - 0px);
+        grid-template-columns: calc(100% - 0px); 
+        grid-template-rows: calc(30% - 5px) calc(70% - 5px);
         gap: 10px;
         width: 100%;
         height: 100%;
@@ -368,16 +416,16 @@
         box-sizing: border-box;
         overflow: hidden;
     height: 100%; width: 100%; 
-        place-items: start start;
-        place-content: start start;
+        place-items: center center;
+        place-content: center center;
     ">
-                            <div class="box-wrapper" style="display: flex; width: 100%; height: 100%;">
-                                <div class="text-box" style="display: flex; flex-direction: column; width: 100%; height: 100%;place-items: center center; place-content: center center;font-weight: bold; text-decoration: underline; color: black; ">
+                            <div class="box-wrapper" style="display: flex; width: 100%; height: 100%; justify-content: flex-start; align-items: flex-end;">
+                                <div class="text-box" style="display: flex; flex-direction: column; width: 100%; height: 100%; justify-content: flex-end; align-items: flex-start;font-weight: bold; text-decoration: underline; color: black; ">
                                     Sommaire :
                                 </div>
                             </div>
-                                <div class="box-wrapper" style="display: flex; width: 100%; height: 100%;">
-                                    <div class="box" style="display: flex; flex-direction: column; width: 100%; height: 100%;place-items: center center; place-content: center center;">
+                                <div class="box-wrapper" style="display: flex; width: 100%; height: 100%; justify-content: flex-start; align-items: flex-start;">
+                                    <div class="box" style="display: flex; flex-direction: column; width: 100%; height: 100%; justify-content: flex-start; align-items: flex-start;">
                                         <ol class="sdml-list" style="--sdml-list-gap: 30px">
                                             <li>Mise en page & Boîtes</li><li>Composants & Slots</li><li>Équations Mathématiques</li><li>Code & Interactivité</li><li>Multimédia & Vidéos</li>
                             </ol>
@@ -747,8 +795,8 @@
                     >
                         <div  style="width: 100%; height:100%; 
         display: grid; 
-        grid-template-columns: calc(50% - 5px) calc(50% - 5px); 
-        grid-template-rows: calc(100% - 0px);
+        grid-template-columns: calc(30% - 0px); 
+        grid-template-rows: calc(50% - 5px) calc(50% - 5px);
         gap: 10px;
         width: 100%;
         height: 100%;
@@ -766,18 +814,18 @@
                                 </div>
                             </div>
                             <div class="box-wrapper" style="display: flex; width: 100%; height: 100%;">
-                                <div class="box" style="display: flex; flex-direction: column; width: 100%; height: 100%;place-items: center center; place-content: center center;font-size: 14px; color: black; ">
-                                    <div class="code-box-container" style="display: flex; flex-wrap: wrap; gap: 1rem; width: fit-content;">
-                                        <div style="flex: 2; min-width: 0;">
-                                            <pre style="margin: 0; overflow: auto;"><code data-noescape class="language-java" data-line-numbers="1|2|3|4|5|6">        public class Main {
-            public static void main(String[] args) {
-                System.out.println("Hello SlideDeckML");
-            }
-        }
+                                <div class="box" style="display: flex; flex-direction: column; width: 100%; height: 100%;place-items: center center; place-content: center center;font-size: 25px; color: black; ">
+                                    <div class="code-box-container">
+                                        <div class="code-pane">
+                                            <pre><code data-noescape class="language-java" data-line-numbers="1|2|3|4|5|6">public class Main {
+  public static void main(String[] args) {
+    System.out.println("Hello SlideDeckML");
+  }
+}
         </code></pre>
                                         </div>
-                                        <div class="image-stack" style="flex: 1; min-width: 0; display: grid; place-items: center; overflow: hidden;">
-                                            <div class="code-step-image" data-start="3" data-end="4"
+                                        <div class="image-stack" style="display: grid; place-items: center; overflow: hidden;">
+                                            <div class="code-step-image" data-start="3" data-end="3"
                                                  style="grid-area: 1 / 1; opacity: 1; transition: opacity 0.3s; width: 100%; display: flex; justify-content: center; align-items: center;">
                                                 <div class="box-wrapper" style="display: flex; width: 100%; height: 100%;">
                                                     <div class="box" style="display: flex; flex-direction: column; width: 100%; height: 100%;place-items: center center; place-content: center center;">
@@ -1759,7 +1807,7 @@
                 return parseLineNumberSpecStart(steps[0]);
             };
                 // Theme logo URL
-                const THEME_LOGO_URL = "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3a/Logo_Universit%C3%A9_C%C3%B4te_d%27Azur.svg/320px-Logo_Universit%C3%A9_C%C3%B4te_d%27Azur.svg.png";
+                const THEME_LOGO_URL = "../src/example/assets/logo.jpg";
 
                 Reveal.initialize({
                     plugins: [RevealHighlight],
@@ -1809,14 +1857,24 @@
                     const footerStyles = currentSlide.getAttribute('data-footer-styles');
 
                     if (headerContent) {
-                        // Add logo if theme has one
-                        let finalHeaderContent = headerContent;
+                        // Build header with 3 zones: logo (left), content (center), spacer (right)
+                        let finalHeaderContent = '';
+
+                        // Left zone: theme logo
+                        finalHeaderContent += '<div class="slide-header__logo">';
                         if (THEME_LOGO_URL) {
-                            finalHeaderContent = '<img src="' + THEME_LOGO_URL + '" alt="Logo" class="theme-logo" />' + headerContent;
+                            finalHeaderContent += '<img src="' + THEME_LOGO_URL + '" alt="Logo" class="theme-logo" />';
                         }
+                        finalHeaderContent += '</div>';
+
+                        // Center zone: header content
+                        finalHeaderContent += '<div class="slide-header__content">' + headerContent + '</div>';
+
+                        // Right zone: spacer for balance
+                        finalHeaderContent += '<div class="slide-header__spacer"></div>';
 
                         headerDiv.innerHTML = finalHeaderContent;
-                        headerDiv.style.display = 'block';
+                        headerDiv.style.display = 'grid';
                         if (headerStyles) {
                             headerDiv.style.cssText += '; ' + headerStyles;
                         }
