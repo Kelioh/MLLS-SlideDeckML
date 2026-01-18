@@ -40,11 +40,6 @@ component code_example {
     }
 }
 
-component math_formula {
-    mathematics [color = "#2980b9", text-size = "xl", fragment = fade-in]
-    $$ \zeta(s) = \sum_{n=1}^{\infty} \frac{1}{n^s} = \prod_{p \in \text{primes}} \frac{1}{1 - p^{-s}} $$
-}
-
 slide slide1 [non-annotable] {
     box [height = 100%, alignment = "center"] {
         text [bold, text-size = "80px", fragment = grow] {
