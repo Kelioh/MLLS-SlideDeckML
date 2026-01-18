@@ -107,25 +107,41 @@ function generateModel(model: Model): CompositeGeneratorNode {
                     top: 0;
                     left: 0;
                     right: 0;
-                    text-align: center;
                     font-size: 1.5rem;
                     opacity: 0.8;
                     border-bottom: 2px solid rgba(0,0,0,0.2);
-                    padding: 1.5rem 2rem;
+                    padding: 1rem 2rem;
                     background: rgba(255,255,255,0.95);
                     z-index: 1000;
                     height: 80px;
                     box-sizing: border-box;
-                    display: flex;
+                    display: grid;
+                    grid-template-columns: auto 1fr auto;
                     align-items: center;
-                    justify-content: center;
                     gap: 1rem;
                 }
 
-                .slide-header img.theme-logo {
+                .slide-header__logo {
+                    display: flex;
+                    align-items: center;
+                    justify-content: flex-start;
+                }
+
+                .slide-header__logo img.theme-logo {
                     height: 50px;
                     max-width: 100px;
                     object-fit: contain;
+                }
+
+                .slide-header__content {
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    text-align: center;
+                }
+
+                .slide-header__spacer {
+                    min-width: 100px;
                 }
 
                 .slide-footer {
@@ -455,14 +471,24 @@ function generateModel(model: Model): CompositeGeneratorNode {
                     const footerStyles = currentSlide.getAttribute('data-footer-styles');
 
                     if (headerContent) {
-                        // Add logo if theme has one
-                        let finalHeaderContent = headerContent;
+                        // Build header with 3 zones: logo (left), content (center), spacer (right)
+                        let finalHeaderContent = '';
+
+                        // Left zone: theme logo
+                        finalHeaderContent += '<div class="slide-header__logo">';
                         if (THEME_LOGO_URL) {
-                            finalHeaderContent = '<img src="' + THEME_LOGO_URL + '" alt="Logo" class="theme-logo" />' + headerContent;
+                            finalHeaderContent += '<img src="' + THEME_LOGO_URL + '" alt="Logo" class="theme-logo" />';
                         }
+                        finalHeaderContent += '</div>';
+
+                        // Center zone: header content
+                        finalHeaderContent += '<div class="slide-header__content">' + headerContent + '</div>';
+
+                        // Right zone: spacer for balance
+                        finalHeaderContent += '<div class="slide-header__spacer"></div>';
 
                         headerDiv.innerHTML = finalHeaderContent;
-                        headerDiv.style.display = 'block';
+                        headerDiv.style.display = 'grid';
                         if (headerStyles) {
                             headerDiv.style.cssText += '; ' + headerStyles;
                         }
